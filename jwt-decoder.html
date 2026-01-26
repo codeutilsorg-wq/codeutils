@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT Decoder - Code Utils</title>
+    <meta name="description" content="Free JWT decoder. Decode and inspect JSON Web Tokens (JWT) without verification. View header, payload, and signature. 100% client-side processing - your tokens never leave your browser.">
+    <meta name="keywords" content="jwt decoder, jwt parser, json web token, jwt debugger, decode jwt, jwt inspector, jwt online">
+    <link rel="canonical" href="https://codeutils.org/jwt-decoder.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/jwt-decoder.html">
+    <meta property="og:title" content="JWT Decoder - Code Utils">
+    <meta property="og:description" content="Free JWT decoder. Decode and inspect JSON Web Tokens. 100% client-side processing.">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="JWT Decoder - Code Utils">
+    <meta name="twitter:description" content="Free JWT decoder. Decode and inspect JSON Web Tokens.">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .jwt-section {
+            margin-bottom: var(--spacing-md);
+        }
+        .jwt-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-bottom: none;
+            border-radius: var(--radius) var(--radius) 0 0;
+            font-weight: 600;
+        }
+        .jwt-section-header.header-section { color: #e74c3c; }
+        .jwt-section-header.payload-section { color: #9b59b6; }
+        .jwt-section-header.signature-section { color: #3498db; }
+        .jwt-section-content {
+            padding: var(--spacing-md);
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 0 0 var(--radius) var(--radius);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+            min-height: 80px;
+        }
+        .claim-row {
+            display: flex;
+            padding: var(--spacing-xs) 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .claim-row:last-child {
+            border-bottom: none;
+        }
+        .claim-name {
+            font-weight: 600;
+            min-width: 120px;
+            color: var(--primary);
+        }
+        .claim-value {
+            flex: 1;
+            word-break: break-all;
+        }
+        .claim-description {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            margin-left: var(--spacing-xs);
+        }
+        .expiry-warning {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+        .expiry-valid {
+            color: #27ae60;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">JWT Decoder</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Decode and inspect JSON Web Tokens. All processing happens in your browser - tokens are never sent to any server.</p>
+        </div>
+
+        <div class="controls">
+            <div class="controls-group">
+                <button class="btn" onclick="decodeJWT()" title="Decode JWT (Ctrl+Enter)">Decode</button>
+            </div>
+            <div class="controls-group">
+                <button class="btn btn-secondary" onclick="copyDecoded()" title="Copy Decoded (Ctrl+K)">Copy Decoded</button>
+                <button class="btn btn-secondary" onclick="loadSample()">Load Sample</button>
+            </div>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section" style="margin-bottom: var(--spacing-md);">
+            <div class="editor-header">JWT Token</div>
+            <textarea id="inputJWT" class="editor" placeholder="Paste your JWT token here..." style="min-height: 100px;"></textarea>
+        </div>
+
+        <div id="decodedOutput">
+            <div class="jwt-section">
+                <div class="jwt-section-header header-section">
+                    <span>Header</span>
+                    <button class="btn btn-sm btn-outline" onclick="copySection('header')">Copy</button>
+                </div>
+                <div class="jwt-section-content" id="headerOutput">Decoded header will appear here...</div>
+            </div>
+
+            <div class="jwt-section">
+                <div class="jwt-section-header payload-section">
+                    <span>Payload</span>
+                    <button class="btn btn-sm btn-outline" onclick="copySection('payload')">Copy</button>
+                </div>
+                <div class="jwt-section-content" id="payloadOutput">Decoded payload will appear here...</div>
+            </div>
+
+            <div class="jwt-section">
+                <div class="jwt-section-header signature-section">
+                    <span>Signature</span>
+                    <button class="btn btn-sm btn-outline" onclick="copySection('signature')">Copy</button>
+                </div>
+                <div class="jwt-section-content" id="signatureOutput">Signature will appear here...</div>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="base64-encoder.html">Base64 Encoder/Decoder</a></li>
+                <li><a href="json-formatter.html">JSON Formatter</a></li>
+                <li><a href="hash-generator.html">Hash Generator</a></li>
+                <li><a href="timestamp-converter.html">Timestamp Converter</a></li>
+            </ul>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <h2>About JWT Decoder</h2>
+            <p>This tool decodes JSON Web Tokens (JWT) and displays their contents. JWTs are commonly used for authentication and information exchange.</p>
+
+            <h3>Features</h3>
+            <ul>
+                <li><strong>Decode:</strong> Parse and display JWT header and payload</li>
+                <li><strong>Claim Analysis:</strong> Identify standard claims (iss, sub, exp, etc.)</li>
+                <li><strong>Expiry Check:</strong> Automatically check if the token is expired</li>
+                <li><strong>Privacy:</strong> All decoding happens in your browser</li>
+            </ul>
+
+            <h3>JWT Structure</h3>
+            <p>A JWT consists of three parts separated by dots:</p>
+            <ul>
+                <li><strong>Header:</strong> Contains the token type and signing algorithm</li>
+                <li><strong>Payload:</strong> Contains the claims (user data, expiry, etc.)</li>
+                <li><strong>Signature:</strong> Verifies the token wasn't tampered with</li>
+            </ul>
+
+            <h3>Common Claims</h3>
+            <ul>
+                <li><strong>iss:</strong> Issuer of the token</li>
+                <li><strong>sub:</strong> Subject (usually user ID)</li>
+                <li><strong>exp:</strong> Expiration time</li>
+                <li><strong>iat:</strong> Issued at time</li>
+                <li><strong>aud:</strong> Audience (intended recipient)</li>
+            </ul>
+
+            <h3>Keyboard Shortcuts</h3>
+            <ul>
+                <li><strong>Ctrl+Enter:</strong> Decode JWT</li>
+                <li><strong>Ctrl+K:</strong> Copy decoded output</li>
+            </ul>
+
+            <h3>Security Note</h3>
+            <p>This tool only <strong>decodes</strong> JWTs - it does not verify signatures. Never trust a JWT based solely on its decoded contents. Always verify the signature on your server.</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Track this tool visit
+        CodeUtils.RecentTools.add({
+            id: 'jwt-decoder',
+            name: 'JWT Decoder',
+            url: 'jwt-decoder.html'
+        });
+
+        // DOM elements
+        const inputJWT = document.getElementById('inputJWT');
+        const headerOutput = document.getElementById('headerOutput');
+        const payloadOutput = document.getElementById('payloadOutput');
+        const signatureOutput = document.getElementById('signatureOutput');
+
+        // Store decoded data
+        let decodedData = {
+            header: null,
+            payload: null,
+            signature: null
+        };
+
+        // Initialize message handler
+        CodeUtils.Message.init('message');
+
+        // Base64URL decode
+        function base64UrlDecode(str) {
+            // Replace URL-safe characters
+            let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+            // Pad with '=' if necessary
+            const pad = base64.length % 4;
+            if (pad) {
+                base64 += '='.repeat(4 - pad);
+            }
+            // Decode
+            try {
+                return decodeURIComponent(atob(base64).split('').map(c => {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+            } catch (e) {
+                return atob(base64);
+            }
+        }
+
+        // Format timestamp
+        function formatTimestamp(timestamp) {
+            if (!timestamp) return '';
+            const date = new Date(timestamp * 1000);
+            return date.toLocaleString() + ' (' + date.toISOString() + ')';
+        }
+
+        // Check if expired
+        function isExpired(exp) {
+            if (!exp) return null;
+            return Date.now() > exp * 1000;
+        }
+
+        // Decode JWT
+        function decodeJWT() {
+            const token = inputJWT.value.trim();
+            if (!token) {
+                CodeUtils.Message.error('Please enter a JWT token');
+                return;
+            }
+
+            const parts = token.split('.');
+            if (parts.length !== 3) {
+                CodeUtils.Message.error('Invalid JWT format. JWT should have 3 parts separated by dots.');
+                return;
+            }
+
+            try {
+                // Decode header
+                const headerStr = base64UrlDecode(parts[0]);
+                decodedData.header = JSON.parse(headerStr);
+                headerOutput.textContent = JSON.stringify(decodedData.header, null, 2);
+
+                // Decode payload
+                const payloadStr = base64UrlDecode(parts[1]);
+                decodedData.payload = JSON.parse(payloadStr);
+
+                // Format payload with claim descriptions
+                let payloadDisplay = JSON.stringify(decodedData.payload, null, 2);
+
+                // Add expiry status
+                if (decodedData.payload.exp) {
+                    const expired = isExpired(decodedData.payload.exp);
+                    const expiryDate = formatTimestamp(decodedData.payload.exp);
+                    payloadDisplay += '\n\n--- Token Status ---\n';
+                    payloadDisplay += 'Expires: ' + expiryDate + '\n';
+                    payloadDisplay += 'Status: ' + (expired ? 'EXPIRED' : 'VALID');
+                }
+
+                if (decodedData.payload.iat) {
+                    if (!payloadDisplay.includes('--- Token Status ---')) {
+                        payloadDisplay += '\n\n--- Token Status ---\n';
+                    }
+                    payloadDisplay += '\nIssued: ' + formatTimestamp(decodedData.payload.iat);
+                }
+
+                payloadOutput.textContent = payloadDisplay;
+
+                // Show signature (cannot decode, just display)
+                decodedData.signature = parts[2];
+                signatureOutput.textContent = parts[2];
+
+                CodeUtils.Message.success('JWT decoded successfully!');
+
+            } catch (error) {
+                CodeUtils.Message.error('Error decoding JWT: ' + error.message);
+                headerOutput.textContent = 'Error decoding header';
+                payloadOutput.textContent = 'Error decoding payload';
+                signatureOutput.textContent = '';
+            }
+        }
+
+        // Copy section
+        async function copySection(section) {
+            let content;
+            switch (section) {
+                case 'header':
+                    content = decodedData.header ? JSON.stringify(decodedData.header, null, 2) : '';
+                    break;
+                case 'payload':
+                    content = decodedData.payload ? JSON.stringify(decodedData.payload, null, 2) : '';
+                    break;
+                case 'signature':
+                    content = decodedData.signature || '';
+                    break;
+            }
+
+            if (!content) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+
+            try {
+                await CodeUtils.Clipboard.copy(content);
+                CodeUtils.Message.success('Copied to clipboard!');
+            } catch (err) {
+                CodeUtils.Message.error(err.message);
+            }
+        }
+
+        // Copy all decoded
+        async function copyDecoded() {
+            if (!decodedData.header || !decodedData.payload) {
+                CodeUtils.Message.error('Nothing to copy. Decode a JWT first.');
+                return;
+            }
+
+            const content = `=== HEADER ===\n${JSON.stringify(decodedData.header, null, 2)}\n\n=== PAYLOAD ===\n${JSON.stringify(decodedData.payload, null, 2)}\n\n=== SIGNATURE ===\n${decodedData.signature}`;
+
+            try {
+                await CodeUtils.Clipboard.copy(content);
+                CodeUtils.Message.success('Copied to clipboard!');
+            } catch (err) {
+                CodeUtils.Message.error(err.message);
+            }
+        }
+
+        // Load sample JWT
+        function loadSample() {
+            // Sample JWT (expired, for demo purposes)
+            const sampleJWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxNTE2MjQyNjIyfQ.POstGetfAytaZS82wHcjoTyoqhMyxXiWdR7Nn7A29DNSl0EiXLdwJ6xC6AfgZWF1bOsS_TuYI3OG85AmiExREkrS6tDfTQ2B3WXlrr-wp5AokiRbz3_oB4OxG-W9KcEEbDRcZc0nH3L7LzYptiy1PtAylQGxHTWZXtGz4ht0bAecBgmpdgXMguEIcoqPJ1n3pIWk_dUZegpqx0Lka21H6XxUTxiy8OcaarA8zdnPUnV6AmNP3ecFawIFYdvJB_cm-GvpCSbr8G8y_Mllj8f4x9nBH8pQux89_6gUY618iYv7tuPWBFfEbLxtF2pZS6YC1aSfLQxeNe8djT9YjpvRZA';
+            inputJWT.value = sampleJWT;
+            decodeJWT();
+        }
+
+        // Clear all
+        function clearAll() {
+            inputJWT.value = '';
+            headerOutput.textContent = 'Decoded header will appear here...';
+            payloadOutput.textContent = 'Decoded payload will appear here...';
+            signatureOutput.textContent = 'Signature will appear here...';
+            decodedData = { header: null, payload: null, signature: null };
+            CodeUtils.Message.hide();
+        }
+
+        // Keyboard shortcuts
+        CodeUtils.Shortcuts.register('Enter', decodeJWT, true);
+        CodeUtils.Shortcuts.register('k', copyDecoded, true);
+
+        // Auto-decode on paste
+        inputJWT.addEventListener('paste', () => {
+            setTimeout(decodeJWT, 100);
+        });
+    </script>
+</body>
+</html>

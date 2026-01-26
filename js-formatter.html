@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Formatter - Code Utils</title>
+    <meta name="description" content="Free JavaScript formatter and beautifier. Format, beautify, and minify JavaScript code with proper indentation. 100% client-side processing - your code never leaves your browser.">
+    <meta name="keywords" content="javascript formatter, js beautifier, js minifier, format javascript, beautify js, minify js, javascript tool">
+    <link rel="canonical" href="https://codeutils.org/js-formatter.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/js-formatter.html">
+    <meta property="og:title" content="JavaScript Formatter - Code Utils">
+    <meta property="og:description" content="Free JavaScript formatter and beautifier. Format and minify JS code. 100% client-side processing.">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="JavaScript Formatter - Code Utils">
+    <meta name="twitter:description" content="Free JavaScript formatter and beautifier. 100% client-side processing.">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .options-row {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+        .options-row label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        .indent-select {
+            padding: var(--spacing-xs);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">JavaScript Formatter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Beautify and minify JavaScript code. All processing happens in your browser.</p>
+        </div>
+
+        <div class="drop-zone" id="dropZone">
+            Drop JavaScript file here or click Upload File button
+        </div>
+
+        <div class="controls">
+            <div class="controls-group">
+                <button class="btn" onclick="formatJS()" title="Format JS (Ctrl+Enter)">Format</button>
+                <button class="btn" onclick="minifyJS()" title="Minify JS (Ctrl+M)">Minify</button>
+            </div>
+            <div class="controls-group">
+                <button class="btn btn-secondary" onclick="copyOutput()" title="Copy Output (Ctrl+K)">Copy</button>
+                <label for="fileUpload" class="btn btn-secondary" style="margin: 0;">Upload</label>
+                <input type="file" id="fileUpload" class="file-upload" accept=".js,.mjs,text/javascript,application/javascript">
+                <button class="btn btn-secondary" onclick="downloadJS()">Download</button>
+            </div>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div class="options-row">
+            <label>
+                Indent:
+                <select id="indentSelect" class="indent-select">
+                    <option value="2">2 spaces</option>
+                    <option value="4">4 spaces</option>
+                    <option value="tab">Tab</option>
+                </select>
+            </label>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-container">
+            <div class="editor-section">
+                <div class="editor-header">Input JavaScript</div>
+                <textarea id="inputJS" class="editor" placeholder="Paste your JavaScript here..."></textarea>
+            </div>
+            <div class="editor-section">
+                <div class="editor-header">Output</div>
+                <textarea id="outputJS" class="editor" readonly placeholder="Formatted JavaScript will appear here..."></textarea>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="json-formatter.html">JSON Formatter</a></li>
+                <li><a href="html-formatter.html">HTML Formatter</a></li>
+                <li><a href="css-formatter.html">CSS Formatter</a></li>
+                <li><a href="regex-tester.html">Regex Tester</a></li>
+            </ul>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <h2>About JavaScript Formatter</h2>
+            <p>This tool helps you format and beautify JavaScript code with proper indentation, or minify it for production use. All processing happens in your browser - your code is never sent to any server.</p>
+
+            <h3>Features</h3>
+            <ul>
+                <li><strong>Format:</strong> Beautify JavaScript with proper indentation</li>
+                <li><strong>Minify:</strong> Remove whitespace and comments to reduce file size</li>
+                <li><strong>Customizable Indent:</strong> Choose 2 spaces, 4 spaces, or tabs</li>
+                <li><strong>File Support:</strong> Upload JS files or drag & drop</li>
+                <li><strong>Download:</strong> Save formatted JavaScript as a file</li>
+            </ul>
+
+            <h3>Keyboard Shortcuts</h3>
+            <ul>
+                <li><strong>Ctrl+Enter:</strong> Format JavaScript</li>
+                <li><strong>Ctrl+M:</strong> Minify JavaScript</li>
+                <li><strong>Ctrl+K:</strong> Copy output to clipboard</li>
+            </ul>
+
+            <h3>Note</h3>
+            <p>This is a basic formatter. For complex code with advanced syntax, consider using dedicated tools like Prettier or ESLint.</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Track this tool visit
+        CodeUtils.RecentTools.add({
+            id: 'js-formatter',
+            name: 'JavaScript Formatter',
+            url: 'js-formatter.html'
+        });
+
+        // DOM elements
+        const inputJS = document.getElementById('inputJS');
+        const outputJS = document.getElementById('outputJS');
+        const fileUpload = document.getElementById('fileUpload');
+        const indentSelect = document.getElementById('indentSelect');
+
+        // Initialize message handler
+        CodeUtils.Message.init('message');
+
+        // Initialize drag and drop
+        CodeUtils.DragDrop.init('dropZone', async (file) => {
+            const sizeCheck = CodeUtils.FileHandler.checkSize(file);
+            if (sizeCheck.level === 'error') {
+                CodeUtils.Message.error(sizeCheck.message);
+                return;
+            } else if (sizeCheck.level === 'warning') {
+                CodeUtils.Message.warning(sizeCheck.message);
+            }
+
+            try {
+                const content = await CodeUtils.FileHandler.readAsText(file);
+                inputJS.value = content;
+                CodeUtils.Message.success('File loaded successfully!');
+            } catch (err) {
+                CodeUtils.Message.error('Error reading file');
+            }
+        });
+
+        // File upload handler
+        fileUpload.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const sizeCheck = CodeUtils.FileHandler.checkSize(file);
+            if (sizeCheck.level === 'error') {
+                CodeUtils.Message.error(sizeCheck.message);
+                return;
+            } else if (sizeCheck.level === 'warning') {
+                CodeUtils.Message.warning(sizeCheck.message);
+            }
+
+            try {
+                const content = await CodeUtils.FileHandler.readAsText(file);
+                inputJS.value = content;
+                CodeUtils.Message.success('File loaded successfully!');
+            } catch (err) {
+                CodeUtils.Message.error('Error reading file');
+            }
+        });
+
+        // Get indent string based on selection
+        function getIndent() {
+            const value = indentSelect.value;
+            if (value === 'tab') return '\t';
+            return ' '.repeat(parseInt(value));
+        }
+
+        // Format JavaScript
+        function formatJS() {
+            const input = inputJS.value.trim();
+            if (!input) {
+                CodeUtils.Message.error('Please enter some JavaScript to format');
+                return;
+            }
+
+            try {
+                const indent = getIndent();
+                const formatted = beautifyJS(input, indent);
+                outputJS.value = formatted;
+                CodeUtils.Message.success('JavaScript formatted successfully!');
+            } catch (error) {
+                CodeUtils.Message.error('Error formatting JavaScript: ' + error.message);
+                outputJS.value = '';
+            }
+        }
+
+        // Beautify JavaScript
+        function beautifyJS(code, indent) {
+            let result = '';
+            let level = 0;
+            let i = 0;
+            let inString = false;
+            let stringChar = '';
+            let inSingleComment = false;
+            let inMultiComment = false;
+            let inRegex = false;
+            let inTemplateLiteral = false;
+            let templateDepth = 0;
+
+            // Keywords that should have newline after
+            const blockKeywords = ['if', 'else', 'for', 'while', 'do', 'switch', 'try', 'catch', 'finally', 'function', 'class'];
+
+            while (i < code.length) {
+                const char = code[i];
+                const nextChar = code[i + 1] || '';
+                const prevChar = code[i - 1] || '';
+                const prev2Char = code[i - 2] || '';
+
+                // Handle single-line comments
+                if (!inString && !inMultiComment && !inRegex && char === '/' && nextChar === '/') {
+                    if (result.length > 0 && !result.endsWith('\n') && !result.endsWith(indent.repeat(level))) {
+                        if (!result.endsWith(' ')) result += ' ';
+                    }
+                    result += '//';
+                    i += 2;
+                    inSingleComment = true;
+                    continue;
+                }
+
+                if (inSingleComment) {
+                    if (char === '\n') {
+                        result += '\n' + indent.repeat(level);
+                        inSingleComment = false;
+                    } else {
+                        result += char;
+                    }
+                    i++;
+                    continue;
+                }
+
+                // Handle multi-line comments
+                if (!inString && !inRegex && char === '/' && nextChar === '*') {
+                    result += '/*';
+                    i += 2;
+                    inMultiComment = true;
+                    continue;
+                }
+
+                if (inMultiComment) {
+                    if (char === '*' && nextChar === '/') {
+                        result += '*/';
+                        i += 2;
+                        inMultiComment = false;
+                    } else {
+                        result += char;
+                        i++;
+                    }
+                    continue;
+                }
+
+                // Handle template literals
+                if (!inString && !inRegex && char === '`') {
+                    if (!inTemplateLiteral) {
+                        inTemplateLiteral = true;
+                        templateDepth = 0;
+                    } else if (templateDepth === 0) {
+                        inTemplateLiteral = false;
+                    }
+                    result += char;
+                    i++;
+                    continue;
+                }
+
+                if (inTemplateLiteral) {
+                    if (char === '$' && nextChar === '{') {
+                        templateDepth++;
+                        result += '${';
+                        i += 2;
+                        continue;
+                    }
+                    if (char === '}' && templateDepth > 0) {
+                        templateDepth--;
+                    }
+                    result += char;
+                    i++;
+                    continue;
+                }
+
+                // Handle strings
+                if ((char === '"' || char === "'") && prevChar !== '\\') {
+                    if (!inString) {
+                        inString = true;
+                        stringChar = char;
+                    } else if (char === stringChar) {
+                        inString = false;
+                    }
+                    result += char;
+                    i++;
+                    continue;
+                }
+
+                if (inString) {
+                    result += char;
+                    i++;
+                    continue;
+                }
+
+                // Handle regex (basic detection)
+                if (char === '/' && !inString && !inRegex) {
+                    // Check if this is likely a regex
+                    const trimmedResult = result.trimEnd();
+                    const lastChar = trimmedResult[trimmedResult.length - 1];
+                    if (lastChar && '=(:,;[!&|?{}'.includes(lastChar)) {
+                        inRegex = true;
+                        result += char;
+                        i++;
+                        continue;
+                    }
+                }
+
+                if (inRegex) {
+                    result += char;
+                    if (char === '/' && prevChar !== '\\') {
+                        // Skip flags
+                        i++;
+                        while (i < code.length && /[gimsuy]/.test(code[i])) {
+                            result += code[i];
+                            i++;
+                        }
+                        inRegex = false;
+                        continue;
+                    }
+                    i++;
+                    continue;
+                }
+
+                // Handle opening braces
+                if (char === '{') {
+                    result = result.trimEnd() + ' {\n';
+                    level++;
+                    result += indent.repeat(level);
+                    i++;
+                    continue;
+                }
+
+                // Handle closing braces
+                if (char === '}') {
+                    level = Math.max(0, level - 1);
+                    result = result.trimEnd() + '\n' + indent.repeat(level) + '}';
+                    i++;
+
+                    // Check for else, catch, finally
+                    let j = i;
+                    while (j < code.length && /\s/.test(code[j])) j++;
+                    const upcoming = code.substring(j, j + 10);
+                    if (upcoming.startsWith('else') || upcoming.startsWith('catch') || upcoming.startsWith('finally')) {
+                        result += ' ';
+                    } else {
+                        result += '\n';
+                        if (level === 0) result += '\n';
+                        result += indent.repeat(level);
+                    }
+                    continue;
+                }
+
+                // Handle opening brackets and parentheses
+                if (char === '[' || char === '(') {
+                    result += char;
+                    i++;
+                    continue;
+                }
+
+                // Handle closing brackets and parentheses
+                if (char === ']' || char === ')') {
+                    result += char;
+                    i++;
+                    continue;
+                }
+
+                // Handle semicolons
+                if (char === ';') {
+                    result = result.trimEnd() + ';\n' + indent.repeat(level);
+                    i++;
+                    // Skip whitespace after semicolon
+                    while (i < code.length && /[ \t]/.test(code[i])) i++;
+                    continue;
+                }
+
+                // Handle commas
+                if (char === ',') {
+                    result = result.trimEnd() + ', ';
+                    i++;
+                    // Skip whitespace after comma
+                    while (i < code.length && /\s/.test(code[i])) i++;
+                    continue;
+                }
+
+                // Handle colons (for objects, ternary)
+                if (char === ':') {
+                    result = result.trimEnd() + ': ';
+                    i++;
+                    while (i < code.length && /[ \t]/.test(code[i])) i++;
+                    continue;
+                }
+
+                // Handle operators
+                if ('=+-*/<>!&|?'.includes(char)) {
+                    // Check for compound operators
+                    const compound = char + nextChar;
+                    const triple = compound + (code[i + 2] || '');
+
+                    if (['===', '!==', '>>>'].includes(triple)) {
+                        if (!result.endsWith(' ') && result.length > 0) result += ' ';
+                        result += triple + ' ';
+                        i += 3;
+                        while (i < code.length && /[ \t]/.test(code[i])) i++;
+                        continue;
+                    }
+
+                    if (['==', '!=', '>=', '<=', '&&', '||', '??', '=>', '+=', '-=', '*=', '/=', '++', '--', '<<', '>>'].includes(compound)) {
+                        if (!result.endsWith(' ') && result.length > 0 && !['++', '--'].includes(compound)) result += ' ';
+                        result += compound;
+                        if (!['++', '--'].includes(compound)) result += ' ';
+                        i += 2;
+                        while (i < code.length && /[ \t]/.test(code[i])) i++;
+                        continue;
+                    }
+
+                    // Single operators
+                    if ('=<>+-*/!?'.includes(char)) {
+                        if (!result.endsWith(' ') && result.length > 0) result += ' ';
+                        result += char + ' ';
+                        i++;
+                        while (i < code.length && /[ \t]/.test(code[i])) i++;
+                        continue;
+                    }
+                }
+
+                // Handle whitespace
+                if (/\s/.test(char)) {
+                    if (result.length > 0 && !result.endsWith(' ') && !result.endsWith('\n') && !result.endsWith(indent)) {
+                        result += ' ';
+                    }
+                    i++;
+                    continue;
+                }
+
+                result += char;
+                i++;
+            }
+
+            // Clean up result
+            result = result.trim();
+            // Remove multiple blank lines
+            result = result.replace(/\n{3,}/g, '\n\n');
+            // Remove trailing whitespace from lines
+            result = result.split('\n').map(line => line.trimEnd()).join('\n');
+            // Remove spaces before semicolons
+            result = result.replace(/ +;/g, ';');
+            // Fix spacing issues
+            result = result.replace(/\( +/g, '(');
+            result = result.replace(/ +\)/g, ')');
+            result = result.replace(/\[ +/g, '[');
+            result = result.replace(/ +\]/g, ']');
+
+            return result;
+        }
+
+        // Minify JavaScript
+        function minifyJS() {
+            const input = inputJS.value.trim();
+            if (!input) {
+                CodeUtils.Message.error('Please enter some JavaScript to minify');
+                return;
+            }
+
+            try {
+                let minified = input;
+                let result = '';
+                let inString = false;
+                let stringChar = '';
+                let inSingleComment = false;
+                let inMultiComment = false;
+                let inRegex = false;
+                let inTemplateLiteral = false;
+                let templateDepth = 0;
+
+                for (let i = 0; i < minified.length; i++) {
+                    const char = minified[i];
+                    const nextChar = minified[i + 1] || '';
+                    const prevChar = minified[i - 1] || '';
+
+                    // Handle single-line comments
+                    if (!inString && !inMultiComment && !inRegex && char === '/' && nextChar === '/') {
+                        inSingleComment = true;
+                        i++;
+                        continue;
+                    }
+
+                    if (inSingleComment) {
+                        if (char === '\n') {
+                            inSingleComment = false;
+                            if (result.length > 0 && !/[;\{\}\(\)\[\],]$/.test(result.trim())) {
+                                result += ';';
+                            }
+                        }
+                        continue;
+                    }
+
+                    // Handle multi-line comments
+                    if (!inString && !inRegex && char === '/' && nextChar === '*') {
+                        inMultiComment = true;
+                        i++;
+                        continue;
+                    }
+
+                    if (inMultiComment) {
+                        if (char === '*' && nextChar === '/') {
+                            inMultiComment = false;
+                            i++;
+                        }
+                        continue;
+                    }
+
+                    // Handle template literals
+                    if (!inString && !inRegex && char === '`') {
+                        if (!inTemplateLiteral) {
+                            inTemplateLiteral = true;
+                            templateDepth = 0;
+                        } else if (templateDepth === 0) {
+                            inTemplateLiteral = false;
+                        }
+                        result += char;
+                        continue;
+                    }
+
+                    if (inTemplateLiteral) {
+                        if (char === '$' && nextChar === '{') {
+                            templateDepth++;
+                        }
+                        if (char === '}' && templateDepth > 0) {
+                            templateDepth--;
+                        }
+                        result += char;
+                        continue;
+                    }
+
+                    // Handle strings
+                    if ((char === '"' || char === "'") && prevChar !== '\\') {
+                        if (!inString) {
+                            inString = true;
+                            stringChar = char;
+                        } else if (char === stringChar) {
+                            inString = false;
+                        }
+                        result += char;
+                        continue;
+                    }
+
+                    if (inString) {
+                        result += char;
+                        continue;
+                    }
+
+                    // Handle regex
+                    if (char === '/' && !inRegex) {
+                        const lastChar = result.trimEnd().slice(-1);
+                        if (lastChar && '=(:,;[!&|?{}'.includes(lastChar)) {
+                            inRegex = true;
+                            result += char;
+                            continue;
+                        }
+                    }
+
+                    if (inRegex) {
+                        result += char;
+                        if (char === '/' && prevChar !== '\\') {
+                            inRegex = false;
+                        }
+                        continue;
+                    }
+
+                    // Handle whitespace
+                    if (/\s/.test(char)) {
+                        const lastChar = result.slice(-1);
+                        // Keep space between keywords/identifiers
+                        if (/[a-zA-Z0-9_$]/.test(lastChar)) {
+                            // Peek ahead to see if next non-whitespace is also alphanumeric
+                            let j = i + 1;
+                            while (j < minified.length && /\s/.test(minified[j])) j++;
+                            if (j < minified.length && /[a-zA-Z0-9_$]/.test(minified[j])) {
+                                result += ' ';
+                            }
+                        }
+                        continue;
+                    }
+
+                    result += char;
+                }
+
+                outputJS.value = result;
+                CodeUtils.Message.success('JavaScript minified successfully!');
+            } catch (error) {
+                CodeUtils.Message.error('Error minifying JavaScript: ' + error.message);
+                outputJS.value = '';
+            }
+        }
+
+        // Copy output
+        async function copyOutput() {
+            if (!outputJS.value) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+
+            try {
+                await CodeUtils.Clipboard.copy(outputJS.value);
+                CodeUtils.Message.success('Copied to clipboard!');
+            } catch (err) {
+                CodeUtils.Message.error(err.message);
+            }
+        }
+
+        // Download JavaScript
+        function downloadJS() {
+            if (!outputJS.value) {
+                CodeUtils.Message.error('Nothing to download');
+                return;
+            }
+            CodeUtils.FileHandler.download(outputJS.value, 'formatted.js', 'text/javascript');
+            CodeUtils.Message.success('File downloaded!');
+        }
+
+        // Clear all
+        function clearAll() {
+            inputJS.value = '';
+            outputJS.value = '';
+            CodeUtils.Message.hide();
+        }
+
+        // Keyboard shortcuts
+        CodeUtils.Shortcuts.register('Enter', formatJS, true);
+        CodeUtils.Shortcuts.register('m', minifyJS, true);
+        CodeUtils.Shortcuts.register('k', copyOutput, true);
+    </script>
+</body>
+</html>

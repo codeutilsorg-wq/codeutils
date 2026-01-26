@@ -87,61 +87,61 @@
         "id": "uuid-generator",
         "name": "UUID Generator",
         "description": "Generate random UUIDs (v4) for unique identifiers",
-        "url": "/uuid-generator.html",
+        "url": "uuid-generator.html",
         "category": "Generators",
         "categoryId": "generators",
         "keywords": ["uuid", "guid", "unique", "identifier", "random", "v4"],
         "icon": "ID",
         "popular": true,
-        "status": "planned"
+        "status": "live"
     },
     {
         "id": "jwt-decoder",
         "name": "JWT Decoder",
         "description": "Decode and inspect JSON Web Tokens (JWT) without verification",
-        "url": "/jwt-decoder.html",
+        "url": "jwt-decoder.html",
         "category": "Encoders",
         "categoryId": "encoders",
         "keywords": ["jwt", "token", "decode", "json", "web", "auth"],
         "icon": "JWT",
         "popular": true,
-        "status": "planned"
+        "status": "live"
     },
     {
         "id": "html-formatter",
         "name": "HTML Formatter",
         "description": "Beautify and minify HTML code with proper indentation",
-        "url": "/html-formatter.html",
+        "url": "html-formatter.html",
         "category": "Formatters",
         "categoryId": "formatters",
         "keywords": ["html", "format", "beautify", "minify", "indent"],
         "icon": "<>",
         "popular": false,
-        "status": "planned"
+        "status": "live"
     },
     {
         "id": "css-formatter",
         "name": "CSS Formatter",
         "description": "Beautify and minify CSS stylesheets",
-        "url": "/css-formatter.html",
+        "url": "css-formatter.html",
         "category": "Formatters",
         "categoryId": "formatters",
         "keywords": ["css", "format", "beautify", "minify", "stylesheet"],
         "icon": "CSS",
         "popular": false,
-        "status": "planned"
+        "status": "live"
     },
     {
         "id": "js-formatter",
         "name": "JavaScript Formatter",
         "description": "Beautify and minify JavaScript code",
-        "url": "/js-formatter.html",
+        "url": "js-formatter.html",
         "category": "Formatters",
         "categoryId": "formatters",
         "keywords": ["javascript", "js", "format", "beautify", "minify"],
         "icon": "JS",
         "popular": false,
-        "status": "planned"
+        "status": "live"
     },
     {
         "id": "sql-formatter",
@@ -171,25 +171,25 @@
         "id": "json-to-yaml",
         "name": "JSON to YAML Converter",
         "description": "Convert JSON data to YAML format",
-        "url": "/json-to-yaml.html",
+        "url": "json-to-yaml.html",
         "category": "Converters",
         "categoryId": "converters",
         "keywords": ["json", "yaml", "convert", "transform"],
         "icon": "J>Y",
         "popular": false,
-        "status": "planned"
+        "status": "live"
     },
     {
         "id": "yaml-to-json",
         "name": "YAML to JSON Converter",
         "description": "Convert YAML data to JSON format",
-        "url": "/yaml-to-json.html",
+        "url": "yaml-to-json.html",
         "category": "Converters",
         "categoryId": "converters",
         "keywords": ["yaml", "json", "convert", "transform"],
         "icon": "Y>J",
         "popular": false,
-        "status": "planned"
+        "status": "live"
     },
     {
         "id": "json-to-csv",
@@ -231,13 +231,13 @@
         "id": "regex-tester",
         "name": "Regex Tester",
         "description": "Test regular expressions with live matching and highlighting",
-        "url": "/regex-tester.html",
+        "url": "regex-tester.html",
         "category": "Developer Tools",
         "categoryId": "developer",
         "keywords": ["regex", "regular expression", "test", "match", "pattern"],
         "icon": ".*",
         "popular": false,
-        "status": "planned"
+        "status": "live"
     },
     {
         "id": "diff-checker",

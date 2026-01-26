@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to YAML Converter - Code Utils</title>
+    <meta name="description" content="Free JSON to YAML converter. Convert JSON data to YAML format instantly. 100% client-side processing - your data never leaves your browser.">
+    <meta name="keywords" content="json to yaml, json yaml converter, convert json to yaml, json to yml, json converter">
+    <link rel="canonical" href="https://codeutils.org/json-to-yaml.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/json-to-yaml.html">
+    <meta property="og:title" content="JSON to YAML Converter - Code Utils">
+    <meta property="og:description" content="Free JSON to YAML converter. Convert JSON data to YAML format. 100% client-side processing.">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="JSON to YAML Converter - Code Utils">
+    <meta name="twitter:description" content="Free JSON to YAML converter. 100% client-side processing.">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .options-row {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+        .options-row label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        .indent-select {
+            padding: var(--spacing-xs);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">JSON to YAML Converter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Convert JSON data to YAML format. All processing happens in your browser.</p>
+        </div>
+
+        <div class="drop-zone" id="dropZone">
+            Drop JSON file here or click Upload File button
+        </div>
+
+        <div class="controls">
+            <div class="controls-group">
+                <button class="btn" onclick="convertToYAML()" title="Convert to YAML (Ctrl+Enter)">Convert</button>
+            </div>
+            <div class="controls-group">
+                <button class="btn btn-secondary" onclick="copyOutput()" title="Copy Output (Ctrl+K)">Copy</button>
+                <label for="fileUpload" class="btn btn-secondary" style="margin: 0;">Upload</label>
+                <input type="file" id="fileUpload" class="file-upload" accept=".json,application/json,text/plain">
+                <button class="btn btn-secondary" onclick="downloadYAML()">Download</button>
+            </div>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div class="options-row">
+            <label>
+                Indent:
+                <select id="indentSelect" class="indent-select">
+                    <option value="2">2 spaces</option>
+                    <option value="4">4 spaces</option>
+                </select>
+            </label>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-container">
+            <div class="editor-section">
+                <div class="editor-header">Input JSON</div>
+                <textarea id="inputJSON" class="editor" placeholder="Paste your JSON here..."></textarea>
+            </div>
+            <div class="editor-section">
+                <div class="editor-header">Output YAML</div>
+                <textarea id="outputYAML" class="editor" readonly placeholder="YAML output will appear here..."></textarea>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="yaml-to-json.html">YAML to JSON Converter</a></li>
+                <li><a href="json-formatter.html">JSON Formatter</a></li>
+                <li><a href="xml-formatter.html">XML Formatter</a></li>
+                <li><a href="json-to-csv.html">JSON to CSV Converter</a></li>
+            </ul>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <h2>About JSON to YAML Converter</h2>
+            <p>This tool converts JSON (JavaScript Object Notation) data to YAML (YAML Ain't Markup Language) format. YAML is often preferred for configuration files due to its human-readable syntax.</p>
+
+            <h3>Features</h3>
+            <ul>
+                <li><strong>Instant Conversion:</strong> Convert JSON to YAML with one click</li>
+                <li><strong>Proper Formatting:</strong> Output is properly indented and readable</li>
+                <li><strong>File Support:</strong> Upload JSON files or drag & drop</li>
+                <li><strong>Download:</strong> Save YAML output as a file</li>
+            </ul>
+
+            <h3>YAML vs JSON</h3>
+            <ul>
+                <li>YAML uses indentation instead of brackets</li>
+                <li>YAML supports comments (JSON does not)</li>
+                <li>YAML is more human-readable</li>
+                <li>JSON is more widely supported in APIs</li>
+            </ul>
+
+            <h3>Keyboard Shortcuts</h3>
+            <ul>
+                <li><strong>Ctrl+Enter:</strong> Convert to YAML</li>
+                <li><strong>Ctrl+K:</strong> Copy output to clipboard</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Track this tool visit
+        CodeUtils.RecentTools.add({
+            id: 'json-to-yaml',
+            name: 'JSON to YAML Converter',
+            url: 'json-to-yaml.html'
+        });
+
+        // DOM elements
+        const inputJSON = document.getElementById('inputJSON');
+        const outputYAML = document.getElementById('outputYAML');
+        const fileUpload = document.getElementById('fileUpload');
+        const indentSelect = document.getElementById('indentSelect');
+
+        // Initialize message handler
+        CodeUtils.Message.init('message');
+
+        // Initialize drag and drop
+        CodeUtils.DragDrop.init('dropZone', async (file) => {
+            const sizeCheck = CodeUtils.FileHandler.checkSize(file);
+            if (sizeCheck.level === 'error') {
+                CodeUtils.Message.error(sizeCheck.message);
+                return;
+            } else if (sizeCheck.level === 'warning') {
+                CodeUtils.Message.warning(sizeCheck.message);
+            }
+
+            try {
+                const content = await CodeUtils.FileHandler.readAsText(file);
+                inputJSON.value = content;
+                CodeUtils.Message.success('File loaded successfully!');
+            } catch (err) {
+                CodeUtils.Message.error('Error reading file');
+            }
+        });
+
+        // File upload handler
+        fileUpload.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const sizeCheck = CodeUtils.FileHandler.checkSize(file);
+            if (sizeCheck.level === 'error') {
+                CodeUtils.Message.error(sizeCheck.message);
+                return;
+            } else if (sizeCheck.level === 'warning') {
+                CodeUtils.Message.warning(sizeCheck.message);
+            }
+
+            try {
+                const content = await CodeUtils.FileHandler.readAsText(file);
+                inputJSON.value = content;
+                CodeUtils.Message.success('File loaded successfully!');
+            } catch (err) {
+                CodeUtils.Message.error('Error reading file');
+            }
+        });
+
+        // JSON to YAML converter
+        function jsonToYaml(obj, indent = 2, level = 0) {
+            const spaces = ' '.repeat(indent);
+            const currentIndent = spaces.repeat(level);
+            const nextIndent = spaces.repeat(level + 1);
+
+            if (obj === null) {
+                return 'null';
+            }
+
+            if (typeof obj === 'undefined') {
+                return '~';
+            }
+
+            if (typeof obj === 'boolean') {
+                return obj ? 'true' : 'false';
+            }
+
+            if (typeof obj === 'number') {
+                if (Number.isNaN(obj)) return '.nan';
+                if (obj === Infinity) return '.inf';
+                if (obj === -Infinity) return '-.inf';
+                return String(obj);
+            }
+
+            if (typeof obj === 'string') {
+                // Check if string needs quoting
+                if (obj === '' ||
+                    obj.includes('\n') ||
+                    obj.includes(':') ||
+                    obj.includes('#') ||
+                    obj.startsWith(' ') ||
+                    obj.endsWith(' ') ||
+                    obj.match(/^[{}\[\],&*#?|<>=!%@`]/) ||
+                    obj === 'true' || obj === 'false' ||
+                    obj === 'null' || obj === 'yes' || obj === 'no' ||
+                    !isNaN(Number(obj))) {
+                    // Use double quotes and escape special characters
+                    return '"' + obj
+                        .replace(/\\/g, '\\\\')
+                        .replace(/"/g, '\\"')
+                        .replace(/\n/g, '\\n')
+                        .replace(/\r/g, '\\r')
+                        .replace(/\t/g, '\\t') + '"';
+                }
+                return obj;
+            }
+
+            if (Array.isArray(obj)) {
+                if (obj.length === 0) {
+                    return '[]';
+                }
+
+                let result = '';
+                for (let i = 0; i < obj.length; i++) {
+                    const item = obj[i];
+                    const itemYaml = jsonToYaml(item, indent, level + 1);
+
+                    if (typeof item === 'object' && item !== null) {
+                        if (Array.isArray(item)) {
+                            result += '\n' + currentIndent + '-' + itemYaml.substring(currentIndent.length);
+                        } else {
+                            // Object - put first key on same line as dash
+                            const lines = itemYaml.split('\n').filter(l => l.trim());
+                            if (lines.length > 0) {
+                                result += '\n' + currentIndent + '- ' + lines[0].trim();
+                                for (let j = 1; j < lines.length; j++) {
+                                    result += '\n' + currentIndent + '  ' + lines[j].trim();
+                                }
+                            }
+                        }
+                    } else {
+                        result += '\n' + currentIndent + '- ' + itemYaml;
+                    }
+                }
+                return result;
+            }
+
+            if (typeof obj === 'object') {
+                const keys = Object.keys(obj);
+                if (keys.length === 0) {
+                    return '{}';
+                }
+
+                let result = '';
+                for (const key of keys) {
+                    const value = obj[key];
+                    const keyYaml = /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(key) ? key : '"' + key.replace(/"/g, '\\"') + '"';
+                    const valueYaml = jsonToYaml(value, indent, level + 1);
+
+                    if (typeof value === 'object' && value !== null && !Array.isArray(value) && Object.keys(value).length > 0) {
+                        result += '\n' + currentIndent + keyYaml + ':' + valueYaml;
+                    } else if (Array.isArray(value) && value.length > 0) {
+                        result += '\n' + currentIndent + keyYaml + ':' + valueYaml;
+                    } else {
+                        result += '\n' + currentIndent + keyYaml + ': ' + valueYaml;
+                    }
+                }
+                return result;
+            }
+
+            return String(obj);
+        }
+
+        // Convert to YAML
+        function convertToYAML() {
+            const input = inputJSON.value.trim();
+            if (!input) {
+                CodeUtils.Message.error('Please enter some JSON to convert');
+                return;
+            }
+
+            try {
+                const parsed = JSON.parse(input);
+                const indent = parseInt(indentSelect.value);
+                let yaml = jsonToYaml(parsed, indent, 0);
+
+                // Remove leading newline
+                if (yaml.startsWith('\n')) {
+                    yaml = yaml.substring(1);
+                }
+
+                outputYAML.value = yaml;
+                CodeUtils.Message.success('Converted to YAML successfully!');
+            } catch (error) {
+                CodeUtils.Message.error('Invalid JSON: ' + error.message);
+                outputYAML.value = '';
+            }
+        }
+
+        // Copy output
+        async function copyOutput() {
+            if (!outputYAML.value) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+
+            try {
+                await CodeUtils.Clipboard.copy(outputYAML.value);
+                CodeUtils.Message.success('Copied to clipboard!');
+            } catch (err) {
+                CodeUtils.Message.error(err.message);
+            }
+        }
+
+        // Download YAML
+        function downloadYAML() {
+            if (!outputYAML.value) {
+                CodeUtils.Message.error('Nothing to download');
+                return;
+            }
+            CodeUtils.FileHandler.download(outputYAML.value, 'output.yaml', 'text/yaml');
+            CodeUtils.Message.success('File downloaded!');
+        }
+
+        // Clear all
+        function clearAll() {
+            inputJSON.value = '';
+            outputYAML.value = '';
+            CodeUtils.Message.hide();
+        }
+
+        // Keyboard shortcuts
+        CodeUtils.Shortcuts.register('Enter', convertToYAML, true);
+        CodeUtils.Shortcuts.register('k', copyOutput, true);
+    </script>
+</body>
+</html>

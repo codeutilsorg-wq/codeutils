@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UUID Generator - Code Utils</title>
+    <meta name="description" content="Free UUID generator. Generate random UUID v4 identifiers instantly. Bulk generation supported. 100% client-side processing - your data never leaves your browser.">
+    <meta name="keywords" content="uuid generator, guid generator, uuid v4, random uuid, unique identifier, uuid online, free uuid">
+    <link rel="canonical" href="https://codeutils.org/uuid-generator.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/uuid-generator.html">
+    <meta property="og:title" content="UUID Generator - Code Utils">
+    <meta property="og:description" content="Free UUID generator. Generate random UUID v4 identifiers instantly. 100% client-side processing.">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="UUID Generator - Code Utils">
+    <meta name="twitter:description" content="Free UUID generator. Generate random UUID v4 identifiers instantly.">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .uuid-display {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            padding: var(--spacing-md);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            text-align: center;
+            word-break: break-all;
+            margin-bottom: var(--spacing-md);
+        }
+        .options-row {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+        .options-row label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        .count-input {
+            width: 80px;
+            padding: var(--spacing-xs);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">UUID Generator</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Generate random UUID v4 identifiers. All processing happens in your browser.</p>
+        </div>
+
+        <div class="uuid-display" id="uuidDisplay">Click "Generate" to create a UUID</div>
+
+        <div class="controls">
+            <div class="controls-group">
+                <button class="btn" onclick="generateSingle()" title="Generate UUID (Ctrl+Enter)">Generate</button>
+                <button class="btn" onclick="generateBulk()" title="Generate Multiple UUIDs">Generate Bulk</button>
+            </div>
+            <div class="controls-group">
+                <button class="btn btn-secondary" onclick="copyUUID()" title="Copy UUID (Ctrl+K)">Copy</button>
+                <button class="btn btn-secondary" onclick="downloadUUIDs()">Download</button>
+            </div>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div class="options-row">
+            <label>
+                Count:
+                <input type="number" id="countInput" class="count-input" value="10" min="1" max="1000">
+            </label>
+            <label>
+                <input type="checkbox" id="uppercaseCheck">
+                Uppercase
+            </label>
+            <label>
+                <input type="checkbox" id="noDashesCheck">
+                No dashes
+            </label>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">Bulk Output</div>
+            <textarea id="outputUUIDs" class="editor" readonly placeholder="Bulk generated UUIDs will appear here..."></textarea>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="hash-generator.html">Hash Generator</a></li>
+                <li><a href="password-generator.html">Password Generator</a></li>
+                <li><a href="base64-encoder.html">Base64 Encoder</a></li>
+                <li><a href="timestamp-converter.html">Timestamp Converter</a></li>
+            </ul>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <h2>About UUID Generator</h2>
+            <p>This tool generates random UUID v4 (Universally Unique Identifiers). UUIDs are 128-bit numbers used to uniquely identify information in computer systems.</p>
+
+            <h3>Features</h3>
+            <ul>
+                <li><strong>UUID v4:</strong> Generates cryptographically random UUIDs</li>
+                <li><strong>Bulk Generation:</strong> Generate up to 1000 UUIDs at once</li>
+                <li><strong>Format Options:</strong> Uppercase, with or without dashes</li>
+                <li><strong>Copy & Download:</strong> Easily copy or download generated UUIDs</li>
+            </ul>
+
+            <h3>UUID v4 Format</h3>
+            <p>UUID v4 follows the format: <code>xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx</code></p>
+            <ul>
+                <li>The "4" indicates version 4 (random)</li>
+                <li>The "y" is one of 8, 9, A, or B (variant indicator)</li>
+                <li>All other characters are random hexadecimal digits</li>
+            </ul>
+
+            <h3>Keyboard Shortcuts</h3>
+            <ul>
+                <li><strong>Ctrl+Enter:</strong> Generate single UUID</li>
+                <li><strong>Ctrl+K:</strong> Copy UUID to clipboard</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Track this tool visit
+        CodeUtils.RecentTools.add({
+            id: 'uuid-generator',
+            name: 'UUID Generator',
+            url: 'uuid-generator.html'
+        });
+
+        // DOM elements
+        const uuidDisplay = document.getElementById('uuidDisplay');
+        const outputUUIDs = document.getElementById('outputUUIDs');
+        const countInput = document.getElementById('countInput');
+        const uppercaseCheck = document.getElementById('uppercaseCheck');
+        const noDashesCheck = document.getElementById('noDashesCheck');
+
+        // Initialize message handler
+        CodeUtils.Message.init('message');
+
+        // Generate UUID v4
+        function generateUUID() {
+            // Use crypto.randomUUID if available, fallback to manual generation
+            let uuid;
+            if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+                uuid = crypto.randomUUID();
+            } else {
+                // Fallback for older browsers
+                uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                    const r = Math.random() * 16 | 0;
+                    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                    return v.toString(16);
+                });
+            }
+
+            // Apply formatting options
+            if (uppercaseCheck.checked) {
+                uuid = uuid.toUpperCase();
+            }
+            if (noDashesCheck.checked) {
+                uuid = uuid.replace(/-/g, '');
+            }
+
+            return uuid;
+        }
+
+        // Generate single UUID
+        function generateSingle() {
+            const uuid = generateUUID();
+            uuidDisplay.textContent = uuid;
+            CodeUtils.Message.success('UUID generated!');
+        }
+
+        // Generate bulk UUIDs
+        function generateBulk() {
+            const count = parseInt(countInput.value) || 10;
+            if (count < 1 || count > 1000) {
+                CodeUtils.Message.error('Count must be between 1 and 1000');
+                return;
+            }
+
+            const uuids = [];
+            for (let i = 0; i < count; i++) {
+                uuids.push(generateUUID());
+            }
+
+            outputUUIDs.value = uuids.join('\n');
+            uuidDisplay.textContent = uuids[0];
+            CodeUtils.Message.success(`Generated ${count} UUIDs!`);
+        }
+
+        // Copy UUID
+        async function copyUUID() {
+            const text = outputUUIDs.value || uuidDisplay.textContent;
+            if (!text || text === 'Click "Generate" to create a UUID') {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+
+            try {
+                await CodeUtils.Clipboard.copy(text);
+                CodeUtils.Message.success('Copied to clipboard!');
+            } catch (err) {
+                CodeUtils.Message.error(err.message);
+            }
+        }
+
+        // Download UUIDs
+        function downloadUUIDs() {
+            const content = outputUUIDs.value || uuidDisplay.textContent;
+            if (!content || content === 'Click "Generate" to create a UUID') {
+                CodeUtils.Message.error('Nothing to download');
+                return;
+            }
+            CodeUtils.FileHandler.download(content, 'uuids.txt', 'text/plain');
+            CodeUtils.Message.success('File downloaded!');
+        }
+
+        // Clear all
+        function clearAll() {
+            uuidDisplay.textContent = 'Click "Generate" to create a UUID';
+            outputUUIDs.value = '';
+            CodeUtils.Message.hide();
+        }
+
+        // Keyboard shortcuts
+        CodeUtils.Shortcuts.register('Enter', generateSingle, true);
+        CodeUtils.Shortcuts.register('k', copyUUID, true);
+
+        // Generate initial UUID on page load
+        generateSingle();
+    </script>
+</body>
+</html>
