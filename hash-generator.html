@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Generator - MD5, SHA-1, SHA-256, SHA-512 | Code Utils</title>
+    <meta name="description" content="Free online hash generator. Generate MD5, SHA-1, SHA-256, and SHA-512 hashes instantly. 100% client-side processing - your data never leaves your browser.">
+    <meta name="keywords" content="hash generator, md5 generator, sha1 generator, sha256 generator, sha512 generator, hash calculator, checksum, developer tools">
+    <link rel="canonical" href="https://codeutils.org/hash-generator.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/hash-generator.html">
+    <meta property="og:title" content="Hash Generator - Code Utils">
+    <meta property="og:description" content="Free online hash generator. Generate MD5, SHA-1, SHA-256, SHA-512 hashes. 100% client-side.">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Hash Generator - Code Utils">
+    <meta name="twitter:description" content="Free online hash generator. 100% client-side processing.">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .hash-results { display: flex; flex-direction: column; gap: 15px; margin-top: var(--spacing-md); }
+        .hash-item { background: var(--bg-secondary); border: 1px solid var(--border); padding: 15px; border-radius: var(--radius-sm); }
+        .hash-label { font-weight: bold; color: var(--text-primary); margin-bottom: 8px; }
+        .hash-output { display: flex; gap: 10px; align-items: center; }
+        .hash-value { flex: 1; padding: 10px; background: var(--bg-white); border: 1px solid var(--border); font-family: 'Courier New', monospace; font-size: 13px; border-radius: var(--radius-sm); word-break: break-all; color: var(--text-primary); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Hash Generator</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from text. All processing happens in your browser.</p>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="generateHashes()" title="Generate Hashes (Ctrl+Enter)">Generate Hashes</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="card" style="margin-bottom: var(--spacing-md);">
+            <label style="font-weight: bold; display: block; margin-bottom: var(--spacing-sm); color: var(--text-primary);">Input Text</label>
+            <textarea id="input" class="editor" style="min-height: 150px;" placeholder="Enter text to generate hashes..."></textarea>
+        </div>
+
+        <div class="hash-results">
+            <div class="hash-item">
+                <div class="hash-label">MD5</div>
+                <div class="hash-output">
+                    <div class="hash-value" id="md5-output">-</div>
+                    <button class="btn btn-sm btn-secondary" onclick="copyHash('md5')">Copy</button>
+                </div>
+            </div>
+            <div class="hash-item">
+                <div class="hash-label">SHA-1</div>
+                <div class="hash-output">
+                    <div class="hash-value" id="sha1-output">-</div>
+                    <button class="btn btn-sm btn-secondary" onclick="copyHash('sha1')">Copy</button>
+                </div>
+            </div>
+            <div class="hash-item">
+                <div class="hash-label">SHA-256</div>
+                <div class="hash-output">
+                    <div class="hash-value" id="sha256-output">-</div>
+                    <button class="btn btn-sm btn-secondary" onclick="copyHash('sha256')">Copy</button>
+                </div>
+            </div>
+            <div class="hash-item">
+                <div class="hash-label">SHA-512</div>
+                <div class="hash-output">
+                    <div class="hash-value" id="sha512-output">-</div>
+                    <button class="btn btn-sm btn-secondary" onclick="copyHash('sha512')">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools" style="margin-top: var(--spacing-lg);">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="base64-encoder.html">Base64 Encoder</a></li>
+                <li><a href="url-encoder.html">URL Encoder</a></li>
+                <li><a href="html-encoder.html">HTML Encoder</a></li>
+                <li><a href="json-formatter.html">JSON Formatter</a></li>
+            </ul>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <h2>About Hash Generator</h2>
+            <p>Generate cryptographic hashes from text using MD5, SHA-1, SHA-256, and SHA-512 algorithms. All processing happens in your browser.</p>
+
+            <h3>Hash Algorithms</h3>
+            <ul>
+                <li><strong>MD5 (128-bit):</strong> Fast but not cryptographically secure. Good for checksums.</li>
+                <li><strong>SHA-1 (160-bit):</strong> Faster than SHA-2 but considered weak for security.</li>
+                <li><strong>SHA-256 (256-bit):</strong> Widely used and secure. Recommended for most applications.</li>
+                <li><strong>SHA-512 (512-bit):</strong> More secure with larger output. Good for high-security applications.</li>
+            </ul>
+
+            <h3>Keyboard Shortcuts</h3>
+            <ul>
+                <li><strong>Ctrl+Enter:</strong> Generate hashes</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Track this tool visit
+        CodeUtils.RecentTools.add({
+            id: 'hash-generator',
+            name: 'Hash Generator',
+            url: 'hash-generator.html'
+        });
+
+        const input = document.getElementById('input');
+        CodeUtils.Message.init('message');
+
+        async function generateHashes() {
+            const inputValue = input.value;
+            if (!inputValue) {
+                CodeUtils.Message.error('Please enter text to hash');
+                return;
+            }
+
+            try {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(inputValue);
+
+                const md5Hash = md5(inputValue);
+                const sha1Hash = await hashData('SHA-1', data);
+                const sha256Hash = await hashData('SHA-256', data);
+                const sha512Hash = await hashData('SHA-512', data);
+
+                document.getElementById('md5-output').textContent = md5Hash;
+                document.getElementById('sha1-output').textContent = sha1Hash;
+                document.getElementById('sha256-output').textContent = sha256Hash;
+                document.getElementById('sha512-output').textContent = sha512Hash;
+
+                CodeUtils.Message.success('Hashes generated successfully!');
+            } catch (error) {
+                CodeUtils.Message.error('Error generating hashes: ' + error.message);
+            }
+        }
+
+        async function hashData(algorithm, data) {
+            const hashBuffer = await crypto.subtle.digest(algorithm, data);
+            return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // MD5 implementation
+        function md5(string) {
+            function rotateLeft(v, a) { return (v << a) | (v >>> (32 - a)); }
+            function addUnsigned(x, y) { const lsw = (x & 0xFFFF) + (y & 0xFFFF); return ((x >> 16) + (y >> 16) + (lsw >> 16)) << 16 | (lsw & 0xFFFF); }
+            function md5cmn(q, a, b, x, s, t) { return addUnsigned(rotateLeft(addUnsigned(addUnsigned(a, q), addUnsigned(x, t)), s), b); }
+            function md5ff(a, b, c, d, x, s, t) { return md5cmn((b & c) | ((~b) & d), a, b, x, s, t); }
+            function md5gg(a, b, c, d, x, s, t) { return md5cmn((b & d) | (c & (~d)), a, b, x, s, t); }
+            function md5hh(a, b, c, d, x, s, t) { return md5cmn(b ^ c ^ d, a, b, x, s, t); }
+            function md5ii(a, b, c, d, x, s, t) { return md5cmn(c ^ (b | (~d)), a, b, x, s, t); }
+
+            string = string.replace(/\r\n/g, "\n");
+            let utftext = "";
+            for (let n = 0; n < string.length; n++) {
+                const c = string.charCodeAt(n);
+                if (c < 128) utftext += String.fromCharCode(c);
+                else if (c > 127 && c < 2048) { utftext += String.fromCharCode((c >> 6) | 192); utftext += String.fromCharCode((c & 63) | 128); }
+                else { utftext += String.fromCharCode((c >> 12) | 224); utftext += String.fromCharCode(((c >> 6) & 63) | 128); utftext += String.fromCharCode((c & 63) | 128); }
+            }
+
+            const x = [];
+            for (let i = 0; i < utftext.length * 8; i += 8) x[i >> 5] |= (utftext.charCodeAt(i / 8) & 0xFF) << (i % 32);
+
+            let [a, b, c, d] = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476];
+            const xl = utftext.length * 8;
+            x[xl >> 5] |= 0x80 << (xl % 32);
+            x[(((xl + 64) >>> 9) << 4) + 14] = xl;
+
+            for (let i = 0; i < x.length; i += 16) {
+                const [olda, oldb, oldc, oldd] = [a, b, c, d];
+                a = md5ff(a, b, c, d, x[i], 7, 0xD76AA478); d = md5ff(d, a, b, c, x[i+1], 12, 0xE8C7B756); c = md5ff(c, d, a, b, x[i+2], 17, 0x242070DB); b = md5ff(b, c, d, a, x[i+3], 22, 0xC1BDCEEE);
+                a = md5ff(a, b, c, d, x[i+4], 7, 0xF57C0FAF); d = md5ff(d, a, b, c, x[i+5], 12, 0x4787C62A); c = md5ff(c, d, a, b, x[i+6], 17, 0xA8304613); b = md5ff(b, c, d, a, x[i+7], 22, 0xFD469501);
+                a = md5ff(a, b, c, d, x[i+8], 7, 0x698098D8); d = md5ff(d, a, b, c, x[i+9], 12, 0x8B44F7AF); c = md5ff(c, d, a, b, x[i+10], 17, 0xFFFF5BB1); b = md5ff(b, c, d, a, x[i+11], 22, 0x895CD7BE);
+                a = md5ff(a, b, c, d, x[i+12], 7, 0x6B901122); d = md5ff(d, a, b, c, x[i+13], 12, 0xFD987193); c = md5ff(c, d, a, b, x[i+14], 17, 0xA679438E); b = md5ff(b, c, d, a, x[i+15], 22, 0x49B40821);
+                a = md5gg(a, b, c, d, x[i+1], 5, 0xF61E2562); d = md5gg(d, a, b, c, x[i+6], 9, 0xC040B340); c = md5gg(c, d, a, b, x[i+11], 14, 0x265E5A51); b = md5gg(b, c, d, a, x[i], 20, 0xE9B6C7AA);
+                a = md5gg(a, b, c, d, x[i+5], 5, 0xD62F105D); d = md5gg(d, a, b, c, x[i+10], 9, 0x02441453); c = md5gg(c, d, a, b, x[i+15], 14, 0xD8A1E681); b = md5gg(b, c, d, a, x[i+4], 20, 0xE7D3FBC8);
+                a = md5gg(a, b, c, d, x[i+9], 5, 0x21E1CDE6); d = md5gg(d, a, b, c, x[i+14], 9, 0xC33707D6); c = md5gg(c, d, a, b, x[i+3], 14, 0xF4D50D87); b = md5gg(b, c, d, a, x[i+8], 20, 0x455A14ED);
+                a = md5gg(a, b, c, d, x[i+13], 5, 0xA9E3E905); d = md5gg(d, a, b, c, x[i+2], 9, 0xFCEFA3F8); c = md5gg(c, d, a, b, x[i+7], 14, 0x676F02D9); b = md5gg(b, c, d, a, x[i+12], 20, 0x8D2A4C8A);
+                a = md5hh(a, b, c, d, x[i+5], 4, 0xFFFA3942); d = md5hh(d, a, b, c, x[i+8], 11, 0x8771F681); c = md5hh(c, d, a, b, x[i+11], 16, 0x6D9D6122); b = md5hh(b, c, d, a, x[i+14], 23, 0xFDE5380C);
+                a = md5hh(a, b, c, d, x[i+1], 4, 0xA4BEEA44); d = md5hh(d, a, b, c, x[i+4], 11, 0x4BDECFA9); c = md5hh(c, d, a, b, x[i+7], 16, 0xF6BB4B60); b = md5hh(b, c, d, a, x[i+10], 23, 0xBEBFBC70);
+                a = md5hh(a, b, c, d, x[i+13], 4, 0x289B7EC6); d = md5hh(d, a, b, c, x[i], 11, 0xEAA127FA); c = md5hh(c, d, a, b, x[i+3], 16, 0xD4EF3085); b = md5hh(b, c, d, a, x[i+6], 23, 0x04881D05);
+                a = md5hh(a, b, c, d, x[i+9], 4, 0xD9D4D039); d = md5hh(d, a, b, c, x[i+12], 11, 0xE6DB99E5); c = md5hh(c, d, a, b, x[i+15], 16, 0x1FA27CF8); b = md5hh(b, c, d, a, x[i+2], 23, 0xC4AC5665);
+                a = md5ii(a, b, c, d, x[i], 6, 0xF4292244); d = md5ii(d, a, b, c, x[i+7], 10, 0x432AFF97); c = md5ii(c, d, a, b, x[i+14], 15, 0xAB9423A7); b = md5ii(b, c, d, a, x[i+5], 21, 0xFC93A039);
+                a = md5ii(a, b, c, d, x[i+12], 6, 0x655B59C3); d = md5ii(d, a, b, c, x[i+3], 10, 0x8F0CCC92); c = md5ii(c, d, a, b, x[i+10], 15, 0xFFEFF47D); b = md5ii(b, c, d, a, x[i+1], 21, 0x85845DD1);
+                a = md5ii(a, b, c, d, x[i+8], 6, 0x6FA87E4F); d = md5ii(d, a, b, c, x[i+15], 10, 0xFE2CE6E0); c = md5ii(c, d, a, b, x[i+6], 15, 0xA3014314); b = md5ii(b, c, d, a, x[i+13], 21, 0x4E0811A1);
+                a = md5ii(a, b, c, d, x[i+4], 6, 0xF7537E82); d = md5ii(d, a, b, c, x[i+11], 10, 0xBD3AF235); c = md5ii(c, d, a, b, x[i+2], 15, 0x2AD7D2BB); b = md5ii(b, c, d, a, x[i+9], 21, 0xEB86D391);
+                a = addUnsigned(a, olda); b = addUnsigned(b, oldb); c = addUnsigned(c, oldc); d = addUnsigned(d, oldd);
+            }
+
+            const wordToHex = v => Array.from({length: 4}, (_, i) => ((v >> (i * 8)) & 0xFF).toString(16).padStart(2, '0')).join('');
+            return wordToHex(a) + wordToHex(b) + wordToHex(c) + wordToHex(d);
+        }
+
+        async function copyHash(algorithm) {
+            const hashValue = document.getElementById(algorithm + '-output').textContent;
+            if (hashValue === '-') {
+                CodeUtils.Message.error('Generate hashes first');
+                return;
+            }
+            try {
+                await CodeUtils.Clipboard.copy(hashValue);
+                CodeUtils.Message.success(algorithm.toUpperCase() + ' hash copied!');
+            } catch (err) {
+                CodeUtils.Message.error(err.message);
+            }
+        }
+
+        function clearAll() {
+            input.value = '';
+            ['md5', 'sha1', 'sha256', 'sha512'].forEach(alg => {
+                document.getElementById(alg + '-output').textContent = '-';
+            });
+            CodeUtils.Message.hide();
+        }
+
+        CodeUtils.Shortcuts.register('Enter', generateHashes, true);
+
+        // Auto-generate on input
+        let debounceTimer;
+        input.addEventListener('input', () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => { if (input.value) generateHashes(); }, 500);
+        });
+    </script>
+</body>
+</html>

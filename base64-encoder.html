@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Encoder/Decoder - Code Utils</title>
+    <meta name="description" content="Free online Base64 encoder and decoder. Encode text to Base64 or decode Base64 to text instantly. 100% client-side processing - your data never leaves your browser.">
+    <meta name="keywords" content="base64 encoder, base64 decoder, encode base64, decode base64, base64 online, base64 converter, developer tools">
+    <link rel="canonical" href="https://codeutils.org/base64-encoder.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/base64-encoder.html">
+    <meta property="og:title" content="Base64 Encoder/Decoder - Code Utils">
+    <meta property="og:description" content="Free online Base64 encoder and decoder. 100% client-side processing.">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Base64 Encoder/Decoder - Code Utils">
+    <meta name="twitter:description" content="Free online Base64 encoder and decoder. 100% client-side processing.">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Base64 Encoder/Decoder</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Encode text to Base64 or decode Base64 strings. All processing happens in your browser.</p>
+        </div>
+
+        <div class="controls">
+            <div class="controls-group">
+                <button class="btn" onclick="encodeBase64()" title="Encode (Ctrl+Enter)">Encode to Base64</button>
+                <button class="btn" onclick="decodeBase64()" title="Decode (Ctrl+D)">Decode from Base64</button>
+            </div>
+            <div class="controls-group">
+                <button class="btn btn-secondary" onclick="copyOutput()">Copy Output</button>
+                <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+            </div>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-container">
+            <div class="editor-section">
+                <div class="editor-header">Input</div>
+                <textarea id="input" class="editor" placeholder="Enter text to encode or Base64 string to decode..."></textarea>
+            </div>
+            <div class="editor-section">
+                <div class="editor-header">Output</div>
+                <textarea id="output" class="editor" readonly placeholder="Result will appear here..."></textarea>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="url-encoder.html">URL Encoder</a></li>
+                <li><a href="html-encoder.html">HTML Encoder</a></li>
+                <li><a href="hash-generator.html">Hash Generator</a></li>
+                <li><a href="json-formatter.html">JSON Formatter</a></li>
+            </ul>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <h2>About Base64 Encoder/Decoder</h2>
+            <p>This tool encodes text to Base64 or decodes Base64 strings back to text. All processing happens in your browser.</p>
+
+            <h3>What is Base64?</h3>
+            <p>Base64 is a binary-to-text encoding scheme that represents binary data in ASCII string format. It's commonly used to encode data for transmission over media designed to handle text.</p>
+
+            <h3>Common Use Cases</h3>
+            <ul>
+                <li><strong>Email attachments:</strong> Encoding binary files for email</li>
+                <li><strong>Data URLs:</strong> Embedding images in HTML/CSS</li>
+                <li><strong>API authentication:</strong> Encoding credentials for Basic Auth</li>
+                <li><strong>Data storage:</strong> Storing binary data in JSON/XML</li>
+            </ul>
+
+            <h3>Keyboard Shortcuts</h3>
+            <ul>
+                <li><strong>Ctrl+Enter:</strong> Encode to Base64</li>
+                <li><strong>Ctrl+D:</strong> Decode from Base64</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Track this tool visit
+        CodeUtils.RecentTools.add({
+            id: 'base64-encoder',
+            name: 'Base64 Encoder/Decoder',
+            url: 'base64-encoder.html'
+        });
+
+        const input = document.getElementById('input');
+        const output = document.getElementById('output');
+
+        CodeUtils.Message.init('message');
+
+        function encodeBase64() {
+            const inputValue = input.value;
+            if (!inputValue) {
+                CodeUtils.Message.error('Please enter text to encode');
+                return;
+            }
+
+            try {
+                const encoded = btoa(unescape(encodeURIComponent(inputValue)));
+                output.value = encoded;
+                CodeUtils.Message.success('Text encoded to Base64 successfully!');
+            } catch (error) {
+                CodeUtils.Message.error('Error encoding: ' + error.message);
+            }
+        }
+
+        function decodeBase64() {
+            const inputValue = input.value.trim();
+            if (!inputValue) {
+                CodeUtils.Message.error('Please enter Base64 string to decode');
+                return;
+            }
+
+            try {
+                const decoded = decodeURIComponent(escape(atob(inputValue)));
+                output.value = decoded;
+                CodeUtils.Message.success('Base64 decoded successfully!');
+            } catch (error) {
+                CodeUtils.Message.error('Error decoding: Invalid Base64 string');
+            }
+        }
+
+        async function copyOutput() {
+            try {
+                await CodeUtils.Clipboard.copy(output.value);
+                CodeUtils.Message.success('Copied to clipboard!');
+            } catch (err) {
+                CodeUtils.Message.error(err.message);
+            }
+        }
+
+        function clearAll() {
+            input.value = '';
+            output.value = '';
+            CodeUtils.Message.hide();
+        }
+
+        CodeUtils.Shortcuts.register('Enter', encodeBase64, true);
+        CodeUtils.Shortcuts.register('d', decodeBase64, true);
+    </script>
+</body>
+</html>

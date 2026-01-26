@@ -1,0 +1,6 @@
+# robots.txt for Code Utils
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://codeutils.org/sitemap.xml

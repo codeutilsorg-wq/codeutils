@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timestamp Converter - Unix Time to Date Converter | Code Utils</title>
+    <meta name="description" content="Free online timestamp converter. Convert Unix timestamps to human-readable dates and vice versa. Supports milliseconds and seconds. 100% client-side processing - your data never leaves your browser.">
+    <meta name="keywords" content="timestamp converter, unix timestamp, epoch converter, unix time, date converter, timestamp to date, epoch time, developer tools">
+    <link rel="canonical" href="https://codeutils.org/timestamp-converter.html">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/timestamp-converter.html">
+    <meta property="og:title" content="Timestamp Converter - Unix Time to Date | Code Utils">
+    <meta property="og:description" content="Free online timestamp converter. Convert Unix timestamps to dates instantly. 100% client-side processing.">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Timestamp Converter - Free Tool | Code Utils">
+    <meta name="twitter:description" content="Free online timestamp converter. Unix time to date and back.">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .current-time {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .time-label {
+            font-size: var(--font-sm);
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .time-display {
+            font-size: 2rem;
+            font-family: var(--font-mono);
+            color: var(--primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .time-date {
+            font-size: var(--font-sm);
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+        }
+
+        .converter-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        @media (max-width: 768px) {
+            .converter-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .converter-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: var(--spacing-lg);
+        }
+
+        .converter-title {
+            font-size: var(--font-lg);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .input-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .input-label {
+            display: block;
+            font-size: var(--font-sm);
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: var(--font-base);
+            background: var(--editor-bg);
+            color: var(--editor-text);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .converter-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .output-box {
+            background: var(--editor-bg);
+            color: var(--editor-text);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-mono);
+            font-size: var(--font-sm);
+            min-height: 80px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tool-container">
+            <!-- Message -->
+            <div id="message" class="message"></div>
+
+            <!-- Current Time Display -->
+            <div class="current-time">
+                <div class="time-label">Current Unix Timestamp</div>
+                <div class="time-display" id="current-timestamp">-</div>
+                <div class="time-date" id="current-date">-</div>
+            </div>
+
+            <!-- Converter Grid -->
+            <div class="converter-grid">
+                <!-- Timestamp to Date -->
+                <div class="converter-card">
+                    <h2 class="converter-title">Timestamp to Date</h2>
+                    <div class="input-group">
+                        <label class="input-label">Unix Timestamp (seconds or milliseconds)</label>
+                        <input type="text" id="timestamp-input" class="input-field" placeholder="e.g., 1706198400 or 1706198400000">
+                    </div>
+                    <div class="converter-actions">
+                        <button class="btn btn-primary" onclick="convertTimestampToDate()">Convert</button>
+                        <button class="btn btn-secondary" onclick="copyResult('timestamp')">Copy</button>
+                    </div>
+                    <div class="output-box" id="timestamp-output">-</div>
+                </div>
+
+                <!-- Date to Timestamp -->
+                <div class="converter-card">
+                    <h2 class="converter-title">Date to Timestamp</h2>
+                    <div class="input-group">
+                        <label class="input-label">Date and Time</label>
+                        <input type="datetime-local" id="date-input" class="input-field">
+                    </div>
+                    <div class="converter-actions">
+                        <button class="btn btn-primary" onclick="convertDateToTimestamp()">Convert</button>
+                        <button class="btn btn-secondary" onclick="copyResult('date')">Copy</button>
+                    </div>
+                    <div class="output-box" id="date-output">-</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h3 class="related-tools-title">Related Tools</h3>
+            <div class="related-tools-grid">
+                <a href="json-formatter.html" class="related-tool-card">
+                    <span class="related-tool-icon">{ }</span>
+                    <span class="related-tool-name">JSON Formatter</span>
+                </a>
+                <a href="base64-encoder.html" class="related-tool-card">
+                    <span class="related-tool-icon">B64</span>
+                    <span class="related-tool-name">Base64 Encoder</span>
+                </a>
+                <a href="hash-generator.html" class="related-tool-card">
+                    <span class="related-tool-icon">#</span>
+                    <span class="related-tool-name">Hash Generator</span>
+                </a>
+                <a href="url-encoder.html" class="related-tool-card">
+                    <span class="related-tool-icon">%</span>
+                    <span class="related-tool-name">URL Encoder</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <h2>About Timestamp Converter</h2>
+
+            <p>This is a free online tool to convert Unix timestamps to human-readable dates and vice versa. All processing happens in your browser - your data is never sent to any server.</p>
+
+            <h3>What is a Unix Timestamp?</h3>
+            <p>A Unix timestamp (also known as Epoch time or POSIX time) is a way of tracking time as a running total of seconds or milliseconds since January 1, 1970, 00:00:00 UTC (the Unix epoch). This method of time representation is widely used in programming and computing.</p>
+
+            <h3>How to Use</h3>
+            <ul>
+                <li><strong>Current Time:</strong> Shows the current Unix timestamp updating in real-time</li>
+                <li><strong>Timestamp to Date:</strong> Enter a Unix timestamp (in seconds or milliseconds) to see the corresponding date and time</li>
+                <li><strong>Date to Timestamp:</strong> Select a date and time to get the Unix timestamp</li>
+                <li><strong>Copy:</strong> Click copy button to copy the result to clipboard</li>
+            </ul>
+
+            <h3>Timestamp Formats</h3>
+            <ul>
+                <li><strong>Seconds:</strong> 10-digit number (e.g., 1706198400) - standard Unix timestamp</li>
+                <li><strong>Milliseconds:</strong> 13-digit number (e.g., 1706198400000) - used in JavaScript</li>
+            </ul>
+
+            <h3>Common Use Cases</h3>
+            <ul>
+                <li><strong>Debugging:</strong> Convert timestamps from logs to readable dates</li>
+                <li><strong>Database queries:</strong> Work with timestamp columns</li>
+                <li><strong>API development:</strong> Handle timestamp parameters</li>
+                <li><strong>Data analysis:</strong> Convert epoch time in datasets</li>
+                <li><strong>System administration:</strong> Analyze log files and system events</li>
+            </ul>
+
+            <h3>Privacy & Security</h3>
+            <p>This tool runs entirely in your browser using JavaScript. No data is transmitted to any server. All conversions are performed locally on your computer.</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Track tool usage
+        CodeUtils.RecentTools.add({
+            id: 'timestamp-converter',
+            name: 'Timestamp Converter',
+            url: 'timestamp-converter.html'
+        });
+
+        // Initialize message system
+        CodeUtils.Message.init('message');
+
+        function updateCurrentTime() {
+            const now = new Date();
+            const timestamp = Math.floor(now.getTime() / 1000);
+            document.getElementById('current-timestamp').textContent = timestamp;
+            document.getElementById('current-date').textContent = now.toISOString() + ' (UTC)';
+        }
+
+        function convertTimestampToDate() {
+            const input = document.getElementById('timestamp-input').value.trim();
+            const output = document.getElementById('timestamp-output');
+
+            if (!input) {
+                CodeUtils.Message.error('Please enter a timestamp');
+                return;
+            }
+
+            try {
+                let timestamp = parseInt(input);
+
+                if (isNaN(timestamp)) {
+                    throw new Error('Invalid timestamp');
+                }
+
+                // Detect if timestamp is in milliseconds (13 digits) or seconds (10 digits)
+                if (timestamp.toString().length === 10) {
+                    timestamp = timestamp * 1000;
+                }
+
+                const date = new Date(timestamp);
+
+                if (isNaN(date.getTime())) {
+                    throw new Error('Invalid timestamp');
+                }
+
+                const result = `UTC: ${date.toUTCString()}\nISO: ${date.toISOString()}\nLocal: ${date.toString()}`;
+                output.textContent = result;
+                CodeUtils.Message.success('Timestamp converted successfully');
+            } catch (error) {
+                CodeUtils.Message.error('Error: Invalid timestamp');
+                output.textContent = 'Error: Invalid timestamp';
+            }
+        }
+
+        function convertDateToTimestamp() {
+            const input = document.getElementById('date-input').value;
+            const output = document.getElementById('date-output');
+
+            if (!input) {
+                CodeUtils.Message.error('Please select a date and time');
+                return;
+            }
+
+            try {
+                const date = new Date(input);
+
+                if (isNaN(date.getTime())) {
+                    throw new Error('Invalid date');
+                }
+
+                const timestampSeconds = Math.floor(date.getTime() / 1000);
+                const timestampMillis = date.getTime();
+
+                const result = `Seconds: ${timestampSeconds}\nMilliseconds: ${timestampMillis}\nUTC: ${date.toUTCString()}`;
+                output.textContent = result;
+                CodeUtils.Message.success('Date converted successfully');
+            } catch (error) {
+                CodeUtils.Message.error('Error: Invalid date');
+                output.textContent = 'Error: Invalid date';
+            }
+        }
+
+        async function copyResult(type) {
+            const outputId = type === 'timestamp' ? 'timestamp-output' : 'date-output';
+            const output = document.getElementById(outputId);
+
+            if (output.textContent === '-' || output.textContent.startsWith('Error')) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+
+            try {
+                await CodeUtils.Clipboard.copy(output.textContent);
+                CodeUtils.Message.success('Copied to clipboard');
+            } catch (err) {
+                CodeUtils.Message.error('Failed to copy');
+            }
+        }
+
+        // Update current time every second
+        updateCurrentTime();
+        setInterval(updateCurrentTime, 1000);
+
+        // Auto-convert on enter key
+        document.getElementById('timestamp-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                convertTimestampToDate();
+            }
+        });
+
+        document.getElementById('date-input').addEventListener('change', () => {
+            convertDateToTimestamp();
+        });
+    </script>
+</body>
+</html>

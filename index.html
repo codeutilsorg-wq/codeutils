@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Utils - Free Developer Tools & Utilities</title>
+    <meta name="description" content="Free developer tools and utilities. JSON formatter, XML formatter, Base64 encoder, hash generator, and 50+ more tools. 100% client-side processing - your data never leaves your browser.">
+    <meta name="keywords" content="developer tools, code utilities, json formatter, xml formatter, base64 encoder, hash generator, url encoder, html encoder, timestamp converter, free tools, online tools">
+    <meta name="author" content="Code Utils">
+    <link rel="canonical" href="https://codeutils.org/">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/">
+    <meta property="og:title" content="Code Utils - Free Developer Tools & Utilities">
+    <meta property="og:description" content="Free developer tools. JSON, XML, Base64, Hash, URL, HTML utilities. 100% client-side processing.">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Code Utils - Free Developer Tools">
+    <meta name="twitter:description" content="Free developer utilities. 100% client-side, privacy-focused tools.">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        /* Homepage-specific styles */
+        .hero {
+            background: var(--bg-white);
+            border-bottom: 2px solid var(--border);
+            padding: var(--spacing-xxl) var(--spacing-md);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            color: var(--primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .hero .tagline {
+            font-size: var(--font-xl);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .hero .privacy-badge {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .section {
+            margin-bottom: var(--spacing-xxl);
+        }
+
+        .all-tools-link {
+            text-align: center;
+            margin-top: var(--spacing-lg);
+        }
+
+        .tool-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: var(--radius-sm);
+            font-family: 'Courier New', monospace;
+            font-size: var(--font-sm);
+            font-weight: bold;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .popular-tool-card {
+            text-align: center;
+            padding: var(--spacing-lg);
+        }
+
+        .popular-tool-card h3 {
+            font-size: var(--font-md);
+            color: var(--primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .popular-tool-card p {
+            font-size: var(--font-sm);
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .category-icon {
+            font-size: 28px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .about-item {
+            padding: var(--spacing-lg);
+        }
+
+        .about-item h3 {
+            color: var(--primary);
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-lg);
+        }
+
+        .about-item p {
+            margin: 0;
+            font-size: var(--font-md);
+        }
+
+        .recent-tools {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            display: none;
+        }
+
+        .recent-tools.show {
+            display: block;
+        }
+
+        .recent-tools h3 {
+            font-size: var(--font-lg);
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+        }
+
+        .recent-tools-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .recent-tools-list li {
+            margin: 0;
+        }
+
+        .recent-tools-list a {
+            display: inline-block;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: var(--font-sm);
+        }
+
+        .recent-tools-list a:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .header-simple {
+            display: flex;
+            justify-content: flex-end;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+    <div class="header-simple">
+        <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+    </div>
+
+    <div class="hero">
+        <h1>Code Utils</h1>
+        <p class="tagline">Free Developer Utilities - 100% Client-Side</p>
+        <span class="privacy-badge">Your data never leaves your browser</span>
+
+        <div class="search-container">
+            <span class="search-icon">&#128269;</span>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search 30+ developer tools..." autocomplete="off">
+            <span class="search-shortcut">/</span>
+            <div id="searchResults" class="search-results"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Recent Tools (shown if user has history) -->
+        <div id="recentTools" class="recent-tools">
+            <h3>Recently Used</h3>
+            <ul id="recentToolsList" class="recent-tools-list"></ul>
+        </div>
+
+        <!-- Popular Tools -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Popular Tools</h2>
+            </div>
+            <div class="popular-grid" id="popularTools">
+                <!-- Populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Categories -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Browse by Category</h2>
+            </div>
+            <div class="category-grid" id="categories">
+                <!-- Populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- All Tools -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">All Tools</h2>
+            </div>
+            <div class="tools-grid" id="allTools">
+                <!-- Populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Why Code Utils?</h2>
+            </div>
+            <div class="about-grid">
+                <div class="card about-item">
+                    <h3>100% Private</h3>
+                    <p>All processing happens in your browser. No data is uploaded or stored on any server.</p>
+                </div>
+                <div class="card about-item">
+                    <h3>Always Free</h3>
+                    <p>No registration, no limits, no premium tiers. Completely free forever.</p>
+                </div>
+                <div class="card about-item">
+                    <h3>Fast & Reliable</h3>
+                    <p>Instant processing with no network delays. Works offline once loaded.</p>
+                </div>
+                <div class="card about-item">
+                    <h3>No Tracking</h3>
+                    <p>We only use basic analytics to improve our tools. No personal data collection.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Tool and category data
+        let toolsData = [];
+
+        const categories = [
+            { id: 'formatters', name: 'Formatters', icon: '{ }', description: 'Code formatting & beautifying' },
+            { id: 'encoders', name: 'Encoders', icon: '&lt;/&gt;', description: 'Encode & decode data' },
+            { id: 'converters', name: 'Converters', icon: '&#8644;', description: 'Convert between formats' },
+            { id: 'generators', name: 'Generators', icon: '&#9881;', description: 'Generate data & codes' },
+            { id: 'text', name: 'Text Tools', icon: 'Aa', description: 'Text manipulation' },
+            { id: 'colors', name: 'Color Tools', icon: '&#127912;', description: 'Color utilities' },
+            { id: 'developer', name: 'Developer', icon: '&#128187;', description: 'Dev utilities' }
+        ];
+
+        // Load tools data
+        async function loadTools() {
+            try {
+                const response = await fetch('data/tools.json');
+                toolsData = await response.json();
+                renderPage();
+            } catch (err) {
+                console.error('Failed to load tools:', err);
+                // Fallback to hardcoded data
+                toolsData = getHardcodedTools();
+                renderPage();
+            }
+        }
+
+        // Hardcoded fallback
+        function getHardcodedTools() {
+            return [
+                { id: 'json-formatter', name: 'JSON Formatter', description: 'Format, validate, and minify JSON data', url: 'json-formatter.html', category: 'Formatters', categoryId: 'formatters', icon: '{ }', popular: true, status: 'live' },
+                { id: 'xml-formatter', name: 'XML Formatter', description: 'Format, validate, and minify XML data', url: 'xml-formatter.html', category: 'Formatters', categoryId: 'formatters', icon: '</>', popular: true, status: 'live' },
+                { id: 'base64-encoder', name: 'Base64 Encoder/Decoder', description: 'Encode and decode Base64 strings', url: 'base64-encoder.html', category: 'Encoders', categoryId: 'encoders', icon: 'B64', popular: true, status: 'live' },
+                { id: 'hash-generator', name: 'Hash Generator', description: 'Generate MD5, SHA-1, SHA-256, SHA-512 hashes', url: 'hash-generator.html', category: 'Generators', categoryId: 'generators', icon: '#', popular: true, status: 'live' },
+                { id: 'url-encoder', name: 'URL Encoder/Decoder', description: 'Encode and decode URL strings', url: 'url-encoder.html', category: 'Encoders', categoryId: 'encoders', icon: '%', popular: true, status: 'live' },
+                { id: 'html-encoder', name: 'HTML Encoder/Decoder', description: 'Encode and decode HTML entities', url: 'html-encoder.html', category: 'Encoders', categoryId: 'encoders', icon: '&;', popular: false, status: 'live' },
+                { id: 'timestamp-converter', name: 'Timestamp Converter', description: 'Convert Unix timestamps to dates', url: 'timestamp-converter.html', category: 'Converters', categoryId: 'converters', icon: 'T', popular: true, status: 'live' }
+            ];
+        }
+
+        // Render the page
+        function renderPage() {
+            renderPopularTools();
+            renderCategories();
+            renderAllTools();
+            renderRecentTools();
+            initSearch();
+        }
+
+        // Render popular tools
+        function renderPopularTools() {
+            const container = document.getElementById('popularTools');
+            const popularTools = toolsData.filter(t => t.popular && t.status === 'live');
+
+            container.innerHTML = popularTools.map(tool => `
+                <a href="${tool.url}" class="card card-hover popular-tool-card" onclick="trackToolClick('${tool.id}', '${tool.name}')">
+                    <div class="tool-icon">${tool.icon}</div>
+                    <h3>${tool.name}</h3>
+                    <p>${tool.description}</p>
+                </a>
+            `).join('');
+        }
+
+        // Render categories
+        function renderCategories() {
+            const container = document.getElementById('categories');
+
+            container.innerHTML = categories.map(cat => {
+                const count = toolsData.filter(t => t.categoryId === cat.id && t.status === 'live').length;
+                return `
+                    <a href="category/${cat.id}.html" class="card card-hover category-card" onclick="filterByCategory('${cat.id}'); return false;">
+                        <div class="category-icon">${cat.icon}</div>
+                        <h3>${cat.name}</h3>
+                        <p class="tool-count">${count} tool${count !== 1 ? 's' : ''}</p>
+                    </a>
+                `;
+            }).join('');
+        }
+
+        // Render all tools
+        function renderAllTools() {
+            const container = document.getElementById('allTools');
+            const liveTools = toolsData.filter(t => t.status === 'live');
+
+            container.innerHTML = liveTools.map(tool => `
+                <a href="${tool.url}" class="card card-hover tool-card" onclick="trackToolClick('${tool.id}', '${tool.name}')">
+                    <h2>${tool.name}</h2>
+                    <p>${tool.description}</p>
+                </a>
+            `).join('');
+        }
+
+        // Render recent tools
+        function renderRecentTools() {
+            const recent = CodeUtils.RecentTools.get();
+            const container = document.getElementById('recentTools');
+            const list = document.getElementById('recentToolsList');
+
+            if (recent.length === 0) {
+                container.classList.remove('show');
+                return;
+            }
+
+            container.classList.add('show');
+            list.innerHTML = recent.slice(0, 6).map(tool => `
+                <li><a href="${tool.url}">${tool.name}</a></li>
+            `).join('');
+        }
+
+        // Track tool click and add to recent
+        function trackToolClick(id, name) {
+            const tool = toolsData.find(t => t.id === id);
+            if (tool) {
+                CodeUtils.RecentTools.add({
+                    id: tool.id,
+                    name: tool.name,
+                    url: tool.url
+                });
+            }
+        }
+
+        // Filter by category (scroll to section)
+        function filterByCategory(categoryId) {
+            const container = document.getElementById('allTools');
+            const liveTools = toolsData.filter(t => t.status === 'live' && t.categoryId === categoryId);
+
+            if (liveTools.length === 0) {
+                alert('No tools in this category yet. Coming soon!');
+                return;
+            }
+
+            // Update section title
+            const cat = categories.find(c => c.id === categoryId);
+            document.querySelector('#allTools').previousElementSibling.querySelector('.section-title').textContent = cat ? cat.name : 'All Tools';
+
+            // Render filtered tools
+            container.innerHTML = liveTools.map(tool => `
+                <a href="${tool.url}" class="card card-hover tool-card" onclick="trackToolClick('${tool.id}', '${tool.name}')">
+                    <h2>${tool.name}</h2>
+                    <p>${tool.description}</p>
+                </a>
+            `).join('');
+
+            // Add "Show All" button
+            container.innerHTML += `
+                <div style="grid-column: 1 / -1; text-align: center; padding: 20px;">
+                    <button class="btn btn-outline" onclick="renderAllTools(); document.querySelector('#allTools').previousElementSibling.querySelector('.section-title').textContent = 'All Tools';">Show All Tools</button>
+                </div>
+            `;
+
+            // Scroll to section
+            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Initialize search
+        function initSearch() {
+            const input = document.getElementById('searchInput');
+            const results = document.getElementById('searchResults');
+            let selectedIndex = -1;
+
+            input.addEventListener('input', () => {
+                const query = input.value.trim().toLowerCase();
+
+                if (!query) {
+                    results.classList.remove('show');
+                    return;
+                }
+
+                const matches = toolsData.filter(tool => {
+                    if (tool.status !== 'live') return false;
+                    return tool.name.toLowerCase().includes(query) ||
+                           tool.description.toLowerCase().includes(query) ||
+                           (tool.keywords && tool.keywords.some(k => k.includes(query)));
+                }).slice(0, 8);
+
+                if (matches.length === 0) {
+                    results.innerHTML = '<div class="search-result-item"><p>No tools found</p></div>';
+                } else {
+                    results.innerHTML = matches.map((tool, i) => `
+                        <a href="${tool.url}" class="search-result-item" data-index="${i}" onclick="trackToolClick('${tool.id}', '${tool.name}')">
+                            <h4>${highlightMatch(tool.name, query)}<span class="category-tag">${tool.category}</span></h4>
+                            <p>${tool.description}</p>
+                        </a>
+                    `).join('');
+                }
+
+                results.classList.add('show');
+                selectedIndex = -1;
+            });
+
+            // Keyboard navigation
+            input.addEventListener('keydown', (e) => {
+                const items = results.querySelectorAll('.search-result-item[href]');
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+                    updateSelection(items);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    selectedIndex = Math.max(selectedIndex - 1, 0);
+                    updateSelection(items);
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (selectedIndex >= 0 && items[selectedIndex]) {
+                        items[selectedIndex].click();
+                    }
+                } else if (e.key === 'Escape') {
+                    results.classList.remove('show');
+                    input.blur();
+                }
+            });
+
+            function updateSelection(items) {
+                items.forEach((item, i) => {
+                    item.classList.toggle('active', i === selectedIndex);
+                });
+            }
+
+            // Close on click outside
+            document.addEventListener('click', (e) => {
+                if (!input.contains(e.target) && !results.contains(e.target)) {
+                    results.classList.remove('show');
+                }
+            });
+
+            // Global shortcut
+            document.addEventListener('keydown', (e) => {
+                if (e.key === '/' && document.activeElement !== input) {
+                    e.preventDefault();
+                    input.focus();
+                }
+            });
+        }
+
+        function highlightMatch(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<strong>$1</strong>');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadTools);
+    </script>
+</body>
+</html>

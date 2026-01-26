@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter - Code Utils</title>
+    <meta name="description" content="Free JSON formatter, validator, and minifier. Format, validate, and minify JSON data with syntax highlighting. 100% client-side processing - your data never leaves your browser.">
+    <meta name="keywords" content="json formatter, json validator, json minifier, json beautifier, format json, validate json, minify json, json tool, free json formatter">
+    <link rel="canonical" href="https://codeutils.org/json-formatter.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/json-formatter.html">
+    <meta property="og:title" content="JSON Formatter - Code Utils">
+    <meta property="og:description" content="Free JSON formatter and validator. Format, validate, and minify JSON data. 100% client-side processing.">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="JSON Formatter - Code Utils">
+    <meta name="twitter:description" content="Free JSON formatter, validator, and minifier. 100% client-side processing.">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">JSON Formatter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Format, validate, and minify JSON data. All processing happens in your browser.</p>
+        </div>
+
+        <div class="drop-zone" id="dropZone">
+            Drop JSON file here or click Upload File button
+        </div>
+
+        <div class="controls">
+            <div class="controls-group">
+                <button class="btn" onclick="formatJSON()" title="Format JSON (Ctrl+Enter)">Format</button>
+                <button class="btn" onclick="minifyJSON()" title="Minify JSON (Ctrl+M)">Minify</button>
+                <button class="btn" onclick="validateJSON()">Validate</button>
+            </div>
+            <div class="controls-group">
+                <button class="btn btn-secondary" onclick="copyOutput()" title="Copy Output (Ctrl+K)">Copy</button>
+                <label for="fileUpload" class="btn btn-secondary" style="margin: 0;">Upload</label>
+                <input type="file" id="fileUpload" class="file-upload" accept=".json,application/json,text/plain">
+                <button class="btn btn-secondary" onclick="downloadJSON()">Download</button>
+            </div>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-container">
+            <div class="editor-section">
+                <div class="editor-header">Input JSON</div>
+                <textarea id="inputJSON" class="editor" placeholder="Paste your JSON here..."></textarea>
+            </div>
+            <div class="editor-section">
+                <div class="editor-header">Output</div>
+                <textarea id="outputJSON" class="editor" readonly placeholder="Formatted JSON will appear here..."></textarea>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="xml-formatter.html">XML Formatter</a></li>
+                <li><a href="base64-encoder.html">Base64 Encoder</a></li>
+                <li><a href="url-encoder.html">URL Encoder</a></li>
+                <li><a href="hash-generator.html">Hash Generator</a></li>
+                <li><a href="timestamp-converter.html">Timestamp Converter</a></li>
+            </ul>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <h2>About JSON Formatter</h2>
+            <p>This tool helps you format, validate, and minify JSON data. All processing happens in your browser - your data is never sent to any server.</p>
+
+            <h3>Features</h3>
+            <ul>
+                <li><strong>Format:</strong> Beautify JSON with proper indentation (2 spaces)</li>
+                <li><strong>Minify:</strong> Remove all whitespace to create compact JSON</li>
+                <li><strong>Validate:</strong> Check if your JSON is valid and get detailed error messages</li>
+                <li><strong>File Support:</strong> Upload JSON files or drag & drop</li>
+                <li><strong>Download:</strong> Save formatted JSON as a file</li>
+                <li><strong>Copy:</strong> Quickly copy output to clipboard</li>
+            </ul>
+
+            <h3>Keyboard Shortcuts</h3>
+            <ul>
+                <li><strong>Ctrl+Enter:</strong> Format JSON</li>
+                <li><strong>Ctrl+M:</strong> Minify JSON</li>
+                <li><strong>Ctrl+K:</strong> Copy output to clipboard</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Track this tool visit
+        CodeUtils.RecentTools.add({
+            id: 'json-formatter',
+            name: 'JSON Formatter',
+            url: 'json-formatter.html'
+        });
+
+        // DOM elements
+        const inputJSON = document.getElementById('inputJSON');
+        const outputJSON = document.getElementById('outputJSON');
+        const fileUpload = document.getElementById('fileUpload');
+
+        // Initialize message handler
+        CodeUtils.Message.init('message');
+
+        // Initialize drag and drop
+        CodeUtils.DragDrop.init('dropZone', async (file) => {
+            const sizeCheck = CodeUtils.FileHandler.checkSize(file);
+            if (sizeCheck.level === 'error') {
+                CodeUtils.Message.error(sizeCheck.message);
+                return;
+            } else if (sizeCheck.level === 'warning') {
+                CodeUtils.Message.warning(sizeCheck.message);
+            }
+
+            try {
+                const content = await CodeUtils.FileHandler.readAsText(file);
+                inputJSON.value = content;
+                CodeUtils.Message.success('File loaded successfully!');
+            } catch (err) {
+                CodeUtils.Message.error('Error reading file');
+            }
+        });
+
+        // File upload handler
+        fileUpload.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const sizeCheck = CodeUtils.FileHandler.checkSize(file);
+            if (sizeCheck.level === 'error') {
+                CodeUtils.Message.error(sizeCheck.message);
+                return;
+            } else if (sizeCheck.level === 'warning') {
+                CodeUtils.Message.warning(sizeCheck.message);
+            }
+
+            try {
+                const content = await CodeUtils.FileHandler.readAsText(file);
+                inputJSON.value = content;
+                CodeUtils.Message.success('File loaded successfully!');
+            } catch (err) {
+                CodeUtils.Message.error('Error reading file');
+            }
+        });
+
+        // Format JSON
+        function formatJSON() {
+            try {
+                const input = inputJSON.value.trim();
+                if (!input) {
+                    CodeUtils.Message.error('Please enter some JSON to format');
+                    return;
+                }
+                const parsed = JSON.parse(input);
+                outputJSON.value = JSON.stringify(parsed, null, 2);
+                CodeUtils.Message.success('JSON formatted successfully!');
+            } catch (error) {
+                CodeUtils.Message.error('Invalid JSON: ' + error.message);
+                outputJSON.value = '';
+            }
+        }
+
+        // Minify JSON
+        function minifyJSON() {
+            try {
+                const input = inputJSON.value.trim();
+                if (!input) {
+                    CodeUtils.Message.error('Please enter some JSON to minify');
+                    return;
+                }
+                const parsed = JSON.parse(input);
+                outputJSON.value = JSON.stringify(parsed);
+                CodeUtils.Message.success('JSON minified successfully!');
+            } catch (error) {
+                CodeUtils.Message.error('Invalid JSON: ' + error.message);
+                outputJSON.value = '';
+            }
+        }
+
+        // Validate JSON
+        function validateJSON() {
+            try {
+                const input = inputJSON.value.trim();
+                if (!input) {
+                    CodeUtils.Message.error('Please enter some JSON to validate');
+                    return;
+                }
+                JSON.parse(input);
+                CodeUtils.Message.success('Valid JSON!');
+            } catch (error) {
+                CodeUtils.Message.error('Invalid JSON: ' + error.message);
+            }
+        }
+
+        // Copy output
+        async function copyOutput() {
+            try {
+                await CodeUtils.Clipboard.copy(outputJSON.value);
+                CodeUtils.Message.success('Copied to clipboard!');
+            } catch (err) {
+                CodeUtils.Message.error(err.message);
+            }
+        }
+
+        // Download JSON
+        function downloadJSON() {
+            if (!outputJSON.value) {
+                CodeUtils.Message.error('Nothing to download');
+                return;
+            }
+            CodeUtils.FileHandler.download(outputJSON.value, 'formatted.json', 'application/json');
+            CodeUtils.Message.success('File downloaded!');
+        }
+
+        // Clear all
+        function clearAll() {
+            inputJSON.value = '';
+            outputJSON.value = '';
+            CodeUtils.Message.hide();
+        }
+
+        // Keyboard shortcuts
+        CodeUtils.Shortcuts.register('Enter', formatJSON, true);
+        CodeUtils.Shortcuts.register('m', minifyJSON, true);
+        CodeUtils.Shortcuts.register('k', copyOutput, true);
+    </script>
+</body>
+</html>

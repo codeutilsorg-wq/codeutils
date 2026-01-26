@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Formatter - Code Utils</title>
+    <meta name="description" content="Free online XML formatter and validator. Format, validate, and minify XML data instantly. 100% client-side processing - your data never leaves your browser.">
+    <meta name="keywords" content="xml formatter, xml validator, xml minifier, xml beautifier, format xml online, validate xml, minify xml, developer tools">
+    <link rel="canonical" href="https://codeutils.org/xml-formatter.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/xml-formatter.html">
+    <meta property="og:title" content="XML Formatter - Code Utils">
+    <meta property="og:description" content="Free online XML formatter and validator. 100% client-side processing.">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="XML Formatter - Code Utils">
+    <meta name="twitter:description" content="Free online XML formatter and validator. 100% client-side processing.">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">XML Formatter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Format, validate, and minify XML data. All processing happens in your browser.</p>
+        </div>
+
+        <div class="drop-zone" id="dropZone">
+            Drop XML file here or click Upload File button
+        </div>
+
+        <div class="controls">
+            <div class="controls-group">
+                <button class="btn" onclick="formatXML()" title="Format XML (Ctrl+Enter)">Format</button>
+                <button class="btn" onclick="minifyXML()" title="Minify XML (Ctrl+M)">Minify</button>
+                <button class="btn" onclick="validateXML()">Validate</button>
+            </div>
+            <div class="controls-group">
+                <button class="btn btn-secondary" onclick="copyOutput()" title="Copy Output (Ctrl+K)">Copy</button>
+                <label for="fileUpload" class="btn btn-secondary" style="margin: 0;">Upload</label>
+                <input type="file" id="fileUpload" class="file-upload" accept=".xml,application/xml,text/xml,text/plain">
+                <button class="btn btn-secondary" onclick="downloadXML()">Download</button>
+            </div>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-container">
+            <div class="editor-section">
+                <div class="editor-header">Input XML</div>
+                <textarea id="input" class="editor" placeholder="Paste your XML here..."></textarea>
+            </div>
+            <div class="editor-section">
+                <div class="editor-header">Output</div>
+                <textarea id="output" class="editor" readonly placeholder="Formatted XML will appear here..."></textarea>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="json-formatter.html">JSON Formatter</a></li>
+                <li><a href="html-encoder.html">HTML Encoder</a></li>
+                <li><a href="base64-encoder.html">Base64 Encoder</a></li>
+                <li><a href="url-encoder.html">URL Encoder</a></li>
+            </ul>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <h2>About XML Formatter</h2>
+            <p>This tool helps you format, validate, and minify XML data. All processing happens in your browser - your data is never sent to any server.</p>
+
+            <h3>Features</h3>
+            <ul>
+                <li><strong>Format:</strong> Beautify XML with proper indentation</li>
+                <li><strong>Minify:</strong> Remove all whitespace to create compact XML</li>
+                <li><strong>Validate:</strong> Check if your XML is well-formed</li>
+                <li><strong>File Support:</strong> Upload XML files or drag & drop</li>
+            </ul>
+
+            <h3>Keyboard Shortcuts</h3>
+            <ul>
+                <li><strong>Ctrl+Enter:</strong> Format XML</li>
+                <li><strong>Ctrl+M:</strong> Minify XML</li>
+                <li><strong>Ctrl+K:</strong> Copy output</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Track this tool visit
+        CodeUtils.RecentTools.add({
+            id: 'xml-formatter',
+            name: 'XML Formatter',
+            url: 'xml-formatter.html'
+        });
+
+        // DOM elements
+        const input = document.getElementById('input');
+        const output = document.getElementById('output');
+        const fileUpload = document.getElementById('fileUpload');
+
+        // Initialize message handler
+        CodeUtils.Message.init('message');
+
+        // Initialize drag and drop
+        CodeUtils.DragDrop.init('dropZone', async (file) => {
+            const sizeCheck = CodeUtils.FileHandler.checkSize(file);
+            if (sizeCheck.level === 'error') {
+                CodeUtils.Message.error(sizeCheck.message);
+                return;
+            } else if (sizeCheck.level === 'warning') {
+                CodeUtils.Message.warning(sizeCheck.message);
+            }
+
+            try {
+                const content = await CodeUtils.FileHandler.readAsText(file);
+                input.value = content;
+                CodeUtils.Message.success('File loaded successfully!');
+                formatXML();
+            } catch (err) {
+                CodeUtils.Message.error('Error reading file');
+            }
+        });
+
+        // File upload handler
+        fileUpload.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const sizeCheck = CodeUtils.FileHandler.checkSize(file);
+            if (sizeCheck.level === 'error') {
+                CodeUtils.Message.error(sizeCheck.message);
+                return;
+            } else if (sizeCheck.level === 'warning') {
+                CodeUtils.Message.warning(sizeCheck.message);
+            }
+
+            try {
+                const content = await CodeUtils.FileHandler.readAsText(file);
+                input.value = content;
+                CodeUtils.Message.success('File loaded successfully!');
+                formatXML();
+            } catch (err) {
+                CodeUtils.Message.error('Error reading file');
+            }
+            e.target.value = '';
+        });
+
+        // Format XML
+        function formatXML() {
+            const inputValue = input.value.trim();
+            if (!inputValue) {
+                CodeUtils.Message.error('Please enter XML data first');
+                return;
+            }
+
+            try {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(inputValue, 'text/xml');
+                const parserError = xmlDoc.getElementsByTagName('parsererror');
+
+                if (parserError.length > 0) {
+                    CodeUtils.Message.error('XML Parse Error: ' + parserError[0].textContent);
+                    output.value = '';
+                    return;
+                }
+
+                const formatted = formatXMLString(xmlDoc);
+                output.value = formatted;
+                CodeUtils.Message.success('XML formatted successfully!');
+            } catch (error) {
+                CodeUtils.Message.error('Error: ' + error.message);
+            }
+        }
+
+        function formatXMLString(xmlDoc) {
+            const serializer = new XMLSerializer();
+            let xmlString = serializer.serializeToString(xmlDoc);
+            xmlString = xmlString.replace(/>\s*</g, '><');
+
+            let formatted = '';
+            let indent = 0;
+            const tab = '  ';
+
+            xmlString.split(/>\s*</).forEach((node, index) => {
+                if (index > 0) formatted += '<';
+                if (node.match(/^\/\w/)) {
+                    indent--;
+                    formatted += tab.repeat(indent) + node + '>\n';
+                } else if (node.match(/^<?\w[^>]*[^\/]$/)) {
+                    formatted += tab.repeat(indent) + node + '>\n';
+                    indent++;
+                } else {
+                    formatted += tab.repeat(indent) + node + '>\n';
+                }
+            });
+
+            return formatted.trim();
+        }
+
+        // Minify XML
+        function minifyXML() {
+            const inputValue = input.value.trim();
+            if (!inputValue) {
+                CodeUtils.Message.error('Please enter XML data first');
+                return;
+            }
+
+            try {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(inputValue, 'text/xml');
+                const parserError = xmlDoc.getElementsByTagName('parsererror');
+
+                if (parserError.length > 0) {
+                    CodeUtils.Message.error('XML Parse Error');
+                    return;
+                }
+
+                const serializer = new XMLSerializer();
+                let xmlString = serializer.serializeToString(xmlDoc);
+                xmlString = xmlString.replace(/>\s+</g, '><');
+
+                output.value = xmlString;
+                CodeUtils.Message.success('XML minified successfully!');
+            } catch (error) {
+                CodeUtils.Message.error('Error: ' + error.message);
+            }
+        }
+
+        // Validate XML
+        function validateXML() {
+            const inputValue = input.value.trim();
+            if (!inputValue) {
+                CodeUtils.Message.error('Please enter XML data first');
+                return;
+            }
+
+            try {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(inputValue, 'text/xml');
+                const parserError = xmlDoc.getElementsByTagName('parsererror');
+
+                if (parserError.length > 0) {
+                    CodeUtils.Message.error('Invalid XML: ' + parserError[0].textContent);
+                } else {
+                    CodeUtils.Message.success('Valid XML!');
+                }
+            } catch (error) {
+                CodeUtils.Message.error('Invalid XML: ' + error.message);
+            }
+        }
+
+        // Copy output
+        async function copyOutput() {
+            try {
+                await CodeUtils.Clipboard.copy(output.value);
+                CodeUtils.Message.success('Copied to clipboard!');
+            } catch (err) {
+                CodeUtils.Message.error(err.message);
+            }
+        }
+
+        // Download XML
+        function downloadXML() {
+            if (!output.value) {
+                CodeUtils.Message.error('Nothing to download');
+                return;
+            }
+            CodeUtils.FileHandler.download(output.value, 'formatted.xml', 'application/xml');
+            CodeUtils.Message.success('File downloaded!');
+        }
+
+        // Clear all
+        function clearAll() {
+            input.value = '';
+            output.value = '';
+            CodeUtils.Message.hide();
+        }
+
+        // Keyboard shortcuts
+        CodeUtils.Shortcuts.register('Enter', formatXML, true);
+        CodeUtils.Shortcuts.register('m', minifyXML, true);
+        CodeUtils.Shortcuts.register('k', copyOutput, true);
+    </script>
+</body>
+</html>

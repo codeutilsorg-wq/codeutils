@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Encoder/Decoder - Free Online URL Encoder Tool | Code Utils</title>
+    <meta name="description" content="Free online URL encoder and decoder. Encode URLs for safe transmission or decode URL-encoded strings instantly. 100% client-side processing - your data never leaves your browser.">
+    <meta name="keywords" content="url encoder, url decoder, encode url, decode url, url encode online, percent encoding, uri encoder, developer tools">
+    <link rel="canonical" href="https://codeutils.org/url-encoder.html">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/url-encoder.html">
+    <meta property="og:title" content="URL Encoder/Decoder - Free Online Tool | Code Utils">
+    <meta property="og:description" content="Free online URL encoder and decoder. 100% client-side processing - your data never leaves your browser.">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="URL Encoder/Decoder - Free Online Tool | Code Utils">
+    <meta name="twitter:description" content="Free online URL encoder and decoder. 100% client-side processing.">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tool-container">
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="toolbar-group">
+                    <button class="btn btn-primary" onclick="encodeURL()">Encode URL</button>
+                    <button class="btn btn-primary" onclick="decodeURL()">Decode URL</button>
+                </div>
+                <div class="toolbar-group">
+                    <button class="btn btn-secondary" onclick="copyOutput()">Copy Output</button>
+                    <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+                </div>
+            </div>
+
+            <!-- Message -->
+            <div id="message" class="message"></div>
+
+            <!-- Editor Area -->
+            <div class="editor-split">
+                <div class="editor-pane">
+                    <div class="editor-header">
+                        <span class="editor-title">Input</span>
+                    </div>
+                    <textarea id="input" class="editor-textarea" placeholder="Enter text to encode or URL-encoded string to decode..."></textarea>
+                </div>
+
+                <div class="editor-pane">
+                    <div class="editor-header">
+                        <span class="editor-title">Output</span>
+                    </div>
+                    <textarea id="output" class="editor-textarea" placeholder="Result will appear here..." readonly></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h3 class="related-tools-title">Related Tools</h3>
+            <div class="related-tools-grid">
+                <a href="base64-encoder.html" class="related-tool-card">
+                    <span class="related-tool-icon">B64</span>
+                    <span class="related-tool-name">Base64 Encoder</span>
+                </a>
+                <a href="html-encoder.html" class="related-tool-card">
+                    <span class="related-tool-icon">&;</span>
+                    <span class="related-tool-name">HTML Encoder</span>
+                </a>
+                <a href="hash-generator.html" class="related-tool-card">
+                    <span class="related-tool-icon">#</span>
+                    <span class="related-tool-name">Hash Generator</span>
+                </a>
+                <a href="json-formatter.html" class="related-tool-card">
+                    <span class="related-tool-icon">{ }</span>
+                    <span class="related-tool-name">JSON Formatter</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <h2>About URL Encoder/Decoder</h2>
+
+            <p>This is a free online tool to encode text for URLs (percent encoding) or decode URL-encoded strings. All processing happens in your browser - your data is never sent to any server.</p>
+
+            <div class="feature-grid">
+                <div class="feature-box">
+                    <h3>100% Private</h3>
+                    <p>Your data is processed entirely in your browser. Nothing is uploaded to our servers.</p>
+                </div>
+                <div class="feature-box">
+                    <h3>Fast & Reliable</h3>
+                    <p>Instant encoding and decoding with no network delays. Works offline once loaded.</p>
+                </div>
+                <div class="feature-box">
+                    <h3>Free to Use</h3>
+                    <p>Completely free with no registration required. Use it as many times as you need.</p>
+                </div>
+                <div class="feature-box">
+                    <h3>Simple Interface</h3>
+                    <p>Clean, straightforward design focused on getting your work done quickly.</p>
+                </div>
+            </div>
+
+            <h3>How to Use</h3>
+            <ol>
+                <li><strong>To Encode:</strong> Enter plain text or URL in the Input field and click "Encode URL"</li>
+                <li><strong>To Decode:</strong> Enter URL-encoded string in the Input field and click "Decode URL"</li>
+                <li>Click "Copy Output" to copy the result to clipboard</li>
+                <li>Click "Clear" to reset both fields</li>
+            </ol>
+
+            <h3>Keyboard Shortcuts</h3>
+            <ul>
+                <li><strong>Ctrl+Enter</strong> - Encode URL</li>
+                <li><strong>Ctrl+Shift+Enter</strong> - Decode URL</li>
+            </ul>
+
+            <h3>What is URL Encoding?</h3>
+            <p>URL encoding (also called percent encoding) is a mechanism for encoding information in a Uniform Resource Identifier (URI). URLs can only contain certain characters from the standard ASCII character set. Reserved or unsafe characters must be encoded using percent-encoding.</p>
+
+            <h3>Common Use Cases</h3>
+            <ul>
+                <li><strong>Query parameters:</strong> Encoding special characters in URL query strings</li>
+                <li><strong>Form data:</strong> Submitting form data via GET requests</li>
+                <li><strong>API requests:</strong> Safely passing parameters in API calls</li>
+                <li><strong>Path segments:</strong> Encoding file names or folder names in URLs</li>
+                <li><strong>Data transmission:</strong> Ensuring safe data transfer in URLs</li>
+            </ul>
+
+            <h3>Common Encodings</h3>
+            <ul>
+                <li><strong>Space:</strong> Encoded as <code>%20</code> or <code>+</code></li>
+                <li><strong>!</strong> Encoded as <code>%21</code></li>
+                <li><strong>#:</strong> Encoded as <code>%23</code></li>
+                <li><strong>$:</strong> Encoded as <code>%24</code></li>
+                <li><strong>&:</strong> Encoded as <code>%26</code></li>
+                <li><strong>@:</strong> Encoded as <code>%40</code></li>
+            </ul>
+
+            <h3>Privacy & Security</h3>
+            <p>This tool runs entirely in your browser using JavaScript. Your data is never transmitted to any server. All encoding and decoding operations are performed locally on your computer.</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Track tool usage
+        CodeUtils.RecentTools.add({
+            id: 'url-encoder',
+            name: 'URL Encoder/Decoder',
+            url: 'url-encoder.html'
+        });
+
+        // Initialize message system
+        CodeUtils.Message.init('message');
+
+        function encodeURL() {
+            const input = document.getElementById('input').value;
+            const output = document.getElementById('output');
+
+            if (!input) {
+                CodeUtils.Message.error('Please enter text to encode');
+                return;
+            }
+
+            try {
+                const encoded = encodeURIComponent(input);
+                output.value = encoded;
+                CodeUtils.Message.success('Text encoded successfully');
+            } catch (error) {
+                CodeUtils.Message.error('Error encoding: ' + error.message);
+                output.value = 'Error: ' + error.message;
+            }
+        }
+
+        function decodeURL() {
+            const input = document.getElementById('input').value.trim();
+            const output = document.getElementById('output');
+
+            if (!input) {
+                CodeUtils.Message.error('Please enter URL-encoded string to decode');
+                return;
+            }
+
+            try {
+                const decoded = decodeURIComponent(input);
+                output.value = decoded;
+                CodeUtils.Message.success('URL decoded successfully');
+            } catch (error) {
+                CodeUtils.Message.error('Error decoding: Invalid URL encoding');
+                output.value = 'Error: Invalid URL encoding. Please check your input.';
+            }
+        }
+
+        async function copyOutput() {
+            const output = document.getElementById('output');
+            if (!output.value) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+
+            try {
+                await CodeUtils.Clipboard.copy(output.value);
+                CodeUtils.Message.success('Copied to clipboard');
+            } catch (err) {
+                CodeUtils.Message.error('Failed to copy');
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('input').value = '';
+            document.getElementById('output').value = '';
+            CodeUtils.Message.success('Cleared');
+        }
+
+        // Keyboard shortcuts
+        CodeUtils.Shortcuts.register('Enter', encodeURL, true, false, false);
+        CodeUtils.Shortcuts.register('Enter', decodeURL, true, false, true);
+    </script>
+</body>
+</html>

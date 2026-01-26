@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Developer Tools - Code Utils</title>
+    <meta name="description" content="Browse all free developer tools. JSON formatter, XML formatter, Base64 encoder, hash generator, and 50+ more utilities. 100% client-side processing.">
+    <meta name="keywords" content="developer tools, code utilities, all tools, free tools, online tools">
+    <link rel="canonical" href="https://codeutils.org/all-tools.html">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .filter-bar {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+
+        .filter-bar label {
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-right: var(--spacing-sm);
+        }
+
+        .filter-btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: var(--font-sm);
+            font-family: inherit;
+            transition: all var(--transition-fast);
+        }
+
+        .filter-btn:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .tools-count {
+            margin-left: auto;
+            color: var(--text-secondary);
+            font-size: var(--font-sm);
+        }
+
+        .category-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .category-title {
+            font-size: var(--font-xl);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title" style="margin-bottom: var(--spacing-lg);">All Developer Tools</h2>
+
+        <!-- Search -->
+        <div class="search-container" style="margin-bottom: var(--spacing-lg);">
+            <span class="search-icon">&#128269;</span>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search tools..." autocomplete="off">
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <label>Filter:</label>
+            <button class="filter-btn active" data-category="all">All</button>
+            <button class="filter-btn" data-category="formatters">Formatters</button>
+            <button class="filter-btn" data-category="encoders">Encoders</button>
+            <button class="filter-btn" data-category="converters">Converters</button>
+            <button class="filter-btn" data-category="generators">Generators</button>
+            <button class="filter-btn" data-category="text">Text Tools</button>
+            <button class="filter-btn" data-category="developer">Developer</button>
+            <span class="tools-count" id="toolsCount">7 tools</span>
+        </div>
+
+        <!-- Tools Grid -->
+        <div class="tools-grid" id="toolsGrid">
+            <!-- Populated by JavaScript -->
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        let toolsData = [];
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        // Load tools
+        async function loadTools() {
+            try {
+                const response = await fetch('data/tools.json');
+                toolsData = await response.json();
+            } catch (err) {
+                // Fallback
+                toolsData = [
+                    { id: 'json-formatter', name: 'JSON Formatter', description: 'Format, validate, and minify JSON data', url: 'json-formatter.html', category: 'Formatters', categoryId: 'formatters', status: 'live' },
+                    { id: 'xml-formatter', name: 'XML Formatter', description: 'Format, validate, and minify XML data', url: 'xml-formatter.html', category: 'Formatters', categoryId: 'formatters', status: 'live' },
+                    { id: 'base64-encoder', name: 'Base64 Encoder/Decoder', description: 'Encode and decode Base64 strings', url: 'base64-encoder.html', category: 'Encoders', categoryId: 'encoders', status: 'live' },
+                    { id: 'hash-generator', name: 'Hash Generator', description: 'Generate MD5, SHA-1, SHA-256, SHA-512 hashes', url: 'hash-generator.html', category: 'Generators', categoryId: 'generators', status: 'live' },
+                    { id: 'url-encoder', name: 'URL Encoder/Decoder', description: 'Encode and decode URL strings', url: 'url-encoder.html', category: 'Encoders', categoryId: 'encoders', status: 'live' },
+                    { id: 'html-encoder', name: 'HTML Encoder/Decoder', description: 'Encode and decode HTML entities', url: 'html-encoder.html', category: 'Encoders', categoryId: 'encoders', status: 'live' },
+                    { id: 'timestamp-converter', name: 'Timestamp Converter', description: 'Convert Unix timestamps to dates', url: 'timestamp-converter.html', category: 'Converters', categoryId: 'converters', status: 'live' }
+                ];
+            }
+            renderTools();
+            initFilters();
+            initSearch();
+        }
+
+        // Render tools
+        function renderTools() {
+            const container = document.getElementById('toolsGrid');
+            const countEl = document.getElementById('toolsCount');
+
+            let filtered = toolsData.filter(t => t.status === 'live');
+
+            // Category filter
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(t => t.categoryId === currentCategory);
+            }
+
+            // Search filter
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                filtered = filtered.filter(t =>
+                    t.name.toLowerCase().includes(query) ||
+                    t.description.toLowerCase().includes(query) ||
+                    (t.keywords && t.keywords.some(k => k.includes(query)))
+                );
+            }
+
+            countEl.textContent = `${filtered.length} tool${filtered.length !== 1 ? 's' : ''}`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-secondary);">No tools found matching your criteria.</p>';
+                return;
+            }
+
+            container.innerHTML = filtered.map(tool => `
+                <a href="${tool.url}" class="card card-hover tool-card">
+                    <h2>${tool.name}</h2>
+                    <p>${tool.description}</p>
+                    <span class="badge">${tool.category}</span>
+                </a>
+            `).join('');
+        }
+
+        // Initialize filters
+        function initFilters() {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    buttons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentCategory = btn.dataset.category;
+                    renderTools();
+                });
+            });
+        }
+
+        // Initialize search
+        function initSearch() {
+            const input = document.getElementById('searchInput');
+            input.addEventListener('input', CodeUtils.Utils.debounce(() => {
+                searchQuery = input.value.trim();
+                renderTools();
+            }, 200));
+        }
+
+        document.addEventListener('DOMContentLoaded', loadTools);
+    </script>
+</body>
+</html>
