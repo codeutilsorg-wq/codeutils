@@ -29,66 +29,204 @@
             border-radius: var(--radius);
             border: 1px solid var(--border);
             margin-bottom: var(--spacing-md);
+            position: relative;
         }
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        .gradient-bar-container {
+            position: relative;
+            width: 100%;
+            height: 40px;
+            margin-bottom: var(--spacing-lg);
+        }
+        .gradient-bar {
+            width: 100%;
+            height: 24px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            cursor: pointer;
+        }
+        .stop-markers {
+            position: relative;
+            height: 20px;
+            margin-top: -4px;
+        }
+        .stop-marker {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(0,0,0,0.2);
+            transform: translateX(-50%);
+            cursor: grab;
+            z-index: 10;
+        }
+        .stop-marker:hover {
+            transform: translateX(-50%) scale(1.2);
+        }
+        .stop-marker.active {
+            box-shadow: 0 0 0 3px var(--primary), 0 1px 3px rgba(0,0,0,0.3);
+        }
+        .stop-marker::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #fff;
+        }
+        .options-row {
+            display: flex;
             gap: var(--spacing-md);
+            flex-wrap: wrap;
             margin-bottom: var(--spacing-md);
         }
         .option-group {
             background: var(--bg-secondary);
             padding: var(--spacing-md);
             border-radius: var(--radius);
+            flex: 1;
+            min-width: 150px;
         }
         .option-group label {
             display: block;
             margin-bottom: var(--spacing-xs);
             font-weight: bold;
+            font-size: 0.875rem;
         }
-        .option-group input, .option-group select {
+        .option-group select {
             width: 100%;
-            padding: var(--spacing-xs);
+            padding: var(--spacing-sm);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             background: var(--bg-primary);
             color: var(--text-primary);
         }
-        .color-stops {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-sm);
+        .direction-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+        }
+        .direction-btn {
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-primary);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.15s;
+        }
+        .direction-btn:hover {
+            background: var(--primary-light);
+        }
+        .direction-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .color-editor {
+            background: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius);
             margin-bottom: var(--spacing-md);
         }
-        .color-stop {
+        .color-editor h4 {
+            margin: 0 0 var(--spacing-sm);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        .color-editor-row {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .color-input-group {
             display: flex;
             align-items: center;
-            gap: var(--spacing-sm);
+            gap: var(--spacing-xs);
         }
-        .color-stop input[type="color"] {
-            width: 50px;
-            height: 35px;
-            border: none;
+        .color-input-group label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            min-width: 30px;
+        }
+        .color-picker-large {
+            width: 60px;
+            height: 40px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
             cursor: pointer;
+            padding: 0;
         }
-        .color-stop input[type="number"] {
-            width: 70px;
+        .hex-input {
+            width: 90px;
+            padding: var(--spacing-xs);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        .position-slider {
+            flex: 1;
+            min-width: 100px;
+        }
+        .position-value {
+            width: 50px;
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+        }
+        .presets-section {
+            margin-bottom: var(--spacing-md);
+        }
+        .presets-section h4 {
+            margin: 0 0 var(--spacing-sm);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
         }
         .presets {
             display: flex;
             flex-wrap: wrap;
             gap: var(--spacing-xs);
-            margin-bottom: var(--spacing-md);
         }
         .preset {
-            width: 60px;
+            width: 50px;
             height: 30px;
-            border-radius: var(--radius);
+            border-radius: var(--radius-sm);
             border: 2px solid var(--border);
             cursor: pointer;
+            transition: transform 0.1s;
         }
         .preset:hover {
+            transform: scale(1.1);
             border-color: var(--primary);
+        }
+        .controls {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+        .css-output {
+            background: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            word-break: break-all;
+            position: relative;
+        }
+        .css-output code {
+            display: block;
+            white-space: pre-wrap;
+        }
+        .copy-overlay {
+            position: absolute;
+            top: var(--spacing-sm);
+            right: var(--spacing-sm);
         }
     </style>
 </head>
@@ -108,70 +246,77 @@
     <div class="container">
         <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
             <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">CSS Gradient Generator</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Create beautiful CSS gradients visually.</p>
+            <p style="margin: 0; color: var(--text-secondary);">Click on the gradient bar to add colors. Drag markers to adjust positions.</p>
         </div>
 
         <div class="gradient-preview" id="gradientPreview"></div>
 
-        <div class="presets">
-            <div class="preset" style="background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);" onclick="applyPreset('#667eea', '#764ba2')"></div>
-            <div class="preset" style="background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);" onclick="applyPreset('#f093fb', '#f5576c')"></div>
-            <div class="preset" style="background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);" onclick="applyPreset('#4facfe', '#00f2fe')"></div>
-            <div class="preset" style="background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);" onclick="applyPreset('#43e97b', '#38f9d7')"></div>
-            <div class="preset" style="background: linear-gradient(90deg, #fa709a 0%, #fee140 100%);" onclick="applyPreset('#fa709a', '#fee140')"></div>
-            <div class="preset" style="background: linear-gradient(90deg, #a8edea 0%, #fed6e3 100%);" onclick="applyPreset('#a8edea', '#fed6e3')"></div>
-            <div class="preset" style="background: linear-gradient(90deg, #ff0844 0%, #ffb199 100%);" onclick="applyPreset('#ff0844', '#ffb199')"></div>
-            <div class="preset" style="background: linear-gradient(90deg, #30cfd0 0%, #330867 100%);" onclick="applyPreset('#30cfd0', '#330867')"></div>
+        <div class="gradient-bar-container">
+            <div class="gradient-bar" id="gradientBar" onclick="addStopAtClick(event)"></div>
+            <div class="stop-markers" id="stopMarkers"></div>
         </div>
 
-        <div class="options-grid">
+        <div class="color-editor" id="colorEditor">
+            <h4>Selected Color Stop</h4>
+            <div class="color-editor-row">
+                <div class="color-input-group">
+                    <label>Color:</label>
+                    <input type="color" id="stopColor" class="color-picker-large" onchange="updateSelectedStop()">
+                    <input type="text" id="stopHex" class="hex-input" placeholder="#000000" onchange="updateFromHex()">
+                </div>
+                <div class="color-input-group" style="flex: 1;">
+                    <label>Position:</label>
+                    <input type="range" id="stopPosition" class="position-slider" min="0" max="100" value="0" oninput="updateSelectedStop()">
+                    <span id="positionValue" class="position-value">0%</span>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="deleteSelectedStop()">Delete</button>
+            </div>
+        </div>
+
+        <div class="options-row">
             <div class="option-group">
-                <label>Gradient Type</label>
+                <label>Type</label>
                 <select id="gradientType" onchange="updateGradient()">
                     <option value="linear">Linear</option>
                     <option value="radial">Radial</option>
+                    <option value="conic">Conic</option>
                 </select>
             </div>
-            <div class="option-group">
-                <label>Direction/Shape</label>
-                <select id="direction" onchange="updateGradient()">
-                    <option value="90deg">Left to Right</option>
-                    <option value="180deg">Top to Bottom</option>
-                    <option value="270deg">Right to Left</option>
-                    <option value="0deg">Bottom to Top</option>
-                    <option value="45deg">Diagonal ↗</option>
-                    <option value="135deg">Diagonal ↘</option>
-                </select>
+            <div class="option-group" id="directionGroup">
+                <label>Direction</label>
+                <div class="direction-buttons">
+                    <button class="direction-btn" data-dir="0deg" onclick="setDirection('0deg')">↑</button>
+                    <button class="direction-btn" data-dir="45deg" onclick="setDirection('45deg')">↗</button>
+                    <button class="direction-btn active" data-dir="90deg" onclick="setDirection('90deg')">→</button>
+                    <button class="direction-btn" data-dir="135deg" onclick="setDirection('135deg')">↘</button>
+                    <button class="direction-btn" data-dir="180deg" onclick="setDirection('180deg')">↓</button>
+                    <button class="direction-btn" data-dir="225deg" onclick="setDirection('225deg')">↙</button>
+                    <button class="direction-btn" data-dir="270deg" onclick="setDirection('270deg')">←</button>
+                    <button class="direction-btn" data-dir="315deg" onclick="setDirection('315deg')">↖</button>
+                </div>
             </div>
         </div>
 
-        <div class="color-stops" id="colorStops">
-            <div class="color-stop">
-                <input type="color" value="#667eea" onchange="updateGradient()">
-                <input type="number" value="0" min="0" max="100" onchange="updateGradient()">
-                <span>%</span>
-                <button class="btn btn-outline btn-sm" onclick="removeStop(this)" style="display: none;">X</button>
-            </div>
-            <div class="color-stop">
-                <input type="color" value="#764ba2" onchange="updateGradient()">
-                <input type="number" value="100" min="0" max="100" onchange="updateGradient()">
-                <span>%</span>
-                <button class="btn btn-outline btn-sm" onclick="removeStop(this)" style="display: none;">X</button>
-            </div>
+        <div class="presets-section">
+            <h4>Presets</h4>
+            <div class="presets" id="presets"></div>
         </div>
 
         <div class="controls">
-            <button class="btn" onclick="addColorStop()">Add Color Stop</button>
-            <button class="btn btn-secondary" onclick="copyCSS()">Copy CSS</button>
+            <button class="btn" onclick="addColorStop()">+ Add Color</button>
             <button class="btn btn-secondary" onclick="randomGradient()">Random</button>
+            <button class="btn btn-secondary" onclick="reverseGradient()">Reverse</button>
+            <button class="btn btn-outline" onclick="resetGradient()">Reset</button>
+        </div>
+
+        <div class="css-output">
+            <div class="copy-overlay">
+                <button class="btn btn-sm" onclick="copyCSS()">Copy CSS</button>
+            </div>
+            <code id="cssOutput"></code>
         </div>
 
         <div id="message" class="message"></div>
-
-        <div class="editor-section" style="margin-top: var(--spacing-md);">
-            <div class="editor-header">CSS Code</div>
-            <textarea id="cssOutput" class="editor" readonly style="height: 100px;"></textarea>
-        </div>
 
         <div class="related-tools">
             <h3>Related Tools</h3>
@@ -185,14 +330,22 @@
 
         <div class="info-section">
             <h2>About CSS Gradient Generator</h2>
-            <p>Create beautiful CSS gradients with multiple color stops and export ready-to-use CSS code.</p>
+            <p>Create beautiful CSS gradients with an intuitive visual interface.</p>
+
+            <h3>How to Use</h3>
+            <ul>
+                <li><strong>Add colors:</strong> Click on the gradient bar or use the "+ Add Color" button</li>
+                <li><strong>Move colors:</strong> Drag the circular markers on the gradient bar</li>
+                <li><strong>Edit colors:</strong> Click a marker to select it, then use the color picker or type a HEX code</li>
+                <li><strong>Delete colors:</strong> Select a marker and click "Delete" (minimum 2 colors required)</li>
+            </ul>
 
             <h3>Features</h3>
             <ul>
-                <li>Linear and radial gradients</li>
-                <li>Multiple color stops</li>
-                <li>Direction control</li>
-                <li>Preset gradients for inspiration</li>
+                <li>Linear, radial, and conic gradients</li>
+                <li>Visual drag-and-drop color stops</li>
+                <li>8 direction presets for linear gradients</li>
+                <li>Beautiful preset gradients</li>
                 <li>One-click CSS export</li>
             </ul>
         </div>
@@ -213,88 +366,286 @@
 
         CodeUtils.Message.init('message');
 
-        function getColorStops() {
-            const stops = [];
-            document.querySelectorAll('.color-stop').forEach(stop => {
-                stops.push({
-                    color: stop.querySelector('input[type="color"]').value,
-                    position: parseInt(stop.querySelector('input[type="number"]').value)
-                });
-            });
-            return stops.sort((a, b) => a.position - b.position);
+        // State
+        let colorStops = [
+            { color: '#667eea', position: 0 },
+            { color: '#764ba2', position: 100 }
+        ];
+        let selectedStopIndex = 0;
+        let direction = '90deg';
+        let isDragging = false;
+
+        // Presets
+        const presets = [
+            ['#667eea', '#764ba2'],
+            ['#f093fb', '#f5576c'],
+            ['#4facfe', '#00f2fe'],
+            ['#43e97b', '#38f9d7'],
+            ['#fa709a', '#fee140'],
+            ['#a8edea', '#fed6e3'],
+            ['#ff0844', '#ffb199'],
+            ['#30cfd0', '#330867'],
+            ['#f6d365', '#fda085'],
+            ['#a18cd1', '#fbc2eb'],
+            ['#ff9a9e', '#fecfef'],
+            ['#667db6', '#0082c8', '#0082c8', '#667db6']
+        ];
+
+        // Initialize presets
+        function initPresets() {
+            const container = document.getElementById('presets');
+            container.innerHTML = presets.map((colors, i) => {
+                const gradient = colors.length === 2
+                    ? `linear-gradient(90deg, ${colors[0]} 0%, ${colors[1]} 100%)`
+                    : `linear-gradient(90deg, ${colors.map((c, j) => `${c} ${(j / (colors.length - 1)) * 100}%`).join(', ')})`;
+                return `<div class="preset" style="background: ${gradient};" onclick="applyPreset(${i})"></div>`;
+            }).join('');
+        }
+
+        function applyPreset(index) {
+            const colors = presets[index];
+            colorStops = colors.map((color, i) => ({
+                color: color,
+                position: Math.round((i / (colors.length - 1)) * 100)
+            }));
+            selectedStopIndex = 0;
+            updateGradient();
+            renderStopMarkers();
+            updateColorEditor();
         }
 
         function updateGradient() {
             const type = document.getElementById('gradientType').value;
-            const direction = document.getElementById('direction').value;
-            const stops = getColorStops();
-
-            const stopsStr = stops.map(s => `${s.color} ${s.position}%`).join(', ');
+            const sortedStops = [...colorStops].sort((a, b) => a.position - b.position);
+            const stopsStr = sortedStops.map(s => `${s.color} ${s.position}%`).join(', ');
 
             let gradient;
             if (type === 'linear') {
                 gradient = `linear-gradient(${direction}, ${stopsStr})`;
-            } else {
+            } else if (type === 'radial') {
                 gradient = `radial-gradient(circle, ${stopsStr})`;
+            } else {
+                gradient = `conic-gradient(from ${direction}, ${stopsStr})`;
             }
 
             document.getElementById('gradientPreview').style.background = gradient;
-            document.getElementById('cssOutput').value = `background: ${gradient};`;
+            document.getElementById('gradientBar').style.background = `linear-gradient(90deg, ${stopsStr})`;
+            document.getElementById('cssOutput').textContent = `background: ${gradient};`;
 
-            // Show/hide remove buttons
-            const removeButtons = document.querySelectorAll('.color-stop button');
-            removeButtons.forEach(btn => {
-                btn.style.display = removeButtons.length > 2 ? 'inline-block' : 'none';
-            });
+            // Show/hide direction based on type
+            document.getElementById('directionGroup').style.display = type === 'radial' ? 'none' : 'block';
+        }
+
+        function renderStopMarkers() {
+            const container = document.getElementById('stopMarkers');
+            container.innerHTML = colorStops.map((stop, i) => `
+                <div class="stop-marker ${i === selectedStopIndex ? 'active' : ''}"
+                     style="left: ${stop.position}%; background: ${stop.color};"
+                     data-index="${i}"
+                     onmousedown="startDrag(event, ${i})"
+                     onclick="selectStop(${i})">
+                </div>
+            `).join('');
+        }
+
+        function selectStop(index) {
+            selectedStopIndex = index;
+            renderStopMarkers();
+            updateColorEditor();
+        }
+
+        function updateColorEditor() {
+            const stop = colorStops[selectedStopIndex];
+            document.getElementById('stopColor').value = stop.color;
+            document.getElementById('stopHex').value = stop.color.toUpperCase();
+            document.getElementById('stopPosition').value = stop.position;
+            document.getElementById('positionValue').textContent = stop.position + '%';
+        }
+
+        function updateSelectedStop() {
+            const color = document.getElementById('stopColor').value;
+            const position = parseInt(document.getElementById('stopPosition').value);
+
+            colorStops[selectedStopIndex].color = color;
+            colorStops[selectedStopIndex].position = position;
+
+            document.getElementById('stopHex').value = color.toUpperCase();
+            document.getElementById('positionValue').textContent = position + '%';
+
+            updateGradient();
+            renderStopMarkers();
+        }
+
+        function updateFromHex() {
+            let hex = document.getElementById('stopHex').value.trim();
+            if (!hex.startsWith('#')) hex = '#' + hex;
+            if (!/^#[0-9A-Fa-f]{6}$/.test(hex)) {
+                CodeUtils.Message.error('Invalid HEX color');
+                return;
+            }
+            document.getElementById('stopColor').value = hex;
+            colorStops[selectedStopIndex].color = hex;
+            updateGradient();
+            renderStopMarkers();
         }
 
         function addColorStop() {
-            const stops = document.getElementById('colorStops');
-            const newStop = document.createElement('div');
-            newStop.className = 'color-stop';
-            newStop.innerHTML = `
-                <input type="color" value="#888888" onchange="updateGradient()">
-                <input type="number" value="50" min="0" max="100" onchange="updateGradient()">
-                <span>%</span>
-                <button class="btn btn-outline btn-sm" onclick="removeStop(this)">X</button>
-            `;
-            stops.appendChild(newStop);
+            const newPosition = 50;
+            const newColor = '#888888';
+            colorStops.push({ color: newColor, position: newPosition });
+            selectedStopIndex = colorStops.length - 1;
             updateGradient();
+            renderStopMarkers();
+            updateColorEditor();
         }
 
-        function removeStop(btn) {
-            btn.parentElement.remove();
-            updateGradient();
-        }
+        function addStopAtClick(event) {
+            const rect = event.target.getBoundingClientRect();
+            const position = Math.round(((event.clientX - rect.left) / rect.width) * 100);
 
-        function applyPreset(color1, color2) {
-            const stops = document.querySelectorAll('.color-stop');
-            // Remove extra stops
-            while (stops.length > 2) {
-                stops[stops.length - 1].remove();
+            // Get color at position by interpolation
+            const sortedStops = [...colorStops].sort((a, b) => a.position - b.position);
+            let color = '#888888';
+
+            for (let i = 0; i < sortedStops.length - 1; i++) {
+                if (position >= sortedStops[i].position && position <= sortedStops[i + 1].position) {
+                    const ratio = (position - sortedStops[i].position) / (sortedStops[i + 1].position - sortedStops[i].position);
+                    color = interpolateColor(sortedStops[i].color, sortedStops[i + 1].color, ratio);
+                    break;
+                }
             }
-            // Set colors
-            const currentStops = document.querySelectorAll('.color-stop');
-            currentStops[0].querySelector('input[type="color"]').value = color1;
-            currentStops[0].querySelector('input[type="number"]').value = 0;
-            currentStops[1].querySelector('input[type="color"]').value = color2;
-            currentStops[1].querySelector('input[type="number"]').value = 100;
+
+            colorStops.push({ color, position });
+            selectedStopIndex = colorStops.length - 1;
+            updateGradient();
+            renderStopMarkers();
+            updateColorEditor();
+        }
+
+        function interpolateColor(color1, color2, ratio) {
+            const hex = (c) => parseInt(c.slice(1), 16);
+            const r1 = (hex(color1) >> 16) & 255;
+            const g1 = (hex(color1) >> 8) & 255;
+            const b1 = hex(color1) & 255;
+            const r2 = (hex(color2) >> 16) & 255;
+            const g2 = (hex(color2) >> 8) & 255;
+            const b2 = hex(color2) & 255;
+
+            const r = Math.round(r1 + (r2 - r1) * ratio);
+            const g = Math.round(g1 + (g2 - g1) * ratio);
+            const b = Math.round(b1 + (b2 - b1) * ratio);
+
+            return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
+        }
+
+        function deleteSelectedStop() {
+            if (colorStops.length <= 2) {
+                CodeUtils.Message.warning('Minimum 2 colors required');
+                return;
+            }
+            colorStops.splice(selectedStopIndex, 1);
+            selectedStopIndex = Math.min(selectedStopIndex, colorStops.length - 1);
+            updateGradient();
+            renderStopMarkers();
+            updateColorEditor();
+        }
+
+        function setDirection(dir) {
+            direction = dir;
+            document.querySelectorAll('.direction-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.dir === dir);
+            });
             updateGradient();
         }
 
         function randomGradient() {
-            const randomColor = () => '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-            applyPreset(randomColor(), randomColor());
+            const randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+            const numStops = 2 + Math.floor(Math.random() * 2);
+            colorStops = [];
+            for (let i = 0; i < numStops; i++) {
+                colorStops.push({
+                    color: randomColor(),
+                    position: Math.round((i / (numStops - 1)) * 100)
+                });
+            }
+            selectedStopIndex = 0;
+            updateGradient();
+            renderStopMarkers();
+            updateColorEditor();
             CodeUtils.Message.success('Random gradient!');
         }
 
+        function reverseGradient() {
+            colorStops = colorStops.map(stop => ({
+                color: stop.color,
+                position: 100 - stop.position
+            }));
+            updateGradient();
+            renderStopMarkers();
+            updateColorEditor();
+        }
+
+        function resetGradient() {
+            colorStops = [
+                { color: '#667eea', position: 0 },
+                { color: '#764ba2', position: 100 }
+            ];
+            selectedStopIndex = 0;
+            direction = '90deg';
+            setDirection('90deg');
+            updateGradient();
+            renderStopMarkers();
+            updateColorEditor();
+        }
+
         function copyCSS() {
-            const css = document.getElementById('cssOutput').value;
+            const css = document.getElementById('cssOutput').textContent;
             CodeUtils.Clipboard.copy(css);
             CodeUtils.Message.success('CSS copied!');
         }
 
+        // Dragging functionality
+        function startDrag(event, index) {
+            event.preventDefault();
+            isDragging = true;
+            selectedStopIndex = index;
+            renderStopMarkers();
+            updateColorEditor();
+
+            const onMove = (e) => {
+                if (!isDragging) return;
+                const bar = document.getElementById('gradientBar');
+                const rect = bar.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                let position = Math.round(((clientX - rect.left) / rect.width) * 100);
+                position = Math.max(0, Math.min(100, position));
+
+                colorStops[selectedStopIndex].position = position;
+                document.getElementById('stopPosition').value = position;
+                document.getElementById('positionValue').textContent = position + '%';
+                updateGradient();
+                renderStopMarkers();
+            };
+
+            const onEnd = () => {
+                isDragging = false;
+                document.removeEventListener('mousemove', onMove);
+                document.removeEventListener('mouseup', onEnd);
+                document.removeEventListener('touchmove', onMove);
+                document.removeEventListener('touchend', onEnd);
+            };
+
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('mouseup', onEnd);
+            document.addEventListener('touchmove', onMove);
+            document.addEventListener('touchend', onEnd);
+        }
+
+        // Initialize
+        initPresets();
         updateGradient();
+        renderStopMarkers();
+        updateColorEditor();
     </script>
 </body>
 </html>
