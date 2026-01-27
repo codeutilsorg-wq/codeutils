@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duplicate Line Remover - Code Utils</title>
+    <meta name="description" content="Free online duplicate line remover. Remove duplicate lines from text, keep unique lines only. Case-sensitive or case-insensitive options.">
+    <meta name="keywords" content="duplicate remover, remove duplicates, unique lines, dedupe, text cleanup">
+    <link rel="canonical" href="https://codeutils.org/duplicate-remover.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/duplicate-remover.html">
+    <meta property="og:title" content="Duplicate Line Remover - Code Utils">
+    <meta property="og:description" content="Remove duplicate lines from text instantly.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .options-row {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+        .options-row label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        .stats {
+            background: var(--bg-secondary);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius);
+            margin-bottom: var(--spacing-md);
+            font-family: var(--font-mono);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Duplicate Line Remover</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Remove duplicate lines and keep only unique entries.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Input Text (one item per line)</div>
+            <textarea id="inputText" class="editor" placeholder="Enter text with duplicate lines..."></textarea>
+        </div>
+
+        <div class="options-row">
+            <label>
+                <input type="checkbox" id="caseInsensitive">
+                Case insensitive
+            </label>
+            <label>
+                <input type="checkbox" id="trimWhitespace" checked>
+                Trim whitespace
+            </label>
+            <label>
+                <input type="checkbox" id="removeEmpty" checked>
+                Remove empty lines
+            </label>
+            <label>
+                <input type="checkbox" id="sortOutput">
+                Sort output
+            </label>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="removeDuplicates()">Remove Duplicates</button>
+            <button class="btn btn-secondary" onclick="showDuplicatesOnly()">Show Duplicates Only</button>
+            <button class="btn btn-secondary" onclick="copyOutput()">Copy Output</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="stats" id="stats" style="display: none;"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">Output</div>
+            <textarea id="outputText" class="editor" readonly placeholder="Result will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="text-sorter.html">Text Sorter</a></li>
+                <li><a href="word-counter.html">Word Counter</a></li>
+                <li><a href="diff-checker.html">Diff Checker</a></li>
+                <li><a href="find-replace.html">Find and Replace</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Duplicate Line Remover</h2>
+            <p>This tool removes duplicate lines from your text, leaving only unique entries.</p>
+
+            <h3>Options</h3>
+            <ul>
+                <li><strong>Case insensitive:</strong> Treat "Hello" and "hello" as duplicates</li>
+                <li><strong>Trim whitespace:</strong> Ignore leading/trailing spaces when comparing</li>
+                <li><strong>Remove empty lines:</strong> Remove blank lines from output</li>
+                <li><strong>Sort output:</strong> Alphabetically sort the result</li>
+            </ul>
+
+            <h3>Use Cases</h3>
+            <ul>
+                <li>Cleaning up lists of emails, URLs, or IDs</li>
+                <li>Removing duplicate entries from data files</li>
+                <li>Finding unique items in a dataset</li>
+                <li>Preparing data for import</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'duplicate-remover',
+            name: 'Duplicate Remover',
+            url: 'duplicate-remover.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function processLines(input) {
+            const caseInsensitive = document.getElementById('caseInsensitive').checked;
+            const trimWhitespace = document.getElementById('trimWhitespace').checked;
+            const removeEmpty = document.getElementById('removeEmpty').checked;
+
+            let lines = input.split('\n');
+
+            if (trimWhitespace) {
+                lines = lines.map(l => l.trim());
+            }
+
+            if (removeEmpty) {
+                lines = lines.filter(l => l.length > 0);
+            }
+
+            return { lines, caseInsensitive };
+        }
+
+        function removeDuplicates() {
+            const input = document.getElementById('inputText').value;
+            if (!input.trim()) {
+                CodeUtils.Message.error('Please enter some text');
+                return;
+            }
+
+            const { lines, caseInsensitive } = processLines(input);
+            const sortOutput = document.getElementById('sortOutput').checked;
+
+            const seen = new Set();
+            const unique = [];
+            let duplicateCount = 0;
+
+            for (const line of lines) {
+                const key = caseInsensitive ? line.toLowerCase() : line;
+                if (!seen.has(key)) {
+                    seen.add(key);
+                    unique.push(line);
+                } else {
+                    duplicateCount++;
+                }
+            }
+
+            let result = sortOutput ? unique.sort() : unique;
+
+            document.getElementById('outputText').value = result.join('\n');
+            document.getElementById('stats').style.display = 'block';
+            document.getElementById('stats').textContent =
+                `Original: ${lines.length} lines | Unique: ${unique.length} lines | Removed: ${duplicateCount} duplicates`;
+
+            CodeUtils.Message.success(`Removed ${duplicateCount} duplicate lines!`);
+        }
+
+        function showDuplicatesOnly() {
+            const input = document.getElementById('inputText').value;
+            if (!input.trim()) {
+                CodeUtils.Message.error('Please enter some text');
+                return;
+            }
+
+            const { lines, caseInsensitive } = processLines(input);
+
+            const counts = new Map();
+            for (const line of lines) {
+                const key = caseInsensitive ? line.toLowerCase() : line;
+                counts.set(key, (counts.get(key) || 0) + 1);
+            }
+
+            const duplicates = [];
+            const seen = new Set();
+            for (const line of lines) {
+                const key = caseInsensitive ? line.toLowerCase() : line;
+                if (counts.get(key) > 1 && !seen.has(key)) {
+                    seen.add(key);
+                    duplicates.push(line);
+                }
+            }
+
+            document.getElementById('outputText').value = duplicates.join('\n');
+            document.getElementById('stats').style.display = 'block';
+            document.getElementById('stats').textContent =
+                `Found ${duplicates.length} items that appear more than once`;
+
+            CodeUtils.Message.success(`Found ${duplicates.length} duplicate items!`);
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('outputText').value;
+            if (!output) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(output);
+            CodeUtils.Message.success('Copied to clipboard!');
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').value = '';
+            document.getElementById('stats').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

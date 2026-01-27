@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML to Markdown Converter - Code Utils</title>
+    <meta name="description" content="Free HTML to Markdown converter. Convert HTML content to Markdown format. Preserves formatting and links.">
+    <meta name="keywords" content="html to markdown, convert html markdown, html markdown converter, html to md">
+    <link rel="canonical" href="https://codeutils.org/html-to-markdown.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/html-to-markdown.html">
+    <meta property="og:title" content="HTML to Markdown - Code Utils">
+    <meta property="og:description" content="Convert HTML to Markdown format.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">HTML to Markdown Converter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Convert HTML content to Markdown format.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">HTML Input</div>
+            <textarea id="htmlInput" class="editor" placeholder="<h1>Hello World</h1>
+<p>This is a <strong>paragraph</strong> with <em>emphasis</em>.</p>
+<ul>
+  <li>Item 1</li>
+  <li>Item 2</li>
+</ul>"></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="convertToMarkdown()">Convert to Markdown</button>
+            <button class="btn btn-secondary" onclick="copyOutput()">Copy</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">Markdown Output</div>
+            <textarea id="markdownOutput" class="editor" readonly placeholder="Markdown will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="markdown-preview.html">Markdown Preview</a></li>
+                <li><a href="markdown-to-html.html">Markdown to HTML</a></li>
+                <li><a href="html-formatter.html">HTML Formatter</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>Supported Conversions</h2>
+            <ul>
+                <li><code>&lt;h1&gt;-&lt;h6&gt;</code> to # headers</li>
+                <li><code>&lt;strong&gt;/&lt;b&gt;</code> to **bold**</li>
+                <li><code>&lt;em&gt;/&lt;i&gt;</code> to *italic*</li>
+                <li><code>&lt;a&gt;</code> to [text](url)</li>
+                <li><code>&lt;img&gt;</code> to ![alt](src)</li>
+                <li><code>&lt;ul&gt;/&lt;ol&gt;</code> to lists</li>
+                <li><code>&lt;code&gt;</code> to `code`</li>
+                <li><code>&lt;pre&gt;</code> to code blocks</li>
+                <li><code>&lt;blockquote&gt;</code> to > quotes</li>
+                <li><code>&lt;hr&gt;</code> to ---</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'html-to-markdown',
+            name: 'HTML to Markdown',
+            url: 'html-to-markdown.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function convertToMarkdown() {
+            const html = document.getElementById('htmlInput').value.trim();
+            if (!html) {
+                CodeUtils.Message.error('Please enter HTML');
+                return;
+            }
+
+            let md = html;
+
+            // Headers
+            md = md.replace(/<h1[^>]*>(.*?)<\/h1>/gi, '# $1\n\n');
+            md = md.replace(/<h2[^>]*>(.*?)<\/h2>/gi, '## $1\n\n');
+            md = md.replace(/<h3[^>]*>(.*?)<\/h3>/gi, '### $1\n\n');
+            md = md.replace(/<h4[^>]*>(.*?)<\/h4>/gi, '#### $1\n\n');
+            md = md.replace(/<h5[^>]*>(.*?)<\/h5>/gi, '##### $1\n\n');
+            md = md.replace(/<h6[^>]*>(.*?)<\/h6>/gi, '###### $1\n\n');
+
+            // Bold and italic
+            md = md.replace(/<(strong|b)[^>]*>(.*?)<\/\1>/gi, '**$2**');
+            md = md.replace(/<(em|i)[^>]*>(.*?)<\/\1>/gi, '*$2*');
+            md = md.replace(/<(del|s|strike)[^>]*>(.*?)<\/\1>/gi, '~~$2~~');
+
+            // Links and images
+            md = md.replace(/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)');
+            md = md.replace(/<img[^>]*src="([^"]*)"[^>]*alt="([^"]*)"[^>]*\/?>/gi, '![$2]($1)');
+            md = md.replace(/<img[^>]*alt="([^"]*)"[^>]*src="([^"]*)"[^>]*\/?>/gi, '![$1]($2)');
+            md = md.replace(/<img[^>]*src="([^"]*)"[^>]*\/?>/gi, '![]($1)');
+
+            // Code
+            md = md.replace(/<code[^>]*>(.*?)<\/code>/gi, '`$1`');
+            md = md.replace(/<pre[^>]*><code[^>]*>([\s\S]*?)<\/code><\/pre>/gi, '\n```\n$1\n```\n');
+            md = md.replace(/<pre[^>]*>([\s\S]*?)<\/pre>/gi, '\n```\n$1\n```\n');
+
+            // Lists
+            md = md.replace(/<ul[^>]*>([\s\S]*?)<\/ul>/gi, (match, content) => {
+                return content.replace(/<li[^>]*>(.*?)<\/li>/gi, '- $1\n') + '\n';
+            });
+            md = md.replace(/<ol[^>]*>([\s\S]*?)<\/ol>/gi, (match, content) => {
+                let i = 1;
+                return content.replace(/<li[^>]*>(.*?)<\/li>/gi, () => `${i++}. $1\n`) + '\n';
+            });
+
+            // Blockquote
+            md = md.replace(/<blockquote[^>]*>([\s\S]*?)<\/blockquote>/gi, (match, content) => {
+                return content.split('\n').map(line => '> ' + line.trim()).join('\n') + '\n\n';
+            });
+
+            // Horizontal rule
+            md = md.replace(/<hr[^>]*\/?>/gi, '\n---\n\n');
+
+            // Paragraphs and breaks
+            md = md.replace(/<p[^>]*>(.*?)<\/p>/gi, '$1\n\n');
+            md = md.replace(/<br[^>]*\/?>/gi, '  \n');
+
+            // Remove remaining tags
+            md = md.replace(/<[^>]+>/g, '');
+
+            // Decode HTML entities
+            md = md.replace(/&nbsp;/g, ' ');
+            md = md.replace(/&amp;/g, '&');
+            md = md.replace(/&lt;/g, '<');
+            md = md.replace(/&gt;/g, '>');
+            md = md.replace(/&quot;/g, '"');
+
+            // Clean up whitespace
+            md = md.replace(/\n{3,}/g, '\n\n');
+            md = md.trim();
+
+            document.getElementById('markdownOutput').value = md;
+            CodeUtils.Message.success('Converted to Markdown!');
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('markdownOutput').value;
+            if (!output) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(output);
+            CodeUtils.Message.success('Copied!');
+        }
+
+        function clearAll() {
+            document.getElementById('htmlInput').value = '';
+            document.getElementById('markdownOutput').value = '';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII to Hex Converter - Code Utils</title>
+    <meta name="description" content="Free ASCII to hex converter. Convert text to hexadecimal and hex to ASCII. View hex dump of text.">
+    <meta name="keywords" content="ascii to hex, hex to ascii, hexadecimal converter, text to hex, hex decoder">
+    <link rel="canonical" href="https://codeutils.org/ascii-to-hex.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/ascii-to-hex.html">
+    <meta property="og:title" content="ASCII to Hex Converter - Code Utils">
+    <meta property="og:description" content="Convert text to hexadecimal and vice versa.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .options-row {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+        .options-row label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        .options-row select {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">ASCII to Hex Converter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Convert text to hexadecimal representation and back.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">ASCII Text</div>
+            <textarea id="textInput" class="editor" placeholder="Enter text to convert to hexadecimal..."></textarea>
+        </div>
+
+        <div class="options-row">
+            <label>
+                Separator:
+                <select id="separator">
+                    <option value=" ">Space</option>
+                    <option value="">None</option>
+                    <option value=":">Colon</option>
+                    <option value="0x">0x prefix</option>
+                    <option value="\n">New line</option>
+                </select>
+            </label>
+            <label>
+                <input type="checkbox" id="uppercase" checked>
+                Uppercase hex
+            </label>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="asciiToHex()">ASCII to Hex</button>
+            <button class="btn" onclick="hexToAscii()">Hex to ASCII</button>
+            <button class="btn btn-secondary" onclick="copyHex()">Copy Hex</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">Hexadecimal</div>
+            <textarea id="hexOutput" class="editor" placeholder="Hexadecimal output will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="text-to-binary.html">Text to Binary</a></li>
+                <li><a href="number-converter.html">Number Converter</a></li>
+                <li><a href="base64-encoder.html">Base64 Encoder</a></li>
+                <li><a href="unicode-converter.html">Unicode Converter</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About ASCII to Hex</h2>
+            <p>This tool converts ASCII text characters to their hexadecimal values and vice versa.</p>
+
+            <h3>How It Works</h3>
+            <p>Each character is converted to its ASCII code, which is then displayed in hexadecimal (base 16) format.</p>
+
+            <h3>Common ASCII Hex Values</h3>
+            <table style="width: 100%; border-collapse: collapse; font-family: var(--font-mono);">
+                <tr style="border-bottom: 1px solid var(--border);">
+                    <th style="text-align: left; padding: 8px;">Char</th>
+                    <th style="text-align: left; padding: 8px;">Hex</th>
+                    <th style="text-align: left; padding: 8px;">Char</th>
+                    <th style="text-align: left; padding: 8px;">Hex</th>
+                </tr>
+                <tr><td style="padding: 8px;">A</td><td style="padding: 8px;">41</td><td style="padding: 8px;">a</td><td style="padding: 8px;">61</td></tr>
+                <tr><td style="padding: 8px;">Z</td><td style="padding: 8px;">5A</td><td style="padding: 8px;">z</td><td style="padding: 8px;">7A</td></tr>
+                <tr><td style="padding: 8px;">0</td><td style="padding: 8px;">30</td><td style="padding: 8px;">9</td><td style="padding: 8px;">39</td></tr>
+                <tr><td style="padding: 8px;">Space</td><td style="padding: 8px;">20</td><td style="padding: 8px;">@</td><td style="padding: 8px;">40</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'ascii-to-hex',
+            name: 'ASCII to Hex',
+            url: 'ascii-to-hex.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function asciiToHex() {
+            const text = document.getElementById('textInput').value;
+            if (!text) {
+                CodeUtils.Message.error('Please enter some text');
+                return;
+            }
+
+            const separator = document.getElementById('separator').value;
+            const uppercase = document.getElementById('uppercase').checked;
+
+            let hex = text.split('').map(char => {
+                let h = char.charCodeAt(0).toString(16);
+                if (uppercase) h = h.toUpperCase();
+                h = h.padStart(2, '0');
+                if (separator === '0x') {
+                    return '0x' + h;
+                }
+                return h;
+            });
+
+            if (separator === '0x') {
+                document.getElementById('hexOutput').value = hex.join(' ');
+            } else if (separator === '\\n') {
+                document.getElementById('hexOutput').value = hex.join('\n');
+            } else {
+                document.getElementById('hexOutput').value = hex.join(separator);
+            }
+
+            CodeUtils.Message.success('Converted to hexadecimal!');
+        }
+
+        function hexToAscii() {
+            let hex = document.getElementById('hexOutput').value.trim();
+            if (!hex) {
+                CodeUtils.Message.error('Please enter hexadecimal data');
+                return;
+            }
+
+            // Remove common separators and prefixes
+            hex = hex.replace(/0x/gi, '').replace(/[\s:\-\n]+/g, '');
+
+            if (!/^[0-9A-Fa-f]+$/.test(hex)) {
+                CodeUtils.Message.error('Invalid hexadecimal input');
+                return;
+            }
+
+            if (hex.length % 2 !== 0) {
+                hex = '0' + hex;
+            }
+
+            try {
+                let text = '';
+                for (let i = 0; i < hex.length; i += 2) {
+                    text += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+                }
+                document.getElementById('textInput').value = text;
+                CodeUtils.Message.success('Converted to ASCII!');
+            } catch (e) {
+                CodeUtils.Message.error('Conversion failed');
+            }
+        }
+
+        function copyHex() {
+            const hex = document.getElementById('hexOutput').value;
+            if (!hex) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(hex);
+            CodeUtils.Message.success('Copied to clipboard!');
+        }
+
+        function clearAll() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('hexOutput').value = '';
+        }
+    </script>
+</body>
+</html>

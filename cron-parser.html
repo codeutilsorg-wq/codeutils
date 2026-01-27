@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cron Expression Parser - Code Utils</title>
+    <meta name="description" content="Free cron expression parser. Understand cron schedules in human-readable format. Test and validate cron expressions.">
+    <meta name="keywords" content="cron parser, cron expression, cron schedule, cron validator, crontab">
+    <link rel="canonical" href="https://codeutils.org/cron-parser.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/cron-parser.html">
+    <meta property="og:title" content="Cron Expression Parser - Code Utils">
+    <meta property="og:description" content="Parse and understand cron expressions.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .cron-input {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            text-align: center;
+            padding: var(--spacing-md);
+        }
+        .cron-fields {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+        }
+        .cron-field {
+            background: var(--bg-secondary);
+            padding: var(--spacing-sm);
+            border-radius: var(--radius);
+        }
+        .cron-field label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-xs);
+        }
+        .cron-field input {
+            width: 100%;
+            text-align: center;
+            padding: var(--spacing-xs);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+        }
+        .explanation {
+            background: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.125rem;
+            text-align: center;
+        }
+        .next-runs {
+            background: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius);
+        }
+        .next-runs h4 {
+            margin-bottom: var(--spacing-sm);
+        }
+        .next-runs ul {
+            list-style: none;
+            padding: 0;
+            font-family: var(--font-mono);
+        }
+        .next-runs li {
+            padding: var(--spacing-xs) 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+        }
+        .preset {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+        .preset:hover {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Cron Expression Parser</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Parse and understand cron expressions in human-readable format.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Cron Expression</div>
+            <input type="text" id="cronInput" class="editor cron-input" value="0 9 * * 1-5" placeholder="* * * * *" oninput="parseCron()">
+        </div>
+
+        <div class="cron-fields">
+            <div class="cron-field">
+                <label>Minute</label>
+                <input type="text" id="minute" value="0" oninput="updateFromFields()">
+                <small>0-59</small>
+            </div>
+            <div class="cron-field">
+                <label>Hour</label>
+                <input type="text" id="hour" value="9" oninput="updateFromFields()">
+                <small>0-23</small>
+            </div>
+            <div class="cron-field">
+                <label>Day of Month</label>
+                <input type="text" id="dayOfMonth" value="*" oninput="updateFromFields()">
+                <small>1-31</small>
+            </div>
+            <div class="cron-field">
+                <label>Month</label>
+                <input type="text" id="month" value="*" oninput="updateFromFields()">
+                <small>1-12</small>
+            </div>
+            <div class="cron-field">
+                <label>Day of Week</label>
+                <input type="text" id="dayOfWeek" value="1-5" oninput="updateFromFields()">
+                <small>0-6 (Sun-Sat)</small>
+            </div>
+        </div>
+
+        <div class="presets">
+            <span class="preset" onclick="setPreset('* * * * *')">Every minute</span>
+            <span class="preset" onclick="setPreset('0 * * * *')">Every hour</span>
+            <span class="preset" onclick="setPreset('0 0 * * *')">Daily at midnight</span>
+            <span class="preset" onclick="setPreset('0 9 * * 1-5')">Weekdays at 9am</span>
+            <span class="preset" onclick="setPreset('0 0 * * 0')">Weekly (Sunday)</span>
+            <span class="preset" onclick="setPreset('0 0 1 * *')">Monthly (1st)</span>
+            <span class="preset" onclick="setPreset('*/15 * * * *')">Every 15 minutes</span>
+            <span class="preset" onclick="setPreset('0 */2 * * *')">Every 2 hours</span>
+        </div>
+
+        <div class="explanation" id="explanation">At 09:00 AM, Monday through Friday</div>
+
+        <div class="controls">
+            <button class="btn btn-secondary" onclick="copyCron()">Copy Expression</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="next-runs">
+            <h4>Next 5 Scheduled Runs</h4>
+            <ul id="nextRuns"></ul>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="timestamp-converter.html">Timestamp Converter</a></li>
+                <li><a href="regex-tester.html">Regex Tester</a></li>
+                <li><a href="json-formatter.html">JSON Formatter</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Cron Expressions</h2>
+            <p>Cron expressions are used to schedule tasks in Unix-like systems.</p>
+
+            <h3>Format</h3>
+            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">┌───────────── minute (0 - 59)
+│ ┌───────────── hour (0 - 23)
+│ │ ┌───────────── day of month (1 - 31)
+│ │ │ ┌───────────── month (1 - 12)
+│ │ │ │ ┌───────────── day of week (0 - 6) (Sunday = 0)
+│ │ │ │ │
+* * * * *</pre>
+
+            <h3>Special Characters</h3>
+            <ul>
+                <li><strong>*</strong> - Any value</li>
+                <li><strong>,</strong> - Value list separator (1,3,5)</li>
+                <li><strong>-</strong> - Range of values (1-5)</li>
+                <li><strong>/</strong> - Step values (*/15 = every 15)</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'cron-parser',
+            name: 'Cron Parser',
+            url: 'cron-parser.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+        function parseCron() {
+            const cron = document.getElementById('cronInput').value.trim();
+            const parts = cron.split(/\s+/);
+
+            if (parts.length !== 5) {
+                document.getElementById('explanation').textContent = 'Invalid cron expression (need 5 fields)';
+                return;
+            }
+
+            document.getElementById('minute').value = parts[0];
+            document.getElementById('hour').value = parts[1];
+            document.getElementById('dayOfMonth').value = parts[2];
+            document.getElementById('month').value = parts[3];
+            document.getElementById('dayOfWeek').value = parts[4];
+
+            explain(parts);
+            calculateNextRuns(parts);
+        }
+
+        function updateFromFields() {
+            const cron = [
+                document.getElementById('minute').value,
+                document.getElementById('hour').value,
+                document.getElementById('dayOfMonth').value,
+                document.getElementById('month').value,
+                document.getElementById('dayOfWeek').value
+            ].join(' ');
+
+            document.getElementById('cronInput').value = cron;
+            explain(cron.split(' '));
+            calculateNextRuns(cron.split(' '));
+        }
+
+        function setPreset(cron) {
+            document.getElementById('cronInput').value = cron;
+            parseCron();
+        }
+
+        function explain(parts) {
+            const [minute, hour, dayOfMonth, month, dayOfWeek] = parts;
+            let explanation = 'At ';
+
+            // Time
+            if (minute === '*' && hour === '*') {
+                explanation = 'Every minute';
+            } else if (minute === '0' && hour === '*') {
+                explanation = 'Every hour';
+            } else if (minute.includes('/')) {
+                explanation = `Every ${minute.split('/')[1]} minutes`;
+            } else if (hour.includes('/')) {
+                explanation = `Every ${hour.split('/')[1]} hours at minute ${minute}`;
+            } else {
+                const h = hour === '*' ? 'every hour' : `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
+                explanation = hour === '*' ? `At minute ${minute} of every hour` : `At ${h}`;
+            }
+
+            // Day of week
+            if (dayOfWeek !== '*') {
+                if (dayOfWeek.includes('-')) {
+                    const [start, end] = dayOfWeek.split('-').map(Number);
+                    explanation += `, ${dayNames[start]} through ${dayNames[end]}`;
+                } else if (dayOfWeek.includes(',')) {
+                    const days = dayOfWeek.split(',').map(d => dayNames[parseInt(d)]);
+                    explanation += `, on ${days.join(', ')}`;
+                } else {
+                    explanation += `, on ${dayNames[parseInt(dayOfWeek)]}`;
+                }
+            }
+
+            // Day of month
+            if (dayOfMonth !== '*') {
+                explanation += `, on day ${dayOfMonth} of the month`;
+            }
+
+            // Month
+            if (month !== '*') {
+                if (month.includes(',')) {
+                    const months = month.split(',').map(m => monthNames[parseInt(m) - 1]);
+                    explanation += `, in ${months.join(', ')}`;
+                } else {
+                    explanation += `, in ${monthNames[parseInt(month) - 1]}`;
+                }
+            }
+
+            document.getElementById('explanation').textContent = explanation;
+        }
+
+        function calculateNextRuns(parts) {
+            const runs = [];
+            const now = new Date();
+            let date = new Date(now);
+
+            for (let i = 0; i < 1000 && runs.length < 5; i++) {
+                date = new Date(date.getTime() + 60000);
+
+                if (matches(date, parts)) {
+                    runs.push(date.toLocaleString());
+                }
+            }
+
+            document.getElementById('nextRuns').innerHTML = runs.length ?
+                runs.map(r => `<li>${r}</li>`).join('') :
+                '<li>Unable to calculate next runs</li>';
+        }
+
+        function matches(date, parts) {
+            const [minute, hour, dayOfMonth, month, dayOfWeek] = parts;
+
+            return matchField(date.getMinutes(), minute) &&
+                   matchField(date.getHours(), hour) &&
+                   matchField(date.getDate(), dayOfMonth) &&
+                   matchField(date.getMonth() + 1, month) &&
+                   matchField(date.getDay(), dayOfWeek);
+        }
+
+        function matchField(value, field) {
+            if (field === '*') return true;
+
+            if (field.includes('/')) {
+                const [, step] = field.split('/');
+                return value % parseInt(step) === 0;
+            }
+
+            if (field.includes(',')) {
+                return field.split(',').map(Number).includes(value);
+            }
+
+            if (field.includes('-')) {
+                const [start, end] = field.split('-').map(Number);
+                return value >= start && value <= end;
+            }
+
+            return parseInt(field) === value;
+        }
+
+        function copyCron() {
+            CodeUtils.Clipboard.copy(document.getElementById('cronInput').value);
+            CodeUtils.Message.success('Copied!');
+        }
+
+        parseCron();
+    </script>
+</body>
+</html>

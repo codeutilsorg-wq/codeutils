@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XPath Tester - Code Utils</title>
+    <meta name="description" content="Free XPath tester. Test XPath expressions against XML documents. Query and extract XML elements.">
+    <meta name="keywords" content="xpath tester, xml query, xpath expression, xml selector, xpath evaluator">
+    <link rel="canonical" href="https://codeutils.org/xpath-tester.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/xpath-tester.html">
+    <meta property="og:title" content="XPath Tester - Code Utils">
+    <meta property="og:description" content="Test XPath expressions against XML documents.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .path-input {
+            font-family: var(--font-mono);
+            font-size: 1.125rem;
+            padding: var(--spacing-md);
+        }
+        .examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+        }
+        .example {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+        .example:hover {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">XPath Tester</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Test XPath expressions to query and extract XML data.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">XPath Expression</div>
+            <input type="text" id="xpathInput" class="editor path-input" value="//book/title" placeholder="/root/element" oninput="testXPath()">
+        </div>
+
+        <div class="examples">
+            <span class="example" onclick="setPath('/bookstore')">/bookstore</span>
+            <span class="example" onclick="setPath('//book')"> //book</span>
+            <span class="example" onclick="setPath('//book/title')"> //book/title</span>
+            <span class="example" onclick="setPath('//book[@category]')"> //book[@category]</span>
+            <span class="example" onclick="setPath('//book[price>10]')"> //book[price>10]</span>
+            <span class="example" onclick="setPath('//book[1]')"> //book[1]</span>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">XML Input</div>
+            <textarea id="xmlInput" class="editor" oninput="testXPath()"><?xml version="1.0"?>
+<bookstore>
+  <book category="cooking">
+    <title>Everyday Italian</title>
+    <author>Giada De Laurentiis</author>
+    <price>30.00</price>
+  </book>
+  <book category="children">
+    <title>Harry Potter</title>
+    <author>J K. Rowling</author>
+    <price>29.99</price>
+  </book>
+  <book category="web">
+    <title>Learning XML</title>
+    <author>Erik T. Ray</author>
+    <price>9.95</price>
+  </book>
+</bookstore></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="testXPath()">Test XPath</button>
+            <button class="btn btn-secondary" onclick="copyResult()">Copy Result</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">Result (<span id="matchCount">0</span> matches)</div>
+            <textarea id="resultOutput" class="editor" readonly placeholder="Query result will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="xml-formatter.html">XML Formatter</a></li>
+                <li><a href="jsonpath-tester.html">JSONPath Tester</a></li>
+                <li><a href="xml-to-json.html">XML to JSON</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>XPath Syntax</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="border-bottom: 1px solid var(--border);">
+                    <th style="text-align: left; padding: 8px;">Expression</th>
+                    <th style="text-align: left; padding: 8px;">Description</th>
+                </tr>
+                <tr><td style="padding: 8px;"><code>/</code></td><td style="padding: 8px;">Root node / child</td></tr>
+                <tr><td style="padding: 8px;"><code>//</code></td><td style="padding: 8px;">Descendant (any level)</td></tr>
+                <tr><td style="padding: 8px;"><code>@</code></td><td style="padding: 8px;">Attribute</td></tr>
+                <tr><td style="padding: 8px;"><code>[n]</code></td><td style="padding: 8px;">Index (1-based)</td></tr>
+                <tr><td style="padding: 8px;"><code>[@attr]</code></td><td style="padding: 8px;">Has attribute</td></tr>
+                <tr><td style="padding: 8px;"><code>[condition]</code></td><td style="padding: 8px;">Filter predicate</td></tr>
+                <tr><td style="padding: 8px;"><code>text()</code></td><td style="padding: 8px;">Text content</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'xpath-tester',
+            name: 'XPath Tester',
+            url: 'xpath-tester.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function setPath(path) {
+            document.getElementById('xpathInput').value = path;
+            testXPath();
+        }
+
+        function serializeNode(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                return node.textContent.trim();
+            }
+            if (node.nodeType === Node.ATTRIBUTE_NODE) {
+                return `${node.name}="${node.value}"`;
+            }
+            const serializer = new XMLSerializer();
+            return serializer.serializeToString(node);
+        }
+
+        function testXPath() {
+            const xmlStr = document.getElementById('xmlInput').value.trim();
+            const xpath = document.getElementById('xpathInput').value.trim();
+
+            if (!xmlStr || !xpath) {
+                document.getElementById('resultOutput').value = '';
+                document.getElementById('matchCount').textContent = '0';
+                return;
+            }
+
+            try {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlStr, 'text/xml');
+
+                const parseError = xmlDoc.querySelector('parsererror');
+                if (parseError) {
+                    throw new Error('Invalid XML');
+                }
+
+                const result = xmlDoc.evaluate(
+                    xpath,
+                    xmlDoc,
+                    null,
+                    XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+                    null
+                );
+
+                const matches = [];
+                for (let i = 0; i < result.snapshotLength; i++) {
+                    matches.push(serializeNode(result.snapshotItem(i)));
+                }
+
+                document.getElementById('matchCount').textContent = matches.length;
+                document.getElementById('resultOutput').value = matches.join('\n\n');
+                CodeUtils.Message.success(`Found ${matches.length} match(es)`);
+            } catch (e) {
+                CodeUtils.Message.error(e.message);
+                document.getElementById('matchCount').textContent = '0';
+            }
+        }
+
+        function copyResult() {
+            const result = document.getElementById('resultOutput').value;
+            if (!result) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(result);
+            CodeUtils.Message.success('Copied!');
+        }
+
+        function clearAll() {
+            document.getElementById('xpathInput').value = '';
+            document.getElementById('xmlInput').value = '';
+            document.getElementById('resultOutput').value = '';
+            document.getElementById('matchCount').textContent = '0';
+        }
+
+        testXPath();
+    </script>
+</body>
+</html>

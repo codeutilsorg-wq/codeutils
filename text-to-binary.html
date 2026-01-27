@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Binary Converter - Code Utils</title>
+    <meta name="description" content="Free text to binary converter. Convert text to binary and binary to text. Supports ASCII and Unicode.">
+    <meta name="keywords" content="text to binary, binary to text, ascii to binary, binary converter, binary translator">
+    <link rel="canonical" href="https://codeutils.org/text-to-binary.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/text-to-binary.html">
+    <meta property="og:title" content="Text to Binary Converter - Code Utils">
+    <meta property="og:description" content="Convert text to binary and binary to text.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .options-row {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+        .options-row label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        .options-row select {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Text to Binary Converter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Convert text to binary representation and back.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Text</div>
+            <textarea id="textInput" class="editor" placeholder="Enter text to convert to binary..."></textarea>
+        </div>
+
+        <div class="options-row">
+            <label>
+                Separator:
+                <select id="separator">
+                    <option value=" ">Space</option>
+                    <option value="">None</option>
+                    <option value="-">Dash</option>
+                    <option value="\n">New line</option>
+                </select>
+            </label>
+            <label>
+                <input type="checkbox" id="pad8" checked>
+                Pad to 8 bits
+            </label>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="textToBinary()">Text to Binary</button>
+            <button class="btn" onclick="binaryToText()">Binary to Text</button>
+            <button class="btn btn-secondary" onclick="copyBinary()">Copy Binary</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">Binary</div>
+            <textarea id="binaryOutput" class="editor" placeholder="Binary output will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="number-converter.html">Number Converter</a></li>
+                <li><a href="ascii-to-hex.html">ASCII to Hex</a></li>
+                <li><a href="base64-encoder.html">Base64 Encoder</a></li>
+                <li><a href="morse-code.html">Morse Code</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Text to Binary</h2>
+            <p>This tool converts text characters to their binary representations and vice versa.</p>
+
+            <h3>How It Works</h3>
+            <p>Each character in the text is converted to its ASCII/Unicode code point, which is then displayed in binary format.</p>
+
+            <h3>Examples</h3>
+            <ul>
+                <li><strong>A</strong> = 01000001 (ASCII 65)</li>
+                <li><strong>a</strong> = 01100001 (ASCII 97)</li>
+                <li><strong>1</strong> = 00110001 (ASCII 49)</li>
+                <li><strong>Hello</strong> = 01001000 01100101 01101100 01101100 01101111</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'text-to-binary',
+            name: 'Text to Binary',
+            url: 'text-to-binary.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function textToBinary() {
+            const text = document.getElementById('textInput').value;
+            if (!text) {
+                CodeUtils.Message.error('Please enter some text');
+                return;
+            }
+
+            const separator = document.getElementById('separator').value;
+            const pad8 = document.getElementById('pad8').checked;
+
+            const binary = text.split('').map(char => {
+                let bin = char.charCodeAt(0).toString(2);
+                if (pad8) {
+                    bin = bin.padStart(8, '0');
+                }
+                return bin;
+            }).join(separator === '\\n' ? '\n' : separator);
+
+            document.getElementById('binaryOutput').value = binary;
+            CodeUtils.Message.success('Converted to binary!');
+        }
+
+        function binaryToText() {
+            let binary = document.getElementById('binaryOutput').value.trim();
+            if (!binary) {
+                CodeUtils.Message.error('Please enter binary data');
+                return;
+            }
+
+            // Remove common separators and split into bytes
+            binary = binary.replace(/[\s\-\n]+/g, ' ').trim();
+            const bytes = binary.split(' ').filter(b => b);
+
+            try {
+                const text = bytes.map(byte => {
+                    if (!/^[01]+$/.test(byte)) {
+                        throw new Error('Invalid binary: ' + byte);
+                    }
+                    return String.fromCharCode(parseInt(byte, 2));
+                }).join('');
+
+                document.getElementById('textInput').value = text;
+                CodeUtils.Message.success('Converted to text!');
+            } catch (e) {
+                CodeUtils.Message.error(e.message);
+            }
+        }
+
+        function copyBinary() {
+            const binary = document.getElementById('binaryOutput').value;
+            if (!binary) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(binary);
+            CodeUtils.Message.success('Copied to clipboard!');
+        }
+
+        function clearAll() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('binaryOutput').value = '';
+        }
+    </script>
+</body>
+</html>

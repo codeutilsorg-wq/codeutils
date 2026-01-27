@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Reverser - Code Utils</title>
+    <meta name="description" content="Free online text reverser. Reverse text characters, words, or lines instantly. Perfect for creating mirror text.">
+    <meta name="keywords" content="text reverser, reverse text, mirror text, backwards text, flip text">
+    <link rel="canonical" href="https://codeutils.org/text-reverser.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/text-reverser.html">
+    <meta property="og:title" content="Text Reverser - Code Utils">
+    <meta property="og:description" content="Reverse text characters, words, or lines instantly.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .reverse-buttons {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Text Reverser</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Reverse text by characters, words, or lines.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Input Text</div>
+            <textarea id="inputText" class="editor" placeholder="Enter text to reverse..."></textarea>
+        </div>
+
+        <div class="reverse-buttons">
+            <button class="btn" onclick="reverseChars()">Reverse Characters</button>
+            <button class="btn" onclick="reverseWords()">Reverse Words</button>
+            <button class="btn" onclick="reverseLines()">Reverse Lines</button>
+            <button class="btn btn-secondary" onclick="reverseEachWord()">Reverse Each Word</button>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Output</div>
+            <textarea id="outputText" class="editor" readonly placeholder="Reversed text will appear here..."></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-secondary" onclick="copyOutput()">Copy Output</button>
+            <button class="btn btn-secondary" onclick="swapText()">Swap</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="case-converter.html">Case Converter</a></li>
+                <li><a href="text-sorter.html">Text Sorter</a></li>
+                <li><a href="rot13.html">ROT13 Encoder</a></li>
+                <li><a href="word-counter.html">Word Counter</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Text Reverser</h2>
+            <p>This tool reverses text in different ways for various use cases.</p>
+
+            <h3>Reversal Modes</h3>
+            <ul>
+                <li><strong>Reverse Characters:</strong> "Hello" becomes "olleH"</li>
+                <li><strong>Reverse Words:</strong> "Hello World" becomes "World Hello"</li>
+                <li><strong>Reverse Lines:</strong> Reverses the order of lines</li>
+                <li><strong>Reverse Each Word:</strong> "Hello World" becomes "olleH dlroW"</li>
+            </ul>
+
+            <h3>Use Cases</h3>
+            <ul>
+                <li>Creating mirror text for fun</li>
+                <li>Reversing log files or data</li>
+                <li>Text manipulation for programming</li>
+                <li>Palindrome checking</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'text-reverser',
+            name: 'Text Reverser',
+            url: 'text-reverser.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function reverseChars() {
+            const input = document.getElementById('inputText').value;
+            if (!input) {
+                CodeUtils.Message.error('Please enter some text');
+                return;
+            }
+            const output = input.split('').reverse().join('');
+            document.getElementById('outputText').value = output;
+            CodeUtils.Message.success('Characters reversed!');
+        }
+
+        function reverseWords() {
+            const input = document.getElementById('inputText').value;
+            if (!input) {
+                CodeUtils.Message.error('Please enter some text');
+                return;
+            }
+            const output = input.split(/\s+/).reverse().join(' ');
+            document.getElementById('outputText').value = output;
+            CodeUtils.Message.success('Words reversed!');
+        }
+
+        function reverseLines() {
+            const input = document.getElementById('inputText').value;
+            if (!input) {
+                CodeUtils.Message.error('Please enter some text');
+                return;
+            }
+            const output = input.split('\n').reverse().join('\n');
+            document.getElementById('outputText').value = output;
+            CodeUtils.Message.success('Lines reversed!');
+        }
+
+        function reverseEachWord() {
+            const input = document.getElementById('inputText').value;
+            if (!input) {
+                CodeUtils.Message.error('Please enter some text');
+                return;
+            }
+            const output = input.split(/(\s+)/).map(part => {
+                if (/\s+/.test(part)) return part;
+                return part.split('').reverse().join('');
+            }).join('');
+            document.getElementById('outputText').value = output;
+            CodeUtils.Message.success('Each word reversed!');
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('outputText').value;
+            if (!output) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(output);
+            CodeUtils.Message.success('Copied to clipboard!');
+        }
+
+        function swapText() {
+            const input = document.getElementById('inputText');
+            const output = document.getElementById('outputText');
+            const temp = input.value;
+            input.value = output.value;
+            output.value = temp;
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').value = '';
+        }
+    </script>
+</body>
+</html>

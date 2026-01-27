@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morse Code Translator - Code Utils</title>
+    <meta name="description" content="Free Morse code translator. Convert text to Morse code and Morse code to text. Audio playback supported.">
+    <meta name="keywords" content="morse code, morse translator, morse encoder, morse decoder, sos morse">
+    <link rel="canonical" href="https://codeutils.org/morse-code.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/morse-code.html">
+    <meta property="og:title" content="Morse Code Translator - Code Utils">
+    <meta property="og:description" content="Convert text to Morse code and back with audio playback.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .morse-display {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            letter-spacing: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Morse Code Translator</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Convert text to Morse code and Morse code to text.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Text</div>
+            <textarea id="textInput" class="editor" placeholder="Enter text to convert to Morse code..."></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="textToMorse()">Text to Morse</button>
+            <button class="btn" onclick="morseToText()">Morse to Text</button>
+            <button class="btn btn-secondary" onclick="playMorse()">Play Audio</button>
+            <button class="btn btn-secondary" onclick="copyMorse()">Copy Morse</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">Morse Code</div>
+            <textarea id="morseOutput" class="editor morse-display" placeholder="Morse code will appear here... (dots and dashes)"></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="text-to-binary.html">Text to Binary</a></li>
+                <li><a href="rot13.html">ROT13 Encoder</a></li>
+                <li><a href="base64-encoder.html">Base64 Encoder</a></li>
+                <li><a href="ascii-to-hex.html">ASCII to Hex</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Morse Code</h2>
+            <p>Morse code is a method of encoding text using sequences of dots (.) and dashes (-). It was invented by Samuel Morse in the 1830s.</p>
+
+            <h3>Morse Code Chart</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 8px; font-family: var(--font-mono);">
+                <span>A: .-</span><span>B: -...</span><span>C: -.-.</span><span>D: -..</span>
+                <span>E: .</span><span>F: ..-.</span><span>G: --.</span><span>H: ....</span>
+                <span>I: ..</span><span>J: .---</span><span>K: -.-</span><span>L: .-..</span>
+                <span>M: --</span><span>N: -.</span><span>O: ---</span><span>P: .--.</span>
+                <span>Q: --.-</span><span>R: .-.</span><span>S: ...</span><span>T: -</span>
+                <span>U: ..-</span><span>V: ...-</span><span>W: .--</span><span>X: -..-</span>
+                <span>Y: -.--</span><span>Z: --..</span>
+            </div>
+
+            <h3 style="margin-top: var(--spacing-md);">Numbers</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; font-family: var(--font-mono);">
+                <span>0: -----</span><span>1: .----</span><span>2: ..---</span><span>3: ...--</span><span>4: ....-</span>
+                <span>5: .....</span><span>6: -....</span><span>7: --...</span><span>8: ---..</span><span>9: ----.</span>
+            </div>
+
+            <h3 style="margin-top: var(--spacing-md);">Common Signals</h3>
+            <ul>
+                <li><strong>SOS:</strong> ... --- ... (international distress signal)</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'morse-code',
+            name: 'Morse Code',
+            url: 'morse-code.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        const morseCode = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+            'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+            'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+            'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+            'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---',
+            '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...',
+            '8': '---..', '9': '----.', '.': '.-.-.-', ',': '--..--', '?': '..--..',
+            "'": '.----.', '!': '-.-.--', '/': '-..-.', '(': '-.--.', ')': '-.--.-',
+            '&': '.-...', ':': '---...', ';': '-.-.-.', '=': '-...-', '+': '.-.-.',
+            '-': '-....-', '_': '..--.-', '"': '.-..-.', '$': '...-..-', '@': '.--.-.'
+        };
+
+        const reverseMorse = Object.fromEntries(Object.entries(morseCode).map(([k, v]) => [v, k]));
+
+        function textToMorse() {
+            const text = document.getElementById('textInput').value.toUpperCase();
+            if (!text) {
+                CodeUtils.Message.error('Please enter some text');
+                return;
+            }
+
+            const morse = text.split('').map(char => {
+                if (char === ' ') return '/';
+                return morseCode[char] || '';
+            }).filter(m => m).join(' ');
+
+            document.getElementById('morseOutput').value = morse;
+            CodeUtils.Message.success('Converted to Morse code!');
+        }
+
+        function morseToText() {
+            const morse = document.getElementById('morseOutput').value.trim();
+            if (!morse) {
+                CodeUtils.Message.error('Please enter Morse code');
+                return;
+            }
+
+            const words = morse.split(/\s*\/\s*/);
+            const text = words.map(word => {
+                return word.split(/\s+/).map(code => {
+                    return reverseMorse[code] || '';
+                }).join('');
+            }).join(' ');
+
+            document.getElementById('textInput').value = text;
+            CodeUtils.Message.success('Converted to text!');
+        }
+
+        let audioContext = null;
+
+        function playMorse() {
+            const morse = document.getElementById('morseOutput').value;
+            if (!morse) {
+                CodeUtils.Message.error('No Morse code to play');
+                return;
+            }
+
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            const dotDuration = 0.1;
+            const dashDuration = dotDuration * 3;
+            const frequency = 600;
+
+            let time = audioContext.currentTime;
+
+            morse.split('').forEach(char => {
+                if (char === '.') {
+                    playTone(time, dotDuration, frequency);
+                    time += dotDuration + dotDuration;
+                } else if (char === '-') {
+                    playTone(time, dashDuration, frequency);
+                    time += dashDuration + dotDuration;
+                } else if (char === ' ') {
+                    time += dotDuration * 2;
+                } else if (char === '/') {
+                    time += dotDuration * 4;
+                }
+            });
+
+            CodeUtils.Message.success('Playing Morse code...');
+        }
+
+        function playTone(startTime, duration, frequency) {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.5, startTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+
+            oscillator.start(startTime);
+            oscillator.stop(startTime + duration);
+        }
+
+        function copyMorse() {
+            const morse = document.getElementById('morseOutput').value;
+            if (!morse) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(morse);
+            CodeUtils.Message.success('Copied to clipboard!');
+        }
+
+        function clearAll() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('morseOutput').value = '';
+        }
+    </script>
+</body>
+</html>

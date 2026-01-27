@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favicon Generator - Code Utils</title>
+    <meta name="description" content="Free favicon generator. Create favicons from text, emoji, or upload images. Generate multiple sizes.">
+    <meta name="keywords" content="favicon generator, favicon creator, icon generator, create favicon, website icon">
+    <link rel="canonical" href="https://codeutils.org/favicon-generator.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/favicon-generator.html">
+    <meta property="og:title" content="Favicon Generator - Code Utils">
+    <meta property="og:description" content="Create favicons from text, emoji, or images.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .preview-container {
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: var(--spacing-md);
+        }
+        .preview-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: var(--spacing-md);
+            text-align: center;
+        }
+        .preview-box canvas {
+            border: 1px solid var(--border);
+            background: white;
+        }
+        .preview-box .label {
+            margin-top: var(--spacing-xs);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        .option-group {
+            background: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius);
+        }
+        .option-group label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: bold;
+        }
+        .option-group input, .option-group select {
+            width: 100%;
+            padding: var(--spacing-xs);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        .emoji-picker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: var(--spacing-xs);
+        }
+        .emoji-btn {
+            font-size: 1.5rem;
+            padding: 4px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: var(--bg-primary);
+            cursor: pointer;
+        }
+        .emoji-btn:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Favicon Generator</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Create favicons from text, emoji, or upload images.</p>
+        </div>
+
+        <div class="options-grid">
+            <div class="option-group">
+                <label>Text/Emoji</label>
+                <input type="text" id="textInput" value="CU" maxlength="3" oninput="generateFavicon()">
+                <div class="emoji-picker">
+                    <span class="emoji-btn" onclick="setEmoji('🚀')">🚀</span>
+                    <span class="emoji-btn" onclick="setEmoji('⭐')">⭐</span>
+                    <span class="emoji-btn" onclick="setEmoji('💡')">💡</span>
+                    <span class="emoji-btn" onclick="setEmoji('🔧')">🔧</span>
+                    <span class="emoji-btn" onclick="setEmoji('📦')">📦</span>
+                    <span class="emoji-btn" onclick="setEmoji('🎯')">🎯</span>
+                    <span class="emoji-btn" onclick="setEmoji('🔥')">🔥</span>
+                    <span class="emoji-btn" onclick="setEmoji('💻')">💻</span>
+                </div>
+            </div>
+            <div class="option-group">
+                <label>Background Color</label>
+                <input type="color" id="bgColor" value="#3b82f6" onchange="generateFavicon()">
+            </div>
+            <div class="option-group">
+                <label>Text Color</label>
+                <input type="color" id="textColor" value="#ffffff" onchange="generateFavicon()">
+            </div>
+            <div class="option-group">
+                <label>Shape</label>
+                <select id="shape" onchange="generateFavicon()">
+                    <option value="square">Square</option>
+                    <option value="rounded">Rounded</option>
+                    <option value="circle">Circle</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="preview-container">
+            <div class="preview-box">
+                <canvas id="preview64" width="64" height="64"></canvas>
+                <div class="label">64x64</div>
+            </div>
+            <div class="preview-box">
+                <canvas id="preview32" width="32" height="32"></canvas>
+                <div class="label">32x32</div>
+            </div>
+            <div class="preview-box">
+                <canvas id="preview16" width="16" height="16"></canvas>
+                <div class="label">16x16</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="download64()">Download 64x64</button>
+            <button class="btn" onclick="download32()">Download 32x32</button>
+            <button class="btn" onclick="download16()">Download 16x16</button>
+            <button class="btn btn-secondary" onclick="downloadAll()">Download All</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section" style="margin-top: var(--spacing-md);">
+            <div class="editor-header">HTML Code</div>
+            <textarea id="htmlCode" class="editor" readonly style="height: 100px;"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="meta-generator.html">Meta Tag Generator</a></li>
+                <li><a href="color-picker.html">Color Picker</a></li>
+                <li><a href="qr-generator.html">QR Code Generator</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Favicons</h2>
+            <p>Favicons are small icons displayed in browser tabs, bookmarks, and address bars.</p>
+
+            <h3>Recommended Sizes</h3>
+            <ul>
+                <li><strong>16x16:</strong> Browser tabs (traditional)</li>
+                <li><strong>32x32:</strong> Taskbar shortcuts, high-DPI tabs</li>
+                <li><strong>64x64:</strong> High-resolution displays</li>
+                <li><strong>180x180:</strong> Apple Touch Icon</li>
+                <li><strong>512x512:</strong> PWA icons</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'favicon-generator',
+            name: 'Favicon Generator',
+            url: 'favicon-generator.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function setEmoji(emoji) {
+            document.getElementById('textInput').value = emoji;
+            generateFavicon();
+        }
+
+        function generateFavicon() {
+            const text = document.getElementById('textInput').value || 'F';
+            const bgColor = document.getElementById('bgColor').value;
+            const textColor = document.getElementById('textColor').value;
+            const shape = document.getElementById('shape').value;
+
+            [64, 32, 16].forEach(size => {
+                const canvas = document.getElementById(`preview${size}`);
+                const ctx = canvas.getContext('2d');
+
+                ctx.clearRect(0, 0, size, size);
+
+                // Background
+                ctx.fillStyle = bgColor;
+                if (shape === 'circle') {
+                    ctx.beginPath();
+                    ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (shape === 'rounded') {
+                    const r = size * 0.2;
+                    ctx.beginPath();
+                    ctx.moveTo(r, 0);
+                    ctx.lineTo(size - r, 0);
+                    ctx.quadraticCurveTo(size, 0, size, r);
+                    ctx.lineTo(size, size - r);
+                    ctx.quadraticCurveTo(size, size, size - r, size);
+                    ctx.lineTo(r, size);
+                    ctx.quadraticCurveTo(0, size, 0, size - r);
+                    ctx.lineTo(0, r);
+                    ctx.quadraticCurveTo(0, 0, r, 0);
+                    ctx.fill();
+                } else {
+                    ctx.fillRect(0, 0, size, size);
+                }
+
+                // Text
+                ctx.fillStyle = textColor;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+
+                // Adjust font size based on text length
+                let fontSize = size * 0.6;
+                if (text.length === 2) fontSize = size * 0.45;
+                if (text.length >= 3) fontSize = size * 0.35;
+
+                ctx.font = `bold ${fontSize}px Arial, sans-serif`;
+                ctx.fillText(text, size/2, size/2 + (size * 0.05));
+            });
+        }
+
+        function download(size) {
+            const canvas = document.getElementById(`preview${size}`);
+            const link = document.createElement('a');
+            link.download = `favicon-${size}x${size}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            CodeUtils.Message.success(`${size}x${size} favicon downloaded!`);
+        }
+
+        function download64() { download(64); }
+        function download32() { download(32); }
+        function download16() { download(16); }
+
+        function downloadAll() {
+            download(64);
+            setTimeout(() => download(32), 100);
+            setTimeout(() => download(16), 200);
+        }
+
+        generateFavicon();
+    </script>
+</body>
+</html>

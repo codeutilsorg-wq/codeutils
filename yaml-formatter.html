@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YAML Formatter - Code Utils</title>
+    <meta name="description" content="Free YAML formatter and validator. Format, validate, and beautify YAML files. Fix indentation issues.">
+    <meta name="keywords" content="yaml formatter, yaml validator, yaml beautifier, format yaml, yaml lint">
+    <link rel="canonical" href="https://codeutils.org/yaml-formatter.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/yaml-formatter.html">
+    <meta property="og:title" content="YAML Formatter - Code Utils">
+    <meta property="og:description" content="Format and validate YAML files.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .options-row {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+        .options-row label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        .options-row select {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">YAML Formatter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Format, validate, and beautify YAML data.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">YAML Input</div>
+            <textarea id="yamlInput" class="editor" placeholder="name: John Doe
+age: 30
+address:
+  city: New York
+  zip: '10001'"></textarea>
+        </div>
+
+        <div class="options-row">
+            <label>
+                Indent:
+                <select id="indentSize">
+                    <option value="2" selected>2 spaces</option>
+                    <option value="4">4 spaces</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="formatYAML()">Format & Validate</button>
+            <button class="btn btn-secondary" onclick="copyOutput()">Copy</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">Formatted Output</div>
+            <textarea id="yamlOutput" class="editor" readonly placeholder="Formatted YAML will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="json-to-yaml.html">JSON to YAML</a></li>
+                <li><a href="yaml-to-json.html">YAML to JSON</a></li>
+                <li><a href="json-formatter.html">JSON Formatter</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About YAML Formatter</h2>
+            <p>YAML (YAML Ain't Markup Language) is a human-readable data serialization format commonly used for configuration files.</p>
+
+            <h3>YAML Syntax Rules</h3>
+            <ul>
+                <li>Indentation matters - use consistent spaces (not tabs)</li>
+                <li>Key-value pairs use colons: <code>key: value</code></li>
+                <li>Lists use dashes: <code>- item</code></li>
+                <li>Comments start with #</li>
+                <li>Strings don't usually need quotes</li>
+            </ul>
+
+            <h3>Example</h3>
+            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">server:
+  host: localhost
+  port: 8080
+  features:
+    - auth
+    - logging</pre>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'yaml-formatter',
+            name: 'YAML Formatter',
+            url: 'yaml-formatter.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function formatYAML() {
+            const input = document.getElementById('yamlInput').value.trim();
+            if (!input) {
+                CodeUtils.Message.error('Please enter YAML');
+                return;
+            }
+
+            const indentSize = parseInt(document.getElementById('indentSize').value);
+
+            try {
+                // Parse YAML to validate
+                const parsed = jsyaml.load(input);
+
+                // Convert back to YAML with proper formatting
+                const formatted = jsyaml.dump(parsed, {
+                    indent: indentSize,
+                    lineWidth: -1,
+                    noRefs: true,
+                    sortKeys: false
+                });
+
+                document.getElementById('yamlOutput').value = formatted;
+                CodeUtils.Message.success('YAML is valid and formatted!');
+            } catch (e) {
+                CodeUtils.Message.error('Invalid YAML: ' + e.message);
+                document.getElementById('yamlOutput').value = '';
+            }
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('yamlOutput').value;
+            if (!output) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(output);
+            CodeUtils.Message.success('Copied!');
+        }
+
+        function clearAll() {
+            document.getElementById('yamlInput').value = '';
+            document.getElementById('yamlOutput').value = '';
+        }
+    </script>
+</body>
+</html>

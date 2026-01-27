@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Converter - Code Utils</title>
+    <meta name="description" content="Free online case converter. Convert text to UPPERCASE, lowercase, Title Case, camelCase, snake_case, kebab-case, and more.">
+    <meta name="keywords" content="case converter, uppercase, lowercase, title case, camelcase, snake case, text converter">
+    <link rel="canonical" href="https://codeutils.org/case-converter.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/case-converter.html">
+    <meta property="og:title" content="Case Converter - Code Utils">
+    <meta property="og:description" content="Convert text between different cases: UPPER, lower, Title, camelCase, snake_case.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .case-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        .case-btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .case-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Case Converter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Convert text between different cases instantly.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Input Text</div>
+            <textarea id="inputText" class="editor" placeholder="Enter your text here..."></textarea>
+        </div>
+
+        <div class="case-buttons">
+            <button class="case-btn" onclick="convert('upper')">UPPERCASE</button>
+            <button class="case-btn" onclick="convert('lower')">lowercase</button>
+            <button class="case-btn" onclick="convert('title')">Title Case</button>
+            <button class="case-btn" onclick="convert('sentence')">Sentence case</button>
+            <button class="case-btn" onclick="convert('camel')">camelCase</button>
+            <button class="case-btn" onclick="convert('pascal')">PascalCase</button>
+            <button class="case-btn" onclick="convert('snake')">snake_case</button>
+            <button class="case-btn" onclick="convert('kebab')">kebab-case</button>
+            <button class="case-btn" onclick="convert('constant')">CONSTANT_CASE</button>
+            <button class="case-btn" onclick="convert('dot')">dot.case</button>
+            <button class="case-btn" onclick="convert('toggle')">tOGGLE cASE</button>
+            <button class="case-btn" onclick="convert('alternating')">aLtErNaTiNg</button>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Output</div>
+            <textarea id="outputText" class="editor" readonly placeholder="Converted text will appear here..."></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="copyOutput()">Copy Output</button>
+            <button class="btn btn-secondary" onclick="swapText()">Swap Input/Output</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="word-counter.html">Word Counter</a></li>
+                <li><a href="text-reverser.html">Text Reverser</a></li>
+                <li><a href="slug-generator.html">Slug Generator</a></li>
+                <li><a href="find-replace.html">Find and Replace</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Case Converter</h2>
+            <p>Convert text between various programming and writing cases.</p>
+
+            <h3>Available Cases</h3>
+            <ul>
+                <li><strong>UPPERCASE:</strong> ALL LETTERS CAPITALIZED</li>
+                <li><strong>lowercase:</strong> all letters in lowercase</li>
+                <li><strong>Title Case:</strong> First Letter Of Each Word Capitalized</li>
+                <li><strong>Sentence case:</strong> First letter of each sentence capitalized</li>
+                <li><strong>camelCase:</strong> firstWordLowerRestCapitalized</li>
+                <li><strong>PascalCase:</strong> AllWordsCapitalized</li>
+                <li><strong>snake_case:</strong> words_separated_by_underscores</li>
+                <li><strong>kebab-case:</strong> words-separated-by-hyphens</li>
+                <li><strong>CONSTANT_CASE:</strong> UPPERCASE_WITH_UNDERSCORES</li>
+                <li><strong>dot.case:</strong> words.separated.by.dots</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'case-converter',
+            name: 'Case Converter',
+            url: 'case-converter.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function getWords(text) {
+            return text.trim().split(/[\s_\-\.]+/).filter(w => w);
+        }
+
+        function convert(type) {
+            const input = document.getElementById('inputText').value;
+            if (!input.trim()) {
+                CodeUtils.Message.error('Please enter some text');
+                return;
+            }
+
+            let output = '';
+            const words = getWords(input);
+
+            switch (type) {
+                case 'upper':
+                    output = input.toUpperCase();
+                    break;
+                case 'lower':
+                    output = input.toLowerCase();
+                    break;
+                case 'title':
+                    output = input.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+                    break;
+                case 'sentence':
+                    output = input.toLowerCase().replace(/(^\w|[.!?]\s+\w)/g, c => c.toUpperCase());
+                    break;
+                case 'camel':
+                    output = words.map((w, i) => i === 0 ? w.toLowerCase() : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join('');
+                    break;
+                case 'pascal':
+                    output = words.map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join('');
+                    break;
+                case 'snake':
+                    output = words.map(w => w.toLowerCase()).join('_');
+                    break;
+                case 'kebab':
+                    output = words.map(w => w.toLowerCase()).join('-');
+                    break;
+                case 'constant':
+                    output = words.map(w => w.toUpperCase()).join('_');
+                    break;
+                case 'dot':
+                    output = words.map(w => w.toLowerCase()).join('.');
+                    break;
+                case 'toggle':
+                    output = input.split('').map(c => c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()).join('');
+                    break;
+                case 'alternating':
+                    output = input.split('').map((c, i) => i % 2 === 0 ? c.toLowerCase() : c.toUpperCase()).join('');
+                    break;
+            }
+
+            document.getElementById('outputText').value = output;
+            CodeUtils.Message.success('Text converted!');
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('outputText').value;
+            if (!output) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(output);
+            CodeUtils.Message.success('Copied to clipboard!');
+        }
+
+        function swapText() {
+            const input = document.getElementById('inputText');
+            const output = document.getElementById('outputText');
+            const temp = input.value;
+            input.value = output.value;
+            output.value = temp;
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').value = '';
+        }
+    </script>
+</body>
+</html>

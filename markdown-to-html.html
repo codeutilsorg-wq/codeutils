@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown to HTML Converter - Code Utils</title>
+    <meta name="description" content="Free Markdown to HTML converter. Convert Markdown to clean HTML code. Supports GitHub-flavored Markdown.">
+    <meta name="keywords" content="markdown to html, convert markdown html, md to html, markdown converter">
+    <link rel="canonical" href="https://codeutils.org/markdown-to-html.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/markdown-to-html.html">
+    <meta property="og:title" content="Markdown to HTML - Code Utils">
+    <meta property="og:description" content="Convert Markdown to HTML code.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Markdown to HTML Converter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Convert Markdown content to HTML code.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Markdown Input</div>
+            <textarea id="markdownInput" class="editor" placeholder="# Hello World
+
+This is a **paragraph** with *emphasis*.
+
+- Item 1
+- Item 2
+
+[Link](https://example.com)"></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="convertToHTML()">Convert to HTML</button>
+            <button class="btn btn-secondary" onclick="copyOutput()">Copy</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">HTML Output</div>
+            <textarea id="htmlOutput" class="editor" readonly placeholder="HTML will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="markdown-preview.html">Markdown Preview</a></li>
+                <li><a href="html-to-markdown.html">HTML to Markdown</a></li>
+                <li><a href="html-formatter.html">HTML Formatter</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>Supported Markdown</h2>
+            <ul>
+                <li># Headers (h1-h6)</li>
+                <li>**bold** and *italic*</li>
+                <li>[links](url) and ![images](url)</li>
+                <li>- Unordered and 1. ordered lists</li>
+                <li>`inline code` and code blocks</li>
+                <li>> Blockquotes</li>
+                <li>--- Horizontal rules</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'markdown-to-html',
+            name: 'Markdown to HTML',
+            url: 'markdown-to-html.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function convertToHTML() {
+            const md = document.getElementById('markdownInput').value.trim();
+            if (!md) {
+                CodeUtils.Message.error('Please enter Markdown');
+                return;
+            }
+
+            let html = md;
+
+            // Code blocks first
+            html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) =>
+                `<pre><code class="language-${lang}">${escapeHtml(code.trim())}</code></pre>`
+            );
+
+            // Inline code
+            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+            // Headers
+            html = html.replace(/^###### (.*$)/gm, '<h6>$1</h6>');
+            html = html.replace(/^##### (.*$)/gm, '<h5>$1</h5>');
+            html = html.replace(/^#### (.*$)/gm, '<h4>$1</h4>');
+            html = html.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+            html = html.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+            html = html.replace(/^# (.*$)/gm, '<h1>$1</h1>');
+
+            // Bold and italic
+            html = html.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/__(.*?)__/g, '<strong>$1</strong>');
+            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            html = html.replace(/_(.*?)_/g, '<em>$1</em>');
+            html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
+
+            // Links and images
+            html = html.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1">');
+            html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
+
+            // Blockquotes
+            html = html.replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>');
+
+            // Horizontal rule
+            html = html.replace(/^(-{3,}|\*{3,})$/gm, '<hr>');
+
+            // Unordered lists
+            html = html.replace(/^\s*[-*+] (.*$)/gm, '<li>$1</li>');
+            html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>\n$&</ul>\n');
+
+            // Ordered lists
+            html = html.replace(/^\s*\d+\. (.*$)/gm, '<li>$1</li>');
+
+            // Paragraphs
+            html = html.replace(/\n\n+/g, '</p>\n<p>');
+            html = '<p>' + html + '</p>';
+            html = html.replace(/<p>\s*<\/p>/g, '');
+            html = html.replace(/<p>(<h[1-6]|<ul|<ol|<pre|<blockquote|<hr)/g, '$1');
+            html = html.replace(/(<\/h[1-6]>|<\/ul>|<\/ol>|<\/pre>|<\/blockquote>|<hr>)<\/p>/g, '$1');
+
+            // Clean up
+            html = html.replace(/\n+/g, '\n');
+
+            document.getElementById('htmlOutput').value = html;
+            CodeUtils.Message.success('Converted to HTML!');
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('htmlOutput').value;
+            if (!output) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(output);
+            CodeUtils.Message.success('Copied!');
+        }
+
+        function clearAll() {
+            document.getElementById('markdownInput').value = '';
+            document.getElementById('htmlOutput').value = '';
+        }
+    </script>
+</body>
+</html>

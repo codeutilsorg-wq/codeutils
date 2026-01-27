@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Picker - Code Utils</title>
+    <meta name="description" content="Free color picker tool. Pick colors visually and get HEX, RGB, and HSL codes. Extract colors from any image.">
+    <meta name="keywords" content="color picker, pick color, color selector, eyedropper, color codes">
+    <link rel="canonical" href="https://codeutils.org/color-picker.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/color-picker.html">
+    <meta property="og:title" content="Color Picker - Code Utils">
+    <meta property="og:description" content="Pick colors visually and get color codes.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .picker-container {
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        .color-area {
+            position: relative;
+            height: 300px;
+            border-radius: var(--radius);
+            cursor: crosshair;
+        }
+        .color-area-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, #fff, transparent),
+                        linear-gradient(to top, #000, transparent);
+            border-radius: var(--radius);
+        }
+        .hue-slider {
+            width: 100%;
+            height: 20px;
+            border-radius: var(--radius);
+            background: linear-gradient(to right,
+                hsl(0, 100%, 50%), hsl(60, 100%, 50%), hsl(120, 100%, 50%),
+                hsl(180, 100%, 50%), hsl(240, 100%, 50%), hsl(300, 100%, 50%), hsl(360, 100%, 50%));
+            cursor: pointer;
+            margin-bottom: var(--spacing-md);
+        }
+        .preview-box {
+            height: 100px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            margin-bottom: var(--spacing-md);
+        }
+        .color-values {
+            background: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius);
+        }
+        .color-value {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-xs) 0;
+            border-bottom: 1px solid var(--border);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+        }
+        .color-value:last-child {
+            border-bottom: none;
+        }
+        .color-value button {
+            padding: 2px 8px;
+            font-size: 0.75rem;
+        }
+        .saved-colors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            margin-top: var(--spacing-md);
+        }
+        .saved-color {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius);
+            border: 2px solid var(--border);
+            cursor: pointer;
+        }
+        @media (max-width: 600px) {
+            .picker-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Color Picker</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Pick colors visually and get color codes.</p>
+        </div>
+
+        <div style="margin-bottom: var(--spacing-md);">
+            <input type="color" id="nativePicker" value="#3b82f6" style="width: 100%; height: 50px; cursor: pointer; border: none; border-radius: var(--radius);" onchange="fromNativePicker()">
+        </div>
+
+        <div class="preview-box" id="previewBox" style="background: #3b82f6;"></div>
+
+        <div class="color-values">
+            <div class="color-value">
+                <span>HEX</span>
+                <span id="hexValue">#3B82F6</span>
+                <button class="btn btn-outline btn-sm" onclick="copyValue('hexValue')">Copy</button>
+            </div>
+            <div class="color-value">
+                <span>RGB</span>
+                <span id="rgbValue">rgb(59, 130, 246)</span>
+                <button class="btn btn-outline btn-sm" onclick="copyValue('rgbValue')">Copy</button>
+            </div>
+            <div class="color-value">
+                <span>HSL</span>
+                <span id="hslValue">hsl(217, 91%, 60%)</span>
+                <button class="btn btn-outline btn-sm" onclick="copyValue('hslValue')">Copy</button>
+            </div>
+        </div>
+
+        <div class="controls" style="margin-top: var(--spacing-md);">
+            <button class="btn" onclick="saveColor()">Save Color</button>
+            <button class="btn btn-secondary" onclick="randomColor()">Random</button>
+            <button class="btn btn-outline" onclick="clearSaved()">Clear Saved</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="saved-colors" id="savedColors"></div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="color-converter.html">Color Converter</a></li>
+                <li><a href="gradient-generator.html">Gradient Generator</a></li>
+                <li><a href="color-palette.html">Color Palette</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Color Picker</h2>
+            <p>This tool lets you pick colors visually and get the color codes in various formats.</p>
+
+            <h3>Features</h3>
+            <ul>
+                <li>Native color picker for precise selection</li>
+                <li>Copy HEX, RGB, or HSL values with one click</li>
+                <li>Save colors for later reference</li>
+                <li>Generate random colors for inspiration</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'color-picker',
+            name: 'Color Picker',
+            url: 'color-picker.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        let currentColor = '#3B82F6';
+        let savedColors = JSON.parse(localStorage.getItem('savedColors') || '[]');
+
+        function hexToRgb(hex) {
+            hex = hex.replace('#', '');
+            return {
+                r: parseInt(hex.substr(0, 2), 16),
+                g: parseInt(hex.substr(2, 2), 16),
+                b: parseInt(hex.substr(4, 2), 16)
+            };
+        }
+
+        function rgbToHsl(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+
+            if (max === min) {
+                h = s = 0;
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+                    case g: h = ((b - r) / d + 2) / 6; break;
+                    case b: h = ((r - g) / d + 4) / 6; break;
+                }
+            }
+            return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+        }
+
+        function updateDisplay(hex) {
+            currentColor = hex.toUpperCase();
+            document.getElementById('previewBox').style.background = currentColor;
+            document.getElementById('nativePicker').value = currentColor;
+            document.getElementById('hexValue').textContent = currentColor;
+
+            const rgb = hexToRgb(currentColor);
+            document.getElementById('rgbValue').textContent = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+
+            const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+            document.getElementById('hslValue').textContent = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+        }
+
+        function fromNativePicker() {
+            updateDisplay(document.getElementById('nativePicker').value);
+        }
+
+        function copyValue(elementId) {
+            const value = document.getElementById(elementId).textContent;
+            CodeUtils.Clipboard.copy(value);
+            CodeUtils.Message.success('Copied!');
+        }
+
+        function randomColor() {
+            const hex = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+            updateDisplay(hex);
+            CodeUtils.Message.success('Random color!');
+        }
+
+        function saveColor() {
+            if (!savedColors.includes(currentColor)) {
+                savedColors.push(currentColor);
+                if (savedColors.length > 20) savedColors.shift();
+                localStorage.setItem('savedColors', JSON.stringify(savedColors));
+                renderSavedColors();
+                CodeUtils.Message.success('Color saved!');
+            } else {
+                CodeUtils.Message.warning('Color already saved');
+            }
+        }
+
+        function clearSaved() {
+            savedColors = [];
+            localStorage.setItem('savedColors', '[]');
+            renderSavedColors();
+            CodeUtils.Message.success('Saved colors cleared!');
+        }
+
+        function renderSavedColors() {
+            const container = document.getElementById('savedColors');
+            container.innerHTML = savedColors.map(color =>
+                `<div class="saved-color" style="background: ${color};" onclick="updateDisplay('${color}')" title="${color}"></div>`
+            ).join('');
+        }
+
+        renderSavedColors();
+    </script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Formatter - Code Utils</title>
+    <meta name="description" content="Free Python code formatter and beautifier. Format Python code with proper indentation online.">
+    <meta name="keywords" content="python formatter, python beautifier, format python, python code formatter, pep8 formatter">
+    <link rel="canonical" href="https://codeutils.org/python-formatter.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/python-formatter.html">
+    <meta property="og:title" content="Python Formatter - Code Utils">
+    <meta property="og:description" content="Format and beautify Python code online.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .options-row {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+        .options-row label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        .options-row select {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Python Formatter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Format and beautify Python code with proper indentation.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Python Input</div>
+            <textarea id="pythonInput" class="editor" placeholder="def hello():
+print('Hello World')
+for i in range(10):
+print(i)"></textarea>
+        </div>
+
+        <div class="options-row">
+            <label>
+                Indent:
+                <select id="indentSize">
+                    <option value="4" selected>4 Spaces (PEP 8)</option>
+                    <option value="2">2 Spaces</option>
+                    <option value="tab">Tab</option>
+                </select>
+            </label>
+            <label>
+                <input type="checkbox" id="addBlankLines" checked>
+                Add blank lines between functions
+            </label>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="formatPython()">Format Python</button>
+            <button class="btn btn-secondary" onclick="copyOutput()">Copy</button>
+            <button class="btn btn-secondary" onclick="downloadPython()">Download</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">Formatted Python</div>
+            <textarea id="pythonOutput" class="editor" readonly placeholder="Formatted Python will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="json-formatter.html">JSON Formatter</a></li>
+                <li><a href="yaml-formatter.html">YAML Formatter</a></li>
+                <li><a href="sql-formatter.html">SQL Formatter</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Python Formatter</h2>
+            <p>This tool formats Python code with proper indentation following PEP 8 guidelines.</p>
+
+            <h3>Features</h3>
+            <ul>
+                <li>Fixes indentation for code blocks</li>
+                <li>Configurable indent size (4 spaces is PEP 8 standard)</li>
+                <li>Handles functions, classes, and control structures</li>
+                <li>Optional blank lines between functions</li>
+            </ul>
+
+            <h3>PEP 8 Guidelines</h3>
+            <ul>
+                <li>Use 4 spaces per indentation level</li>
+                <li>Two blank lines between top-level definitions</li>
+                <li>One blank line between method definitions</li>
+                <li>Maximum line length of 79 characters</li>
+            </ul>
+
+            <h3>Limitations</h3>
+            <p>This is a basic formatter. For full PEP 8 compliance, use tools like Black, autopep8, or YAPF in your development environment.</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'python-formatter',
+            name: 'Python Formatter',
+            url: 'python-formatter.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        const INDENT_KEYWORDS = ['def ', 'class ', 'if ', 'elif ', 'else:', 'for ', 'while ', 'try:', 'except', 'finally:', 'with ', 'async def ', 'async for ', 'async with '];
+        const DEDENT_KEYWORDS = ['return', 'break', 'continue', 'raise', 'pass'];
+
+        function formatPython() {
+            const input = document.getElementById('pythonInput').value;
+            if (!input.trim()) {
+                CodeUtils.Message.error('Please enter Python code');
+                return;
+            }
+
+            const indentSize = document.getElementById('indentSize').value;
+            const addBlankLines = document.getElementById('addBlankLines').checked;
+            const indent = indentSize === 'tab' ? '\t' : ' '.repeat(parseInt(indentSize));
+
+            try {
+                const formatted = formatPythonCode(input, indent, addBlankLines);
+                document.getElementById('pythonOutput').value = formatted;
+                CodeUtils.Message.success('Python formatted!');
+            } catch (e) {
+                CodeUtils.Message.error('Error formatting Python: ' + e.message);
+            }
+        }
+
+        function formatPythonCode(code, indent, addBlankLines) {
+            // Normalize line endings
+            code = code.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+            const lines = code.split('\n');
+            const formattedLines = [];
+            let indentLevel = 0;
+            let prevWasFunction = false;
+            let inMultilineString = false;
+            let multilineStringChar = '';
+
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
+                let trimmed = line.trim();
+
+                // Handle empty lines
+                if (!trimmed) {
+                    formattedLines.push('');
+                    continue;
+                }
+
+                // Handle multiline strings
+                if (inMultilineString) {
+                    formattedLines.push(line); // Keep original formatting in multiline strings
+                    if (trimmed.includes(multilineStringChar)) {
+                        inMultilineString = false;
+                    }
+                    continue;
+                }
+
+                // Check for multiline string start
+                if (trimmed.includes('"""') || trimmed.includes("'''")) {
+                    const tripleDouble = (trimmed.match(/\"\"\"/g) || []).length;
+                    const tripleSingle = (trimmed.match(/\'\'\'/g) || []).length;
+
+                    if (tripleDouble % 2 === 1) {
+                        inMultilineString = true;
+                        multilineStringChar = '"""';
+                    } else if (tripleSingle % 2 === 1) {
+                        inMultilineString = true;
+                        multilineStringChar = "'''";
+                    }
+                }
+
+                // Handle comments
+                if (trimmed.startsWith('#')) {
+                    formattedLines.push(indent.repeat(indentLevel) + trimmed);
+                    continue;
+                }
+
+                // Add blank lines before function/class definitions
+                if (addBlankLines && (trimmed.startsWith('def ') || trimmed.startsWith('class ') || trimmed.startsWith('async def '))) {
+                    if (formattedLines.length > 0 && formattedLines[formattedLines.length - 1].trim() !== '') {
+                        // Add two blank lines before top-level, one before methods
+                        if (indentLevel === 0 && !prevWasFunction) {
+                            formattedLines.push('');
+                            formattedLines.push('');
+                        } else if (!prevWasFunction) {
+                            formattedLines.push('');
+                        }
+                    }
+                    prevWasFunction = true;
+                } else {
+                    prevWasFunction = false;
+                }
+
+                // Check for dedent keywords at start
+                if (trimmed === 'else:' || trimmed.startsWith('elif ') ||
+                    trimmed.startsWith('except') || trimmed === 'finally:') {
+                    indentLevel = Math.max(0, indentLevel - 1);
+                }
+
+                // Format the line
+                formattedLines.push(indent.repeat(indentLevel) + trimmed);
+
+                // Check if line ends with colon (new block)
+                if (trimmed.endsWith(':') && !trimmed.startsWith('#')) {
+                    indentLevel++;
+                }
+
+                // Check for dedent after certain keywords
+                for (const keyword of DEDENT_KEYWORDS) {
+                    if (trimmed === keyword || trimmed.startsWith(keyword + ' ')) {
+                        // Next line should have same or less indent
+                        break;
+                    }
+                }
+            }
+
+            return formattedLines.join('\n');
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('pythonOutput').value;
+            if (!output) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(output);
+            CodeUtils.Message.success('Copied!');
+        }
+
+        function downloadPython() {
+            const output = document.getElementById('pythonOutput').value;
+            if (!output) {
+                CodeUtils.Message.error('Nothing to download');
+                return;
+            }
+            CodeUtils.FileHandler.download(output, 'formatted.py', 'text/x-python');
+            CodeUtils.Message.success('Downloaded!');
+        }
+
+        function clearAll() {
+            document.getElementById('pythonInput').value = '';
+            document.getElementById('pythonOutput').value = '';
+        }
+    </script>
+</body>
+</html>

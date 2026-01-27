@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Tag Generator - Code Utils</title>
+    <meta name="description" content="Free meta tag generator. Generate HTML meta tags for SEO, Open Graph, and Twitter Cards.">
+    <meta name="keywords" content="meta tag generator, seo meta tags, open graph, twitter cards, html meta">
+    <link rel="canonical" href="https://codeutils.org/meta-generator.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/meta-generator.html">
+    <meta property="og:title" content="Meta Tag Generator - Code Utils">
+    <meta property="og:description" content="Generate SEO-friendly meta tags for your website.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: var(--spacing-xs);
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        .form-group small {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+        .char-count {
+            float: right;
+        }
+        .section-header {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: var(--spacing-lg) 0 var(--spacing-md);
+            padding-bottom: var(--spacing-xs);
+            border-bottom: 2px solid var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Meta Tag Generator</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Generate HTML meta tags for SEO, Open Graph, and Twitter Cards.</p>
+        </div>
+
+        <div class="section-header">Basic SEO</div>
+
+        <div class="form-group">
+            <label>Page Title <span class="char-count" id="titleCount">0/60</span></label>
+            <input type="text" id="pageTitle" placeholder="My Awesome Website" oninput="updateMeta(); updateCount('pageTitle', 'titleCount', 60)">
+            <small>Recommended: 50-60 characters</small>
+        </div>
+
+        <div class="form-group">
+            <label>Meta Description <span class="char-count" id="descCount">0/160</span></label>
+            <textarea id="metaDescription" rows="3" placeholder="A brief description of your page..." oninput="updateMeta(); updateCount('metaDescription', 'descCount', 160)"></textarea>
+            <small>Recommended: 150-160 characters</small>
+        </div>
+
+        <div class="form-group">
+            <label>Keywords (comma-separated)</label>
+            <input type="text" id="keywords" placeholder="keyword1, keyword2, keyword3" oninput="updateMeta()">
+        </div>
+
+        <div class="form-group">
+            <label>Canonical URL</label>
+            <input type="url" id="canonicalUrl" placeholder="https://example.com/page" oninput="updateMeta()">
+        </div>
+
+        <div class="section-header">Open Graph (Facebook/LinkedIn)</div>
+
+        <div class="form-group">
+            <label>OG Title</label>
+            <input type="text" id="ogTitle" placeholder="Same as page title or different" oninput="updateMeta()">
+        </div>
+
+        <div class="form-group">
+            <label>OG Description</label>
+            <textarea id="ogDescription" rows="2" placeholder="Description for social media..." oninput="updateMeta()"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>OG Image URL</label>
+            <input type="url" id="ogImage" placeholder="https://example.com/image.jpg" oninput="updateMeta()">
+            <small>Recommended: 1200x630 pixels</small>
+        </div>
+
+        <div class="form-group">
+            <label>OG Type</label>
+            <select id="ogType" onchange="updateMeta()">
+                <option value="website">Website</option>
+                <option value="article">Article</option>
+                <option value="product">Product</option>
+            </select>
+        </div>
+
+        <div class="section-header">Twitter Card</div>
+
+        <div class="form-group">
+            <label>Twitter Card Type</label>
+            <select id="twitterCard" onchange="updateMeta()">
+                <option value="summary">Summary</option>
+                <option value="summary_large_image">Summary Large Image</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Twitter Handle (optional)</label>
+            <input type="text" id="twitterHandle" placeholder="@username" oninput="updateMeta()">
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="copyMeta()">Copy Meta Tags</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear All</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section" style="margin-top: var(--spacing-md);">
+            <div class="editor-header">Generated Meta Tags</div>
+            <textarea id="metaOutput" class="editor" readonly style="height: 300px;"></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="slug-generator.html">Slug Generator</a></li>
+                <li><a href="html-formatter.html">HTML Formatter</a></li>
+                <li><a href="html-encoder.html">HTML Encoder</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Meta Tags</h2>
+            <p>Meta tags provide information about your webpage to search engines and social media platforms.</p>
+
+            <h3>Important Meta Tags</h3>
+            <ul>
+                <li><strong>Title:</strong> Displayed in search results and browser tabs</li>
+                <li><strong>Description:</strong> Summary shown in search results</li>
+                <li><strong>Open Graph:</strong> Controls how links appear on Facebook/LinkedIn</li>
+                <li><strong>Twitter Card:</strong> Controls how links appear on Twitter</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'meta-generator',
+            name: 'Meta Generator',
+            url: 'meta-generator.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function updateCount(inputId, countId, max) {
+            const length = document.getElementById(inputId).value.length;
+            const countEl = document.getElementById(countId);
+            countEl.textContent = `${length}/${max}`;
+            countEl.style.color = length > max ? '#dc3545' : 'var(--text-secondary)';
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function updateMeta() {
+            const title = document.getElementById('pageTitle').value;
+            const description = document.getElementById('metaDescription').value;
+            const keywords = document.getElementById('keywords').value;
+            const canonical = document.getElementById('canonicalUrl').value;
+            const ogTitle = document.getElementById('ogTitle').value || title;
+            const ogDescription = document.getElementById('ogDescription').value || description;
+            const ogImage = document.getElementById('ogImage').value;
+            const ogType = document.getElementById('ogType').value;
+            const twitterCard = document.getElementById('twitterCard').value;
+            const twitterHandle = document.getElementById('twitterHandle').value;
+
+            let meta = '<!-- Primary Meta Tags -->\n';
+            if (title) meta += `<title>${escapeHtml(title)}</title>\n`;
+            if (description) meta += `<meta name="description" content="${escapeHtml(description)}">\n`;
+            if (keywords) meta += `<meta name="keywords" content="${escapeHtml(keywords)}">\n`;
+            if (canonical) meta += `<link rel="canonical" href="${escapeHtml(canonical)}">\n`;
+
+            meta += '\n<!-- Open Graph / Facebook -->\n';
+            meta += `<meta property="og:type" content="${ogType}">\n`;
+            if (canonical) meta += `<meta property="og:url" content="${escapeHtml(canonical)}">\n`;
+            if (ogTitle) meta += `<meta property="og:title" content="${escapeHtml(ogTitle)}">\n`;
+            if (ogDescription) meta += `<meta property="og:description" content="${escapeHtml(ogDescription)}">\n`;
+            if (ogImage) meta += `<meta property="og:image" content="${escapeHtml(ogImage)}">\n`;
+
+            meta += '\n<!-- Twitter -->\n';
+            meta += `<meta name="twitter:card" content="${twitterCard}">\n`;
+            if (canonical) meta += `<meta name="twitter:url" content="${escapeHtml(canonical)}">\n`;
+            if (ogTitle) meta += `<meta name="twitter:title" content="${escapeHtml(ogTitle)}">\n`;
+            if (ogDescription) meta += `<meta name="twitter:description" content="${escapeHtml(ogDescription)}">\n`;
+            if (ogImage) meta += `<meta name="twitter:image" content="${escapeHtml(ogImage)}">\n`;
+            if (twitterHandle) meta += `<meta name="twitter:creator" content="${escapeHtml(twitterHandle)}">\n`;
+
+            document.getElementById('metaOutput').value = meta;
+        }
+
+        function copyMeta() {
+            const meta = document.getElementById('metaOutput').value;
+            if (!meta.trim()) {
+                CodeUtils.Message.error('No meta tags to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(meta);
+            CodeUtils.Message.success('Meta tags copied!');
+        }
+
+        function clearAll() {
+            document.querySelectorAll('input, textarea, select').forEach(el => {
+                if (el.tagName === 'SELECT') {
+                    el.selectedIndex = 0;
+                } else {
+                    el.value = '';
+                }
+            });
+            updateMeta();
+        }
+
+        updateMeta();
+    </script>
+</body>
+</html>

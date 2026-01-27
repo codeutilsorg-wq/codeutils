@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Slug Generator - Code Utils</title>
+    <meta name="description" content="Free URL slug generator. Convert text to URL-friendly slugs for SEO. Handles special characters and multiple languages.">
+    <meta name="keywords" content="slug generator, url slug, seo friendly url, permalink generator, url converter">
+    <link rel="canonical" href="https://codeutils.org/slug-generator.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/slug-generator.html">
+    <meta property="og:title" content="URL Slug Generator - Code Utils">
+    <meta property="og:description" content="Convert text to SEO-friendly URL slugs.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .slug-display {
+            font-family: var(--font-mono);
+            font-size: 1.25rem;
+            padding: var(--spacing-md);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: var(--spacing-md);
+            word-break: break-all;
+        }
+        .options-row {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+        .options-row label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        .options-row select {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">URL Slug Generator</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Convert text to SEO-friendly URL slugs.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Input Text</div>
+            <textarea id="inputText" class="editor" placeholder="Enter text to convert to a slug..." oninput="generateSlug()"></textarea>
+        </div>
+
+        <div class="options-row">
+            <label>
+                Separator:
+                <select id="separator" onchange="generateSlug()">
+                    <option value="-">Hyphen (-)</option>
+                    <option value="_">Underscore (_)</option>
+                    <option value="">None</option>
+                </select>
+            </label>
+            <label>
+                <input type="checkbox" id="lowercase" checked onchange="generateSlug()">
+                Lowercase
+            </label>
+            <label>
+                <input type="checkbox" id="removeNumbers" onchange="generateSlug()">
+                Remove numbers
+            </label>
+            <label>
+                Max length:
+                <input type="number" id="maxLength" value="100" min="10" max="200" style="width: 70px; padding: var(--spacing-xs); border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-secondary); color: var(--text-primary);" onchange="generateSlug()">
+            </label>
+        </div>
+
+        <div class="slug-display" id="slugDisplay">your-slug-will-appear-here</div>
+
+        <div class="controls">
+            <button class="btn" onclick="copySlug()">Copy Slug</button>
+            <button class="btn btn-secondary" onclick="generateSlug()">Regenerate</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">Bulk Conversion (one per line)</div>
+            <textarea id="bulkInput" class="editor" placeholder="Enter multiple titles to convert..." oninput="generateBulkSlugs()"></textarea>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Bulk Output</div>
+            <textarea id="bulkOutput" class="editor" readonly placeholder="Slugs will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="url-encoder.html">URL Encoder</a></li>
+                <li><a href="case-converter.html">Case Converter</a></li>
+                <li><a href="meta-generator.html">Meta Tag Generator</a></li>
+                <li><a href="text-reverser.html">Text Reverser</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About URL Slug Generator</h2>
+            <p>This tool converts text into URL-friendly slugs, perfect for blog posts, product pages, and SEO-optimized URLs.</p>
+
+            <h3>What is a Slug?</h3>
+            <p>A slug is the part of a URL that identifies a page in a human-readable form. For example, in <code>https://example.com/my-blog-post</code>, "my-blog-post" is the slug.</p>
+
+            <h3>Best Practices</h3>
+            <ul>
+                <li>Keep slugs short and descriptive</li>
+                <li>Use hyphens instead of underscores (Google preference)</li>
+                <li>Use lowercase letters only</li>
+                <li>Include relevant keywords for SEO</li>
+                <li>Avoid special characters and spaces</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'slug-generator',
+            name: 'Slug Generator',
+            url: 'slug-generator.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        // Character mappings for transliteration
+        const charMap = {
+            'à': 'a', 'á': 'a', 'â': 'a', 'ã': 'a', 'ä': 'a', 'å': 'a', 'æ': 'ae',
+            'ç': 'c', 'è': 'e', 'é': 'e', 'ê': 'e', 'ë': 'e', 'ì': 'i', 'í': 'i',
+            'î': 'i', 'ï': 'i', 'ð': 'd', 'ñ': 'n', 'ò': 'o', 'ó': 'o', 'ô': 'o',
+            'õ': 'o', 'ö': 'o', 'ø': 'o', 'ù': 'u', 'ú': 'u', 'û': 'u', 'ü': 'u',
+            'ý': 'y', 'þ': 'th', 'ÿ': 'y', 'ß': 'ss', 'ł': 'l', 'ő': 'o', 'ű': 'u',
+            'ź': 'z', 'ż': 'z'
+        };
+
+        function slugify(text) {
+            const separator = document.getElementById('separator').value;
+            const useLowercase = document.getElementById('lowercase').checked;
+            const removeNumbers = document.getElementById('removeNumbers').checked;
+            const maxLength = parseInt(document.getElementById('maxLength').value) || 100;
+
+            let slug = text;
+
+            // Transliterate special characters
+            slug = slug.split('').map(c => charMap[c.toLowerCase()] || c).join('');
+
+            // Convert to lowercase if option is set
+            if (useLowercase) {
+                slug = slug.toLowerCase();
+            }
+
+            // Remove numbers if option is set
+            if (removeNumbers) {
+                slug = slug.replace(/[0-9]/g, '');
+            }
+
+            // Replace spaces and special characters with separator
+            slug = slug.replace(/[^a-zA-Z0-9]+/g, separator);
+
+            // Remove leading/trailing separators
+            slug = slug.replace(new RegExp(`^${separator === '' ? '' : '\\' + separator}+|${separator === '' ? '' : '\\' + separator}+$`, 'g'), '');
+
+            // Remove consecutive separators
+            if (separator) {
+                slug = slug.replace(new RegExp(`\\${separator}+`, 'g'), separator);
+            }
+
+            // Truncate to max length
+            if (slug.length > maxLength) {
+                slug = slug.substring(0, maxLength);
+                // Don't cut in the middle of a word
+                const lastSep = slug.lastIndexOf(separator);
+                if (lastSep > maxLength * 0.7) {
+                    slug = slug.substring(0, lastSep);
+                }
+            }
+
+            return slug;
+        }
+
+        function generateSlug() {
+            const input = document.getElementById('inputText').value;
+            const slug = slugify(input);
+            document.getElementById('slugDisplay').textContent = slug || 'your-slug-will-appear-here';
+        }
+
+        function generateBulkSlugs() {
+            const input = document.getElementById('bulkInput').value;
+            const lines = input.split('\n');
+            const slugs = lines.map(line => line.trim() ? slugify(line) : '');
+            document.getElementById('bulkOutput').value = slugs.join('\n');
+        }
+
+        function copySlug() {
+            const slug = document.getElementById('slugDisplay').textContent;
+            if (!slug || slug === 'your-slug-will-appear-here') {
+                CodeUtils.Message.error('Generate a slug first');
+                return;
+            }
+            CodeUtils.Clipboard.copy(slug);
+            CodeUtils.Message.success('Slug copied to clipboard!');
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('bulkInput').value = '';
+            document.getElementById('bulkOutput').value = '';
+            document.getElementById('slugDisplay').textContent = 'your-slug-will-appear-here';
+        }
+    </script>
+</body>
+</html>

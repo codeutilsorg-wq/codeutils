@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Preview - Code Utils</title>
+    <meta name="description" content="Free Markdown preview tool. Write Markdown and see live HTML preview. Supports GitHub-flavored Markdown.">
+    <meta name="keywords" content="markdown preview, markdown editor, markdown to html, github markdown, live preview">
+    <link rel="canonical" href="https://codeutils.org/markdown-preview.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/markdown-preview.html">
+    <meta property="og:title" content="Markdown Preview - Code Utils">
+    <meta property="og:description" content="Write Markdown and see live HTML preview.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .split-view {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        .preview-pane {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: var(--spacing-md);
+            min-height: 400px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .preview-pane h1 { font-size: 2rem; margin-top: 0; }
+        .preview-pane h2 { font-size: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+        .preview-pane h3 { font-size: 1.25rem; }
+        .preview-pane code {
+            background: var(--bg-primary);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: var(--font-mono);
+        }
+        .preview-pane pre {
+            background: var(--bg-primary);
+            padding: var(--spacing-sm);
+            border-radius: var(--radius);
+            overflow-x: auto;
+        }
+        .preview-pane pre code {
+            background: none;
+            padding: 0;
+        }
+        .preview-pane blockquote {
+            border-left: 4px solid var(--primary);
+            margin: 0;
+            padding-left: var(--spacing-md);
+            color: var(--text-secondary);
+        }
+        .preview-pane table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .preview-pane th, .preview-pane td {
+            border: 1px solid var(--border);
+            padding: var(--spacing-xs) var(--spacing-sm);
+        }
+        .preview-pane img {
+            max-width: 100%;
+        }
+        @media (max-width: 768px) {
+            .split-view {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Markdown Preview</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Write Markdown and see a live HTML preview.</p>
+        </div>
+
+        <div class="split-view">
+            <div class="editor-section">
+                <div class="editor-header">Markdown</div>
+                <textarea id="markdownInput" class="editor" style="min-height: 400px;" oninput="renderMarkdown()" placeholder="# Hello World
+
+Write your **Markdown** here...
+
+## Features
+- Live preview
+- Syntax highlighting
+- GitHub-flavored Markdown
+
+```javascript
+const greeting = 'Hello!';
+```
+
+> This is a blockquote
+
+| Column 1 | Column 2 |
+|----------|----------|
+| Cell 1   | Cell 2   |
+"></textarea>
+            </div>
+            <div>
+                <div class="editor-header">Preview</div>
+                <div class="preview-pane" id="previewPane"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="copyHtml()">Copy HTML</button>
+            <button class="btn btn-secondary" onclick="copyMarkdown()">Copy Markdown</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="html-formatter.html">HTML Formatter</a></li>
+                <li><a href="html-to-markdown.html">HTML to Markdown</a></li>
+                <li><a href="word-counter.html">Word Counter</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>Markdown Syntax</h2>
+
+            <h3>Headers</h3>
+            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);"># H1
+## H2
+### H3</pre>
+
+            <h3>Emphasis</h3>
+            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">**bold** or __bold__
+*italic* or _italic_
+~~strikethrough~~</pre>
+
+            <h3>Lists</h3>
+            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">- Unordered item
+1. Ordered item</pre>
+
+            <h3>Links & Images</h3>
+            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">[Link text](URL)
+![Alt text](image-url)</pre>
+
+            <h3>Code</h3>
+            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">`inline code`
+```language
+code block
+```</pre>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'markdown-preview',
+            name: 'Markdown Preview',
+            url: 'markdown-preview.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function parseMarkdown(md) {
+            let html = md;
+
+            // Code blocks (must be first)
+            html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) =>
+                `<pre><code class="language-${lang}">${escapeHtml(code.trim())}</code></pre>`
+            );
+
+            // Inline code
+            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+            // Headers
+            html = html.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+            html = html.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+            html = html.replace(/^# (.*$)/gm, '<h1>$1</h1>');
+
+            // Bold and italic
+            html = html.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/__(.*?)__/g, '<strong>$1</strong>');
+            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            html = html.replace(/_(.*?)_/g, '<em>$1</em>');
+            html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
+
+            // Links and images
+            html = html.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1">');
+            html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+            // Blockquotes
+            html = html.replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>');
+
+            // Horizontal rule
+            html = html.replace(/^(-{3,}|\*{3,})$/gm, '<hr>');
+
+            // Unordered lists
+            html = html.replace(/^\s*[-*+] (.*$)/gm, '<li>$1</li>');
+            html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+
+            // Ordered lists
+            html = html.replace(/^\s*\d+\. (.*$)/gm, '<li>$1</li>');
+
+            // Simple table support
+            html = html.replace(/^\|(.+)\|$/gm, (match) => {
+                const cells = match.slice(1, -1).split('|').map(c => c.trim());
+                if (cells.every(c => /^[-:]+$/.test(c))) return '';
+                const tag = match.includes('---') ? 'th' : 'td';
+                return '<tr>' + cells.map(c => `<${tag}>${c}</${tag}>`).join('') + '</tr>';
+            });
+            html = html.replace(/(<tr>.*<\/tr>\n?)+/g, '<table>$&</table>');
+
+            // Paragraphs
+            html = html.replace(/\n\n+/g, '</p><p>');
+            html = '<p>' + html + '</p>';
+            html = html.replace(/<p>\s*<\/p>/g, '');
+            html = html.replace(/<p>(<h[1-6]|<ul|<ol|<pre|<blockquote|<hr|<table)/g, '$1');
+            html = html.replace(/(<\/h[1-6]>|<\/ul>|<\/ol>|<\/pre>|<\/blockquote>|<hr>|<\/table>)<\/p>/g, '$1');
+
+            return html;
+        }
+
+        function renderMarkdown() {
+            const md = document.getElementById('markdownInput').value;
+            const html = parseMarkdown(md);
+            document.getElementById('previewPane').innerHTML = html;
+        }
+
+        function copyHtml() {
+            const html = document.getElementById('previewPane').innerHTML;
+            CodeUtils.Clipboard.copy(html);
+            CodeUtils.Message.success('HTML copied!');
+        }
+
+        function copyMarkdown() {
+            const md = document.getElementById('markdownInput').value;
+            CodeUtils.Clipboard.copy(md);
+            CodeUtils.Message.success('Markdown copied!');
+        }
+
+        function clearAll() {
+            document.getElementById('markdownInput').value = '';
+            document.getElementById('previewPane').innerHTML = '';
+        }
+
+        // Load sample on page load
+        document.getElementById('markdownInput').value = `# Markdown Preview
+
+Write your **Markdown** here and see a live preview!
+
+## Features
+- Live preview
+- GitHub-flavored Markdown support
+- Copy HTML output
+
+## Code Example
+
+\`\`\`javascript
+function greet(name) {
+    return \`Hello, \${name}!\`;
+}
+\`\`\`
+
+> This is a blockquote
+
+| Feature | Supported |
+|---------|-----------|
+| Headers | Yes |
+| Lists   | Yes |
+| Tables  | Yes |
+`;
+        renderMarkdown();
+    </script>
+</body>
+</html>

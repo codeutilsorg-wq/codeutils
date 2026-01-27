@@ -2,104 +2,368 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://codeutils.org/</loc>
-        <lastmod>2025-01-26</lastmod>
+        <lastmod>2026-01-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
+        <loc>https://codeutils.org/all-tools.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://codeutils.org/json-formatter.html</loc>
-        <lastmod>2025-01-26</lastmod>
+        <lastmod>2026-01-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://codeutils.org/xml-formatter.html</loc>
-        <lastmod>2025-01-26</lastmod>
+        <lastmod>2026-01-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://codeutils.org/base64-encoder.html</loc>
-        <lastmod>2025-01-26</lastmod>
+        <lastmod>2026-01-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://codeutils.org/hash-generator.html</loc>
-        <lastmod>2025-01-26</lastmod>
+        <lastmod>2026-01-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://codeutils.org/url-encoder.html</loc>
-        <lastmod>2025-01-26</lastmod>
+        <lastmod>2026-01-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://codeutils.org/html-encoder.html</loc>
-        <lastmod>2025-01-26</lastmod>
+        <lastmod>2026-01-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://codeutils.org/timestamp-converter.html</loc>
-        <lastmod>2025-01-26</lastmod>
+        <lastmod>2026-01-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://codeutils.org/uuid-generator.html</loc>
-        <lastmod>2026-01-26</lastmod>
+        <lastmod>2026-01-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://codeutils.org/jwt-decoder.html</loc>
-        <lastmod>2026-01-26</lastmod>
+        <lastmod>2026-01-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://codeutils.org/html-formatter.html</loc>
-        <lastmod>2026-01-26</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://codeutils.org/json-to-yaml.html</loc>
-        <lastmod>2026-01-26</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://codeutils.org/yaml-to-json.html</loc>
-        <lastmod>2026-01-26</lastmod>
+        <lastmod>2026-01-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://codeutils.org/css-formatter.html</loc>
-        <lastmod>2026-01-26</lastmod>
+        <lastmod>2026-01-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://codeutils.org/js-formatter.html</loc>
-        <lastmod>2026-01-26</lastmod>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/sql-formatter.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/yaml-formatter.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/php-formatter.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/python-formatter.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/typescript-formatter.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/markdown-preview.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/json-to-yaml.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/yaml-to-json.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/json-to-csv.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/csv-to-json.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/xml-to-json.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/json-to-xml.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/csv-to-xml.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/tsv-to-json.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/html-to-markdown.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/markdown-to-html.html</loc>
+        <lastmod>2026-01-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
         <loc>https://codeutils.org/regex-tester.html</loc>
-        <lastmod>2026-01-26</lastmod>
+        <lastmod>2026-01-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://codeutils.org/all-tools.html</loc>
-        <lastmod>2025-01-26</lastmod>
+        <loc>https://codeutils.org/word-counter.html</loc>
+        <lastmod>2026-01-27</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/case-converter.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/lorem-ipsum.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/text-reverser.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/duplicate-remover.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/text-sorter.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/whitespace-remover.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/line-numbers.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/find-replace.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/diff-checker.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/password-generator.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/slug-generator.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/qr-generator.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/favicon-generator.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/number-converter.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/text-to-binary.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/rot13.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/morse-code.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/ascii-to-hex.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/unicode-converter.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/color-converter.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/color-picker.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/gradient-generator.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/color-palette.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/cron-parser.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/meta-generator.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/jsonpath-tester.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/xpath-tester.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/user-agent-parser.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://codeutils.org/epoch-converter.html</loc>
+        <lastmod>2026-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
     </url>
 </urlset>

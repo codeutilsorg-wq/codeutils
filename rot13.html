@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROT13 Encoder/Decoder - Code Utils</title>
+    <meta name="description" content="Free ROT13 encoder and decoder. Encrypt and decrypt text using the ROT13 cipher. Also supports ROT5, ROT18, and ROT47.">
+    <meta name="keywords" content="rot13, rot13 encoder, rot13 decoder, cipher, encryption, caesar cipher">
+    <link rel="canonical" href="https://codeutils.org/rot13.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/rot13.html">
+    <meta property="og:title" content="ROT13 Encoder/Decoder - Code Utils">
+    <meta property="og:description" content="Encode and decode text using ROT13 and other rotation ciphers.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .cipher-buttons {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+        .cipher-btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .cipher-btn:hover, .cipher-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">ROT13 Encoder/Decoder</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Apply rotation ciphers to text. ROT13 is its own inverse - encode and decode use the same operation.</p>
+        </div>
+
+        <div class="cipher-buttons">
+            <button class="cipher-btn active" onclick="selectCipher('rot13', this)">ROT13 (Letters)</button>
+            <button class="cipher-btn" onclick="selectCipher('rot5', this)">ROT5 (Numbers)</button>
+            <button class="cipher-btn" onclick="selectCipher('rot18', this)">ROT18 (Letters + Numbers)</button>
+            <button class="cipher-btn" onclick="selectCipher('rot47', this)">ROT47 (ASCII)</button>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Input Text</div>
+            <textarea id="inputText" class="editor" placeholder="Enter text to encode/decode..." oninput="transform()"></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="transform()">Transform</button>
+            <button class="btn btn-secondary" onclick="swapText()">Swap</button>
+            <button class="btn btn-secondary" onclick="copyOutput()">Copy Output</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">Output</div>
+            <textarea id="outputText" class="editor" readonly placeholder="Transformed text will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="morse-code.html">Morse Code</a></li>
+                <li><a href="base64-encoder.html">Base64 Encoder</a></li>
+                <li><a href="text-to-binary.html">Text to Binary</a></li>
+                <li><a href="hash-generator.html">Hash Generator</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Rotation Ciphers</h2>
+            <p>Rotation ciphers shift characters by a fixed number of positions in the alphabet.</p>
+
+            <h3>Cipher Types</h3>
+            <ul>
+                <li><strong>ROT13:</strong> Rotates letters by 13 positions. A becomes N, B becomes O, etc. Numbers and symbols unchanged.</li>
+                <li><strong>ROT5:</strong> Rotates digits by 5 positions. 0 becomes 5, 1 becomes 6, etc.</li>
+                <li><strong>ROT18:</strong> Combines ROT13 (letters) and ROT5 (numbers).</li>
+                <li><strong>ROT47:</strong> Rotates printable ASCII characters (33-126) by 47 positions.</li>
+            </ul>
+
+            <h3>Why ROT13?</h3>
+            <p>ROT13 is commonly used to hide spoilers, puzzle answers, or mildly obscure text. Since 13 is half of 26 (the alphabet size), applying ROT13 twice returns the original text.</p>
+
+            <h3>Example</h3>
+            <p><code>Hello World</code> becomes <code>Uryyb Jbeyq</code> with ROT13</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'rot13',
+            name: 'ROT13 Encoder',
+            url: 'rot13.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        let currentCipher = 'rot13';
+
+        function selectCipher(cipher, btn) {
+            currentCipher = cipher;
+            document.querySelectorAll('.cipher-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            transform();
+        }
+
+        function rot13(str) {
+            return str.replace(/[A-Za-z]/g, c => {
+                const base = c <= 'Z' ? 65 : 97;
+                return String.fromCharCode(((c.charCodeAt(0) - base + 13) % 26) + base);
+            });
+        }
+
+        function rot5(str) {
+            return str.replace(/[0-9]/g, c => {
+                return String.fromCharCode(((c.charCodeAt(0) - 48 + 5) % 10) + 48);
+            });
+        }
+
+        function rot18(str) {
+            return rot5(rot13(str));
+        }
+
+        function rot47(str) {
+            return str.replace(/[!-~]/g, c => {
+                return String.fromCharCode(((c.charCodeAt(0) - 33 + 47) % 94) + 33);
+            });
+        }
+
+        function transform() {
+            const input = document.getElementById('inputText').value;
+            if (!input) {
+                document.getElementById('outputText').value = '';
+                return;
+            }
+
+            let output;
+            switch (currentCipher) {
+                case 'rot13':
+                    output = rot13(input);
+                    break;
+                case 'rot5':
+                    output = rot5(input);
+                    break;
+                case 'rot18':
+                    output = rot18(input);
+                    break;
+                case 'rot47':
+                    output = rot47(input);
+                    break;
+            }
+
+            document.getElementById('outputText').value = output;
+        }
+
+        function swapText() {
+            const input = document.getElementById('inputText');
+            const output = document.getElementById('outputText');
+            input.value = output.value;
+            transform();
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('outputText').value;
+            if (!output) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(output);
+            CodeUtils.Message.success('Copied to clipboard!');
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').value = '';
+        }
+    </script>
+</body>
+</html>

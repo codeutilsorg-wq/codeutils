@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter - Code Utils</title>
+    <meta name="description" content="Free online word counter. Count words, characters, sentences, paragraphs, and reading time. 100% client-side processing.">
+    <meta name="keywords" content="word counter, character counter, text counter, word count, letter count">
+    <link rel="canonical" href="https://codeutils.org/word-counter.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/word-counter.html">
+    <meta property="og:title" content="Word Counter - Code Utils">
+    <meta property="og:description" content="Free online word counter. Count words, characters, sentences, and paragraphs.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: var(--spacing-md);
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Word Counter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Count words, characters, sentences, paragraphs, and estimate reading time.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="wordCount">0</div>
+                <div class="stat-label">Words</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="charCount">0</div>
+                <div class="stat-label">Characters</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="charNoSpaceCount">0</div>
+                <div class="stat-label">Characters (no spaces)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="sentenceCount">0</div>
+                <div class="stat-label">Sentences</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="paragraphCount">0</div>
+                <div class="stat-label">Paragraphs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="lineCount">0</div>
+                <div class="stat-label">Lines</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="readingTime">0</div>
+                <div class="stat-label">Reading Time (min)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="speakingTime">0</div>
+                <div class="stat-label">Speaking Time (min)</div>
+            </div>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Enter Your Text</div>
+            <textarea id="inputText" class="editor" placeholder="Type or paste your text here..." oninput="countText()"></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-secondary" onclick="copyStats()">Copy Stats</button>
+            <button class="btn btn-outline" onclick="clearText()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="case-converter.html">Case Converter</a></li>
+                <li><a href="text-sorter.html">Text Sorter</a></li>
+                <li><a href="duplicate-remover.html">Duplicate Remover</a></li>
+                <li><a href="lorem-ipsum.html">Lorem Ipsum Generator</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Word Counter</h2>
+            <p>This tool counts various text statistics in real-time as you type or paste text.</p>
+
+            <h3>Statistics Explained</h3>
+            <ul>
+                <li><strong>Words:</strong> Number of words separated by spaces</li>
+                <li><strong>Characters:</strong> Total character count including spaces</li>
+                <li><strong>Characters (no spaces):</strong> Character count excluding spaces</li>
+                <li><strong>Sentences:</strong> Counted by sentence-ending punctuation (. ! ?)</li>
+                <li><strong>Paragraphs:</strong> Blocks of text separated by blank lines</li>
+                <li><strong>Lines:</strong> Number of line breaks + 1</li>
+                <li><strong>Reading Time:</strong> Based on average reading speed of 200 words/min</li>
+                <li><strong>Speaking Time:</strong> Based on average speaking speed of 150 words/min</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'word-counter',
+            name: 'Word Counter',
+            url: 'word-counter.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function countText() {
+            const text = document.getElementById('inputText').value;
+
+            // Words
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            document.getElementById('wordCount').textContent = words;
+
+            // Characters
+            document.getElementById('charCount').textContent = text.length;
+            document.getElementById('charNoSpaceCount').textContent = text.replace(/\s/g, '').length;
+
+            // Sentences
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim()).length;
+            document.getElementById('sentenceCount').textContent = sentences;
+
+            // Paragraphs
+            const paragraphs = text.split(/\n\s*\n/).filter(p => p.trim()).length;
+            document.getElementById('paragraphCount').textContent = paragraphs || (text.trim() ? 1 : 0);
+
+            // Lines
+            const lines = text ? text.split('\n').length : 0;
+            document.getElementById('lineCount').textContent = lines;
+
+            // Reading time (200 wpm)
+            const readingTime = Math.ceil(words / 200);
+            document.getElementById('readingTime').textContent = readingTime;
+
+            // Speaking time (150 wpm)
+            const speakingTime = Math.ceil(words / 150);
+            document.getElementById('speakingTime').textContent = speakingTime;
+        }
+
+        function copyStats() {
+            const stats = `Words: ${document.getElementById('wordCount').textContent}
+Characters: ${document.getElementById('charCount').textContent}
+Characters (no spaces): ${document.getElementById('charNoSpaceCount').textContent}
+Sentences: ${document.getElementById('sentenceCount').textContent}
+Paragraphs: ${document.getElementById('paragraphCount').textContent}
+Lines: ${document.getElementById('lineCount').textContent}
+Reading Time: ${document.getElementById('readingTime').textContent} min
+Speaking Time: ${document.getElementById('speakingTime').textContent} min`;
+
+            CodeUtils.Clipboard.copy(stats);
+            CodeUtils.Message.success('Stats copied to clipboard!');
+        }
+
+        function clearText() {
+            document.getElementById('inputText').value = '';
+            countText();
+        }
+    </script>
+</body>
+</html>

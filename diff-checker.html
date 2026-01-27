@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Diff Checker - Code Utils</title>
+    <meta name="description" content="Free online text diff checker. Compare two texts and highlight differences. Side-by-side or inline diff view.">
+    <meta name="keywords" content="diff checker, text compare, difference checker, compare text, diff tool">
+    <link rel="canonical" href="https://codeutils.org/diff-checker.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/diff-checker.html">
+    <meta property="og:title" content="Text Diff Checker - Code Utils">
+    <meta property="og:description" content="Compare two texts and highlight differences.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .diff-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        .diff-output {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: var(--spacing-md);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            min-height: 200px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .diff-added {
+            background: #d4edda;
+            color: #155724;
+        }
+        .diff-removed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .diff-line {
+            display: block;
+            padding: 2px 4px;
+        }
+        .diff-line-number {
+            display: inline-block;
+            width: 40px;
+            color: var(--text-secondary);
+            text-align: right;
+            margin-right: 10px;
+            user-select: none;
+        }
+        [data-theme="dark"] .diff-added {
+            background: #1e4620;
+            color: #a3d9a5;
+        }
+        [data-theme="dark"] .diff-removed {
+            background: #4a1a1a;
+            color: #f5a5a5;
+        }
+        .stats-bar {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+        }
+        .stat-added { color: #28a745; }
+        .stat-removed { color: #dc3545; }
+        .stat-unchanged { color: var(--text-secondary); }
+        @media (max-width: 768px) {
+            .diff-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Text Diff Checker</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Compare two texts and see the differences highlighted.</p>
+        </div>
+
+        <div class="diff-inputs">
+            <div class="editor-section">
+                <div class="editor-header">Original Text</div>
+                <textarea id="text1" class="editor" placeholder="Paste original text here..."></textarea>
+            </div>
+            <div class="editor-section">
+                <div class="editor-header">Modified Text</div>
+                <textarea id="text2" class="editor" placeholder="Paste modified text here..."></textarea>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="compareDiff()">Compare</button>
+            <button class="btn btn-secondary" onclick="swapTexts()">Swap Texts</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear All</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="stats-bar" id="statsBar" style="display: none;">
+            <span class="stat-added" id="statAdded">+0 added</span>
+            <span class="stat-removed" id="statRemoved">-0 removed</span>
+            <span class="stat-unchanged" id="statUnchanged">0 unchanged</span>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Differences</div>
+            <div class="diff-output" id="diffOutput">Differences will be shown here...</div>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="find-replace.html">Find and Replace</a></li>
+                <li><a href="word-counter.html">Word Counter</a></li>
+                <li><a href="duplicate-remover.html">Duplicate Remover</a></li>
+                <li><a href="text-sorter.html">Text Sorter</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Text Diff Checker</h2>
+            <p>This tool compares two texts line by line and highlights the differences.</p>
+
+            <h3>How to Read the Output</h3>
+            <ul>
+                <li><span style="background: #d4edda; padding: 2px 6px;">Green lines</span> - Added in the modified text</li>
+                <li><span style="background: #f8d7da; padding: 2px 6px;">Red lines</span> - Removed from the original text</li>
+                <li>Unmarked lines - Unchanged between both texts</li>
+            </ul>
+
+            <h3>Use Cases</h3>
+            <ul>
+                <li>Comparing code versions</li>
+                <li>Reviewing document changes</li>
+                <li>Checking configuration file differences</li>
+                <li>Verifying data transformations</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'diff-checker',
+            name: 'Diff Checker',
+            url: 'diff-checker.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        // Simple line-based diff algorithm
+        function computeDiff(text1, text2) {
+            const lines1 = text1.split('\n');
+            const lines2 = text2.split('\n');
+            const result = [];
+
+            // LCS-based diff
+            const lcs = [];
+            for (let i = 0; i <= lines1.length; i++) {
+                lcs[i] = [];
+                for (let j = 0; j <= lines2.length; j++) {
+                    if (i === 0 || j === 0) {
+                        lcs[i][j] = 0;
+                    } else if (lines1[i - 1] === lines2[j - 1]) {
+                        lcs[i][j] = lcs[i - 1][j - 1] + 1;
+                    } else {
+                        lcs[i][j] = Math.max(lcs[i - 1][j], lcs[i][j - 1]);
+                    }
+                }
+            }
+
+            // Backtrack to find diff
+            let i = lines1.length;
+            let j = lines2.length;
+            const diff = [];
+
+            while (i > 0 || j > 0) {
+                if (i > 0 && j > 0 && lines1[i - 1] === lines2[j - 1]) {
+                    diff.unshift({ type: 'unchanged', line: lines1[i - 1] });
+                    i--;
+                    j--;
+                } else if (j > 0 && (i === 0 || lcs[i][j - 1] >= lcs[i - 1][j])) {
+                    diff.unshift({ type: 'added', line: lines2[j - 1] });
+                    j--;
+                } else {
+                    diff.unshift({ type: 'removed', line: lines1[i - 1] });
+                    i--;
+                }
+            }
+
+            return diff;
+        }
+
+        function compareDiff() {
+            const text1 = document.getElementById('text1').value;
+            const text2 = document.getElementById('text2').value;
+
+            if (!text1 && !text2) {
+                CodeUtils.Message.error('Please enter text in both fields');
+                return;
+            }
+
+            const diff = computeDiff(text1, text2);
+
+            let added = 0, removed = 0, unchanged = 0;
+            let html = '';
+            let lineNum1 = 1, lineNum2 = 1;
+
+            diff.forEach(item => {
+                const escapedLine = item.line
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
+
+                if (item.type === 'added') {
+                    html += `<span class="diff-line diff-added"><span class="diff-line-number">+${lineNum2}</span>${escapedLine || ' '}</span>`;
+                    lineNum2++;
+                    added++;
+                } else if (item.type === 'removed') {
+                    html += `<span class="diff-line diff-removed"><span class="diff-line-number">-${lineNum1}</span>${escapedLine || ' '}</span>`;
+                    lineNum1++;
+                    removed++;
+                } else {
+                    html += `<span class="diff-line"><span class="diff-line-number">${lineNum1}</span>${escapedLine || ' '}</span>`;
+                    lineNum1++;
+                    lineNum2++;
+                    unchanged++;
+                }
+            });
+
+            document.getElementById('diffOutput').innerHTML = html || 'No differences found - texts are identical.';
+            document.getElementById('statsBar').style.display = 'flex';
+            document.getElementById('statAdded').textContent = `+${added} added`;
+            document.getElementById('statRemoved').textContent = `-${removed} removed`;
+            document.getElementById('statUnchanged').textContent = `${unchanged} unchanged`;
+
+            if (added === 0 && removed === 0) {
+                CodeUtils.Message.success('Texts are identical!');
+            } else {
+                CodeUtils.Message.success(`Found ${added + removed} difference${added + removed !== 1 ? 's' : ''}!`);
+            }
+        }
+
+        function swapTexts() {
+            const text1 = document.getElementById('text1');
+            const text2 = document.getElementById('text2');
+            const temp = text1.value;
+            text1.value = text2.value;
+            text2.value = temp;
+        }
+
+        function clearAll() {
+            document.getElementById('text1').value = '';
+            document.getElementById('text2').value = '';
+            document.getElementById('diffOutput').innerHTML = 'Differences will be shown here...';
+            document.getElementById('statsBar').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

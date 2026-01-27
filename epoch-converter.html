@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epoch Converter - Code Utils</title>
+    <meta name="description" content="Free epoch/Unix timestamp converter. Convert between epoch time and human-readable dates. Supports seconds and milliseconds.">
+    <meta name="keywords" content="epoch converter, unix timestamp, timestamp converter, epoch time, unix time">
+    <link rel="canonical" href="https://codeutils.org/epoch-converter.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/epoch-converter.html">
+    <meta property="og:title" content="Epoch Converter - Code Utils">
+    <meta property="og:description" content="Convert epoch timestamps to dates and vice versa.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .current-time {
+            background: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius);
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+            font-family: var(--font-mono);
+        }
+        .current-time .label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        .current-time .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        .converter-section {
+            background: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius);
+            margin-bottom: var(--spacing-md);
+        }
+        .converter-section h3 {
+            margin: 0 0 var(--spacing-md);
+            color: var(--primary);
+        }
+        .input-row {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+            align-items: center;
+        }
+        .input-row input {
+            flex: 1;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+        }
+        .result-box {
+            background: var(--bg-primary);
+            padding: var(--spacing-sm);
+            border-radius: var(--radius);
+            font-family: var(--font-mono);
+            margin-top: var(--spacing-sm);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Epoch Converter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Convert Unix timestamps to dates and dates to timestamps.</p>
+        </div>
+
+        <div class="current-time">
+            <div class="label">Current Epoch Time</div>
+            <div class="value" id="currentEpoch">-</div>
+            <div class="label" style="margin-top: var(--spacing-xs);" id="currentDate">-</div>
+        </div>
+
+        <div class="converter-section">
+            <h3>Epoch to Date</h3>
+            <div class="input-row">
+                <input type="text" id="epochInput" placeholder="Enter epoch timestamp (e.g., 1609459200)" oninput="epochToDate()">
+                <select id="epochUnit" onchange="epochToDate()">
+                    <option value="s">Seconds</option>
+                    <option value="ms">Milliseconds</option>
+                </select>
+            </div>
+            <div class="result-box" id="epochResult">Enter an epoch timestamp above</div>
+        </div>
+
+        <div class="converter-section">
+            <h3>Date to Epoch</h3>
+            <div class="input-row">
+                <input type="datetime-local" id="dateInput" onchange="dateToEpoch()">
+            </div>
+            <div class="result-box">
+                <div>Seconds: <span id="dateResultS">-</span></div>
+                <div>Milliseconds: <span id="dateResultMS">-</span></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="useNow()">Use Current Time</button>
+            <button class="btn btn-secondary" onclick="copyEpoch()">Copy Epoch (s)</button>
+            <button class="btn btn-secondary" onclick="copyEpochMs()">Copy Epoch (ms)</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="timestamp-converter.html">Timestamp Converter</a></li>
+                <li><a href="cron-parser.html">Cron Parser</a></li>
+                <li><a href="number-converter.html">Number Converter</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Epoch Time</h2>
+            <p>Epoch time (Unix timestamp) is the number of seconds since January 1, 1970 00:00:00 UTC.</p>
+
+            <h3>Common Timestamps</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="border-bottom: 1px solid var(--border);">
+                    <th style="text-align: left; padding: 8px;">Epoch</th>
+                    <th style="text-align: left; padding: 8px;">Date</th>
+                </tr>
+                <tr><td style="padding: 8px;">0</td><td style="padding: 8px;">Jan 1, 1970 00:00:00 UTC</td></tr>
+                <tr><td style="padding: 8px;">1000000000</td><td style="padding: 8px;">Sep 9, 2001 01:46:40 UTC</td></tr>
+                <tr><td style="padding: 8px;">1609459200</td><td style="padding: 8px;">Jan 1, 2021 00:00:00 UTC</td></tr>
+                <tr><td style="padding: 8px;">2147483647</td><td style="padding: 8px;">Jan 19, 2038 03:14:07 UTC (Y2K38)</td></tr>
+            </table>
+
+            <h3>Formats</h3>
+            <ul>
+                <li><strong>Seconds:</strong> 10 digits (e.g., 1609459200)</li>
+                <li><strong>Milliseconds:</strong> 13 digits (e.g., 1609459200000)</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'epoch-converter',
+            name: 'Epoch Converter',
+            url: 'epoch-converter.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function updateCurrentTime() {
+            const now = new Date();
+            document.getElementById('currentEpoch').textContent = Math.floor(now.getTime() / 1000);
+            document.getElementById('currentDate').textContent = now.toISOString();
+        }
+
+        setInterval(updateCurrentTime, 1000);
+        updateCurrentTime();
+
+        function epochToDate() {
+            const input = document.getElementById('epochInput').value.trim();
+            if (!input) {
+                document.getElementById('epochResult').textContent = 'Enter an epoch timestamp above';
+                return;
+            }
+
+            const unit = document.getElementById('epochUnit').value;
+            let timestamp = parseInt(input);
+
+            if (isNaN(timestamp)) {
+                document.getElementById('epochResult').textContent = 'Invalid timestamp';
+                return;
+            }
+
+            // Convert to milliseconds
+            if (unit === 's') {
+                timestamp *= 1000;
+            }
+
+            const date = new Date(timestamp);
+            if (isNaN(date.getTime())) {
+                document.getElementById('epochResult').textContent = 'Invalid timestamp';
+                return;
+            }
+
+            document.getElementById('epochResult').innerHTML = `
+                <div><strong>UTC:</strong> ${date.toUTCString()}</div>
+                <div><strong>Local:</strong> ${date.toString()}</div>
+                <div><strong>ISO:</strong> ${date.toISOString()}</div>
+            `;
+        }
+
+        function dateToEpoch() {
+            const input = document.getElementById('dateInput').value;
+            if (!input) {
+                document.getElementById('dateResultS').textContent = '-';
+                document.getElementById('dateResultMS').textContent = '-';
+                return;
+            }
+
+            const date = new Date(input);
+            const ms = date.getTime();
+            const s = Math.floor(ms / 1000);
+
+            document.getElementById('dateResultS').textContent = s;
+            document.getElementById('dateResultMS').textContent = ms;
+        }
+
+        function useNow() {
+            const now = new Date();
+            document.getElementById('epochInput').value = Math.floor(now.getTime() / 1000);
+            document.getElementById('epochUnit').value = 's';
+            epochToDate();
+
+            // Format for datetime-local input
+            const local = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+            document.getElementById('dateInput').value = local.toISOString().slice(0, 16);
+            dateToEpoch();
+        }
+
+        function copyEpoch() {
+            const epoch = Math.floor(Date.now() / 1000);
+            CodeUtils.Clipboard.copy(epoch.toString());
+            CodeUtils.Message.success('Epoch (seconds) copied!');
+        }
+
+        function copyEpochMs() {
+            const epoch = Date.now();
+            CodeUtils.Clipboard.copy(epoch.toString());
+            CodeUtils.Message.success('Epoch (milliseconds) copied!');
+        }
+
+        // Initialize with current time
+        useNow();
+    </script>
+</body>
+</html>

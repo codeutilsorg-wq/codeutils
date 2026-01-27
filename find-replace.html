@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find and Replace - Code Utils</title>
+    <meta name="description" content="Free online find and replace tool. Bulk find and replace text with regex support. Replace multiple patterns at once.">
+    <meta name="keywords" content="find replace, search replace, text replace, regex replace, bulk replace">
+    <link rel="canonical" href="https://codeutils.org/find-replace.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/find-replace.html">
+    <meta property="og:title" content="Find and Replace - Code Utils">
+    <meta property="og:description" content="Bulk find and replace text with regex support.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .search-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        .search-inputs input {
+            padding: var(--spacing-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+        }
+        .options-row {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+        .options-row label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        .match-count {
+            background: var(--bg-secondary);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+        }
+        @media (max-width: 600px) {
+            .search-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Find and Replace</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Search and replace text with optional regex support.</p>
+        </div>
+
+        <div class="search-inputs">
+            <div>
+                <label style="display: block; margin-bottom: var(--spacing-xs); color: var(--text-secondary);">Find:</label>
+                <input type="text" id="findInput" placeholder="Text to find..." style="width: 100%;">
+            </div>
+            <div>
+                <label style="display: block; margin-bottom: var(--spacing-xs); color: var(--text-secondary);">Replace with:</label>
+                <input type="text" id="replaceInput" placeholder="Replacement text..." style="width: 100%;">
+            </div>
+        </div>
+
+        <div class="options-row">
+            <label>
+                <input type="checkbox" id="useRegex">
+                Use regex
+            </label>
+            <label>
+                <input type="checkbox" id="caseSensitive">
+                Case sensitive
+            </label>
+            <label>
+                <input type="checkbox" id="wholeWord">
+                Whole word only
+            </label>
+            <label>
+                <input type="checkbox" id="replaceAll" checked>
+                Replace all
+            </label>
+            <span class="match-count" id="matchCount">0 matches</span>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Input Text</div>
+            <textarea id="inputText" class="editor" placeholder="Enter your text here..." oninput="countMatches()"></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="doReplace()">Replace</button>
+            <button class="btn btn-secondary" onclick="highlightMatches()">Highlight Matches</button>
+            <button class="btn btn-secondary" onclick="copyOutput()">Copy Output</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">Output</div>
+            <textarea id="outputText" class="editor" readonly placeholder="Result will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="regex-tester.html">Regex Tester</a></li>
+                <li><a href="case-converter.html">Case Converter</a></li>
+                <li><a href="diff-checker.html">Diff Checker</a></li>
+                <li><a href="duplicate-remover.html">Duplicate Remover</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Find and Replace</h2>
+            <p>This tool lets you search for text patterns and replace them with new content.</p>
+
+            <h3>Options</h3>
+            <ul>
+                <li><strong>Use regex:</strong> Treat the search pattern as a regular expression</li>
+                <li><strong>Case sensitive:</strong> Match exact case (Hello ≠ hello)</li>
+                <li><strong>Whole word only:</strong> Only match complete words, not partial</li>
+                <li><strong>Replace all:</strong> Replace all occurrences vs. just the first</li>
+            </ul>
+
+            <h3>Regex Tips</h3>
+            <ul>
+                <li><code>.</code> - Any character</li>
+                <li><code>\d</code> - Any digit</li>
+                <li><code>\w</code> - Any word character</li>
+                <li><code>*</code> - Zero or more</li>
+                <li><code>+</code> - One or more</li>
+                <li><code>$1, $2</code> - Capture groups in replacement</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'find-replace',
+            name: 'Find and Replace',
+            url: 'find-replace.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        // Update match count when find input changes
+        document.getElementById('findInput').addEventListener('input', countMatches);
+        document.getElementById('useRegex').addEventListener('change', countMatches);
+        document.getElementById('caseSensitive').addEventListener('change', countMatches);
+        document.getElementById('wholeWord').addEventListener('change', countMatches);
+
+        function getSearchRegex(forReplace = false) {
+            let find = document.getElementById('findInput').value;
+            if (!find) return null;
+
+            const useRegex = document.getElementById('useRegex').checked;
+            const caseSensitive = document.getElementById('caseSensitive').checked;
+            const wholeWord = document.getElementById('wholeWord').checked;
+            const replaceAll = document.getElementById('replaceAll').checked;
+
+            let flags = caseSensitive ? '' : 'i';
+            if (replaceAll || !forReplace) flags += 'g';
+
+            if (!useRegex) {
+                find = find.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            }
+
+            if (wholeWord) {
+                find = '\\b' + find + '\\b';
+            }
+
+            try {
+                return new RegExp(find, flags);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function countMatches() {
+            const input = document.getElementById('inputText').value;
+            const regex = getSearchRegex();
+
+            if (!regex || !input) {
+                document.getElementById('matchCount').textContent = '0 matches';
+                return;
+            }
+
+            const matches = input.match(regex);
+            const count = matches ? matches.length : 0;
+            document.getElementById('matchCount').textContent = `${count} match${count !== 1 ? 'es' : ''}`;
+        }
+
+        function doReplace() {
+            const input = document.getElementById('inputText').value;
+            const replace = document.getElementById('replaceInput').value;
+            const regex = getSearchRegex(true);
+
+            if (!input) {
+                CodeUtils.Message.error('Please enter some text');
+                return;
+            }
+
+            if (!regex) {
+                CodeUtils.Message.error('Please enter a valid search pattern');
+                return;
+            }
+
+            const matches = input.match(new RegExp(regex.source, regex.flags.includes('g') ? regex.flags : regex.flags + 'g'));
+            const count = matches ? matches.length : 0;
+
+            const output = input.replace(regex, replace);
+            document.getElementById('outputText').value = output;
+
+            CodeUtils.Message.success(`Replaced ${count} occurrence${count !== 1 ? 's' : ''}!`);
+        }
+
+        function highlightMatches() {
+            const input = document.getElementById('inputText').value;
+            const regex = getSearchRegex();
+
+            if (!input || !regex) {
+                CodeUtils.Message.error('Please enter text and a search pattern');
+                return;
+            }
+
+            // Show matches with markers
+            const highlighted = input.replace(regex, '>>>$&<<<');
+            document.getElementById('outputText').value = highlighted;
+            CodeUtils.Message.success('Matches highlighted with >>> and <<<');
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('outputText').value;
+            if (!output) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(output);
+            CodeUtils.Message.success('Copied to clipboard!');
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').value = '';
+            document.getElementById('findInput').value = '';
+            document.getElementById('replaceInput').value = '';
+            document.getElementById('matchCount').textContent = '0 matches';
+        }
+    </script>
+</body>
+</html>

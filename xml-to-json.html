@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML to JSON Converter - Code Utils</title>
+    <meta name="description" content="Free XML to JSON converter. Convert XML data to JSON format. Preserves attributes and structure.">
+    <meta name="keywords" content="xml to json, convert xml json, xml json converter, xml parser, xml transformer">
+    <link rel="canonical" href="https://codeutils.org/xml-to-json.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/xml-to-json.html">
+    <meta property="og:title" content="XML to JSON Converter - Code Utils">
+    <meta property="og:description" content="Convert XML data to JSON format.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">XML to JSON Converter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Convert XML data to JSON format.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">XML Input</div>
+            <textarea id="xmlInput" class="editor" placeholder='<root>
+  <person id="1">
+    <name>John</name>
+    <age>30</age>
+  </person>
+</root>'></textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="convertToJSON()">Convert to JSON</button>
+            <button class="btn btn-secondary" onclick="copyJSON()">Copy JSON</button>
+            <button class="btn btn-secondary" onclick="downloadJSON()">Download JSON</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">JSON Output</div>
+            <textarea id="jsonOutput" class="editor" readonly placeholder="JSON output will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="json-to-xml.html">JSON to XML</a></li>
+                <li><a href="xml-formatter.html">XML Formatter</a></li>
+                <li><a href="json-formatter.html">JSON Formatter</a></li>
+                <li><a href="json-to-yaml.html">JSON to YAML</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About XML to JSON Converter</h2>
+            <p>This tool converts XML documents to JSON format while preserving structure and attributes.</p>
+
+            <h3>Conversion Rules</h3>
+            <ul>
+                <li>XML elements become JSON object keys</li>
+                <li>XML attributes are prefixed with @ (e.g., @id)</li>
+                <li>Text content uses #text key when mixed with attributes</li>
+                <li>Repeated elements become arrays</li>
+            </ul>
+
+            <h3>Example</h3>
+            <p><strong>XML:</strong></p>
+            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">&lt;person id="1"&gt;&lt;name&gt;John&lt;/name&gt;&lt;/person&gt;</pre>
+            <p><strong>JSON:</strong></p>
+            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">{"person": {"@id": "1", "name": "John"}}</pre>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'xml-to-json',
+            name: 'XML to JSON',
+            url: 'xml-to-json.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function xmlToJson(xml) {
+            const obj = {};
+
+            if (xml.nodeType === 1) { // Element
+                // Attributes
+                if (xml.attributes.length > 0) {
+                    for (let i = 0; i < xml.attributes.length; i++) {
+                        const attr = xml.attributes.item(i);
+                        obj['@' + attr.nodeName] = attr.nodeValue;
+                    }
+                }
+            } else if (xml.nodeType === 3) { // Text
+                return xml.nodeValue.trim();
+            }
+
+            // Children
+            if (xml.hasChildNodes()) {
+                for (let i = 0; i < xml.childNodes.length; i++) {
+                    const child = xml.childNodes.item(i);
+                    const nodeName = child.nodeName;
+
+                    if (child.nodeType === 3) { // Text node
+                        const text = child.nodeValue.trim();
+                        if (text) {
+                            if (Object.keys(obj).length === 0) {
+                                return text;
+                            }
+                            obj['#text'] = text;
+                        }
+                    } else if (child.nodeType === 1) { // Element node
+                        const childObj = xmlToJson(child);
+
+                        if (typeof obj[nodeName] === 'undefined') {
+                            obj[nodeName] = childObj;
+                        } else {
+                            if (!Array.isArray(obj[nodeName])) {
+                                obj[nodeName] = [obj[nodeName]];
+                            }
+                            obj[nodeName].push(childObj);
+                        }
+                    }
+                }
+            }
+
+            return obj;
+        }
+
+        function convertToJSON() {
+            const xmlInput = document.getElementById('xmlInput').value.trim();
+            if (!xmlInput) {
+                CodeUtils.Message.error('Please enter XML data');
+                return;
+            }
+
+            try {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlInput, 'text/xml');
+
+                // Check for parse errors
+                const parseError = xmlDoc.querySelector('parsererror');
+                if (parseError) {
+                    throw new Error('Invalid XML: ' + parseError.textContent);
+                }
+
+                const json = {};
+                json[xmlDoc.documentElement.nodeName] = xmlToJson(xmlDoc.documentElement);
+
+                document.getElementById('jsonOutput').value = JSON.stringify(json, null, 2);
+                CodeUtils.Message.success('Converted to JSON!');
+            } catch (e) {
+                CodeUtils.Message.error(e.message);
+            }
+        }
+
+        function copyJSON() {
+            const json = document.getElementById('jsonOutput').value;
+            if (!json) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(json);
+            CodeUtils.Message.success('Copied to clipboard!');
+        }
+
+        function downloadJSON() {
+            const json = document.getElementById('jsonOutput').value;
+            if (!json) {
+                CodeUtils.Message.error('Nothing to download');
+                return;
+            }
+            CodeUtils.FileHandler.download(json, 'data.json', 'application/json');
+            CodeUtils.Message.success('JSON file downloaded!');
+        }
+
+        function clearAll() {
+            document.getElementById('xmlInput').value = '';
+            document.getElementById('jsonOutput').value = '';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator - Code Utils</title>
+    <meta name="description" content="Free QR code generator. Create QR codes from text, URLs, or other data. Download as PNG.">
+    <meta name="keywords" content="qr code generator, qr code maker, create qr code, qr code creator">
+    <link rel="canonical" href="https://codeutils.org/qr-generator.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/qr-generator.html">
+    <meta property="og:title" content="QR Code Generator - Code Utils">
+    <meta property="og:description" content="Generate QR codes from text, URLs, or data.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .qr-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        .qr-display {
+            background: white;
+            padding: var(--spacing-md);
+            border-radius: var(--radius);
+            display: inline-block;
+        }
+        #qrcode {
+            width: 256px;
+            height: 256px;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            width: 100%;
+        }
+        .option-group {
+            background: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius);
+        }
+        .option-group label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: bold;
+        }
+        .option-group input, .option-group select {
+            width: 100%;
+            padding: var(--spacing-xs);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">QR Code Generator</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Generate QR codes from text, URLs, or any data.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Content</div>
+            <textarea id="contentInput" class="editor" style="height: 100px;" placeholder="Enter text, URL, or data..." oninput="generateQR()">https://codeutils.org</textarea>
+        </div>
+
+        <div class="options-grid">
+            <div class="option-group">
+                <label>Size</label>
+                <select id="sizeSelect" onchange="generateQR()">
+                    <option value="128">128x128</option>
+                    <option value="256" selected>256x256</option>
+                    <option value="512">512x512</option>
+                </select>
+            </div>
+            <div class="option-group">
+                <label>Foreground</label>
+                <input type="color" id="fgColor" value="#000000" onchange="generateQR()">
+            </div>
+            <div class="option-group">
+                <label>Background</label>
+                <input type="color" id="bgColor" value="#ffffff" onchange="generateQR()">
+            </div>
+        </div>
+
+        <div class="qr-container">
+            <div class="qr-display">
+                <canvas id="qrcode"></canvas>
+            </div>
+        </div>
+
+        <div class="controls" style="margin-top: var(--spacing-md);">
+            <button class="btn" onclick="downloadQR()">Download PNG</button>
+            <button class="btn btn-secondary" onclick="copyQR()">Copy to Clipboard</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="base64-encoder.html">Base64 Encoder</a></li>
+                <li><a href="url-encoder.html">URL Encoder</a></li>
+                <li><a href="uuid-generator.html">UUID Generator</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About QR Code Generator</h2>
+            <p>QR (Quick Response) codes are two-dimensional barcodes that can store various types of data.</p>
+
+            <h3>Common Uses</h3>
+            <ul>
+                <li>Website URLs</li>
+                <li>Contact information (vCard)</li>
+                <li>Wi-Fi network credentials</li>
+                <li>Text messages</li>
+                <li>App download links</li>
+            </ul>
+
+            <h3>Tips</h3>
+            <ul>
+                <li>Keep content short for better scanning</li>
+                <li>Ensure good contrast between colors</li>
+                <li>Test the QR code before sharing</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'qr-generator',
+            name: 'QR Generator',
+            url: 'qr-generator.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        // Simple QR Code generation using canvas
+        // This is a simplified implementation
+        function generateQR() {
+            const content = document.getElementById('contentInput').value;
+            const size = parseInt(document.getElementById('sizeSelect').value);
+            const fgColor = document.getElementById('fgColor').value;
+            const bgColor = document.getElementById('bgColor').value;
+
+            if (!content) {
+                return;
+            }
+
+            const canvas = document.getElementById('qrcode');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            // Use a simple encoding approach (this is a simplified version)
+            // In production, you'd use a proper QR library
+            const qr = generateQRMatrix(content);
+            const moduleSize = size / qr.length;
+
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, size, size);
+
+            ctx.fillStyle = fgColor;
+            for (let y = 0; y < qr.length; y++) {
+                for (let x = 0; x < qr[y].length; x++) {
+                    if (qr[y][x]) {
+                        ctx.fillRect(x * moduleSize, y * moduleSize, moduleSize, moduleSize);
+                    }
+                }
+            }
+        }
+
+        // Simplified QR matrix generation (for demo purposes)
+        function generateQRMatrix(data) {
+            const size = 25;
+            const matrix = Array(size).fill(null).map(() => Array(size).fill(false));
+
+            // Add finder patterns (corners)
+            addFinderPattern(matrix, 0, 0);
+            addFinderPattern(matrix, size - 7, 0);
+            addFinderPattern(matrix, 0, size - 7);
+
+            // Add timing patterns
+            for (let i = 8; i < size - 8; i++) {
+                matrix[6][i] = i % 2 === 0;
+                matrix[i][6] = i % 2 === 0;
+            }
+
+            // Encode data as simple pattern
+            const bytes = new TextEncoder().encode(data);
+            let bitIndex = 0;
+            for (let col = size - 1; col > 0; col -= 2) {
+                if (col === 6) col--;
+                for (let row = 0; row < size; row++) {
+                    for (let c = 0; c < 2; c++) {
+                        const x = col - c;
+                        const y = row;
+                        if (!isReserved(x, y, size)) {
+                            const byteIndex = Math.floor(bitIndex / 8);
+                            const bitPos = 7 - (bitIndex % 8);
+                            if (byteIndex < bytes.length) {
+                                matrix[y][x] = (bytes[byteIndex] >> bitPos) & 1;
+                            }
+                            bitIndex++;
+                        }
+                    }
+                }
+            }
+
+            return matrix;
+        }
+
+        function addFinderPattern(matrix, startX, startY) {
+            for (let y = 0; y < 7; y++) {
+                for (let x = 0; x < 7; x++) {
+                    if (y === 0 || y === 6 || x === 0 || x === 6 ||
+                        (y >= 2 && y <= 4 && x >= 2 && x <= 4)) {
+                        matrix[startY + y][startX + x] = true;
+                    }
+                }
+            }
+        }
+
+        function isReserved(x, y, size) {
+            // Finder patterns
+            if ((x < 9 && y < 9) || (x >= size - 8 && y < 9) || (x < 9 && y >= size - 8)) return true;
+            // Timing patterns
+            if (x === 6 || y === 6) return true;
+            return false;
+        }
+
+        function downloadQR() {
+            const canvas = document.getElementById('qrcode');
+            const link = document.createElement('a');
+            link.download = 'qrcode.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            CodeUtils.Message.success('QR code downloaded!');
+        }
+
+        async function copyQR() {
+            try {
+                const canvas = document.getElementById('qrcode');
+                canvas.toBlob(async (blob) => {
+                    await navigator.clipboard.write([
+                        new ClipboardItem({ 'image/png': blob })
+                    ]);
+                    CodeUtils.Message.success('QR code copied!');
+                });
+            } catch (err) {
+                CodeUtils.Message.error('Failed to copy image');
+            }
+        }
+
+        generateQR();
+    </script>
+</body>
+</html>

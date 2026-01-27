@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to XML Converter - Code Utils</title>
+    <meta name="description" content="Free JSON to XML converter. Convert JSON data to XML format. Customizable root element and formatting.">
+    <meta name="keywords" content="json to xml, convert json xml, json xml converter, json transformer">
+    <link rel="canonical" href="https://codeutils.org/json-to-xml.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/json-to-xml.html">
+    <meta property="og:title" content="JSON to XML Converter - Code Utils">
+    <meta property="og:description" content="Convert JSON data to XML format.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .options-row {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+        .options-row label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        .options-row input[type="text"] {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            width: 120px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">JSON to XML Converter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Convert JSON data to XML format.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">JSON Input</div>
+            <textarea id="jsonInput" class="editor" placeholder='{"person": {"name": "John", "age": 30}}'></textarea>
+        </div>
+
+        <div class="options-row">
+            <label>
+                Root element:
+                <input type="text" id="rootElement" value="root" placeholder="root">
+            </label>
+            <label>
+                <input type="checkbox" id="includeDeclaration" checked>
+                Include XML declaration
+            </label>
+            <label>
+                <input type="checkbox" id="prettyPrint" checked>
+                Pretty print
+            </label>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="convertToXML()">Convert to XML</button>
+            <button class="btn btn-secondary" onclick="copyXML()">Copy XML</button>
+            <button class="btn btn-secondary" onclick="downloadXML()">Download XML</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">XML Output</div>
+            <textarea id="xmlOutput" class="editor" readonly placeholder="XML output will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="xml-to-json.html">XML to JSON</a></li>
+                <li><a href="json-formatter.html">JSON Formatter</a></li>
+                <li><a href="xml-formatter.html">XML Formatter</a></li>
+                <li><a href="json-to-yaml.html">JSON to YAML</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About JSON to XML Converter</h2>
+            <p>This tool converts JSON data to XML format.</p>
+
+            <h3>Conversion Rules</h3>
+            <ul>
+                <li>JSON object keys become XML element names</li>
+                <li>Arrays create repeated elements with "item" wrapper or key name</li>
+                <li>Primitive values become text content</li>
+                <li>Keys starting with @ are treated as attributes</li>
+            </ul>
+
+            <h3>Example</h3>
+            <p><strong>JSON:</strong></p>
+            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">{"person": {"name": "John", "age": 30}}</pre>
+            <p><strong>XML:</strong></p>
+            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">&lt;person&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/person&gt;</pre>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'json-to-xml',
+            name: 'JSON to XML',
+            url: 'json-to-xml.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        function escapeXml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&apos;');
+        }
+
+        function jsonToXml(obj, indent = '', prettyPrint = true) {
+            let xml = '';
+            const newline = prettyPrint ? '\n' : '';
+            const nextIndent = prettyPrint ? indent + '  ' : '';
+
+            for (const key in obj) {
+                if (key.startsWith('@')) continue; // Skip attributes
+
+                const value = obj[key];
+                const tagName = key.replace(/[^a-zA-Z0-9_-]/g, '_');
+
+                if (Array.isArray(value)) {
+                    for (const item of value) {
+                        if (typeof item === 'object' && item !== null) {
+                            xml += indent + '<' + tagName + getAttributes(item) + '>' + newline;
+                            xml += jsonToXml(item, nextIndent, prettyPrint);
+                            xml += indent + '</' + tagName + '>' + newline;
+                        } else {
+                            xml += indent + '<' + tagName + '>' + escapeXml(item) + '</' + tagName + '>' + newline;
+                        }
+                    }
+                } else if (typeof value === 'object' && value !== null) {
+                    xml += indent + '<' + tagName + getAttributes(value) + '>' + newline;
+                    xml += jsonToXml(value, nextIndent, prettyPrint);
+                    xml += indent + '</' + tagName + '>' + newline;
+                } else if (value !== null && value !== undefined) {
+                    xml += indent + '<' + tagName + '>' + escapeXml(value) + '</' + tagName + '>' + newline;
+                }
+            }
+
+            return xml;
+        }
+
+        function getAttributes(obj) {
+            let attrs = '';
+            for (const key in obj) {
+                if (key.startsWith('@')) {
+                    attrs += ' ' + key.substring(1) + '="' + escapeXml(obj[key]) + '"';
+                }
+            }
+            return attrs;
+        }
+
+        function convertToXML() {
+            const jsonInput = document.getElementById('jsonInput').value.trim();
+            if (!jsonInput) {
+                CodeUtils.Message.error('Please enter JSON data');
+                return;
+            }
+
+            let data;
+            try {
+                data = JSON.parse(jsonInput);
+            } catch (e) {
+                CodeUtils.Message.error('Invalid JSON: ' + e.message);
+                return;
+            }
+
+            const rootElement = document.getElementById('rootElement').value || 'root';
+            const includeDeclaration = document.getElementById('includeDeclaration').checked;
+            const prettyPrint = document.getElementById('prettyPrint').checked;
+
+            let xml = '';
+            if (includeDeclaration) {
+                xml += '<?xml version="1.0" encoding="UTF-8"?>' + (prettyPrint ? '\n' : '');
+            }
+
+            // Check if data already has a single root
+            const keys = Object.keys(data);
+            if (keys.length === 1 && typeof data[keys[0]] === 'object' && !Array.isArray(data[keys[0]])) {
+                xml += jsonToXml(data, '', prettyPrint);
+            } else {
+                xml += '<' + rootElement + '>' + (prettyPrint ? '\n' : '');
+                xml += jsonToXml(data, prettyPrint ? '  ' : '', prettyPrint);
+                xml += '</' + rootElement + '>';
+            }
+
+            document.getElementById('xmlOutput').value = xml.trim();
+            CodeUtils.Message.success('Converted to XML!');
+        }
+
+        function copyXML() {
+            const xml = document.getElementById('xmlOutput').value;
+            if (!xml) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(xml);
+            CodeUtils.Message.success('Copied to clipboard!');
+        }
+
+        function downloadXML() {
+            const xml = document.getElementById('xmlOutput').value;
+            if (!xml) {
+                CodeUtils.Message.error('Nothing to download');
+                return;
+            }
+            CodeUtils.FileHandler.download(xml, 'data.xml', 'application/xml');
+            CodeUtils.Message.success('XML file downloaded!');
+        }
+
+        function clearAll() {
+            document.getElementById('jsonInput').value = '';
+            document.getElementById('xmlOutput').value = '';
+        }
+    </script>
+</body>
+</html>

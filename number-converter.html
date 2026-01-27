@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Base Converter - Code Utils</title>
+    <meta name="description" content="Free number base converter. Convert between binary, decimal, hexadecimal, and octal. Supports large numbers.">
+    <meta name="keywords" content="number converter, binary converter, hex converter, decimal converter, octal converter, base converter">
+    <link rel="canonical" href="https://codeutils.org/number-converter.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/number-converter.html">
+    <meta property="og:title" content="Number Base Converter - Code Utils">
+    <meta property="og:description" content="Convert numbers between binary, decimal, hex, and octal.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .converter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        .converter-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: var(--spacing-md);
+        }
+        .converter-item label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: var(--spacing-xs);
+            color: var(--primary);
+        }
+        .converter-item input {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+        }
+        .converter-item .hint {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: var(--spacing-xs);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Number Base Converter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Convert numbers between different numeral systems.</p>
+        </div>
+
+        <div class="converter-grid">
+            <div class="converter-item">
+                <label>Decimal (Base 10)</label>
+                <input type="text" id="decimal" placeholder="Enter decimal..." oninput="convert('decimal')">
+                <div class="hint">0-9</div>
+            </div>
+            <div class="converter-item">
+                <label>Binary (Base 2)</label>
+                <input type="text" id="binary" placeholder="Enter binary..." oninput="convert('binary')">
+                <div class="hint">0-1</div>
+            </div>
+            <div class="converter-item">
+                <label>Octal (Base 8)</label>
+                <input type="text" id="octal" placeholder="Enter octal..." oninput="convert('octal')">
+                <div class="hint">0-7</div>
+            </div>
+            <div class="converter-item">
+                <label>Hexadecimal (Base 16)</label>
+                <input type="text" id="hexadecimal" placeholder="Enter hex..." oninput="convert('hexadecimal')">
+                <div class="hint">0-9, A-F</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-secondary" onclick="copyAll()">Copy All</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="text-to-binary.html">Text to Binary</a></li>
+                <li><a href="ascii-to-hex.html">ASCII to Hex</a></li>
+                <li><a href="hash-generator.html">Hash Generator</a></li>
+                <li><a href="base64-encoder.html">Base64 Encoder</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Number Base Converter</h2>
+            <p>This tool converts numbers between different numeral systems (bases).</p>
+
+            <h3>Supported Bases</h3>
+            <ul>
+                <li><strong>Decimal (Base 10):</strong> Standard number system (0-9)</li>
+                <li><strong>Binary (Base 2):</strong> Used in computing (0-1)</li>
+                <li><strong>Octal (Base 8):</strong> Used in Unix permissions (0-7)</li>
+                <li><strong>Hexadecimal (Base 16):</strong> Used for colors, memory addresses (0-9, A-F)</li>
+            </ul>
+
+            <h3>Examples</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="border-bottom: 1px solid var(--border);">
+                    <th style="text-align: left; padding: 8px;">Decimal</th>
+                    <th style="text-align: left; padding: 8px;">Binary</th>
+                    <th style="text-align: left; padding: 8px;">Octal</th>
+                    <th style="text-align: left; padding: 8px;">Hex</th>
+                </tr>
+                <tr><td style="padding: 8px;">10</td><td style="padding: 8px;">1010</td><td style="padding: 8px;">12</td><td style="padding: 8px;">A</td></tr>
+                <tr><td style="padding: 8px;">255</td><td style="padding: 8px;">11111111</td><td style="padding: 8px;">377</td><td style="padding: 8px;">FF</td></tr>
+                <tr><td style="padding: 8px;">1024</td><td style="padding: 8px;">10000000000</td><td style="padding: 8px;">2000</td><td style="padding: 8px;">400</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'number-converter',
+            name: 'Number Converter',
+            url: 'number-converter.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        let isConverting = false;
+
+        function convert(source) {
+            if (isConverting) return;
+            isConverting = true;
+
+            const input = document.getElementById(source).value.trim().toUpperCase();
+
+            if (!input) {
+                document.getElementById('decimal').value = '';
+                document.getElementById('binary').value = '';
+                document.getElementById('octal').value = '';
+                document.getElementById('hexadecimal').value = '';
+                isConverting = false;
+                return;
+            }
+
+            let decimal;
+            try {
+                switch (source) {
+                    case 'decimal':
+                        if (!/^\d+$/.test(input)) throw new Error('Invalid decimal');
+                        decimal = BigInt(input);
+                        break;
+                    case 'binary':
+                        if (!/^[01]+$/.test(input)) throw new Error('Invalid binary');
+                        decimal = BigInt('0b' + input);
+                        break;
+                    case 'octal':
+                        if (!/^[0-7]+$/.test(input)) throw new Error('Invalid octal');
+                        decimal = BigInt('0o' + input);
+                        break;
+                    case 'hexadecimal':
+                        if (!/^[0-9A-F]+$/i.test(input)) throw new Error('Invalid hex');
+                        decimal = BigInt('0x' + input);
+                        break;
+                }
+
+                if (source !== 'decimal') document.getElementById('decimal').value = decimal.toString(10);
+                if (source !== 'binary') document.getElementById('binary').value = decimal.toString(2);
+                if (source !== 'octal') document.getElementById('octal').value = decimal.toString(8);
+                if (source !== 'hexadecimal') document.getElementById('hexadecimal').value = decimal.toString(16).toUpperCase();
+
+            } catch (e) {
+                CodeUtils.Message.error(e.message || 'Invalid input');
+            }
+
+            isConverting = false;
+        }
+
+        function copyAll() {
+            const dec = document.getElementById('decimal').value;
+            const bin = document.getElementById('binary').value;
+            const oct = document.getElementById('octal').value;
+            const hex = document.getElementById('hexadecimal').value;
+
+            if (!dec && !bin && !oct && !hex) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+
+            const text = `Decimal: ${dec}\nBinary: ${bin}\nOctal: ${oct}\nHexadecimal: ${hex}`;
+            CodeUtils.Clipboard.copy(text);
+            CodeUtils.Message.success('All values copied!');
+        }
+
+        function clearAll() {
+            document.getElementById('decimal').value = '';
+            document.getElementById('binary').value = '';
+            document.getElementById('octal').value = '';
+            document.getElementById('hexadecimal').value = '';
+        }
+    </script>
+</body>
+</html>

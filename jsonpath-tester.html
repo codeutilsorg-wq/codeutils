@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSONPath Tester - Code Utils</title>
+    <meta name="description" content="Free JSONPath tester. Test JSONPath expressions against JSON data. Extract and query JSON values.">
+    <meta name="keywords" content="jsonpath tester, json query, jsonpath expression, json selector, json extractor">
+    <link rel="canonical" href="https://codeutils.org/jsonpath-tester.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/jsonpath-tester.html">
+    <meta property="og:title" content="JSONPath Tester - Code Utils">
+    <meta property="og:description" content="Test JSONPath expressions against JSON data.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .path-input {
+            font-family: var(--font-mono);
+            font-size: 1.125rem;
+            padding: var(--spacing-md);
+        }
+        .examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+        }
+        .example {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+        .example:hover {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">JSONPath Tester</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Test JSONPath expressions to query and extract JSON data.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">JSONPath Expression</div>
+            <input type="text" id="pathInput" class="editor path-input" value="$.store.book[*].author" placeholder="$.path.to.value" oninput="testPath()">
+        </div>
+
+        <div class="examples">
+            <span class="example" onclick="setPath('$')">$ (root)</span>
+            <span class="example" onclick="setPath('$.store')">$.store</span>
+            <span class="example" onclick="setPath('$.store.book[0]')">$.store.book[0]</span>
+            <span class="example" onclick="setPath('$.store.book[*].author')">$.store.book[*].author</span>
+            <span class="example" onclick="setPath('$..author')">$..author</span>
+            <span class="example" onclick="setPath('$.store.book[?(@.price<10)]')">$..book[?(@.price<10)]</span>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">JSON Input</div>
+            <textarea id="jsonInput" class="editor" oninput="testPath()">{
+  "store": {
+    "book": [
+      { "category": "reference", "author": "Nigel Rees", "title": "Sayings", "price": 8.95 },
+      { "category": "fiction", "author": "Evelyn Waugh", "title": "Sword", "price": 12.99 },
+      { "category": "fiction", "author": "Herman Melville", "title": "Moby Dick", "price": 8.99 },
+      { "category": "fiction", "author": "J. R. R. Tolkien", "title": "The Lord of the Rings", "price": 22.99 }
+    ],
+    "bicycle": { "color": "red", "price": 19.95 }
+  }
+}</textarea>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="testPath()">Test Path</button>
+            <button class="btn btn-secondary" onclick="copyResult()">Copy Result</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">Result</div>
+            <textarea id="resultOutput" class="editor" readonly placeholder="Query result will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="json-formatter.html">JSON Formatter</a></li>
+                <li><a href="xpath-tester.html">XPath Tester</a></li>
+                <li><a href="regex-tester.html">Regex Tester</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>JSONPath Syntax</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="border-bottom: 1px solid var(--border);">
+                    <th style="text-align: left; padding: 8px;">Expression</th>
+                    <th style="text-align: left; padding: 8px;">Description</th>
+                </tr>
+                <tr><td style="padding: 8px;"><code>$</code></td><td style="padding: 8px;">Root object</td></tr>
+                <tr><td style="padding: 8px;"><code>.key</code></td><td style="padding: 8px;">Child property</td></tr>
+                <tr><td style="padding: 8px;"><code>[n]</code></td><td style="padding: 8px;">Array index</td></tr>
+                <tr><td style="padding: 8px;"><code>[*]</code></td><td style="padding: 8px;">All array elements</td></tr>
+                <tr><td style="padding: 8px;"><code>..</code></td><td style="padding: 8px;">Recursive descent</td></tr>
+                <tr><td style="padding: 8px;"><code>[?()]</code></td><td style="padding: 8px;">Filter expression</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'jsonpath-tester',
+            name: 'JSONPath Tester',
+            url: 'jsonpath-tester.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        // Simple JSONPath implementation
+        function jsonPath(obj, path) {
+            if (path === '$') return [obj];
+
+            const results = [];
+            const segments = [];
+            let current = '';
+            let inBracket = false;
+
+            // Parse path into segments
+            for (let i = 1; i < path.length; i++) {
+                const char = path[i];
+                if (char === '[') {
+                    if (current) segments.push({ type: 'key', value: current });
+                    current = '';
+                    inBracket = true;
+                } else if (char === ']') {
+                    segments.push({ type: 'bracket', value: current });
+                    current = '';
+                    inBracket = false;
+                } else if (char === '.' && !inBracket) {
+                    if (current) segments.push({ type: 'key', value: current });
+                    current = '';
+                    if (path[i + 1] === '.') {
+                        segments.push({ type: 'recursive' });
+                        i++;
+                    }
+                } else {
+                    current += char;
+                }
+            }
+            if (current) segments.push({ type: 'key', value: current });
+
+            function traverse(data, segIndex, collector) {
+                if (segIndex >= segments.length) {
+                    collector.push(data);
+                    return;
+                }
+
+                const seg = segments[segIndex];
+
+                if (seg.type === 'key') {
+                    if (data && typeof data === 'object' && seg.value in data) {
+                        traverse(data[seg.value], segIndex + 1, collector);
+                    }
+                } else if (seg.type === 'bracket') {
+                    if (seg.value === '*') {
+                        if (Array.isArray(data)) {
+                            data.forEach(item => traverse(item, segIndex + 1, collector));
+                        }
+                    } else if (seg.value.startsWith('?')) {
+                        // Filter expression
+                        const expr = seg.value.slice(2, -1);
+                        if (Array.isArray(data)) {
+                            data.forEach(item => {
+                                try {
+                                    const fn = new Function('@', `return ${expr.replace(/@/g, '@')}`);
+                                    if (fn(item)) traverse(item, segIndex + 1, collector);
+                                } catch {}
+                            });
+                        }
+                    } else {
+                        const idx = parseInt(seg.value);
+                        if (Array.isArray(data) && data[idx] !== undefined) {
+                            traverse(data[idx], segIndex + 1, collector);
+                        }
+                    }
+                } else if (seg.type === 'recursive') {
+                    const nextSeg = segments[segIndex + 1];
+                    function recurse(d) {
+                        if (nextSeg && nextSeg.type === 'key' && d && typeof d === 'object') {
+                            if (nextSeg.value in d) {
+                                traverse(d[nextSeg.value], segIndex + 2, collector);
+                            }
+                            Object.values(d).forEach(v => {
+                                if (v && typeof v === 'object') recurse(v);
+                            });
+                        }
+                    }
+                    recurse(data);
+                }
+            }
+
+            traverse(obj, 0, results);
+            return results;
+        }
+
+        function setPath(path) {
+            document.getElementById('pathInput').value = path;
+            testPath();
+        }
+
+        function testPath() {
+            const jsonStr = document.getElementById('jsonInput').value.trim();
+            const path = document.getElementById('pathInput').value.trim();
+
+            if (!jsonStr || !path) {
+                document.getElementById('resultOutput').value = '';
+                return;
+            }
+
+            try {
+                const data = JSON.parse(jsonStr);
+                const result = jsonPath(data, path);
+
+                document.getElementById('resultOutput').value = JSON.stringify(
+                    result.length === 1 ? result[0] : result,
+                    null,
+                    2
+                );
+                CodeUtils.Message.success(`Found ${result.length} match(es)`);
+            } catch (e) {
+                CodeUtils.Message.error(e.message);
+            }
+        }
+
+        function copyResult() {
+            const result = document.getElementById('resultOutput').value;
+            if (!result) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(result);
+            CodeUtils.Message.success('Copied!');
+        }
+
+        function clearAll() {
+            document.getElementById('pathInput').value = '';
+            document.getElementById('jsonInput').value = '';
+            document.getElementById('resultOutput').value = '';
+        }
+
+        testPath();
+    </script>
+</body>
+</html>

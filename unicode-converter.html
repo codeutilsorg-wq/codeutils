@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unicode Converter - Code Utils</title>
+    <meta name="description" content="Free Unicode converter. Convert text to Unicode escape sequences and decode Unicode. Supports various formats.">
+    <meta name="keywords" content="unicode converter, unicode encoder, unicode decoder, escape sequences, unicode characters">
+    <link rel="canonical" href="https://codeutils.org/unicode-converter.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/unicode-converter.html">
+    <meta property="og:title" content="Unicode Converter - Code Utils">
+    <meta property="og:description" content="Convert text to Unicode escape sequences and back.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .format-buttons {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-md);
+        }
+        .format-btn {
+            padding: var(--spacing-xs) var(--spacing-md);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+        }
+        .format-btn:hover, .format-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Unicode Converter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Convert text to Unicode escape sequences and decode Unicode.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Text</div>
+            <textarea id="textInput" class="editor" placeholder="Enter text to convert to Unicode..."></textarea>
+        </div>
+
+        <div class="format-buttons">
+            <button class="format-btn active" onclick="selectFormat('js', this)">\uXXXX (JavaScript)</button>
+            <button class="format-btn" onclick="selectFormat('html', this)">&#xXXXX; (HTML)</button>
+            <button class="format-btn" onclick="selectFormat('css', this)">\XXXX (CSS)</button>
+            <button class="format-btn" onclick="selectFormat('python', this)">\uXXXX (Python)</button>
+            <button class="format-btn" onclick="selectFormat('codepoint', this)">U+XXXX (Code Point)</button>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="encode()">Encode to Unicode</button>
+            <button class="btn" onclick="decode()">Decode Unicode</button>
+            <button class="btn btn-secondary" onclick="copyOutput()">Copy Output</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">Unicode</div>
+            <textarea id="unicodeOutput" class="editor" placeholder="Unicode escape sequences will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="html-encoder.html">HTML Entity Encoder</a></li>
+                <li><a href="ascii-to-hex.html">ASCII to Hex</a></li>
+                <li><a href="url-encoder.html">URL Encoder</a></li>
+                <li><a href="base64-encoder.html">Base64 Encoder</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Unicode Converter</h2>
+            <p>This tool converts text to various Unicode escape sequence formats used in different programming languages.</p>
+
+            <h3>Supported Formats</h3>
+            <ul>
+                <li><strong>\uXXXX (JavaScript/Java):</strong> e.g., \u0048\u0065\u006C\u006C\u006F</li>
+                <li><strong>&amp;#xXXXX; (HTML):</strong> e.g., &amp;#x48;&amp;#x65;&amp;#x6C;&amp;#x6C;&amp;#x6F;</li>
+                <li><strong>\XXXX (CSS):</strong> e.g., \0048\0065\006C\006C\006F</li>
+                <li><strong>U+XXXX (Code Point):</strong> e.g., U+0048 U+0065 U+006C U+006C U+006F</li>
+            </ul>
+
+            <h3>Common Unicode Characters</h3>
+            <ul>
+                <li><strong>Copyright (©):</strong> U+00A9, \u00A9</li>
+                <li><strong>Trademark (™):</strong> U+2122, \u2122</li>
+                <li><strong>Euro (€):</strong> U+20AC, \u20AC</li>
+                <li><strong>Smiley (☺):</strong> U+263A, \u263A</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'unicode-converter',
+            name: 'Unicode Converter',
+            url: 'unicode-converter.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        let currentFormat = 'js';
+
+        function selectFormat(format, btn) {
+            currentFormat = format;
+            document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function encode() {
+            const text = document.getElementById('textInput').value;
+            if (!text) {
+                CodeUtils.Message.error('Please enter some text');
+                return;
+            }
+
+            let result = '';
+            for (const char of text) {
+                const codePoint = char.codePointAt(0);
+                const hex = codePoint.toString(16).toUpperCase().padStart(4, '0');
+
+                switch (currentFormat) {
+                    case 'js':
+                    case 'python':
+                        if (codePoint > 0xFFFF) {
+                            // Surrogate pair for characters outside BMP
+                            const high = Math.floor((codePoint - 0x10000) / 0x400) + 0xD800;
+                            const low = ((codePoint - 0x10000) % 0x400) + 0xDC00;
+                            result += '\\u' + high.toString(16).toUpperCase() + '\\u' + low.toString(16).toUpperCase();
+                        } else {
+                            result += '\\u' + hex;
+                        }
+                        break;
+                    case 'html':
+                        result += '&#x' + hex + ';';
+                        break;
+                    case 'css':
+                        result += '\\' + hex;
+                        break;
+                    case 'codepoint':
+                        result += 'U+' + hex + ' ';
+                        break;
+                }
+            }
+
+            document.getElementById('unicodeOutput').value = result.trim();
+            CodeUtils.Message.success('Encoded to Unicode!');
+        }
+
+        function decode() {
+            const unicode = document.getElementById('unicodeOutput').value;
+            if (!unicode) {
+                CodeUtils.Message.error('Please enter Unicode data');
+                return;
+            }
+
+            let result = unicode;
+
+            // Decode various formats
+            // \uXXXX format (JavaScript/Java/Python)
+            result = result.replace(/\\u([0-9A-Fa-f]{4})/g, (_, hex) =>
+                String.fromCharCode(parseInt(hex, 16))
+            );
+
+            // &#xXXXX; format (HTML hex)
+            result = result.replace(/&#x([0-9A-Fa-f]+);/gi, (_, hex) =>
+                String.fromCodePoint(parseInt(hex, 16))
+            );
+
+            // &#NNNNN; format (HTML decimal)
+            result = result.replace(/&#(\d+);/g, (_, dec) =>
+                String.fromCodePoint(parseInt(dec, 10))
+            );
+
+            // U+XXXX format (Code point)
+            result = result.replace(/U\+([0-9A-Fa-f]{4,6})/gi, (_, hex) =>
+                String.fromCodePoint(parseInt(hex, 16))
+            );
+
+            // \XXXX format (CSS) - more permissive
+            result = result.replace(/\\([0-9A-Fa-f]{4,6})(?:\s|(?![0-9A-Fa-f]))/g, (_, hex) =>
+                String.fromCodePoint(parseInt(hex, 16))
+            );
+
+            document.getElementById('textInput').value = result;
+            CodeUtils.Message.success('Decoded from Unicode!');
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('unicodeOutput').value;
+            if (!output) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(output);
+            CodeUtils.Message.success('Copied to clipboard!');
+        }
+
+        function clearAll() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('unicodeOutput').value = '';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whitespace Remover - Code Utils</title>
+    <meta name="description" content="Free online whitespace remover. Remove extra spaces, tabs, and line breaks from text. Clean up messy text instantly.">
+    <meta name="keywords" content="whitespace remover, remove spaces, trim text, clean text, remove tabs">
+    <link rel="canonical" href="https://codeutils.org/whitespace-remover.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/whitespace-remover.html">
+    <meta property="og:title" content="Whitespace Remover - Code Utils">
+    <meta property="og:description" content="Remove extra spaces, tabs, and line breaks from text.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        .options-grid label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-xs);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Whitespace Remover</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Clean up extra whitespace from your text.</p>
+        </div>
+
+        <div class="editor-section">
+            <div class="editor-header">Input Text</div>
+            <textarea id="inputText" class="editor" placeholder="Paste text with extra whitespace..."></textarea>
+        </div>
+
+        <div class="options-grid">
+            <label><input type="checkbox" id="trimLines" checked> Trim start/end of each line</label>
+            <label><input type="checkbox" id="multipleSpaces" checked> Collapse multiple spaces</label>
+            <label><input type="checkbox" id="multipleTabs" checked> Collapse multiple tabs</label>
+            <label><input type="checkbox" id="tabsToSpaces"> Convert tabs to spaces</label>
+            <label><input type="checkbox" id="emptyLines" checked> Remove empty lines</label>
+            <label><input type="checkbox" id="multipleNewlines"> Collapse multiple newlines</label>
+            <label><input type="checkbox" id="allWhitespace"> Remove ALL whitespace</label>
+            <label><input type="checkbox" id="trimDocument" checked> Trim start/end of document</label>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="cleanWhitespace()">Clean Whitespace</button>
+            <button class="btn btn-secondary" onclick="copyOutput()">Copy Output</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-section">
+            <div class="editor-header">Cleaned Output</div>
+            <textarea id="outputText" class="editor" readonly placeholder="Cleaned text will appear here..."></textarea>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="duplicate-remover.html">Duplicate Remover</a></li>
+                <li><a href="text-sorter.html">Text Sorter</a></li>
+                <li><a href="find-replace.html">Find and Replace</a></li>
+                <li><a href="word-counter.html">Word Counter</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About Whitespace Remover</h2>
+            <p>This tool helps clean up messy text by removing or normalizing whitespace characters.</p>
+
+            <h3>Options Explained</h3>
+            <ul>
+                <li><strong>Trim lines:</strong> Remove spaces/tabs from start and end of each line</li>
+                <li><strong>Collapse multiple spaces:</strong> Replace multiple spaces with single space</li>
+                <li><strong>Collapse multiple tabs:</strong> Replace multiple tabs with single tab</li>
+                <li><strong>Convert tabs to spaces:</strong> Replace tabs with spaces</li>
+                <li><strong>Remove empty lines:</strong> Delete lines that are empty or only whitespace</li>
+                <li><strong>Collapse multiple newlines:</strong> Replace multiple blank lines with one</li>
+                <li><strong>Remove ALL whitespace:</strong> Remove every whitespace character</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'whitespace-remover',
+            name: 'Whitespace Remover',
+            url: 'whitespace-remover.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        document.getElementById('allWhitespace').addEventListener('change', function() {
+            const inputs = document.querySelectorAll('.options-grid input:not(#allWhitespace)');
+            inputs.forEach(input => input.disabled = this.checked);
+        });
+
+        function cleanWhitespace() {
+            let text = document.getElementById('inputText').value;
+            if (!text) {
+                CodeUtils.Message.error('Please enter some text');
+                return;
+            }
+
+            const originalLength = text.length;
+
+            if (document.getElementById('allWhitespace').checked) {
+                text = text.replace(/\s/g, '');
+            } else {
+                if (document.getElementById('tabsToSpaces').checked) {
+                    text = text.replace(/\t/g, '    ');
+                }
+
+                if (document.getElementById('trimLines').checked) {
+                    text = text.split('\n').map(line => line.trim()).join('\n');
+                }
+
+                if (document.getElementById('multipleSpaces').checked) {
+                    text = text.replace(/ {2,}/g, ' ');
+                }
+
+                if (document.getElementById('multipleTabs').checked) {
+                    text = text.replace(/\t{2,}/g, '\t');
+                }
+
+                if (document.getElementById('emptyLines').checked) {
+                    text = text.split('\n').filter(line => line.trim().length > 0).join('\n');
+                }
+
+                if (document.getElementById('multipleNewlines').checked) {
+                    text = text.replace(/\n{3,}/g, '\n\n');
+                }
+
+                if (document.getElementById('trimDocument').checked) {
+                    text = text.trim();
+                }
+            }
+
+            document.getElementById('outputText').value = text;
+            const removed = originalLength - text.length;
+            CodeUtils.Message.success(`Removed ${removed} characters of whitespace!`);
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('outputText').value;
+            if (!output) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(output);
+            CodeUtils.Message.success('Copied to clipboard!');
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').value = '';
+        }
+    </script>
+</body>
+</html>
