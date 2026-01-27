@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Favicon Generator - Code Utils</title>
-    <meta name="description" content="Free favicon generator. Create favicons from text, emoji, or upload images. Generate multiple sizes.">
+    <meta name="description"
+        content="Free favicon generator. Create favicons from text, emoji, or upload images. Generate multiple sizes.">
     <meta name="keywords" content="favicon generator, favicon creator, icon generator, create favicon, website icon">
     <link rel="canonical" href="https://codeutils.org/favicon-generator.html">
 
@@ -12,11 +14,21 @@
     <meta property="og:url" content="https://codeutils.org/favicon-generator.html">
     <meta property="og:title" content="Favicon Generator - Code Utils">
     <meta property="og:description" content="Create favicons from text, emoji, or images.">
+    <meta property="og:image" content="https://codeutils.org/images/og/favicon-generator.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Favicon Generator - Free online favicon creation tool">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Favicon Generator - Code Utils">
+    <meta name="twitter:description" content="Create favicons from text, emoji, or upload images. Generate multiple sizes.">
+    <meta name="twitter:image" content="https://codeutils.org/images/og/favicon-generator.png">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-RPHPBJ4291');
     </script>
@@ -30,6 +42,7 @@
             justify-content: center;
             margin-bottom: var(--spacing-md);
         }
+
         .preview-box {
             background: var(--bg-secondary);
             border: 1px solid var(--border);
@@ -37,32 +50,39 @@
             padding: var(--spacing-md);
             text-align: center;
         }
+
         .preview-box canvas {
             border: 1px solid var(--border);
             background: white;
         }
+
         .preview-box .label {
             margin-top: var(--spacing-xs);
             font-size: 0.75rem;
             color: var(--text-secondary);
         }
+
         .options-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-md);
         }
+
         .option-group {
             background: var(--bg-secondary);
             padding: var(--spacing-md);
             border-radius: var(--radius);
         }
+
         .option-group label {
             display: block;
             margin-bottom: var(--spacing-xs);
             font-weight: bold;
         }
-        .option-group input, .option-group select {
+
+        .option-group input,
+        .option-group select {
             width: 100%;
             padding: var(--spacing-xs);
             border: 1px solid var(--border);
@@ -70,12 +90,14 @@
             background: var(--bg-primary);
             color: var(--text-primary);
         }
+
         .emoji-picker {
             display: flex;
             flex-wrap: wrap;
             gap: 4px;
             margin-top: var(--spacing-xs);
         }
+
         .emoji-btn {
             font-size: 1.5rem;
             padding: 4px;
@@ -84,11 +106,13 @@
             background: var(--bg-primary);
             cursor: pointer;
         }
+
         .emoji-btn:hover {
             background: var(--primary);
         }
     </style>
 </head>
+
 <body>
     <header class="header">
         <div class="header-content">
@@ -111,7 +135,7 @@
         <div class="options-grid">
             <div class="option-group">
                 <label>Text/Emoji</label>
-                <input type="text" id="textInput" value="CU" maxlength="3" oninput="generateFavicon()">
+                <input type="text" id="textInput" value="CU" maxlength="4" oninput="generateFavicon()">
                 <div class="emoji-picker">
                     <span class="emoji-btn" onclick="setEmoji('🚀')">🚀</span>
                     <span class="emoji-btn" onclick="setEmoji('⭐')">⭐</span>
@@ -231,7 +255,7 @@
                 ctx.fillStyle = bgColor;
                 if (shape === 'circle') {
                     ctx.beginPath();
-                    ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2);
+                    ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
                     ctx.fill();
                 } else if (shape === 'rounded') {
                     const r = size * 0.2;
@@ -261,7 +285,7 @@
                 if (text.length >= 3) fontSize = size * 0.35;
 
                 ctx.font = `bold ${fontSize}px Arial, sans-serif`;
-                ctx.fillText(text, size/2, size/2 + (size * 0.05));
+                ctx.fillText(text, size / 2, size / 2 + (size * 0.05));
             });
         }
 
@@ -287,4 +311,5 @@
         generateFavicon();
     </script>
 </body>
+
 </html>

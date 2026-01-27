@@ -12,6 +12,16 @@
     <meta property="og:url" content="https://codeutils.org/color-converter.html">
     <meta property="og:title" content="Color Converter - Code Utils">
     <meta property="og:description" content="Convert colors between HEX, RGB, HSL, and CMYK.">
+    <meta property="og:image" content="https://codeutils.org/images/og/color-converter.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Color Converter - Free online color conversion tool">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Color Converter - Code Utils">
+    <meta name="twitter:description" content="Convert colors between HEX, RGB, HSL, and CMYK formats.">
+    <meta name="twitter:image" content="https://codeutils.org/images/og/color-converter.png">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
     <script>
@@ -23,13 +33,118 @@
 
     <link rel="stylesheet" href="css/common.css">
     <style>
-        .color-preview {
+        .picker-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        .picker-section h3 {
+            margin: 0 0 var(--spacing-sm);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .picker-layout {
+            display: grid;
+            grid-template-columns: 1fr 120px;
+            gap: var(--spacing-md);
+        }
+        .picker-main {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        .color-area-wrapper {
+            position: relative;
             width: 100%;
-            height: 120px;
+            height: 200px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: crosshair;
+            border: 1px solid var(--border);
+        }
+        .color-area {
+            position: absolute;
+            inset: 0;
+        }
+        .color-area-white {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, #fff, transparent);
+        }
+        .color-area-black {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, #000, transparent);
+        }
+        .color-cursor {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 0 1px #000, inset 0 0 0 1px #000;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        .hue-slider-wrapper {
+            position: relative;
+            width: 100%;
+            height: 20px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid var(--border);
+        }
+        .hue-slider {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right,
+                hsl(0, 100%, 50%), hsl(60, 100%, 50%), hsl(120, 100%, 50%),
+                hsl(180, 100%, 50%), hsl(240, 100%, 50%), hsl(300, 100%, 50%), hsl(360, 100%, 50%));
+        }
+        .hue-cursor {
+            position: absolute;
+            top: 0;
+            width: 6px;
+            height: 100%;
+            background: #fff;
+            border: 1px solid #000;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+        .picker-preview {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        .color-preview {
+            flex: 1;
+            min-height: 120px;
             border-radius: var(--radius);
             border: 1px solid var(--border);
-            margin-bottom: var(--spacing-md);
             background: #3b82f6;
+        }
+        .native-picker-wrapper {
+            position: relative;
+        }
+        .native-picker-wrapper label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            text-align: center;
+        }
+        .native-picker {
+            width: 100%;
+            height: 36px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0;
         }
         .color-grid {
             display: grid;
@@ -68,6 +183,24 @@
             padding: var(--spacing-xs) var(--spacing-sm);
             font-size: 0.75rem;
         }
+        @media (max-width: 600px) {
+            .picker-layout {
+                grid-template-columns: 1fr;
+            }
+            .color-area-wrapper {
+                height: 160px;
+            }
+            .picker-preview {
+                flex-direction: row;
+            }
+            .color-preview {
+                min-height: 80px;
+                flex: 1;
+            }
+            .native-picker-wrapper {
+                width: 80px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -89,10 +222,29 @@
             <p style="margin: 0; color: var(--text-secondary);">Convert colors between different formats.</p>
         </div>
 
-        <div class="color-preview" id="colorPreview"></div>
-
-        <div style="margin-bottom: var(--spacing-md);">
-            <input type="color" id="colorPicker" value="#3b82f6" style="width: 100%; height: 40px; cursor: pointer; border: none; border-radius: var(--radius);" onchange="fromPicker()">
+        <div class="picker-section">
+            <h3>Select a Color</h3>
+            <div class="picker-layout">
+                <div class="picker-main">
+                    <div class="color-area-wrapper" id="colorArea">
+                        <div class="color-area" id="colorAreaBg"></div>
+                        <div class="color-area-white"></div>
+                        <div class="color-area-black"></div>
+                        <div class="color-cursor" id="colorCursor"></div>
+                    </div>
+                    <div class="hue-slider-wrapper" id="hueSlider">
+                        <div class="hue-slider"></div>
+                        <div class="hue-cursor" id="hueCursor"></div>
+                    </div>
+                </div>
+                <div class="picker-preview">
+                    <div class="color-preview" id="colorPreview"></div>
+                    <div class="native-picker-wrapper">
+                        <label>System Picker</label>
+                        <input type="color" id="colorPicker" class="native-picker" value="#3b82f6" onchange="fromPicker()">
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="color-grid">
@@ -168,27 +320,61 @@
 
         CodeUtils.Message.init('message');
 
-        let currentColor = { r: 59, g: 130, b: 246 };
+        // State - use HSV for visual picker, RGB for conversions
+        let hue = 217;
+        let saturation = 76;
+        let brightness = 96;
 
-        function updatePreview() {
-            const hex = rgbToHex(currentColor.r, currentColor.g, currentColor.b);
-            document.getElementById('colorPreview').style.background = hex;
-            document.getElementById('colorPicker').value = hex;
+        // Elements
+        const colorArea = document.getElementById('colorArea');
+        const colorAreaBg = document.getElementById('colorAreaBg');
+        const colorCursor = document.getElementById('colorCursor');
+        const hueSlider = document.getElementById('hueSlider');
+        const hueCursor = document.getElementById('hueCursor');
+
+        // Color conversion functions
+        function hsvToRgb(h, s, v) {
+            s /= 100;
+            v /= 100;
+            const c = v * s;
+            const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+            const m = v - c;
+            let r, g, b;
+
+            if (h < 60) { r = c; g = x; b = 0; }
+            else if (h < 120) { r = x; g = c; b = 0; }
+            else if (h < 180) { r = 0; g = c; b = x; }
+            else if (h < 240) { r = 0; g = x; b = c; }
+            else if (h < 300) { r = x; g = 0; b = c; }
+            else { r = c; g = 0; b = x; }
+
+            return {
+                r: Math.round((r + m) * 255),
+                g: Math.round((g + m) * 255),
+                b: Math.round((b + m) * 255)
+            };
         }
 
-        function updateAllInputs() {
-            const { r, g, b } = currentColor;
+        function rgbToHsv(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            const d = max - min;
+            let h, s, v = max;
 
-            document.getElementById('hexInput').value = rgbToHex(r, g, b);
-            document.getElementById('rgbInput').value = `rgb(${r}, ${g}, ${b})`;
+            s = max === 0 ? 0 : d / max;
 
-            const hsl = rgbToHsl(r, g, b);
-            document.getElementById('hslInput').value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+            if (max === min) {
+                h = 0;
+            } else {
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
 
-            const cmyk = rgbToCmyk(r, g, b);
-            document.getElementById('cmykInput').value = `cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)`;
-
-            updatePreview();
+            return { h: h * 360, s: s * 100, v: v * 100 };
         }
 
         function rgbToHex(r, g, b) {
@@ -271,63 +457,170 @@
             };
         }
 
+        // Update all displays
+        function updateAllInputs() {
+            const rgb = hsvToRgb(hue, saturation, brightness);
+            const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+            const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+            const cmyk = rgbToCmyk(rgb.r, rgb.g, rgb.b);
+
+            // Update inputs
+            document.getElementById('hexInput').value = hex;
+            document.getElementById('rgbInput').value = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+            document.getElementById('hslInput').value = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+            document.getElementById('cmykInput').value = `cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)`;
+
+            // Update preview
+            document.getElementById('colorPreview').style.background = hex;
+            document.getElementById('colorPicker').value = hex;
+            colorAreaBg.style.background = `hsl(${hue}, 100%, 50%)`;
+
+            // Update cursors
+            colorCursor.style.left = `${saturation}%`;
+            colorCursor.style.top = `${100 - brightness}%`;
+            hueCursor.style.left = `${(hue / 360) * 100}%`;
+        }
+
+        // Set HSV from RGB
+        function setFromRgb(r, g, b) {
+            const hsv = rgbToHsv(r, g, b);
+            hue = hsv.h;
+            saturation = hsv.s;
+            brightness = hsv.v;
+            updateAllInputs();
+        }
+
+        // Color area interaction
+        let isDraggingColor = false;
+
+        function handleColorArea(e) {
+            const rect = colorArea.getBoundingClientRect();
+            let x = (e.clientX - rect.left) / rect.width;
+            let y = (e.clientY - rect.top) / rect.height;
+
+            x = Math.max(0, Math.min(1, x));
+            y = Math.max(0, Math.min(1, y));
+
+            saturation = x * 100;
+            brightness = (1 - y) * 100;
+            updateAllInputs();
+        }
+
+        colorArea.addEventListener('mousedown', (e) => {
+            isDraggingColor = true;
+            handleColorArea(e);
+        });
+
+        colorArea.addEventListener('touchstart', (e) => {
+            isDraggingColor = true;
+            handleColorArea(e.touches[0]);
+            e.preventDefault();
+        });
+
+        // Hue slider interaction
+        let isDraggingHue = false;
+
+        function handleHueSlider(e) {
+            const rect = hueSlider.getBoundingClientRect();
+            let x = (e.clientX - rect.left) / rect.width;
+            x = Math.max(0, Math.min(1, x));
+            hue = x * 360;
+            updateAllInputs();
+        }
+
+        hueSlider.addEventListener('mousedown', (e) => {
+            isDraggingHue = true;
+            handleHueSlider(e);
+        });
+
+        hueSlider.addEventListener('touchstart', (e) => {
+            isDraggingHue = true;
+            handleHueSlider(e.touches[0]);
+            e.preventDefault();
+        });
+
+        // Global mouse/touch events
+        document.addEventListener('mousemove', (e) => {
+            if (isDraggingColor) handleColorArea(e);
+            if (isDraggingHue) handleHueSlider(e);
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDraggingColor = false;
+            isDraggingHue = false;
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (isDraggingColor) {
+                handleColorArea(e.touches[0]);
+                e.preventDefault();
+            }
+            if (isDraggingHue) {
+                handleHueSlider(e.touches[0]);
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+            isDraggingColor = false;
+            isDraggingHue = false;
+        });
+
+        // Input handlers
         function fromPicker() {
             const hex = document.getElementById('colorPicker').value;
-            currentColor = hexToRgb(hex);
-            updateAllInputs();
+            const rgb = hexToRgb(hex);
+            setFromRgb(rgb.r, rgb.g, rgb.b);
         }
 
         function fromHex() {
             const hex = document.getElementById('hexInput').value.trim();
             if (/^#?([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(hex)) {
-                currentColor = hexToRgb(hex);
-                updateAllInputs();
+                const rgb = hexToRgb(hex);
+                setFromRgb(rgb.r, rgb.g, rgb.b);
             }
         }
 
         function fromRgb() {
             const match = document.getElementById('rgbInput').value.match(/(\d+)/g);
             if (match && match.length >= 3) {
-                currentColor = {
-                    r: Math.min(255, parseInt(match[0])),
-                    g: Math.min(255, parseInt(match[1])),
-                    b: Math.min(255, parseInt(match[2]))
-                };
-                updateAllInputs();
+                setFromRgb(
+                    Math.min(255, parseInt(match[0])),
+                    Math.min(255, parseInt(match[1])),
+                    Math.min(255, parseInt(match[2]))
+                );
             }
         }
 
         function fromHsl() {
             const match = document.getElementById('hslInput').value.match(/(\d+)/g);
             if (match && match.length >= 3) {
-                currentColor = hslToRgb(
+                const rgb = hslToRgb(
                     parseInt(match[0]) % 360,
                     Math.min(100, parseInt(match[1])),
                     Math.min(100, parseInt(match[2]))
                 );
-                updateAllInputs();
+                setFromRgb(rgb.r, rgb.g, rgb.b);
             }
         }
 
         function fromCmyk() {
             const match = document.getElementById('cmykInput').value.match(/(\d+)/g);
             if (match && match.length >= 4) {
-                currentColor = cmykToRgb(
+                const rgb = cmykToRgb(
                     Math.min(100, parseInt(match[0])),
                     Math.min(100, parseInt(match[1])),
                     Math.min(100, parseInt(match[2])),
                     Math.min(100, parseInt(match[3]))
                 );
-                updateAllInputs();
+                setFromRgb(rgb.r, rgb.g, rgb.b);
             }
         }
 
         function randomColor() {
-            currentColor = {
-                r: Math.floor(Math.random() * 256),
-                g: Math.floor(Math.random() * 256),
-                b: Math.floor(Math.random() * 256)
-            };
+            hue = Math.random() * 360;
+            saturation = 50 + Math.random() * 50;
+            brightness = 50 + Math.random() * 50;
             updateAllInputs();
             CodeUtils.Message.success('Random color generated!');
         }
@@ -347,6 +640,7 @@ CMYK: ${document.getElementById('cmykInput').value}`;
             CodeUtils.Message.success('All formats copied!');
         }
 
+        // Initialize
         updateAllInputs();
     </script>
 </body>

@@ -12,6 +12,16 @@
     <meta property="og:url" content="https://codeutils.org/gradient-generator.html">
     <meta property="og:title" content="CSS Gradient Generator - Code Utils">
     <meta property="og:description" content="Create beautiful CSS gradients visually.">
+    <meta property="og:image" content="https://codeutils.org/images/og/gradient-generator.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="CSS Gradient Generator - Free online gradient tool">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CSS Gradient Generator - Code Utils">
+    <meta name="twitter:description" content="Create linear and radial gradients visually. Get CSS code instantly.">
+    <meta name="twitter:image" content="https://codeutils.org/images/og/gradient-generator.png">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
     <script>
@@ -31,40 +41,61 @@
             margin-bottom: var(--spacing-md);
             position: relative;
         }
+        .section-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        .section-header {
+            margin: 0 0 var(--spacing-sm);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
         .gradient-bar-container {
             position: relative;
             width: 100%;
-            height: 40px;
-            margin-bottom: var(--spacing-lg);
+            height: 50px;
         }
         .gradient-bar {
             width: 100%;
-            height: 24px;
+            height: 32px;
             border-radius: var(--radius);
             border: 1px solid var(--border);
-            cursor: pointer;
+            cursor: crosshair;
+        }
+        .gradient-bar-hint {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-top: 4px;
         }
         .stop-markers {
             position: relative;
-            height: 20px;
-            margin-top: -4px;
+            height: 24px;
+            margin-top: -6px;
         }
         .stop-marker {
             position: absolute;
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             border: 2px solid #fff;
             border-radius: 50%;
             box-shadow: 0 1px 3px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(0,0,0,0.2);
             transform: translateX(-50%);
             cursor: grab;
             z-index: 10;
+            transition: transform 0.1s;
         }
         .stop-marker:hover {
-            transform: translateX(-50%) scale(1.2);
+            transform: translateX(-50%) scale(1.15);
         }
         .stop-marker.active {
             box-shadow: 0 0 0 3px var(--primary), 0 1px 3px rgba(0,0,0,0.3);
+            transform: translateX(-50%) scale(1.15);
         }
         .stop-marker::after {
             content: '';
@@ -74,6 +105,142 @@
             transform: translateX(-50%);
             border: 5px solid transparent;
             border-top-color: #fff;
+        }
+        .color-editor-layout {
+            display: grid;
+            grid-template-columns: 1fr 140px;
+            gap: var(--spacing-md);
+        }
+        .color-picker-visual {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        .color-area-wrapper {
+            position: relative;
+            width: 100%;
+            height: 140px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: crosshair;
+            border: 1px solid var(--border);
+        }
+        .color-area {
+            position: absolute;
+            inset: 0;
+        }
+        .color-area-white {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, #fff, transparent);
+        }
+        .color-area-black {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, #000, transparent);
+        }
+        .color-cursor {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 0 1px #000, inset 0 0 0 1px #000;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        .hue-slider-wrapper {
+            position: relative;
+            width: 100%;
+            height: 18px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid var(--border);
+        }
+        .hue-slider {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right,
+                hsl(0, 100%, 50%), hsl(60, 100%, 50%), hsl(120, 100%, 50%),
+                hsl(180, 100%, 50%), hsl(240, 100%, 50%), hsl(300, 100%, 50%), hsl(360, 100%, 50%));
+        }
+        .hue-cursor {
+            position: absolute;
+            top: 0;
+            width: 6px;
+            height: 100%;
+            background: #fff;
+            border: 1px solid #000;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+        .color-preview-panel {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        .color-preview-box {
+            height: 60px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        .color-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+        .color-input-row {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        .color-input-row label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            width: 28px;
+        }
+        .hex-input {
+            flex: 1;
+            padding: 6px 8px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        .position-input {
+            width: 50px;
+            padding: 6px 8px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            text-align: center;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        .native-picker-wrapper {
+            margin-top: auto;
+        }
+        .native-picker-wrapper label {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .native-picker {
+            width: 100%;
+            height: 32px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0;
+        }
+        .delete-stop-btn {
+            width: 100%;
+            margin-top: var(--spacing-xs);
         }
         .options-row {
             display: flex;
@@ -85,6 +252,7 @@
             background: var(--bg-secondary);
             padding: var(--spacing-md);
             border-radius: var(--radius);
+            border: 1px solid var(--border);
             flex: 1;
             min-width: 150px;
         }
@@ -92,7 +260,10 @@
             display: block;
             margin-bottom: var(--spacing-xs);
             font-weight: bold;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .option-group select {
             width: 100%;
@@ -124,68 +295,15 @@
             color: white;
             border-color: var(--primary);
         }
-        .color-editor {
-            background: var(--bg-secondary);
-            padding: var(--spacing-md);
-            border-radius: var(--radius);
-            margin-bottom: var(--spacing-md);
-        }
-        .color-editor h4 {
-            margin: 0 0 var(--spacing-sm);
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-        .color-editor-row {
-            display: flex;
-            gap: var(--spacing-sm);
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .color-input-group {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-        }
-        .color-input-group label {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            min-width: 30px;
-        }
-        .color-picker-large {
-            width: 60px;
-            height: 40px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            cursor: pointer;
-            padding: 0;
-        }
-        .hex-input {
-            width: 90px;
-            padding: var(--spacing-xs);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            font-family: var(--font-mono);
-            font-size: 0.875rem;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-        }
-        .position-slider {
-            flex: 1;
-            min-width: 100px;
-        }
-        .position-value {
-            width: 50px;
-            text-align: center;
-            font-family: var(--font-mono);
-            font-size: 0.875rem;
-        }
         .presets-section {
             margin-bottom: var(--spacing-md);
         }
         .presets-section h4 {
             margin: 0 0 var(--spacing-sm);
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .presets {
             display: flex;
@@ -198,7 +316,7 @@
             border-radius: var(--radius-sm);
             border: 2px solid var(--border);
             cursor: pointer;
-            transition: transform 0.1s;
+            transition: transform 0.1s, border-color 0.1s;
         }
         .preset:hover {
             transform: scale(1.1);
@@ -214,6 +332,7 @@
             background: var(--bg-secondary);
             padding: var(--spacing-md);
             border-radius: var(--radius);
+            border: 1px solid var(--border);
             font-family: var(--font-mono);
             font-size: 0.875rem;
             word-break: break-all;
@@ -227,6 +346,25 @@
             position: absolute;
             top: var(--spacing-sm);
             right: var(--spacing-sm);
+        }
+        @media (max-width: 600px) {
+            .color-editor-layout {
+                grid-template-columns: 1fr;
+            }
+            .color-area-wrapper {
+                height: 120px;
+            }
+            .color-preview-panel {
+                flex-direction: row;
+                align-items: stretch;
+            }
+            .color-preview-box {
+                flex: 1;
+                height: 60px;
+            }
+            .color-inputs {
+                flex: 1;
+            }
         }
     </style>
 </head>
@@ -251,25 +389,48 @@
 
         <div class="gradient-preview" id="gradientPreview"></div>
 
-        <div class="gradient-bar-container">
-            <div class="gradient-bar" id="gradientBar" onclick="addStopAtClick(event)"></div>
-            <div class="stop-markers" id="stopMarkers"></div>
+        <div class="section-box">
+            <h3 class="section-header">Color Stops - Click to add, drag to move</h3>
+            <div class="gradient-bar-container">
+                <div class="gradient-bar" id="gradientBar" onclick="addStopAtClick(event)"></div>
+                <div class="stop-markers" id="stopMarkers"></div>
+            </div>
         </div>
 
-        <div class="color-editor" id="colorEditor">
-            <h4>Selected Color Stop</h4>
-            <div class="color-editor-row">
-                <div class="color-input-group">
-                    <label>Color:</label>
-                    <input type="color" id="stopColor" class="color-picker-large" onchange="updateSelectedStop()">
-                    <input type="text" id="stopHex" class="hex-input" placeholder="#000000" onchange="updateFromHex()">
+        <div class="section-box" id="colorEditor">
+            <h3 class="section-header">Edit Selected Color</h3>
+            <div class="color-editor-layout">
+                <div class="color-picker-visual">
+                    <div class="color-area-wrapper" id="colorArea">
+                        <div class="color-area" id="colorAreaBg"></div>
+                        <div class="color-area-white"></div>
+                        <div class="color-area-black"></div>
+                        <div class="color-cursor" id="colorCursor"></div>
+                    </div>
+                    <div class="hue-slider-wrapper" id="hueSlider">
+                        <div class="hue-slider"></div>
+                        <div class="hue-cursor" id="hueCursor"></div>
+                    </div>
                 </div>
-                <div class="color-input-group" style="flex: 1;">
-                    <label>Position:</label>
-                    <input type="range" id="stopPosition" class="position-slider" min="0" max="100" value="0" oninput="updateSelectedStop()">
-                    <span id="positionValue" class="position-value">0%</span>
+                <div class="color-preview-panel">
+                    <div class="color-preview-box" id="stopPreview"></div>
+                    <div class="color-inputs">
+                        <div class="color-input-row">
+                            <label>HEX</label>
+                            <input type="text" id="stopHex" class="hex-input" placeholder="#000000" onchange="updateFromHex()">
+                        </div>
+                        <div class="color-input-row">
+                            <label>Pos</label>
+                            <input type="number" id="stopPosition" class="position-input" min="0" max="100" value="0" onchange="updatePositionFromInput()">
+                            <span style="font-size: 0.8rem; color: var(--text-secondary);">%</span>
+                        </div>
+                    </div>
+                    <div class="native-picker-wrapper">
+                        <label>System Picker</label>
+                        <input type="color" id="stopColor" class="native-picker" onchange="updateFromNativePicker()">
+                    </div>
+                    <button class="btn btn-outline btn-sm delete-stop-btn" onclick="deleteSelectedStop()">Delete Stop</button>
                 </div>
-                <button class="btn btn-outline btn-sm" onclick="deleteSelectedStop()">Delete</button>
             </div>
         </div>
 
@@ -375,6 +536,18 @@
         let direction = '90deg';
         let isDragging = false;
 
+        // HSV state for the visual color picker
+        let currentHue = 0;
+        let currentSaturation = 100;
+        let currentBrightness = 100;
+
+        // Visual picker elements
+        const colorArea = document.getElementById('colorArea');
+        const colorAreaBg = document.getElementById('colorAreaBg');
+        const colorCursor = document.getElementById('colorCursor');
+        const hueSlider = document.getElementById('hueSlider');
+        const hueCursor = document.getElementById('hueCursor');
+
         // Presets
         const presets = [
             ['#667eea', '#764ba2'],
@@ -454,24 +627,132 @@
             updateColorEditor();
         }
 
+        // Color conversion functions
+        function hsvToRgb(h, s, v) {
+            s /= 100;
+            v /= 100;
+            const c = v * s;
+            const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+            const m = v - c;
+            let r, g, b;
+
+            if (h < 60) { r = c; g = x; b = 0; }
+            else if (h < 120) { r = x; g = c; b = 0; }
+            else if (h < 180) { r = 0; g = c; b = x; }
+            else if (h < 240) { r = 0; g = x; b = c; }
+            else if (h < 300) { r = x; g = 0; b = c; }
+            else { r = c; g = 0; b = x; }
+
+            return {
+                r: Math.round((r + m) * 255),
+                g: Math.round((g + m) * 255),
+                b: Math.round((b + m) * 255)
+            };
+        }
+
+        function rgbToHsv(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            const d = max - min;
+            let h, s, v = max;
+
+            s = max === 0 ? 0 : d / max;
+
+            if (max === min) {
+                h = 0;
+            } else {
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+
+            return { h: h * 360, s: s * 100, v: v * 100 };
+        }
+
+        function rgbToHex(r, g, b) {
+            return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('').toUpperCase();
+        }
+
+        function hexToRgb(hex) {
+            hex = hex.replace('#', '');
+            if (hex.length === 3) {
+                hex = hex.split('').map(c => c + c).join('');
+            }
+            return {
+                r: parseInt(hex.substr(0, 2), 16),
+                g: parseInt(hex.substr(2, 2), 16),
+                b: parseInt(hex.substr(4, 2), 16)
+            };
+        }
+
         function updateColorEditor() {
             const stop = colorStops[selectedStopIndex];
+            const rgb = hexToRgb(stop.color);
+            const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+
+            currentHue = hsv.h;
+            currentSaturation = hsv.s;
+            currentBrightness = hsv.v;
+
             document.getElementById('stopColor').value = stop.color;
             document.getElementById('stopHex').value = stop.color.toUpperCase();
             document.getElementById('stopPosition').value = stop.position;
-            document.getElementById('positionValue').textContent = stop.position + '%';
+            document.getElementById('stopPreview').style.background = stop.color;
+
+            // Update visual picker
+            colorAreaBg.style.background = `hsl(${currentHue}, 100%, 50%)`;
+            colorCursor.style.left = `${currentSaturation}%`;
+            colorCursor.style.top = `${100 - currentBrightness}%`;
+            hueCursor.style.left = `${(currentHue / 360) * 100}%`;
         }
 
-        function updateSelectedStop() {
-            const color = document.getElementById('stopColor').value;
-            const position = parseInt(document.getElementById('stopPosition').value);
+        function updateSelectedStopFromPicker() {
+            const rgb = hsvToRgb(currentHue, currentSaturation, currentBrightness);
+            const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
 
+            colorStops[selectedStopIndex].color = hex;
+
+            document.getElementById('stopColor').value = hex;
+            document.getElementById('stopHex').value = hex;
+            document.getElementById('stopPreview').style.background = hex;
+            colorAreaBg.style.background = `hsl(${currentHue}, 100%, 50%)`;
+            colorCursor.style.left = `${currentSaturation}%`;
+            colorCursor.style.top = `${100 - currentBrightness}%`;
+            hueCursor.style.left = `${(currentHue / 360) * 100}%`;
+
+            updateGradient();
+            renderStopMarkers();
+        }
+
+        function updateFromNativePicker() {
+            const color = document.getElementById('stopColor').value;
             colorStops[selectedStopIndex].color = color;
-            colorStops[selectedStopIndex].position = position;
+
+            const rgb = hexToRgb(color);
+            const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+            currentHue = hsv.h;
+            currentSaturation = hsv.s;
+            currentBrightness = hsv.v;
 
             document.getElementById('stopHex').value = color.toUpperCase();
-            document.getElementById('positionValue').textContent = position + '%';
+            document.getElementById('stopPreview').style.background = color;
+            colorAreaBg.style.background = `hsl(${currentHue}, 100%, 50%)`;
+            colorCursor.style.left = `${currentSaturation}%`;
+            colorCursor.style.top = `${100 - currentBrightness}%`;
+            hueCursor.style.left = `${(currentHue / 360) * 100}%`;
 
+            updateGradient();
+            renderStopMarkers();
+        }
+
+        function updatePositionFromInput() {
+            let position = parseInt(document.getElementById('stopPosition').value);
+            position = Math.max(0, Math.min(100, position || 0));
+            colorStops[selectedStopIndex].position = position;
+            document.getElementById('stopPosition').value = position;
             updateGradient();
             renderStopMarkers();
         }
@@ -485,9 +766,95 @@
             }
             document.getElementById('stopColor').value = hex;
             colorStops[selectedStopIndex].color = hex;
+
+            const rgb = hexToRgb(hex);
+            const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+            currentHue = hsv.h;
+            currentSaturation = hsv.s;
+            currentBrightness = hsv.v;
+
+            document.getElementById('stopPreview').style.background = hex;
+            colorAreaBg.style.background = `hsl(${currentHue}, 100%, 50%)`;
+            colorCursor.style.left = `${currentSaturation}%`;
+            colorCursor.style.top = `${100 - currentBrightness}%`;
+            hueCursor.style.left = `${(currentHue / 360) * 100}%`;
+
             updateGradient();
             renderStopMarkers();
         }
+
+        // Visual color picker interactions
+        let isDraggingColor = false;
+        let isDraggingHue = false;
+
+        function handleColorArea(e) {
+            const rect = colorArea.getBoundingClientRect();
+            let x = (e.clientX - rect.left) / rect.width;
+            let y = (e.clientY - rect.top) / rect.height;
+
+            x = Math.max(0, Math.min(1, x));
+            y = Math.max(0, Math.min(1, y));
+
+            currentSaturation = x * 100;
+            currentBrightness = (1 - y) * 100;
+            updateSelectedStopFromPicker();
+        }
+
+        colorArea.addEventListener('mousedown', (e) => {
+            isDraggingColor = true;
+            handleColorArea(e);
+        });
+
+        colorArea.addEventListener('touchstart', (e) => {
+            isDraggingColor = true;
+            handleColorArea(e.touches[0]);
+            e.preventDefault();
+        });
+
+        function handleHueSlider(e) {
+            const rect = hueSlider.getBoundingClientRect();
+            let x = (e.clientX - rect.left) / rect.width;
+            x = Math.max(0, Math.min(1, x));
+            currentHue = x * 360;
+            updateSelectedStopFromPicker();
+        }
+
+        hueSlider.addEventListener('mousedown', (e) => {
+            isDraggingHue = true;
+            handleHueSlider(e);
+        });
+
+        hueSlider.addEventListener('touchstart', (e) => {
+            isDraggingHue = true;
+            handleHueSlider(e.touches[0]);
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDraggingColor) handleColorArea(e);
+            if (isDraggingHue) handleHueSlider(e);
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDraggingColor = false;
+            isDraggingHue = false;
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (isDraggingColor) {
+                handleColorArea(e.touches[0]);
+                e.preventDefault();
+            }
+            if (isDraggingHue) {
+                handleHueSlider(e.touches[0]);
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+            isDraggingColor = false;
+            isDraggingHue = false;
+        });
 
         function addColorStop() {
             const newPosition = 50;
@@ -622,7 +989,6 @@
 
                 colorStops[selectedStopIndex].position = position;
                 document.getElementById('stopPosition').value = position;
-                document.getElementById('positionValue').textContent = position + '%';
                 updateGradient();
                 renderStopMarkers();
             };
