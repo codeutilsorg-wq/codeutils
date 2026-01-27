@@ -22,6 +22,7 @@
     </script>
 
     <link rel="stylesheet" href="css/common.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
     <style>
         .qr-container {
             display: flex;
@@ -64,6 +65,24 @@
             background: var(--bg-primary);
             color: var(--text-primary);
         }
+        .qr-placeholder {
+            width: 256px;
+            height: 256px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: var(--font-sm);
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-secondary);
+        }
+        .qr-placeholder.hidden {
+            display: none;
+        }
+        #qrcode.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -87,13 +106,13 @@
 
         <div class="editor-section">
             <div class="editor-header">Content</div>
-            <textarea id="contentInput" class="editor" style="height: 100px;" placeholder="Enter text, URL, or data..." oninput="generateQR()">https://codeutils.org</textarea>
+            <textarea id="contentInput" class="editor" style="height: 100px;" placeholder="Enter text, URL, or data...">https://codeutils.org</textarea>
         </div>
 
         <div class="options-grid">
             <div class="option-group">
                 <label>Size</label>
-                <select id="sizeSelect" onchange="generateQR()">
+                <select id="sizeSelect">
                     <option value="128">128x128</option>
                     <option value="256" selected>256x256</option>
                     <option value="512">512x512</option>
@@ -101,17 +120,22 @@
             </div>
             <div class="option-group">
                 <label>Foreground</label>
-                <input type="color" id="fgColor" value="#000000" onchange="generateQR()">
+                <input type="color" id="fgColor" value="#000000">
             </div>
             <div class="option-group">
                 <label>Background</label>
-                <input type="color" id="bgColor" value="#ffffff" onchange="generateQR()">
+                <input type="color" id="bgColor" value="#ffffff">
             </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="generateQR()">Generate QR Code</button>
         </div>
 
         <div class="qr-container">
             <div class="qr-display">
-                <canvas id="qrcode"></canvas>
+                <div id="qrPlaceholder" class="qr-placeholder">Click "Generate QR Code" to create</div>
+                <canvas id="qrcode" class="hidden"></canvas>
             </div>
         </div>
 
@@ -168,101 +192,68 @@
 
         CodeUtils.Message.init('message');
 
-        // Simple QR Code generation using canvas
-        // This is a simplified implementation
+        let qrGenerated = false;
+
         function generateQR() {
-            const content = document.getElementById('contentInput').value;
+            const content = document.getElementById('contentInput').value.trim();
             const size = parseInt(document.getElementById('sizeSelect').value);
             const fgColor = document.getElementById('fgColor').value;
             const bgColor = document.getElementById('bgColor').value;
 
             if (!content) {
+                CodeUtils.Message.error('Please enter some content');
                 return;
             }
 
-            const canvas = document.getElementById('qrcode');
-            canvas.width = size;
-            canvas.height = size;
-            const ctx = canvas.getContext('2d');
+            try {
+                // Determine QR code type/version based on content length
+                const typeNumber = content.length > 100 ? 0 : 4; // 0 = auto
+                const errorCorrectionLevel = 'M';
 
-            // Use a simple encoding approach (this is a simplified version)
-            // In production, you'd use a proper QR library
-            const qr = generateQRMatrix(content);
-            const moduleSize = size / qr.length;
+                const qr = qrcode(typeNumber, errorCorrectionLevel);
+                qr.addData(content);
+                qr.make();
 
-            ctx.fillStyle = bgColor;
-            ctx.fillRect(0, 0, size, size);
+                const canvas = document.getElementById('qrcode');
+                const moduleCount = qr.getModuleCount();
+                const cellSize = Math.floor(size / moduleCount);
+                const actualSize = cellSize * moduleCount;
 
-            ctx.fillStyle = fgColor;
-            for (let y = 0; y < qr.length; y++) {
-                for (let x = 0; x < qr[y].length; x++) {
-                    if (qr[y][x]) {
-                        ctx.fillRect(x * moduleSize, y * moduleSize, moduleSize, moduleSize);
-                    }
-                }
-            }
-        }
+                canvas.width = actualSize;
+                canvas.height = actualSize;
 
-        // Simplified QR matrix generation (for demo purposes)
-        function generateQRMatrix(data) {
-            const size = 25;
-            const matrix = Array(size).fill(null).map(() => Array(size).fill(false));
+                const ctx = canvas.getContext('2d');
 
-            // Add finder patterns (corners)
-            addFinderPattern(matrix, 0, 0);
-            addFinderPattern(matrix, size - 7, 0);
-            addFinderPattern(matrix, 0, size - 7);
+                // Fill background
+                ctx.fillStyle = bgColor;
+                ctx.fillRect(0, 0, actualSize, actualSize);
 
-            // Add timing patterns
-            for (let i = 8; i < size - 8; i++) {
-                matrix[6][i] = i % 2 === 0;
-                matrix[i][6] = i % 2 === 0;
-            }
-
-            // Encode data as simple pattern
-            const bytes = new TextEncoder().encode(data);
-            let bitIndex = 0;
-            for (let col = size - 1; col > 0; col -= 2) {
-                if (col === 6) col--;
-                for (let row = 0; row < size; row++) {
-                    for (let c = 0; c < 2; c++) {
-                        const x = col - c;
-                        const y = row;
-                        if (!isReserved(x, y, size)) {
-                            const byteIndex = Math.floor(bitIndex / 8);
-                            const bitPos = 7 - (bitIndex % 8);
-                            if (byteIndex < bytes.length) {
-                                matrix[y][x] = (bytes[byteIndex] >> bitPos) & 1;
-                            }
-                            bitIndex++;
+                // Draw QR code modules
+                ctx.fillStyle = fgColor;
+                for (let row = 0; row < moduleCount; row++) {
+                    for (let col = 0; col < moduleCount; col++) {
+                        if (qr.isDark(row, col)) {
+                            ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
                         }
                     }
                 }
+
+                // Show canvas, hide placeholder
+                document.getElementById('qrPlaceholder').classList.add('hidden');
+                canvas.classList.remove('hidden');
+
+                qrGenerated = true;
+                CodeUtils.Message.success('QR code generated!');
+            } catch (err) {
+                CodeUtils.Message.error('Failed to generate QR code: ' + err.message);
             }
-
-            return matrix;
-        }
-
-        function addFinderPattern(matrix, startX, startY) {
-            for (let y = 0; y < 7; y++) {
-                for (let x = 0; x < 7; x++) {
-                    if (y === 0 || y === 6 || x === 0 || x === 6 ||
-                        (y >= 2 && y <= 4 && x >= 2 && x <= 4)) {
-                        matrix[startY + y][startX + x] = true;
-                    }
-                }
-            }
-        }
-
-        function isReserved(x, y, size) {
-            // Finder patterns
-            if ((x < 9 && y < 9) || (x >= size - 8 && y < 9) || (x < 9 && y >= size - 8)) return true;
-            // Timing patterns
-            if (x === 6 || y === 6) return true;
-            return false;
         }
 
         function downloadQR() {
+            if (!qrGenerated) {
+                CodeUtils.Message.warning('Please generate a QR code first');
+                return;
+            }
             const canvas = document.getElementById('qrcode');
             const link = document.createElement('a');
             link.download = 'qrcode.png';
@@ -272,6 +263,10 @@
         }
 
         async function copyQR() {
+            if (!qrGenerated) {
+                CodeUtils.Message.warning('Please generate a QR code first');
+                return;
+            }
             try {
                 const canvas = document.getElementById('qrcode');
                 canvas.toBlob(async (blob) => {
@@ -284,8 +279,6 @@
                 CodeUtils.Message.error('Failed to copy image');
             }
         }
-
-        generateQR();
     </script>
 </body>
 </html>
