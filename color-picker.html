@@ -23,40 +23,105 @@
 
     <link rel="stylesheet" href="css/common.css">
     <style>
-        .picker-container {
+        .picker-layout {
             display: grid;
-            grid-template-columns: 1fr 200px;
-            gap: var(--spacing-md);
+            grid-template-columns: 1fr 250px;
+            gap: var(--spacing-lg);
             margin-bottom: var(--spacing-md);
         }
-        .color-area {
-            position: relative;
-            height: 300px;
-            border-radius: var(--radius);
-            cursor: crosshair;
+        .picker-main {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
         }
-        .color-area-gradient {
+        .color-area-wrapper {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: crosshair;
+            border: 1px solid var(--border);
+        }
+        .color-area {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to right, #fff, transparent),
-                        linear-gradient(to top, #000, transparent);
+        }
+        .color-area-white {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, #fff, transparent);
+        }
+        .color-area-black {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, #000, transparent);
+        }
+        .color-cursor {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 0 1px #000, inset 0 0 0 1px #000;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        .hue-slider-wrapper {
+            position: relative;
+            width: 100%;
+            height: 24px;
             border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid var(--border);
         }
         .hue-slider {
             width: 100%;
-            height: 20px;
-            border-radius: var(--radius);
+            height: 100%;
             background: linear-gradient(to right,
                 hsl(0, 100%, 50%), hsl(60, 100%, 50%), hsl(120, 100%, 50%),
                 hsl(180, 100%, 50%), hsl(240, 100%, 50%), hsl(300, 100%, 50%), hsl(360, 100%, 50%));
-            cursor: pointer;
-            margin-bottom: var(--spacing-md);
+        }
+        .hue-cursor {
+            position: absolute;
+            top: 0;
+            width: 6px;
+            height: 100%;
+            background: #fff;
+            border: 1px solid #000;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+        .picker-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        .preview-section {
+            text-align: center;
         }
         .preview-box {
+            width: 100%;
             height: 100px;
             border-radius: var(--radius);
             border: 1px solid var(--border);
-            margin-bottom: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+        }
+        .hex-input-wrapper {
+            display: flex;
+            gap: var(--spacing-xs);
+        }
+        .hex-input {
+            flex: 1;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            text-align: center;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
         }
         .color-values {
             background: var(--bg-secondary);
@@ -70,31 +135,71 @@
             padding: var(--spacing-xs) 0;
             border-bottom: 1px solid var(--border);
             font-family: var(--font-mono);
-            font-size: 0.875rem;
+            font-size: 0.8rem;
         }
         .color-value:last-child {
             border-bottom: none;
         }
+        .color-value span:first-child {
+            font-weight: bold;
+            color: var(--text-secondary);
+        }
         .color-value button {
             padding: 2px 8px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
+        }
+        .native-picker-section {
+            background: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius);
+            text-align: center;
+        }
+        .native-picker-section label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        .native-picker {
+            width: 100%;
+            height: 40px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0;
+        }
+        .saved-colors-section {
+            background: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius);
+        }
+        .saved-colors-section h4 {
+            margin: 0 0 var(--spacing-sm);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
         }
         .saved-colors {
             display: flex;
             flex-wrap: wrap;
             gap: var(--spacing-xs);
-            margin-top: var(--spacing-md);
         }
         .saved-color {
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius);
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
             border: 2px solid var(--border);
             cursor: pointer;
+            transition: transform 0.1s;
         }
-        @media (max-width: 600px) {
-            .picker-container {
+        .saved-color:hover {
+            transform: scale(1.1);
+        }
+        @media (max-width: 700px) {
+            .picker-layout {
                 grid-template-columns: 1fr;
+            }
+            .color-area-wrapper {
+                height: 220px;
             }
         }
     </style>
@@ -115,42 +220,66 @@
     <div class="container">
         <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
             <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Color Picker</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Pick colors visually and get color codes.</p>
+            <p style="margin: 0; color: var(--text-secondary);">Click and drag on the color area to pick a color. Adjust hue with the slider below.</p>
         </div>
 
-        <div style="margin-bottom: var(--spacing-md);">
-            <input type="color" id="nativePicker" value="#3b82f6" style="width: 100%; height: 50px; cursor: pointer; border: none; border-radius: var(--radius);" onchange="fromNativePicker()">
-        </div>
+        <div class="picker-layout">
+            <div class="picker-main">
+                <div class="color-area-wrapper" id="colorArea">
+                    <div class="color-area" id="colorAreaBg"></div>
+                    <div class="color-area-white"></div>
+                    <div class="color-area-black"></div>
+                    <div class="color-cursor" id="colorCursor"></div>
+                </div>
 
-        <div class="preview-box" id="previewBox" style="background: #3b82f6;"></div>
+                <div class="hue-slider-wrapper" id="hueSlider">
+                    <div class="hue-slider"></div>
+                    <div class="hue-cursor" id="hueCursor"></div>
+                </div>
+            </div>
 
-        <div class="color-values">
-            <div class="color-value">
-                <span>HEX</span>
-                <span id="hexValue">#3B82F6</span>
-                <button class="btn btn-outline btn-sm" onclick="copyValue('hexValue')">Copy</button>
-            </div>
-            <div class="color-value">
-                <span>RGB</span>
-                <span id="rgbValue">rgb(59, 130, 246)</span>
-                <button class="btn btn-outline btn-sm" onclick="copyValue('rgbValue')">Copy</button>
-            </div>
-            <div class="color-value">
-                <span>HSL</span>
-                <span id="hslValue">hsl(217, 91%, 60%)</span>
-                <button class="btn btn-outline btn-sm" onclick="copyValue('hslValue')">Copy</button>
-            </div>
-        </div>
+            <div class="picker-sidebar">
+                <div class="preview-section">
+                    <div class="preview-box" id="previewBox"></div>
+                    <div class="hex-input-wrapper">
+                        <input type="text" id="hexInput" class="hex-input" value="#3B82F6" maxlength="7" onchange="fromHexInput()">
+                        <button class="btn btn-sm" onclick="copyValue('hexInput')">Copy</button>
+                    </div>
+                </div>
 
-        <div class="controls" style="margin-top: var(--spacing-md);">
-            <button class="btn" onclick="saveColor()">Save Color</button>
-            <button class="btn btn-secondary" onclick="randomColor()">Random</button>
-            <button class="btn btn-outline" onclick="clearSaved()">Clear Saved</button>
+                <div class="native-picker-section">
+                    <label>Or use system picker:</label>
+                    <input type="color" id="nativePicker" class="native-picker" value="#3b82f6" onchange="fromNativePicker()">
+                </div>
+
+                <div class="color-values">
+                    <div class="color-value">
+                        <span>RGB</span>
+                        <span id="rgbValue">rgb(59, 130, 246)</span>
+                        <button class="btn btn-outline btn-sm" onclick="copyValue('rgbValue')">Copy</button>
+                    </div>
+                    <div class="color-value">
+                        <span>HSL</span>
+                        <span id="hslValue">hsl(217, 91%, 60%)</span>
+                        <button class="btn btn-outline btn-sm" onclick="copyValue('hslValue')">Copy</button>
+                    </div>
+                </div>
+
+                <div class="controls" style="display: flex; gap: var(--spacing-xs);">
+                    <button class="btn btn-sm" onclick="saveColor()" style="flex:1;">Save</button>
+                    <button class="btn btn-secondary btn-sm" onclick="randomColor()" style="flex:1;">Random</button>
+                </div>
+
+                <div class="saved-colors-section">
+                    <h4>Saved Colors</h4>
+                    <div class="saved-colors" id="savedColors">
+                        <span style="color: var(--text-secondary); font-size: 0.8rem;">No saved colors</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="message" class="message"></div>
-
-        <div class="saved-colors" id="savedColors"></div>
 
         <div class="related-tools">
             <h3>Related Tools</h3>
@@ -165,9 +294,18 @@
             <h2>About Color Picker</h2>
             <p>This tool lets you pick colors visually and get the color codes in various formats.</p>
 
+            <h3>How to Use</h3>
+            <ul>
+                <li><strong>Color Area:</strong> Click and drag to select saturation and brightness</li>
+                <li><strong>Hue Slider:</strong> Click or drag to change the base hue</li>
+                <li><strong>System Picker:</strong> Click to use your OS native color picker</li>
+                <li><strong>HEX Input:</strong> Type a hex code directly (e.g., #FF5500)</li>
+            </ul>
+
             <h3>Features</h3>
             <ul>
-                <li>Native color picker for precise selection</li>
+                <li>Visual saturation/brightness picker</li>
+                <li>Hue slider for full color spectrum</li>
                 <li>Copy HEX, RGB, or HSL values with one click</li>
                 <li>Save colors for later reference</li>
                 <li>Generate random colors for inspiration</li>
@@ -190,8 +328,48 @@
 
         CodeUtils.Message.init('message');
 
-        let currentColor = '#3B82F6';
+        // State
+        let hue = 217;
+        let saturation = 76;
+        let brightness = 60;
         let savedColors = JSON.parse(localStorage.getItem('savedColors') || '[]');
+
+        // Elements
+        const colorArea = document.getElementById('colorArea');
+        const colorAreaBg = document.getElementById('colorAreaBg');
+        const colorCursor = document.getElementById('colorCursor');
+        const hueSlider = document.getElementById('hueSlider');
+        const hueCursor = document.getElementById('hueCursor');
+        const previewBox = document.getElementById('previewBox');
+        const hexInput = document.getElementById('hexInput');
+        const nativePicker = document.getElementById('nativePicker');
+
+        // Color conversion functions
+        function hsvToRgb(h, s, v) {
+            s /= 100;
+            v /= 100;
+            const c = v * s;
+            const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+            const m = v - c;
+            let r, g, b;
+
+            if (h < 60) { r = c; g = x; b = 0; }
+            else if (h < 120) { r = x; g = c; b = 0; }
+            else if (h < 180) { r = 0; g = c; b = x; }
+            else if (h < 240) { r = 0; g = x; b = c; }
+            else if (h < 300) { r = x; g = 0; b = c; }
+            else { r = c; g = 0; b = x; }
+
+            return {
+                r: Math.round((r + m) * 255),
+                g: Math.round((g + m) * 255),
+                b: Math.round((b + m) * 255)
+            };
+        }
+
+        function rgbToHex(r, g, b) {
+            return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('').toUpperCase();
+        }
 
         function hexToRgb(hex) {
             hex = hex.replace('#', '');
@@ -200,6 +378,28 @@
                 g: parseInt(hex.substr(2, 2), 16),
                 b: parseInt(hex.substr(4, 2), 16)
             };
+        }
+
+        function rgbToHsv(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            const d = max - min;
+            let h, s, v = max;
+
+            s = max === 0 ? 0 : d / max;
+
+            if (max === min) {
+                h = 0;
+            } else {
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+
+            return { h: h * 360, s: s * 100, v: v * 100 };
         }
 
         function rgbToHsl(r, g, b) {
@@ -221,39 +421,150 @@
             return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
         }
 
-        function updateDisplay(hex) {
-            currentColor = hex.toUpperCase();
-            document.getElementById('previewBox').style.background = currentColor;
-            document.getElementById('nativePicker').value = currentColor;
-            document.getElementById('hexValue').textContent = currentColor;
-
-            const rgb = hexToRgb(currentColor);
-            document.getElementById('rgbValue').textContent = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-
+        // Update display
+        function updateDisplay() {
+            const rgb = hsvToRgb(hue, saturation, brightness);
+            const hex = rgbToHex(rgb.r, rgb.g, rgb.b);
             const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+            // Update previews
+            previewBox.style.background = hex;
+            hexInput.value = hex;
+            nativePicker.value = hex;
+            colorAreaBg.style.background = `hsl(${hue}, 100%, 50%)`;
+
+            // Update values
+            document.getElementById('rgbValue').textContent = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
             document.getElementById('hslValue').textContent = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+
+            // Update cursors
+            colorCursor.style.left = `${saturation}%`;
+            colorCursor.style.top = `${100 - brightness}%`;
+            hueCursor.style.left = `${(hue / 360) * 100}%`;
+        }
+
+        // Color area interaction
+        let isDraggingColor = false;
+
+        function handleColorArea(e) {
+            const rect = colorArea.getBoundingClientRect();
+            let x = (e.clientX - rect.left) / rect.width;
+            let y = (e.clientY - rect.top) / rect.height;
+
+            x = Math.max(0, Math.min(1, x));
+            y = Math.max(0, Math.min(1, y));
+
+            saturation = x * 100;
+            brightness = (1 - y) * 100;
+            updateDisplay();
+        }
+
+        colorArea.addEventListener('mousedown', (e) => {
+            isDraggingColor = true;
+            handleColorArea(e);
+        });
+
+        colorArea.addEventListener('touchstart', (e) => {
+            isDraggingColor = true;
+            handleColorArea(e.touches[0]);
+            e.preventDefault();
+        });
+
+        // Hue slider interaction
+        let isDraggingHue = false;
+
+        function handleHueSlider(e) {
+            const rect = hueSlider.getBoundingClientRect();
+            let x = (e.clientX - rect.left) / rect.width;
+            x = Math.max(0, Math.min(1, x));
+            hue = x * 360;
+            updateDisplay();
+        }
+
+        hueSlider.addEventListener('mousedown', (e) => {
+            isDraggingHue = true;
+            handleHueSlider(e);
+        });
+
+        hueSlider.addEventListener('touchstart', (e) => {
+            isDraggingHue = true;
+            handleHueSlider(e.touches[0]);
+            e.preventDefault();
+        });
+
+        // Global mouse/touch events
+        document.addEventListener('mousemove', (e) => {
+            if (isDraggingColor) handleColorArea(e);
+            if (isDraggingHue) handleHueSlider(e);
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDraggingColor = false;
+            isDraggingHue = false;
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (isDraggingColor) {
+                handleColorArea(e.touches[0]);
+                e.preventDefault();
+            }
+            if (isDraggingHue) {
+                handleHueSlider(e.touches[0]);
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+            isDraggingColor = false;
+            isDraggingHue = false;
+        });
+
+        // Input handlers
+        function fromHexInput() {
+            let hex = hexInput.value.trim();
+            if (!hex.startsWith('#')) hex = '#' + hex;
+            if (!/^#[0-9A-Fa-f]{6}$/.test(hex)) {
+                CodeUtils.Message.error('Invalid HEX color');
+                return;
+            }
+            const rgb = hexToRgb(hex);
+            const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+            hue = hsv.h;
+            saturation = hsv.s;
+            brightness = hsv.v;
+            updateDisplay();
         }
 
         function fromNativePicker() {
-            updateDisplay(document.getElementById('nativePicker').value);
+            const hex = nativePicker.value;
+            const rgb = hexToRgb(hex);
+            const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+            hue = hsv.h;
+            saturation = hsv.s;
+            brightness = hsv.v;
+            updateDisplay();
         }
 
         function copyValue(elementId) {
-            const value = document.getElementById(elementId).textContent;
+            const el = document.getElementById(elementId);
+            const value = el.value || el.textContent;
             CodeUtils.Clipboard.copy(value);
             CodeUtils.Message.success('Copied!');
         }
 
         function randomColor() {
-            const hex = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-            updateDisplay(hex);
+            hue = Math.random() * 360;
+            saturation = 50 + Math.random() * 50;
+            brightness = 50 + Math.random() * 50;
+            updateDisplay();
             CodeUtils.Message.success('Random color!');
         }
 
         function saveColor() {
-            if (!savedColors.includes(currentColor)) {
-                savedColors.push(currentColor);
-                if (savedColors.length > 20) savedColors.shift();
+            const hex = hexInput.value;
+            if (!savedColors.includes(hex)) {
+                savedColors.push(hex);
+                if (savedColors.length > 16) savedColors.shift();
                 localStorage.setItem('savedColors', JSON.stringify(savedColors));
                 renderSavedColors();
                 CodeUtils.Message.success('Color saved!');
@@ -262,20 +573,28 @@
             }
         }
 
-        function clearSaved() {
-            savedColors = [];
-            localStorage.setItem('savedColors', '[]');
-            renderSavedColors();
-            CodeUtils.Message.success('Saved colors cleared!');
+        function loadSavedColor(hex) {
+            const rgb = hexToRgb(hex);
+            const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+            hue = hsv.h;
+            saturation = hsv.s;
+            brightness = hsv.v;
+            updateDisplay();
         }
 
         function renderSavedColors() {
             const container = document.getElementById('savedColors');
+            if (savedColors.length === 0) {
+                container.innerHTML = '<span style="color: var(--text-secondary); font-size: 0.8rem;">No saved colors</span>';
+                return;
+            }
             container.innerHTML = savedColors.map(color =>
-                `<div class="saved-color" style="background: ${color};" onclick="updateDisplay('${color}')" title="${color}"></div>`
+                `<div class="saved-color" style="background: ${color};" onclick="loadSavedColor('${color}')" title="${color}"></div>`
             ).join('');
         }
 
+        // Initialize
+        updateDisplay();
         renderSavedColors();
     </script>
 </body>
