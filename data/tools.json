@@ -6,7 +6,14 @@
         "url": "json-formatter.html",
         "category": "Formatters",
         "categoryId": "formatters",
-        "keywords": ["json", "format", "beautify", "validate", "minify", "parse"],
+        "keywords": [
+            "json",
+            "format",
+            "beautify",
+            "validate",
+            "minify",
+            "parse"
+        ],
         "icon": "{ }",
         "popular": true,
         "status": "live"
@@ -18,7 +25,14 @@
         "url": "xml-formatter.html",
         "category": "Formatters",
         "categoryId": "formatters",
-        "keywords": ["xml", "format", "beautify", "validate", "minify", "parse"],
+        "keywords": [
+            "xml",
+            "format",
+            "beautify",
+            "validate",
+            "minify",
+            "parse"
+        ],
         "icon": "</>",
         "popular": true,
         "status": "live"
@@ -30,7 +44,13 @@
         "url": "base64-encoder.html",
         "category": "Encoders",
         "categoryId": "encoders",
-        "keywords": ["base64", "encode", "decode", "binary", "text"],
+        "keywords": [
+            "base64",
+            "encode",
+            "decode",
+            "binary",
+            "text"
+        ],
         "icon": "B64",
         "popular": true,
         "status": "live"
@@ -42,7 +62,15 @@
         "url": "hash-generator.html",
         "category": "Generators",
         "categoryId": "generators",
-        "keywords": ["hash", "md5", "sha1", "sha256", "sha512", "checksum", "crypto"],
+        "keywords": [
+            "hash",
+            "md5",
+            "sha1",
+            "sha256",
+            "sha512",
+            "checksum",
+            "crypto"
+        ],
         "icon": "#",
         "popular": true,
         "status": "live"
@@ -54,7 +82,14 @@
         "url": "url-encoder.html",
         "category": "Encoders",
         "categoryId": "encoders",
-        "keywords": ["url", "encode", "decode", "percent", "uri", "query"],
+        "keywords": [
+            "url",
+            "encode",
+            "decode",
+            "percent",
+            "uri",
+            "query"
+        ],
         "icon": "%",
         "popular": true,
         "status": "live"
@@ -66,7 +101,14 @@
         "url": "html-encoder.html",
         "category": "Encoders",
         "categoryId": "encoders",
-        "keywords": ["html", "entity", "encode", "decode", "escape", "xss"],
+        "keywords": [
+            "html",
+            "entity",
+            "encode",
+            "decode",
+            "escape",
+            "xss"
+        ],
         "icon": "&;",
         "popular": false,
         "status": "live"
@@ -78,7 +120,14 @@
         "url": "timestamp-converter.html",
         "category": "Converters",
         "categoryId": "converters",
-        "keywords": ["timestamp", "unix", "epoch", "date", "time", "convert"],
+        "keywords": [
+            "timestamp",
+            "unix",
+            "epoch",
+            "date",
+            "time",
+            "convert"
+        ],
         "icon": "T",
         "popular": true,
         "status": "live"
@@ -90,7 +139,14 @@
         "url": "uuid-generator.html",
         "category": "Generators",
         "categoryId": "generators",
-        "keywords": ["uuid", "guid", "unique", "identifier", "random", "v4"],
+        "keywords": [
+            "uuid",
+            "guid",
+            "unique",
+            "identifier",
+            "random",
+            "v4"
+        ],
         "icon": "ID",
         "popular": true,
         "status": "live"
@@ -102,7 +158,14 @@
         "url": "jwt-decoder.html",
         "category": "Encoders",
         "categoryId": "encoders",
-        "keywords": ["jwt", "token", "decode", "json", "web", "auth"],
+        "keywords": [
+            "jwt",
+            "token",
+            "decode",
+            "json",
+            "web",
+            "auth"
+        ],
         "icon": "JWT",
         "popular": true,
         "status": "live"
@@ -114,7 +177,13 @@
         "url": "html-formatter.html",
         "category": "Formatters",
         "categoryId": "formatters",
-        "keywords": ["html", "format", "beautify", "minify", "indent"],
+        "keywords": [
+            "html",
+            "format",
+            "beautify",
+            "minify",
+            "indent"
+        ],
         "icon": "<>",
         "popular": false,
         "status": "live"
@@ -126,7 +195,13 @@
         "url": "css-formatter.html",
         "category": "Formatters",
         "categoryId": "formatters",
-        "keywords": ["css", "format", "beautify", "minify", "stylesheet"],
+        "keywords": [
+            "css",
+            "format",
+            "beautify",
+            "minify",
+            "stylesheet"
+        ],
         "icon": "CSS",
         "popular": false,
         "status": "live"
@@ -138,7 +213,13 @@
         "url": "js-formatter.html",
         "category": "Formatters",
         "categoryId": "formatters",
-        "keywords": ["javascript", "js", "format", "beautify", "minify"],
+        "keywords": [
+            "javascript",
+            "js",
+            "format",
+            "beautify",
+            "minify"
+        ],
         "icon": "JS",
         "popular": false,
         "status": "live"
@@ -150,7 +231,13 @@
         "url": "sql-formatter.html",
         "category": "Formatters",
         "categoryId": "formatters",
-        "keywords": ["sql", "format", "beautify", "query", "database"],
+        "keywords": [
+            "sql",
+            "format",
+            "beautify",
+            "query",
+            "database"
+        ],
         "icon": "SQL",
         "popular": false,
         "status": "live"
@@ -162,7 +249,12 @@
         "url": "yaml-formatter.html",
         "category": "Formatters",
         "categoryId": "formatters",
-        "keywords": ["yaml", "format", "validate", "config"],
+        "keywords": [
+            "yaml",
+            "format",
+            "validate",
+            "config"
+        ],
         "icon": "YML",
         "popular": false,
         "status": "live"
@@ -174,7 +266,12 @@
         "url": "php-formatter.html",
         "category": "Formatters",
         "categoryId": "formatters",
-        "keywords": ["php", "format", "beautify", "indent"],
+        "keywords": [
+            "php",
+            "format",
+            "beautify",
+            "indent"
+        ],
         "icon": "PHP",
         "popular": false,
         "status": "live"
@@ -186,7 +283,13 @@
         "url": "python-formatter.html",
         "category": "Formatters",
         "categoryId": "formatters",
-        "keywords": ["python", "format", "beautify", "pep8", "indent"],
+        "keywords": [
+            "python",
+            "format",
+            "beautify",
+            "pep8",
+            "indent"
+        ],
         "icon": "PY",
         "popular": false,
         "status": "live"
@@ -198,7 +301,12 @@
         "url": "typescript-formatter.html",
         "category": "Formatters",
         "categoryId": "formatters",
-        "keywords": ["typescript", "ts", "format", "beautify"],
+        "keywords": [
+            "typescript",
+            "ts",
+            "format",
+            "beautify"
+        ],
         "icon": "TS",
         "popular": false,
         "status": "live"
@@ -210,7 +318,12 @@
         "url": "json-to-yaml.html",
         "category": "Converters",
         "categoryId": "converters",
-        "keywords": ["json", "yaml", "convert", "transform"],
+        "keywords": [
+            "json",
+            "yaml",
+            "convert",
+            "transform"
+        ],
         "icon": "J>Y",
         "popular": false,
         "status": "live"
@@ -222,7 +335,12 @@
         "url": "yaml-to-json.html",
         "category": "Converters",
         "categoryId": "converters",
-        "keywords": ["yaml", "json", "convert", "transform"],
+        "keywords": [
+            "yaml",
+            "json",
+            "convert",
+            "transform"
+        ],
         "icon": "Y>J",
         "popular": false,
         "status": "live"
@@ -234,7 +352,13 @@
         "url": "json-to-csv.html",
         "category": "Converters",
         "categoryId": "converters",
-        "keywords": ["json", "csv", "convert", "excel", "spreadsheet"],
+        "keywords": [
+            "json",
+            "csv",
+            "convert",
+            "excel",
+            "spreadsheet"
+        ],
         "icon": "J>C",
         "popular": false,
         "status": "live"
@@ -246,7 +370,13 @@
         "url": "csv-to-json.html",
         "category": "Converters",
         "categoryId": "converters",
-        "keywords": ["csv", "json", "convert", "excel", "spreadsheet"],
+        "keywords": [
+            "csv",
+            "json",
+            "convert",
+            "excel",
+            "spreadsheet"
+        ],
         "icon": "C>J",
         "popular": false,
         "status": "live"
@@ -258,7 +388,12 @@
         "url": "xml-to-json.html",
         "category": "Converters",
         "categoryId": "converters",
-        "keywords": ["xml", "json", "convert", "transform"],
+        "keywords": [
+            "xml",
+            "json",
+            "convert",
+            "transform"
+        ],
         "icon": "X>J",
         "popular": false,
         "status": "live"
@@ -270,7 +405,12 @@
         "url": "json-to-xml.html",
         "category": "Converters",
         "categoryId": "converters",
-        "keywords": ["json", "xml", "convert", "transform"],
+        "keywords": [
+            "json",
+            "xml",
+            "convert",
+            "transform"
+        ],
         "icon": "J>X",
         "popular": false,
         "status": "live"
@@ -282,7 +422,12 @@
         "url": "csv-to-xml.html",
         "category": "Converters",
         "categoryId": "converters",
-        "keywords": ["csv", "xml", "convert", "spreadsheet"],
+        "keywords": [
+            "csv",
+            "xml",
+            "convert",
+            "spreadsheet"
+        ],
         "icon": "C>X",
         "popular": false,
         "status": "live"
@@ -294,7 +439,13 @@
         "url": "tsv-to-json.html",
         "category": "Converters",
         "categoryId": "converters",
-        "keywords": ["tsv", "json", "convert", "tab", "spreadsheet"],
+        "keywords": [
+            "tsv",
+            "json",
+            "convert",
+            "tab",
+            "spreadsheet"
+        ],
         "icon": "T>J",
         "popular": false,
         "status": "live"
@@ -306,7 +457,12 @@
         "url": "html-to-markdown.html",
         "category": "Converters",
         "categoryId": "converters",
-        "keywords": ["html", "markdown", "convert", "md"],
+        "keywords": [
+            "html",
+            "markdown",
+            "convert",
+            "md"
+        ],
         "icon": "H>M",
         "popular": false,
         "status": "live"
@@ -318,7 +474,12 @@
         "url": "markdown-to-html.html",
         "category": "Converters",
         "categoryId": "converters",
-        "keywords": ["markdown", "html", "convert", "md"],
+        "keywords": [
+            "markdown",
+            "html",
+            "convert",
+            "md"
+        ],
         "icon": "M>H",
         "popular": false,
         "status": "live"
@@ -330,7 +491,13 @@
         "url": "markdown-preview.html",
         "category": "Formatters",
         "categoryId": "formatters",
-        "keywords": ["markdown", "md", "preview", "render", "github"],
+        "keywords": [
+            "markdown",
+            "md",
+            "preview",
+            "render",
+            "github"
+        ],
         "icon": "MD",
         "popular": false,
         "status": "live"
@@ -342,7 +509,13 @@
         "url": "regex-tester.html",
         "category": "Developer Tools",
         "categoryId": "developer",
-        "keywords": ["regex", "regular expression", "test", "match", "pattern"],
+        "keywords": [
+            "regex",
+            "regular expression",
+            "test",
+            "match",
+            "pattern"
+        ],
         "icon": ".*",
         "popular": false,
         "status": "live"
@@ -354,7 +527,13 @@
         "url": "diff-checker.html",
         "category": "Text Tools",
         "categoryId": "text",
-        "keywords": ["diff", "compare", "text", "difference", "merge"],
+        "keywords": [
+            "diff",
+            "compare",
+            "text",
+            "difference",
+            "merge"
+        ],
         "icon": "+/-",
         "popular": false,
         "status": "live"
@@ -366,7 +545,13 @@
         "url": "word-counter.html",
         "category": "Text Tools",
         "categoryId": "text",
-        "keywords": ["word", "count", "character", "sentence", "paragraph"],
+        "keywords": [
+            "word",
+            "count",
+            "character",
+            "sentence",
+            "paragraph"
+        ],
         "icon": "Wc",
         "popular": false,
         "status": "live"
@@ -378,7 +563,14 @@
         "url": "case-converter.html",
         "category": "Text Tools",
         "categoryId": "text",
-        "keywords": ["case", "convert", "upper", "lower", "camel", "snake"],
+        "keywords": [
+            "case",
+            "convert",
+            "upper",
+            "lower",
+            "camel",
+            "snake"
+        ],
         "icon": "Aa",
         "popular": false,
         "status": "live"
@@ -390,7 +582,13 @@
         "url": "lorem-ipsum.html",
         "category": "Generators",
         "categoryId": "generators",
-        "keywords": ["lorem", "ipsum", "placeholder", "text", "dummy"],
+        "keywords": [
+            "lorem",
+            "ipsum",
+            "placeholder",
+            "text",
+            "dummy"
+        ],
         "icon": "Li",
         "popular": false,
         "status": "live"
@@ -402,7 +600,12 @@
         "url": "text-reverser.html",
         "category": "Text Tools",
         "categoryId": "text",
-        "keywords": ["reverse", "text", "mirror", "flip"],
+        "keywords": [
+            "reverse",
+            "text",
+            "mirror",
+            "flip"
+        ],
         "icon": "<->",
         "popular": false,
         "status": "live"
@@ -414,7 +617,13 @@
         "url": "duplicate-remover.html",
         "category": "Text Tools",
         "categoryId": "text",
-        "keywords": ["duplicate", "remove", "unique", "lines", "dedupe"],
+        "keywords": [
+            "duplicate",
+            "remove",
+            "unique",
+            "lines",
+            "dedupe"
+        ],
         "icon": "D-",
         "popular": false,
         "status": "live"
@@ -426,7 +635,13 @@
         "url": "text-sorter.html",
         "category": "Text Tools",
         "categoryId": "text",
-        "keywords": ["sort", "text", "lines", "alphabetical", "order"],
+        "keywords": [
+            "sort",
+            "text",
+            "lines",
+            "alphabetical",
+            "order"
+        ],
         "icon": "AZ",
         "popular": false,
         "status": "live"
@@ -438,7 +653,13 @@
         "url": "whitespace-remover.html",
         "category": "Text Tools",
         "categoryId": "text",
-        "keywords": ["whitespace", "space", "trim", "strip", "clean"],
+        "keywords": [
+            "whitespace",
+            "space",
+            "trim",
+            "strip",
+            "clean"
+        ],
         "icon": "WS",
         "popular": false,
         "status": "live"
@@ -450,7 +671,12 @@
         "url": "line-numbers.html",
         "category": "Text Tools",
         "categoryId": "text",
-        "keywords": ["line", "number", "add", "prefix"],
+        "keywords": [
+            "line",
+            "number",
+            "add",
+            "prefix"
+        ],
         "icon": "1#",
         "popular": false,
         "status": "live"
@@ -462,7 +688,13 @@
         "url": "find-replace.html",
         "category": "Text Tools",
         "categoryId": "text",
-        "keywords": ["find", "replace", "search", "regex", "bulk"],
+        "keywords": [
+            "find",
+            "replace",
+            "search",
+            "regex",
+            "bulk"
+        ],
         "icon": "F/R",
         "popular": false,
         "status": "live"
@@ -474,7 +706,13 @@
         "url": "password-generator.html",
         "category": "Generators",
         "categoryId": "generators",
-        "keywords": ["password", "generate", "random", "secure", "strong"],
+        "keywords": [
+            "password",
+            "generate",
+            "random",
+            "secure",
+            "strong"
+        ],
         "icon": "***",
         "popular": true,
         "status": "live"
@@ -486,7 +724,13 @@
         "url": "slug-generator.html",
         "category": "Text Tools",
         "categoryId": "text",
-        "keywords": ["slug", "url", "seo", "friendly", "permalink"],
+        "keywords": [
+            "slug",
+            "url",
+            "seo",
+            "friendly",
+            "permalink"
+        ],
         "icon": "/-/",
         "popular": false,
         "status": "live"
@@ -498,7 +742,13 @@
         "url": "qr-generator.html",
         "category": "Generators",
         "categoryId": "generators",
-        "keywords": ["qr", "code", "generate", "barcode", "scan"],
+        "keywords": [
+            "qr",
+            "code",
+            "generate",
+            "barcode",
+            "scan"
+        ],
         "icon": "QR",
         "popular": true,
         "status": "live"
@@ -510,7 +760,12 @@
         "url": "favicon-generator.html",
         "category": "Generators",
         "categoryId": "generators",
-        "keywords": ["favicon", "icon", "generate", "website"],
+        "keywords": [
+            "favicon",
+            "icon",
+            "generate",
+            "website"
+        ],
         "icon": "FV",
         "popular": false,
         "status": "live"
@@ -522,7 +777,14 @@
         "url": "number-converter.html",
         "category": "Converters",
         "categoryId": "converters",
-        "keywords": ["number", "binary", "decimal", "hex", "octal", "convert"],
+        "keywords": [
+            "number",
+            "binary",
+            "decimal",
+            "hex",
+            "octal",
+            "convert"
+        ],
         "icon": "10",
         "popular": false,
         "status": "live"
@@ -534,7 +796,12 @@
         "url": "text-to-binary.html",
         "category": "Encoders",
         "categoryId": "encoders",
-        "keywords": ["text", "binary", "convert", "ascii"],
+        "keywords": [
+            "text",
+            "binary",
+            "convert",
+            "ascii"
+        ],
         "icon": "01",
         "popular": false,
         "status": "live"
@@ -546,7 +813,13 @@
         "url": "rot13.html",
         "category": "Encoders",
         "categoryId": "encoders",
-        "keywords": ["rot13", "cipher", "encode", "decode", "caesar"],
+        "keywords": [
+            "rot13",
+            "cipher",
+            "encode",
+            "decode",
+            "caesar"
+        ],
         "icon": "R13",
         "popular": false,
         "status": "live"
@@ -558,7 +831,13 @@
         "url": "morse-code.html",
         "category": "Encoders",
         "categoryId": "encoders",
-        "keywords": ["morse", "code", "translate", "dots", "dashes"],
+        "keywords": [
+            "morse",
+            "code",
+            "translate",
+            "dots",
+            "dashes"
+        ],
         "icon": ".-",
         "popular": false,
         "status": "live"
@@ -570,7 +849,12 @@
         "url": "ascii-to-hex.html",
         "category": "Encoders",
         "categoryId": "encoders",
-        "keywords": ["ascii", "hex", "hexadecimal", "convert"],
+        "keywords": [
+            "ascii",
+            "hex",
+            "hexadecimal",
+            "convert"
+        ],
         "icon": "0x",
         "popular": false,
         "status": "live"
@@ -582,7 +866,12 @@
         "url": "unicode-converter.html",
         "category": "Encoders",
         "categoryId": "encoders",
-        "keywords": ["unicode", "escape", "convert", "utf"],
+        "keywords": [
+            "unicode",
+            "escape",
+            "convert",
+            "utf"
+        ],
         "icon": "U+",
         "popular": false,
         "status": "live"
@@ -594,7 +883,14 @@
         "url": "color-converter.html",
         "category": "Color Tools",
         "categoryId": "colors",
-        "keywords": ["color", "hex", "rgb", "hsl", "cmyk", "convert"],
+        "keywords": [
+            "color",
+            "hex",
+            "rgb",
+            "hsl",
+            "cmyk",
+            "convert"
+        ],
         "icon": "#C",
         "popular": false,
         "status": "live"
@@ -606,7 +902,13 @@
         "url": "color-picker.html",
         "category": "Color Tools",
         "categoryId": "colors",
-        "keywords": ["color", "pick", "select", "hex", "rgb"],
+        "keywords": [
+            "color",
+            "pick",
+            "select",
+            "hex",
+            "rgb"
+        ],
         "icon": "CP",
         "popular": false,
         "status": "live"
@@ -618,7 +920,12 @@
         "url": "gradient-generator.html",
         "category": "Color Tools",
         "categoryId": "colors",
-        "keywords": ["gradient", "css", "color", "background"],
+        "keywords": [
+            "gradient",
+            "css",
+            "color",
+            "background"
+        ],
         "icon": "GR",
         "popular": false,
         "status": "live"
@@ -630,7 +937,12 @@
         "url": "color-palette.html",
         "category": "Color Tools",
         "categoryId": "colors",
-        "keywords": ["palette", "color", "scheme", "design"],
+        "keywords": [
+            "palette",
+            "color",
+            "scheme",
+            "design"
+        ],
         "icon": "PL",
         "popular": false,
         "status": "live"
@@ -642,7 +954,13 @@
         "url": "cron-parser.html",
         "category": "Developer Tools",
         "categoryId": "developer",
-        "keywords": ["cron", "schedule", "parse", "job", "task"],
+        "keywords": [
+            "cron",
+            "schedule",
+            "parse",
+            "job",
+            "task"
+        ],
         "icon": "*/",
         "popular": false,
         "status": "live"
@@ -654,7 +972,13 @@
         "url": "meta-generator.html",
         "category": "Developer Tools",
         "categoryId": "developer",
-        "keywords": ["meta", "seo", "og", "twitter", "tags"],
+        "keywords": [
+            "meta",
+            "seo",
+            "og",
+            "twitter",
+            "tags"
+        ],
         "icon": "MT",
         "popular": false,
         "status": "live"
@@ -666,7 +990,13 @@
         "url": "jsonpath-tester.html",
         "category": "Developer Tools",
         "categoryId": "developer",
-        "keywords": ["jsonpath", "json", "query", "test", "expression"],
+        "keywords": [
+            "jsonpath",
+            "json",
+            "query",
+            "test",
+            "expression"
+        ],
         "icon": "$..",
         "popular": false,
         "status": "live"
@@ -678,7 +1008,13 @@
         "url": "xpath-tester.html",
         "category": "Developer Tools",
         "categoryId": "developer",
-        "keywords": ["xpath", "xml", "query", "test", "expression"],
+        "keywords": [
+            "xpath",
+            "xml",
+            "query",
+            "test",
+            "expression"
+        ],
         "icon": "//",
         "popular": false,
         "status": "live"
@@ -690,7 +1026,12 @@
         "url": "user-agent-parser.html",
         "category": "Developer Tools",
         "categoryId": "developer",
-        "keywords": ["user agent", "browser", "parse", "detect"],
+        "keywords": [
+            "user agent",
+            "browser",
+            "parse",
+            "detect"
+        ],
         "icon": "UA",
         "popular": false,
         "status": "live"
@@ -702,8 +1043,52 @@
         "url": "epoch-converter.html",
         "category": "Developer Tools",
         "categoryId": "developer",
-        "keywords": ["epoch", "unix", "timestamp", "date", "time"],
+        "keywords": [
+            "epoch",
+            "unix",
+            "timestamp",
+            "date",
+            "time"
+        ],
         "icon": "EP",
+        "popular": false,
+        "status": "live"
+    },
+    {
+        "id": "json-to-typescript",
+        "name": "JSON to TypeScript",
+        "description": "Generate TypeScript interfaces from JSON data",
+        "url": "json-to-typescript.html",
+        "category": "Converters",
+        "categoryId": "converters",
+        "keywords": [
+            "json",
+            "typescript",
+            "interface",
+            "convert",
+            "types",
+            "ts"
+        ],
+        "icon": "J>T",
+        "popular": false,
+        "status": "live"
+    },
+    {
+        "id": "json-to-toon",
+        "name": "JSON to TOON",
+        "description": "Convert JSON to token-optimized TOON format for LLMs",
+        "url": "json-to-toon.html",
+        "category": "Converters",
+        "categoryId": "converters",
+        "keywords": [
+            "json",
+            "toon",
+            "token",
+            "llm",
+            "convert",
+            "optimize"
+        ],
+        "icon": "J>T",
         "popular": false,
         "status": "live"
     }

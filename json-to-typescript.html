@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free JSON to TypeScript Converter | Generate TS Interfaces - Code Utils</title>
+    <meta name="description"
+        content="Convert JSON to TypeScript interfaces instantly. Generate type-safe TypeScript types from any JSON data. 100% private browser-based tool - your data never leaves your device.">
+    <meta name="keywords"
+        content="json to typescript, json to ts, typescript interface generator, json to type, typescript types from json, convert json typescript">
+    <link rel="canonical" href="https://codeutils.org/json-to-typescript.html">
+
+    <!-- Favicon and Touch Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <meta name="theme-color" content="#3498db">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/json-to-typescript.html">
+    <meta property="og:title" content="Free JSON to TypeScript Converter - Code Utils">
+    <meta property="og:description"
+        content="Convert JSON to TypeScript interfaces instantly. Generate type-safe TypeScript types from any JSON data.">
+    <meta property="og:image" content="https://codeutils.org/images/og/json-to-typescript.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JSON to TypeScript Converter - Code Utils">
+    <meta name="twitter:description"
+        content="Convert JSON to TypeScript interfaces instantly. Free tool with 100% private client-side processing.">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "JSON to TypeScript Converter - Code Utils",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "description": "Free JSON to TypeScript converter. Generate TypeScript interfaces from JSON data. 100% client-side processing.",
+      "url": "https://codeutils.org/json-to-typescript.html"
+    }
+    </script>
+
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        .options-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            align-items: center;
+        }
+
+        .option-group {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .option-group label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">JSON to TypeScript Converter</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Generate TypeScript interfaces from JSON data. Perfect
+                for creating type-safe APIs and working with JSON responses.</p>
+        </div>
+
+        <div class="options-row">
+            <div class="option-group">
+                <label for="rootName">Root Interface Name:</label>
+                <input type="text" id="rootName" value="RootObject"
+                    style="padding: 6px 10px; border: 1px solid var(--border); border-radius: 3px; background: var(--bg-white); color: var(--text-primary);">
+            </div>
+            <div class="option-group">
+                <input type="checkbox" id="useExport" checked>
+                <label for="useExport">Export interfaces</label>
+            </div>
+            <div class="option-group">
+                <input type="checkbox" id="useOptional">
+                <label for="useOptional">Optional properties (?)</label>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="convert()">Convert to TypeScript</button>
+            <button class="btn btn-secondary" onclick="copyOutput()">Copy</button>
+            <button class="btn btn-secondary" onclick="downloadTS()">Download .ts</button>
+            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-container">
+            <div class="editor-section">
+                <div class="editor-header">JSON Input</div>
+                <textarea id="jsonInput" class="editor" placeholder="Paste your JSON here...">{
+  "id": 1,
+  "name": "John Doe",
+  "email": "john@example.com",
+  "isActive": true,
+  "roles": ["admin", "user"],
+  "address": {
+    "street": "123 Main St",
+    "city": "Boston",
+    "zip": "02101"
+  }
+}</textarea>
+            </div>
+            <div class="editor-section">
+                <div class="editor-header">TypeScript Output</div>
+                <textarea id="tsOutput" class="editor" readonly
+                    placeholder="TypeScript interfaces will appear here..."></textarea>
+            </div>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="json-formatter.html">JSON Formatter</a></li>
+                <li><a href="json-to-toon.html">JSON to TOON</a></li>
+                <li><a href="jsonpath-tester.html">JSONPath Tester</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>About JSON to TypeScript Converter</h2>
+            <p>This tool generates TypeScript interfaces from JSON data, helping you create type-safe code when working
+                with APIs, configuration files, or any JSON data source.</p>
+
+            <h3>Features</h3>
+            <ul>
+                <li><strong>Automatic Type Inference:</strong> Detects strings, numbers, booleans, arrays, and nested
+                    objects</li>
+                <li><strong>Nested Interface Generation:</strong> Creates separate interfaces for nested objects</li>
+                <li><strong>Array Type Detection:</strong> Properly types arrays including arrays of objects</li>
+                <li><strong>Customizable Output:</strong> Configure root name, exports, and optional properties</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing - your data never leaves your browser
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+        <p>Free developer utilities - 100% client-side processing</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        CodeUtils.RecentTools.add({
+            id: 'json-to-typescript',
+            name: 'JSON to TypeScript',
+            url: 'json-to-typescript.html'
+        });
+
+        CodeUtils.Message.init('message');
+
+        const jsonInput = document.getElementById('jsonInput');
+        const tsOutput = document.getElementById('tsOutput');
+        const rootNameInput = document.getElementById('rootName');
+        const useExport = document.getElementById('useExport');
+        const useOptional = document.getElementById('useOptional');
+
+        function convert() {
+            const input = jsonInput.value.trim();
+            if (!input) {
+                CodeUtils.Message.error('Please enter some JSON');
+                return;
+            }
+
+            try {
+                const json = JSON.parse(input);
+                const interfaces = [];
+                const generatedNames = new Set();
+
+                generateInterface(json, rootNameInput.value || 'RootObject', interfaces, generatedNames);
+
+                tsOutput.value = interfaces.reverse().join('\n\n');
+                CodeUtils.Message.success('TypeScript interfaces generated!');
+            } catch (e) {
+                CodeUtils.Message.error('Invalid JSON: ' + e.message);
+            }
+        }
+
+        function generateInterface(obj, name, interfaces, generatedNames) {
+            const prefix = useExport.checked ? 'export ' : '';
+            const optionalMark = useOptional.checked ? '?' : '';
+
+            if (Array.isArray(obj)) {
+                if (obj.length > 0 && typeof obj[0] === 'object' && obj[0] !== null) {
+                    generateInterface(obj[0], name + 'Item', interfaces, generatedNames);
+                    return name + 'Item[]';
+                }
+                return inferArrayType(obj) + '[]';
+            }
+
+            if (typeof obj !== 'object' || obj === null) {
+                return inferType(obj);
+            }
+
+            // Avoid duplicates
+            if (generatedNames.has(name)) {
+                let counter = 2;
+                while (generatedNames.has(name + counter)) counter++;
+                name = name + counter;
+            }
+            generatedNames.add(name);
+
+            const lines = [`${prefix}interface ${name} {`];
+
+            for (const [key, value] of Object.entries(obj)) {
+                const type = getPropertyType(value, capitalize(key), interfaces, generatedNames);
+                const safeKey = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key) ? key : `"${key}"`;
+                lines.push(`  ${safeKey}${optionalMark}: ${type};`);
+            }
+
+            lines.push('}');
+            interfaces.push(lines.join('\n'));
+
+            return name;
+        }
+
+        function getPropertyType(value, suggestedName, interfaces, generatedNames) {
+            if (value === null) return 'null';
+            if (Array.isArray(value)) {
+                if (value.length === 0) return 'any[]';
+                if (typeof value[0] === 'object' && value[0] !== null) {
+                    generateInterface(value[0], suggestedName, interfaces, generatedNames);
+                    return suggestedName + '[]';
+                }
+                return inferType(value[0]) + '[]';
+            }
+            if (typeof value === 'object') {
+                generateInterface(value, suggestedName, interfaces, generatedNames);
+                return suggestedName;
+            }
+            return inferType(value);
+        }
+
+        function inferType(value) {
+            if (value === null) return 'null';
+            if (typeof value === 'string') return 'string';
+            if (typeof value === 'number') return 'number';
+            if (typeof value === 'boolean') return 'boolean';
+            return 'any';
+        }
+
+        function inferArrayType(arr) {
+            if (arr.length === 0) return 'any';
+            const types = [...new Set(arr.map(inferType))];
+            return types.length === 1 ? types[0] : types.join(' | ');
+        }
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        function copyOutput() {
+            if (!tsOutput.value) {
+                CodeUtils.Message.error('Nothing to copy');
+                return;
+            }
+            CodeUtils.Clipboard.copy(tsOutput.value);
+            CodeUtils.Message.success('Copied!');
+        }
+
+        function downloadTS() {
+            if (!tsOutput.value) {
+                CodeUtils.Message.error('Nothing to download');
+                return;
+            }
+            CodeUtils.FileHandler.download(tsOutput.value, 'types.ts', 'text/typescript');
+            CodeUtils.Message.success('Downloaded!');
+        }
+
+        function clearAll() {
+            jsonInput.value = '';
+            tsOutput.value = '';
+            CodeUtils.Message.hide();
+        }
+
+        // Auto-convert on load with sample
+        convert();
+    </script>
+</body>
+
+</html>

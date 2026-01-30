@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Developer Tools & Utilities | 59+ Online Tools - Code Utils</title>
-    <meta name="description" content="59+ free developer tools for formatting, encoding, converting, and generating code. JSON formatter, Base64 encoder, Hash generator, and more. 100% private - your data never leaves your browser. Try now!">
-    <meta name="keywords" content="developer tools, code utilities, json formatter, xml formatter, base64 encoder, hash generator, url encoder, html encoder, timestamp converter, free tools, online tools">
+    <title>Free Developer Tools & Utilities | 61+ Online Tools - Code Utils</title>
+    <meta name="description"
+        content="61+ free developer tools for formatting, encoding, converting, and generating code. JSON formatter, Base64 encoder, Hash generator, and more. 100% private - your data never leaves your browser. Try now!">
+    <meta name="keywords"
+        content="developer tools, code utilities, json formatter, xml formatter, base64 encoder, hash generator, url encoder, html encoder, timestamp converter, free tools, online tools">
     <meta name="author" content="Code Utils">
     <link rel="canonical" href="https://codeutils.org/">
 
@@ -19,8 +22,9 @@
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://codeutils.org/">
-    <meta property="og:title" content="Free Developer Tools & Utilities | 59+ Online Tools - Code Utils">
-    <meta property="og:description" content="59+ free developer tools for formatting, encoding, converting, and generating code. 100% private - your data never leaves your browser.">
+    <meta property="og:title" content="Free Developer Tools & Utilities | 61+ Online Tools - Code Utils">
+    <meta property="og:description"
+        content="61+ free developer tools for formatting, encoding, converting, and generating code. 100% private - your data never leaves your browser.">
     <meta property="og:image" content="https://codeutils.org/images/og/codeutils-home.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -28,7 +32,8 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Free Developer Tools & Utilities - Code Utils">
-    <meta name="twitter:description" content="59+ free developer tools. JSON formatter, Base64 encoder, Hash generator, and more. 100% private client-side processing.">
+    <meta name="twitter:description"
+        content="61+ free developer tools. JSON formatter, Base64 encoder, Hash generator, and more. 100% private client-side processing.">
     <meta name="twitter:image" content="https://codeutils.org/images/og/codeutils-home.png">
 
     <!-- Preconnect for performance -->
@@ -39,7 +44,7 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-RPHPBJ4291');
     </script>
@@ -51,7 +56,7 @@
       "@type": "WebSite",
       "name": "Code Utils",
       "url": "https://codeutils.org",
-      "description": "Free developer tools and utilities. 59+ tools for formatting, encoding, converting, and generating code.",
+      "description": "Free developer tools and utilities. 61+ tools for formatting, encoding, converting, and generating code.",
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
@@ -226,6 +231,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="header-simple">
         <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
@@ -238,7 +244,8 @@
 
         <div class="search-container">
             <span class="search-icon">&#128269;</span>
-            <input type="text" id="searchInput" class="search-input" placeholder="Search 59 developer tools..." autocomplete="off">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search 61 developer tools..."
+                autocomplete="off">
             <span class="search-shortcut">/</span>
             <div id="searchResults" class="search-results"></div>
         </div>
@@ -493,8 +500,8 @@
                 const matches = toolsData.filter(tool => {
                     if (tool.status !== 'live') return false;
                     return tool.name.toLowerCase().includes(query) ||
-                           tool.description.toLowerCase().includes(query) ||
-                           (tool.keywords && tool.keywords.some(k => k.includes(query)));
+                        tool.description.toLowerCase().includes(query) ||
+                        (tool.keywords && tool.keywords.some(k => k.includes(query)));
                 }).slice(0, 8);
 
                 if (matches.length === 0) {
@@ -567,4 +574,5 @@
         document.addEventListener('DOMContentLoaded', loadTools);
     </script>
 </body>
+
 </html>

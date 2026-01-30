@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free JSON Formatter & Validator | Format & Minify - Code Utils</title>
+    <title>Free JSON Formatter & Validator | Format, Compare & Repair - Code Utils</title>
     <meta name="description"
-        content="Format, validate, minify, and sort JSON instantly with our free online tool. Customizable indentation (2/4 spaces or tabs), sort keys alphabetically, and get detailed error messages with line numbers. 100% private - your data never leaves your browser.">
+        content="Format, validate, repair, and compare JSON with our free online tool. Features include tree view, JSONPath queries, URL loading, auto-repair, diff comparison, and customizable indentation. 100% private - your data never leaves your browser.">
     <meta name="keywords"
-        content="json formatter, json validator, json minifier, json beautifier, format json, validate json, minify json, sort json keys, json indentation, json tool, free json formatter">
+        content="json formatter, json validator, json minifier, json beautifier, json repair, json compare, json diff, jsonpath, format json, validate json, minify json, sort json keys, json tree view, json tool, free json formatter">
     <link rel="canonical" href="https://codeutils.org/json-formatter.html">
 
     <!-- Favicon and Touch Icons -->
@@ -347,6 +347,7 @@
                 <button class="btn" onclick="validateJSON()">Validate</button>
                 <button class="btn" onclick="sortAndFormat()" title="Sort keys alphabetically (Ctrl+S)">Sort
                     Keys</button>
+                <button class="btn" onclick="repairJSON()" title="Auto-fix common JSON errors">Repair</button>
             </div>
             <div class="controls-group">
                 <label
@@ -367,6 +368,21 @@
                 <button class="btn btn-secondary" onclick="downloadJSON()">Download</button>
             </div>
             <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+        </div>
+
+        <!-- Advanced Controls Row -->
+        <div class="controls" style="margin-top: 8px;">
+            <div class="controls-group" style="flex: 1;">
+                <input type="text" id="urlInput" placeholder="Enter JSON URL to load..."
+                    style="flex: 1; padding: 8px 12px; border: 1px solid var(--border); border-radius: 3px; font-size: 14px; background: var(--bg-white); color: var(--text-primary); min-width: 200px;">
+                <button class="btn btn-secondary" onclick="loadFromURL()">Load URL</button>
+            </div>
+            <div class="controls-group" style="flex: 1;">
+                <input type="text" id="jsonPathInput" placeholder="$.path.to.value (JSONPath query)"
+                    style="flex: 1; padding: 8px 12px; border: 1px solid var(--border); border-radius: 3px; font-size: 14px; font-family: var(--font-mono); background: var(--bg-white); color: var(--text-primary); min-width: 200px;">
+                <button class="btn btn-secondary" onclick="queryJSONPath()">Query</button>
+            </div>
+            <button class="btn btn-secondary" onclick="toggleDiffMode()" id="diffModeBtn">Compare</button>
         </div>
 
         <div id="message" class="message"></div>
@@ -1062,6 +1078,441 @@
         CodeUtils.Shortcuts.register('m', minifyJSON, true);
         CodeUtils.Shortcuts.register('k', copyOutput, true);
         CodeUtils.Shortcuts.register('s', sortAndFormat, true);
+
+        // ===========================================
+        // Phase 3: JSON Repair
+        // ===========================================
+
+        function repairJSON() {
+            let input = inputJSON.value.trim();
+            if (!input) {
+                CodeUtils.Message.error('Please enter some JSON to repair');
+                return;
+            }
+
+            let repaired = input;
+            let fixes = [];
+
+            // Remove JavaScript comments (// and /* */)
+            const beforeComments = repaired;
+            repaired = repaired.replace(/\/\/[^\n]*/g, '');
+            repaired = repaired.replace(/\/\*[\s\S]*?\*\//g, '');
+            if (repaired !== beforeComments) fixes.push('removed comments');
+
+            // Replace single quotes with double quotes
+            const beforeQuotes = repaired;
+            repaired = repaired.replace(/'/g, '"');
+            if (repaired !== beforeQuotes) fixes.push('fixed single quotes');
+
+            // Fix unquoted keys (simple pattern)
+            const beforeKeys = repaired;
+            repaired = repaired.replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g, '$1"$2":');
+            if (repaired !== beforeKeys) fixes.push('quoted unquoted keys');
+
+            // Remove trailing commas before } or ]
+            const beforeTrailing = repaired;
+            repaired = repaired.replace(/,(\s*[}\]])/g, '$1');
+            if (repaired !== beforeTrailing) fixes.push('removed trailing commas');
+
+            // Replace undefined with null
+            const beforeUndefined = repaired;
+            repaired = repaired.replace(/:\s*undefined\b/g, ': null');
+            if (repaired !== beforeUndefined) fixes.push('replaced undefined with null');
+
+            // Try to parse the repaired JSON
+            try {
+                const parsed = JSON.parse(repaired);
+                inputJSON.value = repaired;
+                currentParsedJSON = parsed;
+                outputJSON.value = JSON.stringify(parsed, null, getIndent());
+
+                if (currentViewMode === 'tree') {
+                    renderTree(parsed);
+                }
+
+                if (fixes.length > 0) {
+                    CodeUtils.Message.success(`Repaired: ${fixes.join(', ')}`);
+                } else {
+                    CodeUtils.Message.success('JSON was already valid!');
+                }
+            } catch (error) {
+                CodeUtils.Message.error(`Could not repair: ${error.message}`);
+            }
+        }
+
+        // ===========================================
+        // Phase 3: Load from URL
+        // ===========================================
+
+        const urlInput = document.getElementById('urlInput');
+
+        async function loadFromURL() {
+            const url = urlInput.value.trim();
+            if (!url) {
+                CodeUtils.Message.error('Please enter a URL');
+                return;
+            }
+
+            // Basic URL validation
+            try {
+                new URL(url);
+            } catch {
+                CodeUtils.Message.error('Invalid URL format');
+                return;
+            }
+
+            CodeUtils.Message.info('Loading JSON from URL...');
+
+            try {
+                // Try direct fetch first (works for CORS-enabled APIs)
+                const response = await fetch(url, {
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const contentType = response.headers.get('content-type');
+                if (contentType && !contentType.includes('json') && !contentType.includes('text')) {
+                    CodeUtils.Message.warning('Response may not be JSON, attempting to parse anyway...');
+                }
+
+                const text = await response.text();
+
+                // Validate it's valid JSON
+                const parsed = JSON.parse(text);
+
+                inputJSON.value = JSON.stringify(parsed, null, getIndent());
+                currentParsedJSON = parsed;
+                outputJSON.value = JSON.stringify(parsed, null, getIndent());
+
+                if (currentViewMode === 'tree') {
+                    renderTree(parsed);
+                }
+
+                CodeUtils.Message.success('JSON loaded from URL!');
+            } catch (error) {
+                if (error.message.includes('Failed to fetch') || error.name === 'TypeError') {
+                    CodeUtils.Message.error('CORS error: Cannot load from this URL. Try a CORS-enabled API or use a browser extension.');
+                } else {
+                    CodeUtils.Message.error(`Error: ${error.message}`);
+                }
+            }
+        }
+
+        // Enter key to trigger load
+        urlInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                loadFromURL();
+            }
+        });
+
+        // ===========================================
+        // Phase 3: JSONPath Query (from jsonpath-tester)
+        // ===========================================
+
+        const jsonPathInput = document.getElementById('jsonPathInput');
+
+        // JSONPath implementation (reused from jsonpath-tester.html)
+        function jsonPath(obj, path) {
+            if (path === '$') return [obj];
+
+            const results = [];
+            const segments = [];
+            let current = '';
+            let inBracket = false;
+
+            // Parse path into segments
+            for (let i = 1; i < path.length; i++) {
+                const char = path[i];
+                if (char === '[') {
+                    if (current) segments.push({ type: 'key', value: current });
+                    current = '';
+                    inBracket = true;
+                } else if (char === ']') {
+                    segments.push({ type: 'bracket', value: current });
+                    current = '';
+                    inBracket = false;
+                } else if (char === '.' && !inBracket) {
+                    if (current) segments.push({ type: 'key', value: current });
+                    current = '';
+                    if (path[i + 1] === '.') {
+                        segments.push({ type: 'recursive' });
+                        i++;
+                    }
+                } else {
+                    current += char;
+                }
+            }
+            if (current) segments.push({ type: 'key', value: current });
+
+            function traverse(data, segIndex, collector) {
+                if (segIndex >= segments.length) {
+                    collector.push(data);
+                    return;
+                }
+
+                const seg = segments[segIndex];
+
+                if (seg.type === 'key') {
+                    if (data && typeof data === 'object' && seg.value in data) {
+                        traverse(data[seg.value], segIndex + 1, collector);
+                    }
+                } else if (seg.type === 'bracket') {
+                    if (seg.value === '*') {
+                        if (Array.isArray(data)) {
+                            data.forEach(item => traverse(item, segIndex + 1, collector));
+                        } else if (data && typeof data === 'object') {
+                            Object.values(data).forEach(item => traverse(item, segIndex + 1, collector));
+                        }
+                    } else if (seg.value.startsWith('?')) {
+                        // Filter expression
+                        const expr = seg.value.slice(2, -1);
+                        if (Array.isArray(data)) {
+                            data.forEach(item => {
+                                try {
+                                    const fn = new Function('@', `return ${expr.replace(/@/g, '@')}`);
+                                    if (fn(item)) traverse(item, segIndex + 1, collector);
+                                } catch { }
+                            });
+                        }
+                    } else {
+                        const idx = parseInt(seg.value);
+                        if (Array.isArray(data) && data[idx] !== undefined) {
+                            traverse(data[idx], segIndex + 1, collector);
+                        }
+                    }
+                } else if (seg.type === 'recursive') {
+                    const nextSeg = segments[segIndex + 1];
+                    function recurse(d) {
+                        if (nextSeg && nextSeg.type === 'key' && d && typeof d === 'object') {
+                            if (nextSeg.value in d) {
+                                traverse(d[nextSeg.value], segIndex + 2, collector);
+                            }
+                            Object.values(d).forEach(v => {
+                                if (v && typeof v === 'object') recurse(v);
+                            });
+                        }
+                    }
+                    recurse(data);
+                }
+            }
+
+            traverse(obj, 0, results);
+            return results;
+        }
+
+        function queryJSONPath() {
+            const path = jsonPathInput.value.trim();
+            if (!path) {
+                CodeUtils.Message.error('Please enter a JSONPath expression');
+                return;
+            }
+
+            if (!path.startsWith('$')) {
+                CodeUtils.Message.error('JSONPath must start with $');
+                return;
+            }
+
+            const input = inputJSON.value.trim();
+            if (!input) {
+                CodeUtils.Message.error('Please enter some JSON first');
+                return;
+            }
+
+            try {
+                const data = JSON.parse(input);
+                const results = jsonPath(data, path);
+
+                if (results.length === 0) {
+                    CodeUtils.Message.warning('No matches found');
+                    outputJSON.value = '[]';
+                } else {
+                    outputJSON.value = JSON.stringify(
+                        results.length === 1 ? results[0] : results,
+                        null,
+                        getIndent()
+                    );
+                    currentParsedJSON = results.length === 1 ? results[0] : results;
+
+                    if (currentViewMode === 'tree') {
+                        renderTree(currentParsedJSON);
+                    }
+
+                    CodeUtils.Message.success(`Found ${results.length} match(es)`);
+                }
+            } catch (error) {
+                CodeUtils.Message.error(`Error: ${error.message}`);
+            }
+        }
+
+        // Enter key to trigger query
+        jsonPathInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                queryJSONPath();
+            }
+        });
+
+        // ===========================================
+        // Phase 3: JSON Diff/Compare Mode
+        // ===========================================
+
+        let diffMode = false;
+        const diffModeBtn = document.getElementById('diffModeBtn');
+        const editorContainer = document.querySelector('.editor-container');
+        let secondInput = null;
+
+        function toggleDiffMode() {
+            diffMode = !diffMode;
+
+            if (diffMode) {
+                // Enter diff mode
+                diffModeBtn.classList.add('active');
+                diffModeBtn.textContent = 'Exit Compare';
+
+                // Create second input area
+                const firstEditor = editorContainer.querySelector('.editor-section');
+                secondInput = document.createElement('div');
+                secondInput.className = 'editor-section';
+                secondInput.id = 'secondEditorSection';
+                secondInput.innerHTML = `
+                    <div class="editor-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Second JSON</span>
+                        <button class="btn" onclick="compareJSON()" style="padding: 6px 14px; font-size: 13px;">Compare Now</button>
+                    </div>
+                    <textarea id="inputJSON2" class="editor" placeholder="Paste second JSON here..."></textarea>
+                `;
+                firstEditor.after(secondInput);
+
+                // Update first input label
+                firstEditor.querySelector('.editor-header').textContent = 'First JSON';
+
+                // Resize editors
+                editorContainer.style.gridTemplateColumns = '1fr 1fr 1fr';
+
+                // Add Ctrl+Enter shortcut for second input
+                setTimeout(() => {
+                    const input2 = document.getElementById('inputJSON2');
+                    if (input2) {
+                        input2.addEventListener('keydown', (e) => {
+                            if (e.ctrlKey && e.key === 'Enter') {
+                                e.preventDefault();
+                                compareJSON();
+                            }
+                        });
+                    }
+                }, 50);
+
+                CodeUtils.Message.info('Paste JSON in both panels, then click "Compare Now" or press Ctrl+Enter');
+
+            } else {
+                // Exit diff mode
+                diffModeBtn.classList.remove('active');
+                diffModeBtn.textContent = 'Compare';
+
+                // Remove second input
+                if (secondInput) {
+                    secondInput.remove();
+                    secondInput = null;
+                }
+
+                // Restore first input label
+                editorContainer.querySelector('.editor-section .editor-header').textContent = 'Input JSON';
+
+                // Restore grid
+                editorContainer.style.gridTemplateColumns = '1fr 1fr';
+            }
+        }
+
+        // Compare function
+        function compareJSON() {
+            if (!diffMode) {
+                CodeUtils.Message.error('Enter Compare mode first');
+                return;
+            }
+
+            const json1 = inputJSON.value.trim();
+            const json2 = document.getElementById('inputJSON2')?.value.trim();
+
+            if (!json1 || !json2) {
+                CodeUtils.Message.error('Please enter JSON in both inputs');
+                return;
+            }
+
+            try {
+                const obj1 = JSON.parse(json1);
+                const obj2 = JSON.parse(json2);
+
+                const diff = findDifferences(obj1, obj2, '');
+
+                if (diff.length === 0) {
+                    outputJSON.value = '✓ Both JSON documents are identical!';
+                    CodeUtils.Message.success('No differences found!');
+                } else {
+                    outputJSON.value = '=== Differences Found ===\n\n' +
+                        diff.map(d => `${d.path}:\n  Left:  ${JSON.stringify(d.left)}\n  Right: ${JSON.stringify(d.right)}`).join('\n\n');
+                    CodeUtils.Message.info(`Found ${diff.length} difference(s)`);
+                }
+            } catch (error) {
+                CodeUtils.Message.error(`Error: ${error.message}`);
+            }
+        }
+
+        function findDifferences(obj1, obj2, path) {
+            const diffs = [];
+
+            // Handle null/undefined
+            if (obj1 === null || obj2 === null || typeof obj1 !== 'object' || typeof obj2 !== 'object') {
+                if (obj1 !== obj2) {
+                    diffs.push({ path: path || '$', left: obj1, right: obj2 });
+                }
+                return diffs;
+            }
+
+            // Handle arrays
+            if (Array.isArray(obj1) && Array.isArray(obj2)) {
+                const maxLen = Math.max(obj1.length, obj2.length);
+                for (let i = 0; i < maxLen; i++) {
+                    const itemPath = `${path}[${i}]`;
+                    if (i >= obj1.length) {
+                        diffs.push({ path: itemPath, left: undefined, right: obj2[i] });
+                    } else if (i >= obj2.length) {
+                        diffs.push({ path: itemPath, left: obj1[i], right: undefined });
+                    } else {
+                        diffs.push(...findDifferences(obj1[i], obj2[i], itemPath));
+                    }
+                }
+                return diffs;
+            }
+
+            // Handle objects
+            const allKeys = new Set([...Object.keys(obj1), ...Object.keys(obj2)]);
+            for (const key of allKeys) {
+                const keyPath = path ? `${path}.${key}` : `$.${key}`;
+                if (!(key in obj1)) {
+                    diffs.push({ path: keyPath, left: undefined, right: obj2[key] });
+                } else if (!(key in obj2)) {
+                    diffs.push({ path: keyPath, left: obj1[key], right: undefined });
+                } else {
+                    diffs.push(...findDifferences(obj1[key], obj2[key], keyPath));
+                }
+            }
+
+            return diffs;
+        }
+
+        // Update format button to also compare in diff mode
+        const originalFormatForDiff = formatJSON;
+        formatJSON = function (shouldSort = false) {
+            if (diffMode) {
+                compareJSON();
+            } else {
+                originalFormatForDiff(shouldSort);
+            }
+        };
     </script>
 </body>
 
