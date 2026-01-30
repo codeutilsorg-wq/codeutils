@@ -68,6 +68,64 @@
     }
     </script>
 
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What error correction levels are available for QR codes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "QR codes support four error correction levels: L (7% recovery), M (15% recovery), Q (25% recovery), H (30% recovery). Higher levels can restore more data if the QR code is damaged, faded, or partially obscured, but require more space and are harder to scan. This tool uses Level M (15%) which balances data capacity with robustness for most applications. Choose L for clean, controlled environments. Choose H for outdoor or high-wear applications."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much data can a QR code hold?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "QR code capacity depends on version and error correction level. Maximum capacity is ~4,296 alphanumeric characters for numeric data. URLs typically hold 2,000-3,000 characters depending on error correction. QR codes automatically scale to fit data (more data = larger code). Version 1 is smallest, Version 40 is largest (177x177 modules). This tool auto-scales based on content length."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between different QR code versions?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "QR versions (1-40) determine physical size and data capacity. Version 1 is 21x21 modules minimum; Version 40 is 177x177 modules maximum. Higher versions hold more data but create larger codes. Version 1 holds ~41 bytes, Version 40 holds ~4,296 bytes. Scanning speed increases with Version. This tool auto-selects version based on content—you don't need to manually choose."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does QR code size matter for scanning?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Larger QR codes are easier to scan and more forgiving of damage or poor camera quality. Print at least 2cm x 2cm for reliable scanning. Very small codes (&lt;1cm) may fail with smartphone cameras. Screen display requires at least 100x100 pixels. This tool lets you choose sizes (128x128 to 512x512 pixels). Adjust based on usage—larger for outdoor or distance scanning, smaller for tight spaces."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "QR codes vs barcodes: what's the difference?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Barcodes (1D) store data in vertical lines and hold limited information (~20 characters). QR codes (2D) store data in a grid and hold vastly more information (4,000+ characters). QR codes work at angles while barcodes need to be straight. QR codes provide error correction; barcodes don't. QR codes are cheaper to produce and scan with smartphones. Use barcodes for simple product IDs; use QR codes for complex data, URLs, or WiFi credentials."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I customize QR code colors and styling?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This tool lets you customize foreground (code) and background colors. Keep high contrast for reliable scanning—avoid light colors on light backgrounds. Black on white is most reliable but any high-contrast combination works. Avoid patterns or gradients which confuse scanners. Never modify the timing patterns (alternating lines). Logo overlays should be minimal and placed carefully."
+          }
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="css/common.css">
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
     <style>
@@ -148,7 +206,7 @@
     <div class="container">
         <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
             <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">QR Code Generator</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Generate QR codes from text, URLs, or any data.</p>
+            <p style="margin: 0; color: var(--text-secondary);">Instantly generate QR codes from text, URLs, contact information, or any data. QR codes provide a fast, scannable way to share information, links, WiFi credentials, and more using any smartphone camera. This tool creates fully customizable QR codes with adjustable size, colors, and download as PNG. Supports high error correction for reliability even if codes are damaged or partially obscured. Perfect for marketing campaigns, product tracking, event registrations, WiFi sharing, and data distribution. Generate, download, or copy to clipboard instantly. All processing happens securely in your browser with no data transmission.</p>
         </div>
 
         <div class="editor-section">
@@ -204,23 +262,89 @@
 
         <div class="info-section">
             <h2>About QR Code Generator</h2>
-            <p>QR (Quick Response) codes are two-dimensional barcodes that can store various types of data.</p>
+            <p>QR (Quick Response) codes are 2D barcodes that encode information in a visual pattern readable by smartphones and barcode scanners. Created in 1994, QR codes have become ubiquitous for marketing, product tracking, event management, and data sharing. This tool generates professional QR codes instantly with customization options and instant download capabilities. Perfect for businesses, marketers, developers, and anyone needing to share data through scannable codes.</p>
 
-            <h3>Common Uses</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li>Website URLs</li>
-                <li>Contact information (vCard)</li>
-                <li>Wi-Fi network credentials</li>
-                <li>Text messages</li>
-                <li>App download links</li>
+                <li><strong>Fast Generation:</strong> Create QR codes instantly from any content</li>
+                <li><strong>Customizable Size:</strong> Generate 128x128, 256x256, or 512x512 pixel codes</li>
+                <li><strong>Color Customization:</strong> Adjust foreground and background colors for branding</li>
+                <li><strong>PNG Download:</strong> Save as high-quality PNG images</li>
+                <li><strong>Clipboard Copy:</strong> Copy QR code image directly to clipboard</li>
+                <li><strong>Error Correction:</strong> Built-in robustness for partial damage tolerance</li>
+                <li><strong>Unlimited Content:</strong> Encode up to 4,296 characters</li>
+                <li><strong>100% Client-Side:</strong> No data transmission—all processing in browser</li>
             </ul>
 
-            <h3>Tips</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Step 1: Enter Content</strong></p>
+            <ol>
+                <li>Paste or type the content you want to encode (URL, text, contact info, etc.)</li>
+                <li>Content can be up to 4,296 characters</li>
+            </ol>
+
+            <p><strong>Step 2: Customize (Optional)</strong></p>
+            <ol>
+                <li>Choose QR code size (128x128, 256x256, or 512x512 pixels)</li>
+                <li>Pick colors—click color boxes to customize foreground and background</li>
+                <li>Keep high contrast for reliable scanning</li>
+            </ol>
+
+            <p><strong>Step 3: Generate & Download</strong></p>
+            <ol>
+                <li>Click "Generate QR Code" to create your code</li>
+                <li>Click "Download PNG" to save or "Copy to Clipboard" to use immediately</li>
+            </ol>
+
+            <p><em>Pro tip: Always test your QR code with a smartphone camera before distribution to ensure it scans properly.</em></p>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Marketing & Advertising Campaigns</strong></p>
+            <p>Print QR codes on flyers, billboards, business cards, and packaging to direct customers to websites, promotional pages, or discount coupons. Track engagement by using unique QR codes for each campaign.</p>
+
+            <p><strong>WiFi Network Sharing</strong></p>
+            <p>Generate QR codes for WiFi credentials—guests can scan to connect instantly without typing passwords. Reduce support calls and improve user experience.</p>
+
+            <p><strong>Event Management & Ticketing</strong></p>
+            <p>Create QR codes for event tickets, attendee check-in, or registration links. Scannable codes speed up entry and improve security.</p>
+
+            <p><strong>Product Tracking & Inventory</strong></p>
+            <p>Encode product IDs, serial numbers, or tracking URLs in QR codes for supply chain management, inventory tracking, and authenticity verification.</p>
+
+            <h3>Tips & Best Practices</h3>
             <ul>
-                <li>Keep content short for better scanning</li>
-                <li>Ensure good contrast between colors</li>
-                <li>Test the QR code before sharing</li>
+                <li><strong>Maintain contrast:</strong> Use dark codes on light backgrounds or vice versa. Avoid similar colors</li>
+                <li><strong>Size appropriately:</strong> Larger codes for distance viewing, smaller for close range. Minimum 2cm x 2cm for reliable scanning</li>
+                <li><strong>Test before distribution:</strong> Scan with multiple devices to ensure functionality</li>
+                <li><strong>Keep data concise:</strong> Shorter content = smaller, faster-scanning codes</li>
+                <li><strong>Avoid overlays:</strong> Don't place logos or images over the timing patterns</li>
+                <li><strong>Use HTTPS URLs:</strong> Direct to secure websites for maximum trust</li>
             </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What error correction levels are available for QR codes?</strong></p>
+            <p>A: QR codes support four error correction levels: L (7% recovery), M (15% recovery), Q (25% recovery), H (30% recovery). Higher levels can restore more data if the QR code is damaged, faded, or partially obscured, but require more space and are harder to scan. This tool uses Level M (15%) which balances data capacity with robustness for most applications. Choose L for clean, controlled environments. Choose H for outdoor or high-wear applications.</p>
+
+            <p><strong>Q: How much data can a QR code hold?</strong></p>
+            <p>A: QR code capacity depends on version and error correction level. Maximum capacity is ~4,296 alphanumeric characters for numeric data. URLs typically hold 2,000-3,000 characters depending on error correction. QR codes automatically scale to fit data (more data = larger code). Version 1 is smallest, Version 40 is largest (177x177 modules). This tool auto-scales based on content length.</p>
+
+            <p><strong>Q: What's the difference between different QR code versions?</strong></p>
+            <p>A: QR versions (1-40) determine physical size and data capacity. Version 1 is 21x21 modules minimum; Version 40 is 177x177 modules maximum. Higher versions hold more data but create larger codes. Version 1 holds ~41 bytes, Version 40 holds ~4,296 bytes. Scanning speed increases with Version. This tool auto-selects version based on content—you don't need to manually choose.</p>
+
+            <p><strong>Q: Does QR code size matter for scanning?</strong></p>
+            <p>A: Larger QR codes are easier to scan and more forgiving of damage or poor camera quality. Print at least 2cm x 2cm for reliable scanning. Very small codes (<1cm) may fail with smartphone cameras. Screen display requires at least 100x100 pixels. This tool lets you choose sizes (128x128 to 512x512 pixels). Adjust based on usage—larger for outdoor or distance scanning, smaller for tight spaces.</p>
+
+            <p><strong>Q: QR codes vs barcodes: what's the difference?</strong></p>
+            <p>A: Barcodes (1D) store data in vertical lines and hold limited information (~20 characters). QR codes (2D) store data in a grid and hold vastly more information (4,000+ characters). QR codes work at angles while barcodes need to be straight. QR codes provide error correction; barcodes don't. QR codes are cheaper to produce and scan with smartphones. Use barcodes for simple product IDs; use QR codes for complex data, URLs, or WiFi credentials.</p>
+
+            <p><strong>Q: Can I customize QR code colors and styling?</strong></p>
+            <p>A: This tool lets you customize foreground (code) and background colors. Keep high contrast for reliable scanning—avoid light colors on light backgrounds. Black on white is most reliable but any high-contrast combination works. Avoid patterns or gradients which confuse scanners. Never modify the timing patterns (alternating lines). Logo overlays should be minimal and placed carefully.</p>
+
+            <h3>QR Code Technical Specifications</h3>
+            <p>QR codes use Reed-Solomon error correction to recover damaged data. The format includes version info, format info, timing patterns, alignment patterns, and finder patterns (the three corner squares). The data area holds the encoded content. Higher error correction levels reserve more space for redundancy. All QR codes follow ISO/IEC 18004 standard ensuring universal compatibility with all modern scanners and smartphones.</p>
         </div>
     </div>
 

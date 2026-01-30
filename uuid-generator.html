@@ -69,6 +69,64 @@
     }
     </script>
 
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What's the difference between UUID versions?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There are five UUID versions: UUID v1 based on MAC address and timestamp, UUID v2 similar to v1 with DCE Security info, UUID v3 based on MD5 hash of a namespace and name, UUID v4 based on random numbers (cryptographically secure), and UUID v5 based on SHA-1 hash of a namespace and name. This tool generates UUID v4, which is the most commonly used version in modern applications because it's random, doesn't require storing state or unique identifiers, and works well in distributed systems."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How unique are UUIDs? Can they collide?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "UUIDs are designed to be globally unique with 128-bit identifiers (2^128 possibilities). The probability of collision is astronomically low—practically zero for real-world applications. Even if you generated billions of UUIDs, collision risk remains negligible. UUID v4 uses cryptographically secure random number generation, making collisions virtually impossible in practical applications. You can safely assume UUIDs are unique for databases, session management, distributed systems, and any application tracking unique entities."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between UUID and GUID?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "UUID (Universally Unique Identifier) and GUID (Globally Unique Identifier) refer to essentially the same thing. GUID is the term Microsoft uses for their implementation of the UUID standard. Both follow the same structure and serve the same purpose of generating unique identifiers. The terms are used interchangeably in most contexts, though UUID is the more standard terminology used in specifications and across platforms."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When should I use UUIDs instead of sequential IDs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use UUIDs when you need decentralized unique identification (distributed databases), want to avoid exposing database metrics (sequential IDs show how many records exist), need client-side ID generation before saving to database, or are building systems with multiple databases that must merge data. Use sequential IDs when you need auto-incrementing counters, want better database performance (smaller indexes), or need user-friendly sortable IDs. For most modern web applications and microservices, UUIDs are preferred."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the UUID format and what does each part mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "UUID format is: xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx (example: 550e8400-e29b-41d4-a716-446655440000). The sections from left to right represent: 32 bits (time_low), 16 bits (time_mid), 16 bits (time_hi_version), 16 bits (clock_seq_variant), and 48 bits (node). The M (version) position shows UUID version (4 for v4). The N (variant) position shows variant info. For UUID v4, all bits except version and variant are random. The format is the same regardless of version."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use UUIDs as database primary keys?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, UUIDs are commonly used as database primary keys, especially in modern applications and distributed systems. Advantages include decentralized generation (no need for database sequence), suitability for distributed databases, and non-sequential nature. Disadvantages include larger index size (16 bytes vs 8 bytes for int), potentially slower queries with UUID indexes, and less human-readable. Most modern databases handle UUID primary keys efficiently. Use UUIDs if you need distributed generation or decentralized systems; use sequential IDs if performance and simplicity are priorities."
+          }
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="css/common.css">
     <style>
         .uuid-display {
@@ -120,7 +178,7 @@
     <div class="container">
         <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
             <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">UUID Generator</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Generate random UUID v4 identifiers. All processing happens in your browser.</p>
+            <p style="margin: 0; color: var(--text-secondary);">Instantly generate cryptographically secure UUID v4 (Universally Unique Identifiers) with bulk generation support. UUIDs are 128-bit unique identifiers essential for modern databases, distributed systems, microservices, session management, and any application requiring globally unique values. This tool generates UUIDs instantly with customizable formatting options including uppercase conversion and dash removal. Supports bulk generation for creating multiple UUIDs at once (up to 1,000) with one-click copy and download. Perfect for developers building databases, APIs, microservices, mobile applications, and distributed systems. All processing happens completely securely in your browser—no data is sent to external servers.</p>
         </div>
 
         <div class="uuid-display" id="uuidDisplay">Click "Generate" to create a UUID</div>
@@ -173,29 +231,101 @@
         <!-- Info Section -->
         <div class="info-section">
             <h2>About UUID Generator</h2>
-            <p>This tool generates random UUID v4 (Universally Unique Identifiers). UUIDs are 128-bit numbers used to uniquely identify information in computer systems.</p>
+            <p>UUIDs (Universally Unique Identifiers) are 128-bit unique identifiers that serve as a foundation for modern distributed systems, databases, and applications requiring globally unique values. Unlike sequential IDs that depend on centralized database sequences, UUIDs can be generated decentralized without coordination, making them essential for microservices, distributed databases, mobile applications, and blockchain systems. This tool generates cryptographically secure UUID v4 identifiers instantly with support for bulk generation, custom formatting, and convenient copy/download features.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>UUID v4:</strong> Generates cryptographically random UUIDs</li>
-                <li><strong>Bulk Generation:</strong> Generate up to 1000 UUIDs at once</li>
-                <li><strong>Format Options:</strong> Uppercase, with or without dashes</li>
-                <li><strong>Copy & Download:</strong> Easily copy or download generated UUIDs</li>
+                <li><strong>UUID v4 Generation:</strong> Create cryptographically secure random UUIDs using the Web Crypto API</li>
+                <li><strong>Bulk Generation:</strong> Generate up to 1,000 UUIDs at once with a single click</li>
+                <li><strong>Format Options:</strong> Convert to uppercase and/or remove dashes for different system requirements</li>
+                <li><strong>One-Click Copy:</strong> Copy single or bulk UUIDs to clipboard for use in code</li>
+                <li><strong>Download Support:</strong> Export generated UUIDs as a text file for batch import</li>
+                <li><strong>Instant Generation:</strong> Create UUIDs with zero latency since all processing is client-side</li>
+                <li><strong>No Registration Required:</strong> Generate unlimited UUIDs without account creation</li>
+                <li><strong>100% Private:</strong> All UUID generation happens in your browser—no data is sent to servers</li>
             </ul>
 
-            <h3>UUID v4 Format</h3>
-            <p>UUID v4 follows the format: <code>xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx</code></p>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Generate Single UUID</strong></p>
+            <ol>
+                <li>Click the "Generate" button (or press Ctrl+Enter) to create a single UUID</li>
+                <li>The UUID appears in the display area at the top</li>
+                <li>Optionally check "Uppercase" to convert to uppercase or "No dashes" to remove hyphens</li>
+                <li>Click "Copy" to copy the UUID to your clipboard</li>
+                <li>Paste it into your code, database, or configuration</li>
+            </ol>
+
+            <p><strong>Method 2: Generate Multiple UUIDs (Bulk)</strong></p>
+            <ol>
+                <li>Enter the number of UUIDs you want (1-1000) in the "Count" field</li>
+                <li>Check formatting options if needed (Uppercase, No dashes)</li>
+                <li>Click "Generate Bulk" to create multiple UUIDs at once</li>
+                <li>All UUIDs appear in the "Bulk Output" text area, one per line</li>
+                <li>Click "Copy" to copy all UUIDs or "Download" to save as a file</li>
+            </ol>
+
+            <p><strong>Method 3: Download for Batch Import</strong></p>
+            <ol>
+                <li>Generate one or more UUIDs using the methods above</li>
+                <li>Click "Download" to save UUIDs as a text file (uuids.txt)</li>
+                <li>Import the file into your application, database, or configuration management system</li>
+            </ol>
+
+            <p><strong>Keyboard Shortcuts (Power Users)</strong></p>
             <ul>
-                <li>The "4" indicates version 4 (random)</li>
-                <li>The "y" is one of 8, 9, A, or B (variant indicator)</li>
-                <li>All other characters are random hexadecimal digits</li>
+                <li><strong>Ctrl + Enter</strong> - Generate single UUID</li>
+                <li><strong>Ctrl + K</strong> - Copy UUID(s) to clipboard</li>
             </ul>
 
-            <h3>Keyboard Shortcuts</h3>
+            <p><em>Pro tip: Use the "No dashes" option when your system requires UUIDs without hyphens (some APIs and databases). Use "Uppercase" when integrating with systems that expect uppercase hexadecimal.</em></p>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Database Primary Keys in Microservices and Distributed Systems</strong></p>
+            <p>Microservices architecture often requires generating IDs across multiple independent systems. UUIDs eliminate the need for centralized ID servers—each service generates its own UUIDs independently without coordination. This is essential for systems that merge data from multiple sources or scale to multiple database instances. Use UUID v4 for all distributed database scenarios instead of sequential IDs that require database sequences.</p>
+
+            <p><strong>Session and Token Generation for Web and Mobile Apps</strong></p>
+            <p>Generate unique session identifiers, API tokens, and authentication tokens using UUIDs. Every user session, API request, or authentication token gets a unique identifier that cannot be predicted or guessed. UUIDs are cryptographically secure, making them ideal for security-sensitive token generation. Store the UUID as the session/token ID and never expose it without proper authentication.</p>
+
+            <p><strong>Tracking Resources and Objects Across Systems</strong></p>
+            <p>When you need to track the same object across multiple systems, APIs, or databases, assign it a UUID at creation. The UUID stays with the object throughout its lifecycle across all systems. This is essential for cloud applications, API integrations, webhook systems, and any distributed workflow where the same data moves between systems.</p>
+
+            <p><strong>Deduplication and Idempotency Keys in APIs</strong></p>
+            <p>Use UUIDs as idempotency keys in API requests to ensure operations aren't duplicated. If a client retries a request with the same UUID, your server can detect it's the same operation and return cached results instead of processing again. This is critical for payment systems, transactions, and any operation where duplication would cause problems.</p>
+
+            <h3>Tips & Best Practices</h3>
             <ul>
-                <li><strong>Ctrl+Enter:</strong> Generate single UUID</li>
-                <li><strong>Ctrl+K:</strong> Copy UUID to clipboard</li>
+                <li><strong>Use UUID v4 by default:</strong> Version 4 is random and most suitable for modern applications. Don't use UUID v1 (timestamp-based) unless you need sortability</li>
+                <li><strong>Store efficiently in databases:</strong> Use CHAR(36) or BINARY(16) for storage. Binary format saves space but requires conversion for display</li>
+                <li><strong>Use as primary key in high-scale systems:</strong> While sequential IDs are faster in simple systems, UUIDs enable distributed and scalable architectures</li>
+                <li><strong>Never rely on UUID ordering:</strong> UUID v4 is random, so don't assume UUIDs created later are "greater." Use timestamps separately if you need ordering</li>
+                <li><strong>Generate client-side when possible:</strong> Don't require server-side UUID generation for every request. Generate client-side and send to server</li>
+                <li><strong>Use bulk generation for batch operations:</strong> Generate all UUIDs at once instead of one-by-one to improve efficiency</li>
             </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What's the difference between UUID versions?</strong></p>
+            <p>A: There are five UUID versions: UUID v1 based on MAC address and timestamp, UUID v2 similar to v1 with DCE Security info, UUID v3 based on MD5 hash of a namespace and name, UUID v4 based on random numbers (cryptographically secure), and UUID v5 based on SHA-1 hash of a namespace and name. This tool generates UUID v4, which is the most commonly used version in modern applications because it's random, doesn't require storing state or unique identifiers, and works well in distributed systems.</p>
+
+            <p><strong>Q: How unique are UUIDs? Can they collide?</strong></p>
+            <p>A: UUIDs are designed to be globally unique with 128-bit identifiers (2^128 possibilities). The probability of collision is astronomically low—practically zero for real-world applications. Even if you generated billions of UUIDs, collision risk remains negligible. UUID v4 uses cryptographically secure random number generation, making collisions virtually impossible in practical applications. You can safely assume UUIDs are unique for databases, session management, distributed systems, and any application tracking unique entities.</p>
+
+            <p><strong>Q: What's the difference between UUID and GUID?</strong></p>
+            <p>A: UUID (Universally Unique Identifier) and GUID (Globally Unique Identifier) refer to essentially the same thing. GUID is the term Microsoft uses for their implementation of the UUID standard. Both follow the same structure and serve the same purpose of generating unique identifiers. The terms are used interchangeably in most contexts, though UUID is the more standard terminology used in specifications and across platforms.</p>
+
+            <p><strong>Q: When should I use UUIDs instead of sequential IDs?</strong></p>
+            <p>A: Use UUIDs when you need decentralized unique identification (distributed databases), want to avoid exposing database metrics (sequential IDs show how many records exist), need client-side ID generation before saving to database, or are building systems with multiple databases that must merge data. Use sequential IDs when you need auto-incrementing counters, want better database performance (smaller indexes), or need user-friendly sortable IDs. For most modern web applications and microservices, UUIDs are preferred.</p>
+
+            <p><strong>Q: What's the UUID format and what does each part mean?</strong></p>
+            <p>A: UUID format is: xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx (example: 550e8400-e29b-41d4-a716-446655440000). The sections from left to right represent: 32 bits (time_low), 16 bits (time_mid), 16 bits (time_hi_version), 16 bits (clock_seq_variant), and 48 bits (node). The M (version) position shows UUID version (4 for v4). The N (variant) position shows variant info. For UUID v4, all bits except version and variant are random. The format is the same regardless of version.</p>
+
+            <p><strong>Q: Can I use UUIDs as database primary keys?</strong></p>
+            <p>A: Yes, UUIDs are commonly used as database primary keys, especially in modern applications and distributed systems. Advantages include decentralized generation (no need for database sequence), suitability for distributed databases, and non-sequential nature. Disadvantages include larger index size (16 bytes vs 8 bytes for int), potentially slower queries with UUID indexes, and less human-readable. Most modern databases handle UUID primary keys efficiently. Use UUIDs if you need distributed generation or decentralized systems; use sequential IDs if performance and simplicity are priorities.</p>
+
+            <h3>UUID v4 Technical Specification</h3>
+            <p>UUID v4 format: <code>xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx</code> where x is any hexadecimal digit (0-f) and y is one of 8, 9, A, or B. The "4" at position 13 indicates version 4. The variant bits (y position) at position 17 indicate RFC 4122 compliance. All other bits are generated using a cryptographically secure random number generator. Total size: 128 bits (16 bytes), typically represented as 36 ASCII characters including hyphens or 32 without hyphens.</p>
         </div>
     </div>
 

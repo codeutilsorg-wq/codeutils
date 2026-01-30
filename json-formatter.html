@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free JSON Formatter & Validator | Format & Minify - Code Utils</title>
-    <meta name="description" content="Format, validate, and minify JSON instantly with our free online tool. Fix JSON errors, beautify minified code, and copy results in one click. 100% private - your data never leaves your browser. Try it now!">
-    <meta name="keywords" content="json formatter, json validator, json minifier, json beautifier, format json, validate json, minify json, json tool, free json formatter">
+    <meta name="description"
+        content="Format, validate, minify, and sort JSON instantly with our free online tool. Customizable indentation (2/4 spaces or tabs), sort keys alphabetically, and get detailed error messages with line numbers. 100% private - your data never leaves your browser.">
+    <meta name="keywords"
+        content="json formatter, json validator, json minifier, json beautifier, format json, validate json, minify json, sort json keys, json indentation, json tool, free json formatter">
     <link rel="canonical" href="https://codeutils.org/json-formatter.html">
 
     <!-- Favicon and Touch Icons -->
@@ -19,7 +22,8 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://codeutils.org/json-formatter.html">
     <meta property="og:title" content="Free JSON Formatter & Validator - Code Utils">
-    <meta property="og:description" content="Format, validate, and minify JSON instantly. 100% private client-side processing - your data never leaves your browser.">
+    <meta property="og:description"
+        content="Format, validate, and minify JSON instantly. 100% private client-side processing - your data never leaves your browser.">
     <meta property="og:image" content="https://codeutils.org/images/og/json-formatter.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -28,7 +32,8 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="JSON Formatter & Validator - Code Utils">
-    <meta name="twitter:description" content="Format, validate, and minify JSON instantly. Free tool with 100% private client-side processing.">
+    <meta name="twitter:description"
+        content="Format, validate, and minify JSON instantly. Free tool with 100% private client-side processing.">
     <meta name="twitter:image" content="https://codeutils.org/images/og/json-formatter.png">
 
     <!-- Preconnect for performance -->
@@ -39,7 +44,7 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-RPHPBJ4291');
     </script>
@@ -57,7 +62,7 @@
         "price": "0",
         "priceCurrency": "USD"
       },
-      "description": "Free JSON formatter, validator, and minifier. Format, validate, and minify JSON data with syntax highlighting. 100% client-side processing.",
+      "description": "Free JSON formatter, validator, and minifier with customizable indentation, key sorting, and detailed error messages. Format, validate, minify, and sort JSON data. 100% client-side processing.",
       "url": "https://codeutils.org/json-formatter.html",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
       "softwareVersion": "1.0",
@@ -69,8 +74,245 @@
     }
     </script>
 
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my data safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All JSON processing happens entirely in your browser using JavaScript. Your data never leaves your computer and is never uploaded to any server. We don't store, log, or transmit your JSON data in any way. This makes our tool completely safe for sensitive data like API keys, configuration files, or proprietary information. You can even use this tool offline after the initial page load."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start using the JSON formatter immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use this tool offline?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! After you load the page for the first time, the tool can work offline because all processing happens in your browser. Your browser may cache the page, allowing you to use it without an internet connection. This is particularly useful when working in environments with restricted internet access or when traveling."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are the file size limits?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Files under 2MB work perfectly with instant processing. Files between 2-5MB will work but may take slightly longer to process. Files between 5-10MB will show a performance warning but should still work. Files over 10MB may cause browser performance issues or slow down significantly, as the entire file must be processed in browser memory."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this tool really free forever?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! All our tools are 100% free with no hidden costs, premium tiers, or paid features. We may add optional ads in the future to support hosting costs, but the core functionality will always remain free. We believe developer tools should be accessible to everyone."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between formatting and minifying JSON?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Formatting (also called beautifying) adds whitespace, newlines, and indentation to make JSON human-readable. It's ideal for development, debugging, and documentation. Minifying removes all unnecessary whitespace, newlines, and indentation to reduce file size. Minified JSON is harder to read but loads faster and uses less bandwidth, making it ideal for production environments, API responses, and storage optimization. Both versions contain identical data - only the formatting differs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I customize the indentation level?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! You can choose between 2 spaces, 4 spaces, or tabs for indentation. Your preference is saved automatically so it persists across sessions. Just use the Indent dropdown in the toolbar to select your preferred style."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I sort JSON keys alphabetically?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Click the 'Sort Keys' button or press Ctrl+S to sort all object keys alphabetically. This works recursively on nested objects too. Sorting keys makes it easier to compare JSON files and maintain consistent formatting across your codebase."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the Tree View mode?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tree View displays your JSON as an interactive, collapsible hierarchy. Click on objects or arrays to expand/collapse them, making it easy to navigate large JSON structures. Each value type is color-coded (strings, numbers, booleans, null) for quick identification. Toggle between Text and Tree view using the buttons above the output."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I search within my JSON?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use the search box above the output area. Type your search term and matches will be highlighted. Press Enter to jump to the next match, or Shift+Enter to go to the previous match. The counter shows which match you're on (e.g., '3/15' means you're on match 3 of 15)."
+          }
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="css/common.css">
+    <style>
+        /* View Mode Buttons */
+        .view-mode-btn {
+            padding: 4px 10px;
+            border: none;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .view-mode-btn:hover {
+            background: var(--border);
+        }
+
+        .view-mode-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* JSON Tree View */
+        .json-tree {
+            font-family: 'Courier New', Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .tree-node {
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .tree-node-header {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tree-node-header:hover {
+            background: var(--primary-light);
+        }
+
+        .tree-toggle {
+            width: 16px;
+            height: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: var(--text-secondary);
+            transition: transform 0.15s ease;
+        }
+
+        .tree-toggle.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .tree-key {
+            color: #a71d5d;
+        }
+
+        .dark-mode .tree-key {
+            color: #f97583;
+        }
+
+        .tree-value-string {
+            color: #183691;
+        }
+
+        .dark-mode .tree-value-string {
+            color: #9ecbff;
+        }
+
+        .tree-value-number {
+            color: #0086b3;
+        }
+
+        .dark-mode .tree-value-number {
+            color: #79b8ff;
+        }
+
+        .tree-value-boolean {
+            color: #a71d5d;
+        }
+
+        .dark-mode .tree-value-boolean {
+            color: #f97583;
+        }
+
+        .tree-value-null {
+            color: #999;
+        }
+
+        .tree-bracket {
+            color: var(--text-secondary);
+        }
+
+        .tree-children {
+            overflow: hidden;
+            transition: max-height 0.2s ease;
+        }
+
+        .tree-children.collapsed {
+            display: none;
+        }
+
+        .tree-comma {
+            color: var(--text-secondary);
+        }
+
+        .tree-count {
+            color: var(--text-light);
+            font-size: 12px;
+            margin-left: 4px;
+        }
+
+        /* Search Highlighting */
+        .search-match {
+            background: #fff3cd;
+            border-radius: 2px;
+        }
+
+        .dark-mode .search-match {
+            background: #4d3d1a;
+        }
+
+        .search-active {
+            background: #ffc107;
+        }
+
+        .dark-mode .search-active {
+            background: #ffab00;
+            color: #000;
+        }
+
+        /* Syntax Highlighted Output */
+        .syntax-output {
+            font-family: 'Courier New', Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
 </head>
+
 <body>
     <header class="header">
         <div class="header-content">
@@ -86,8 +328,12 @@
 
     <div class="container">
         <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
-            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">JSON Formatter</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Format, validate, and minify JSON data. All processing happens in your browser.</p>
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">JSON Formatter & Validator</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Instantly format, validate, and minify JSON data with
+                our free online tool. Perfect for debugging API responses, editing configuration files, and preparing
+                JSON for production. Features include real-time validation, syntax error detection, one-click copying,
+                and file upload support. All processing happens securely in your browser - your data stays private and
+                never touches our servers.</p>
         </div>
 
         <div class="drop-zone" id="dropZone">
@@ -99,6 +345,20 @@
                 <button class="btn" onclick="formatJSON()" title="Format JSON (Ctrl+Enter)">Format</button>
                 <button class="btn" onclick="minifyJSON()" title="Minify JSON (Ctrl+M)">Minify</button>
                 <button class="btn" onclick="validateJSON()">Validate</button>
+                <button class="btn" onclick="sortAndFormat()" title="Sort keys alphabetically (Ctrl+S)">Sort
+                    Keys</button>
+            </div>
+            <div class="controls-group">
+                <label
+                    style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-secondary);">
+                    Indent:
+                    <select id="indentSize"
+                        style="padding: 6px 10px; border: 1px solid var(--border); border-radius: 3px; background: var(--bg-white); color: var(--text-primary); font-size: 14px; cursor: pointer;">
+                        <option value="2">2 spaces</option>
+                        <option value="4">4 spaces</option>
+                        <option value="tab">Tab</option>
+                    </select>
+                </label>
             </div>
             <div class="controls-group">
                 <button class="btn btn-secondary" onclick="copyOutput()" title="Copy Output (Ctrl+K)">Copy</button>
@@ -117,8 +377,29 @@
                 <textarea id="inputJSON" class="editor" placeholder="Paste your JSON here..."></textarea>
             </div>
             <div class="editor-section">
-                <div class="editor-header">Output</div>
-                <textarea id="outputJSON" class="editor" readonly placeholder="Formatted JSON will appear here..."></textarea>
+                <div class="editor-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>Output</span>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <input type="text" id="searchInput" placeholder="Search..."
+                            style="padding: 4px 8px; border: 1px solid var(--border); border-radius: 3px; font-size: 12px; width: 120px; background: var(--bg-white); color: var(--text-primary);">
+                        <span id="searchCount"
+                            style="font-size: 11px; color: var(--text-light); min-width: 50px;"></span>
+                        <div
+                            style="display: flex; border: 1px solid var(--border); border-radius: 3px; overflow: hidden;">
+                            <button class="view-mode-btn active" id="textViewBtn" onclick="setViewMode('text')"
+                                title="Text View">Text</button>
+                            <button class="view-mode-btn" id="treeViewBtn" onclick="setViewMode('tree')"
+                                title="Tree View">Tree</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="outputContainer" style="flex: 1; min-height: 400px; position: relative;">
+                    <textarea id="outputJSON" class="editor" readonly placeholder="Formatted JSON will appear here..."
+                        style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></textarea>
+                    <div id="treeView" class="json-tree"
+                        style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: auto; padding: 16px; background: var(--bg-white);">
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -137,24 +418,170 @@
         <!-- Info Section -->
         <div class="info-section">
             <h2>About JSON Formatter</h2>
-            <p>This tool helps you format, validate, and minify JSON data. All processing happens in your browser - your data is never sent to any server.</p>
+            <p>JSON (JavaScript Object Notation) is the most widely used data format for APIs, configuration files, and
+                data exchange between systems. However, JSON data is often minified or poorly formatted, making it
+                difficult to read and debug. Our JSON Formatter tool instantly beautifies minified JSON, validates
+                syntax errors, and provides clear error messages to help you quickly identify and fix issues. Whether
+                you're debugging API responses, editing configuration files, or preparing JSON for production, this tool
+                provides everything you need in one place. All processing happens entirely in your browser using
+                JavaScript, ensuring your sensitive data remains private and never touches our servers.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Format:</strong> Beautify JSON with proper indentation (2 spaces)</li>
-                <li><strong>Minify:</strong> Remove all whitespace to create compact JSON</li>
-                <li><strong>Validate:</strong> Check if your JSON is valid and get detailed error messages</li>
-                <li><strong>File Support:</strong> Upload JSON files or drag & drop</li>
-                <li><strong>Download:</strong> Save formatted JSON as a file</li>
-                <li><strong>Copy:</strong> Quickly copy output to clipboard</li>
+                <li><strong>Format JSON:</strong> Beautify minified or compact JSON with proper indentation for easy
+                    reading</li>
+                <li><strong>Minify JSON:</strong> Remove all unnecessary whitespace and newlines to create compact JSON
+                    for production use</li>
+                <li><strong>Validate JSON:</strong> Check if your JSON syntax is valid and receive detailed error
+                    messages with line and column numbers</li>
+                <li><strong>Sort Keys:</strong> Sort all object keys alphabetically (recursively for nested objects) -
+                    perfect for consistent formatting and easier comparisons</li>
+                <li><strong>Customizable Indentation:</strong> Choose between 2 spaces, 4 spaces, or tabs - your
+                    preference is saved automatically</li>
+                <li><strong>Detailed Error Messages:</strong> Get precise error locations with line and column numbers
+                    for quick debugging</li>
+                <li><strong>File Support:</strong> Upload JSON files directly or drag and drop files into the browser
+                </li>
+                <li><strong>Download Output:</strong> Save formatted or minified JSON as a .json file to your computer
+                </li>
+                <li><strong>One-Click Copy:</strong> Quickly copy formatted output to clipboard for use in your code
+                    editor</li>
+                <li><strong>Real-Time Processing:</strong> Instant formatting without page reloads or delays</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing - your data never leaves your browser
+                </li>
             </ul>
 
-            <h3>Keyboard Shortcuts</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste JSON Directly</strong></p>
+            <ol>
+                <li>Copy your JSON data from your API response, file, or code editor</li>
+                <li>Paste it into the "Input JSON" text area on the left side</li>
+                <li>Click the "Format" button to beautify or "Minify" button to compact your JSON</li>
+                <li>The formatted output appears instantly in the "Output" area on the right</li>
+                <li>Use the "Copy" button to copy the result to your clipboard</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a JSON File</strong></p>
+            <ol>
+                <li>Click the "Upload" button or drag and drop your .json file into the designated area</li>
+                <li>The file content will automatically load into the input area</li>
+                <li>Format or minify as needed, then download the result using the "Download" button</li>
+            </ol>
+
+            <p><strong>Keyboard Shortcuts (Power Users)</strong></p>
             <ul>
-                <li><strong>Ctrl+Enter:</strong> Format JSON</li>
-                <li><strong>Ctrl+M:</strong> Minify JSON</li>
-                <li><strong>Ctrl+K:</strong> Copy output to clipboard</li>
+                <li><strong>Ctrl + Enter</strong> - Format JSON with proper indentation</li>
+                <li><strong>Ctrl + M</strong> - Minify JSON to remove whitespace</li>
+                <li><strong>Ctrl + K</strong> - Copy output to clipboard</li>
+                <li><strong>Ctrl + S</strong> - Sort keys alphabetically and format</li>
             </ul>
+
+            <p><em>Tip: The "Validate" button checks your JSON for syntax errors without formatting. If there's an
+                    error, you'll see a detailed message indicating exactly what's wrong and where the error
+                    occurs.</em></p>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Debugging API Responses</strong></p>
+            <p>When testing APIs, responses are often returned as minified JSON to reduce bandwidth. Before you can
+                understand the data structure or debug issues, you need to format it properly. Paste your API response
+                into this tool to instantly see the hierarchy, nested objects, and array structures clearly formatted
+                with proper indentation. This makes it much easier to identify missing fields, incorrect data types, or
+                unexpected values.</p>
+
+            <p><strong>Editing Configuration Files</strong></p>
+            <p>Many applications use JSON for configuration files (package.json, tsconfig.json, settings.json, etc.).
+                When editing these files manually, it's easy to introduce syntax errors like missing commas, unclosed
+                brackets, or invalid quotes. Use this tool to validate your configuration before saving it, preventing
+                runtime errors and application crashes caused by malformed JSON.</p>
+
+            <p><strong>Preparing JSON for Production</strong></p>
+            <p>When deploying applications, you often want to minify JSON files to reduce file size and improve load
+                times. Configuration files, data fixtures, and static JSON resources can all be minified to remove
+                unnecessary whitespace. Use the "Minify" feature to create compact JSON that's optimized for production
+                while keeping a formatted version for development and debugging.</p>
+
+            <p><strong>Learning and Teaching JSON Structure</strong></p>
+            <p>If you're learning JSON or teaching others about data structures, proper formatting is essential for
+                understanding. Format complex JSON examples to clearly show object nesting, array structures, key-value
+                pairs, and data types. The clear visual hierarchy makes it easier to explain concepts like nested
+                objects, arrays of objects, and proper JSON syntax rules.</p>
+
+            <h3>Tips & Best Practices</h3>
+            <ul>
+                <li><strong>Always validate before using:</strong> Even if JSON looks correct, run validation to catch
+                    hidden syntax errors like trailing commas (not allowed in strict JSON) or single quotes (JSON
+                    requires double quotes)</li>
+                <li><strong>Use 2-space indentation:</strong> This tool uses 2-space indentation which is the standard
+                    for JSON and most JavaScript style guides, providing good readability without excessive whitespace
+                </li>
+                <li><strong>Minify for production only:</strong> Keep formatted versions for development and
+                    documentation. Only minify JSON when you need to reduce file size for production deployment or API
+                    responses</li>
+                <li><strong>Watch for common errors:</strong> The most frequent JSON errors are trailing commas in
+                    objects/arrays, single quotes instead of double quotes, unquoted keys, and undefined values (use
+                    null instead)</li>
+                <li><strong>Check file size warnings:</strong> Files under 2MB process instantly. Files 2-5MB work but
+                    may be slower. Very large JSON files (over 10MB) may cause browser performance issues</li>
+                <li><strong>Keep original backups:</strong> When editing important configuration files, always keep a
+                    backup of the original before making changes</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my data safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All JSON processing happens entirely in your browser using JavaScript. Your data
+                never leaves your computer and is never uploaded to any server. We don't store, log, or transmit your
+                JSON data in any way. This makes our tool completely safe for sensitive data like API keys,
+                configuration files, or proprietary information. You can even use this tool offline after the initial
+                page load.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account
+                creation. Just visit the page and start using the JSON formatter immediately. There are no limits on
+                usage, no premium tiers, and no hidden fees.</p>
+
+            <p><strong>Q: Can I use this tool offline?</strong></p>
+            <p>A: Yes! After you load the page for the first time, the tool can work offline because all processing
+                happens in your browser. Your browser may cache the page, allowing you to use it without an internet
+                connection. This is particularly useful when working in environments with restricted internet access or
+                when traveling.</p>
+
+            <p><strong>Q: What are the file size limits?</strong></p>
+            <p>A: Files under 2MB work perfectly with instant processing. Files between 2-5MB will work but may take
+                slightly longer to process. Files between 5-10MB will show a performance warning but should still work.
+                Files over 10MB may cause browser performance issues or slow down significantly, as the entire file must
+                be processed in browser memory. For very large JSON files, consider splitting them into smaller chunks
+                or using a command-line tool.</p>
+
+            <p><strong>Q: Is this tool really free forever?</strong></p>
+            <p>A: Yes! All our tools are 100% free with no hidden costs, premium tiers, or paid features. We may add
+                optional ads in the future to support hosting costs, but the core functionality will always remain free.
+                We believe developer tools should be accessible to everyone.</p>
+
+            <p><strong>Q: What's the difference between formatting and minifying JSON?</strong></p>
+            <p>A: Formatting (also called "beautifying") adds whitespace, newlines, and indentation to make JSON
+                human-readable. It's ideal for development, debugging, and documentation. Minifying removes all
+                unnecessary whitespace, newlines, and indentation to reduce file size. Minified JSON is harder to read
+                but loads faster and uses less bandwidth, making it ideal for production environments, API responses,
+                and storage optimization. Both versions contain identical data - only the formatting differs.</p>
+
+            <h3>Understanding JSON Syntax Rules</h3>
+            <p>JSON has strict syntax requirements that differ from JavaScript objects. Valid JSON must follow these
+                rules:</p>
+            <ul>
+                <li><strong>Double quotes only:</strong> All strings must use double quotes, not single quotes</li>
+                <li><strong>No trailing commas:</strong> The last item in objects and arrays cannot have a trailing
+                    comma</li>
+                <li><strong>Keys must be quoted:</strong> All object keys must be strings enclosed in double quotes</li>
+                <li><strong>Limited data types:</strong> JSON supports only strings, numbers, objects, arrays, booleans
+                    (true/false), and null</li>
+                <li><strong>No comments:</strong> JSON does not support comments (unlike JavaScript)</li>
+                <li><strong>No undefined:</strong> Use null instead of undefined for empty values</li>
+            </ul>
+            <p>Our validator checks for all these rules and provides clear error messages when violations are detected.
+            </p>
         </div>
     </div>
 
@@ -176,6 +603,7 @@
         const inputJSON = document.getElementById('inputJSON');
         const outputJSON = document.getElementById('outputJSON');
         const fileUpload = document.getElementById('fileUpload');
+        const indentSize = document.getElementById('indentSize');
 
         // Initialize message handler
         CodeUtils.Message.init('message');
@@ -221,21 +649,85 @@
             }
         });
 
+        // Get current indent setting
+        function getIndent() {
+            const val = indentSize.value;
+            if (val === 'tab') return '\t';
+            return parseInt(val, 10);
+        }
+
+        // Save indent preference
+        indentSize.addEventListener('change', () => {
+            localStorage.setItem('codeutils-json-indent', indentSize.value);
+        });
+
+        // Load saved indent preference
+        const savedIndent = localStorage.getItem('codeutils-json-indent');
+        if (savedIndent) {
+            indentSize.value = savedIndent;
+        }
+
+        // Parse JSON error to extract line and column info
+        function parseJSONError(error, input) {
+            const msg = error.message;
+            let lineInfo = '';
+
+            // Try to extract position from error message
+            // Different browsers format this differently
+            const posMatch = msg.match(/position\s+(\d+)/i) ||
+                msg.match(/at position\s+(\d+)/i) ||
+                msg.match(/column\s+(\d+)/i);
+
+            if (posMatch) {
+                const position = parseInt(posMatch[1], 10);
+                // Calculate line and column from position
+                const lines = input.substring(0, position).split('\n');
+                const line = lines.length;
+                const column = lines[lines.length - 1].length + 1;
+                lineInfo = ` (Line ${line}, Column ${column})`;
+            }
+
+            return `Invalid JSON${lineInfo}: ${msg}`;
+        }
+
+        // Sort object keys recursively
+        function sortObjectKeys(obj) {
+            if (Array.isArray(obj)) {
+                return obj.map(sortObjectKeys);
+            } else if (obj !== null && typeof obj === 'object') {
+                const sorted = {};
+                Object.keys(obj).sort().forEach(key => {
+                    sorted[key] = sortObjectKeys(obj[key]);
+                });
+                return sorted;
+            }
+            return obj;
+        }
+
         // Format JSON
-        function formatJSON() {
+        function formatJSON(shouldSort = false) {
             try {
                 const input = inputJSON.value.trim();
                 if (!input) {
                     CodeUtils.Message.error('Please enter some JSON to format');
                     return;
                 }
-                const parsed = JSON.parse(input);
-                outputJSON.value = JSON.stringify(parsed, null, 2);
-                CodeUtils.Message.success('JSON formatted successfully!');
+                let parsed = JSON.parse(input);
+                if (shouldSort) {
+                    parsed = sortObjectKeys(parsed);
+                }
+                outputJSON.value = JSON.stringify(parsed, null, getIndent());
+                const sortText = shouldSort ? ' and sorted' : '';
+                CodeUtils.Message.success(`JSON formatted${sortText} successfully!`);
             } catch (error) {
-                CodeUtils.Message.error('Invalid JSON: ' + error.message);
+                CodeUtils.Message.error(parseJSONError(error, inputJSON.value));
                 outputJSON.value = '';
             }
+        }
+
+        // Sort and format JSON
+        function sortAndFormat() {
+            formatJSON(true);
         }
 
         // Minify JSON
@@ -250,7 +742,7 @@
                 outputJSON.value = JSON.stringify(parsed);
                 CodeUtils.Message.success('JSON minified successfully!');
             } catch (error) {
-                CodeUtils.Message.error('Invalid JSON: ' + error.message);
+                CodeUtils.Message.error(parseJSONError(error, inputJSON.value));
                 outputJSON.value = '';
             }
         }
@@ -266,7 +758,7 @@
                 JSON.parse(input);
                 CodeUtils.Message.success('Valid JSON!');
             } catch (error) {
-                CodeUtils.Message.error('Invalid JSON: ' + error.message);
+                CodeUtils.Message.error(parseJSONError(error, inputJSON.value));
             }
         }
 
@@ -294,13 +786,283 @@
         function clearAll() {
             inputJSON.value = '';
             outputJSON.value = '';
+            treeView.innerHTML = '';
+            searchInput.value = '';
+            searchCount.textContent = '';
+            currentParsedJSON = null;
             CodeUtils.Message.hide();
         }
+
+        // ===========================================
+        // Tree View Implementation
+        // ===========================================
+
+        let currentParsedJSON = null;
+        let currentViewMode = 'text';
+        const treeView = document.getElementById('treeView');
+        const searchInput = document.getElementById('searchInput');
+        const searchCount = document.getElementById('searchCount');
+        const textViewBtn = document.getElementById('textViewBtn');
+        const treeViewBtn = document.getElementById('treeViewBtn');
+
+        // Set view mode (text or tree)
+        function setViewMode(mode) {
+            currentViewMode = mode;
+
+            if (mode === 'text') {
+                outputJSON.style.display = 'block';
+                treeView.style.display = 'none';
+                textViewBtn.classList.add('active');
+                treeViewBtn.classList.remove('active');
+            } else {
+                outputJSON.style.display = 'none';
+                treeView.style.display = 'block';
+                textViewBtn.classList.remove('active');
+                treeViewBtn.classList.add('active');
+
+                // Render tree if we have parsed JSON
+                if (currentParsedJSON !== null) {
+                    renderTree(currentParsedJSON);
+                }
+            }
+        }
+
+        // Render JSON as a tree
+        function renderTree(data) {
+            treeView.innerHTML = '';
+            const tree = createTreeNode(data, null, false);
+            treeView.appendChild(tree);
+        }
+
+        // Create a tree node element
+        function createTreeNode(value, key, isLast) {
+            const container = document.createElement('div');
+            container.className = 'tree-node';
+
+            if (value === null) {
+                container.innerHTML = formatKeyValue(key, '<span class="tree-value-null">null</span>', isLast);
+            } else if (typeof value === 'boolean') {
+                container.innerHTML = formatKeyValue(key, `<span class="tree-value-boolean">${value}</span>`, isLast);
+            } else if (typeof value === 'number') {
+                container.innerHTML = formatKeyValue(key, `<span class="tree-value-number">${value}</span>`, isLast);
+            } else if (typeof value === 'string') {
+                const escaped = escapeHtml(value);
+                container.innerHTML = formatKeyValue(key, `<span class="tree-value-string">"${escaped}"</span>`, isLast);
+            } else if (Array.isArray(value)) {
+                container.appendChild(createCollapsibleNode(key, value, '[', ']', isLast));
+            } else if (typeof value === 'object') {
+                container.appendChild(createCollapsibleNode(key, value, '{', '}', isLast));
+            }
+
+            return container;
+        }
+
+        // Create a collapsible node for objects/arrays
+        function createCollapsibleNode(key, value, openBracket, closeBracket, isLast) {
+            const wrapper = document.createElement('div');
+
+            const header = document.createElement('div');
+            header.className = 'tree-node-header';
+
+            const toggle = document.createElement('span');
+            toggle.className = 'tree-toggle';
+            toggle.textContent = '▼';
+
+            const isArray = Array.isArray(value);
+            const count = isArray ? value.length : Object.keys(value).length;
+
+            let headerHtml = '';
+            if (key !== null) {
+                headerHtml += `<span class="tree-key">"${escapeHtml(key)}"</span>: `;
+            }
+            headerHtml += `<span class="tree-bracket">${openBracket}</span>`;
+            headerHtml += `<span class="tree-count">${count} ${isArray ? 'items' : 'keys'}</span>`;
+
+            header.appendChild(toggle);
+            const content = document.createElement('span');
+            content.innerHTML = headerHtml;
+            header.appendChild(content);
+
+            const children = document.createElement('div');
+            children.className = 'tree-children';
+
+            if (isArray) {
+                value.forEach((item, index) => {
+                    children.appendChild(createTreeNode(item, null, index === value.length - 1));
+                });
+            } else {
+                const keys = Object.keys(value);
+                keys.forEach((k, index) => {
+                    children.appendChild(createTreeNode(value[k], k, index === keys.length - 1));
+                });
+            }
+
+            const closer = document.createElement('div');
+            closer.innerHTML = `<span class="tree-bracket">${closeBracket}</span>${isLast ? '' : '<span class="tree-comma">,</span>'}`;
+
+            header.addEventListener('click', () => {
+                toggle.classList.toggle('collapsed');
+                children.classList.toggle('collapsed');
+            });
+
+            wrapper.appendChild(header);
+            wrapper.appendChild(children);
+            wrapper.appendChild(closer);
+
+            return wrapper;
+        }
+
+        // Format key-value pair
+        function formatKeyValue(key, valueHtml, isLast) {
+            let html = '';
+            if (key !== null) {
+                html += `<span class="tree-key">"${escapeHtml(key)}"</span>: `;
+            }
+            html += valueHtml;
+            if (!isLast) {
+                html += '<span class="tree-comma">,</span>';
+            }
+            return html;
+        }
+
+        // Escape HTML special characters
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // ===========================================
+        // Search Implementation
+        // ===========================================
+
+        let searchMatches = [];
+        let currentMatchIndex = -1;
+
+        searchInput.addEventListener('input', CodeUtils.Utils.debounce(() => {
+            performSearch();
+        }, 200));
+
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                if (e.shiftKey) {
+                    navigateSearch(-1);
+                } else {
+                    navigateSearch(1);
+                }
+            }
+        });
+
+        function performSearch() {
+            const query = searchInput.value.trim().toLowerCase();
+            searchMatches = [];
+            currentMatchIndex = -1;
+
+            if (!query) {
+                searchCount.textContent = '';
+                // Remove highlights
+                if (currentViewMode === 'tree') {
+                    renderTree(currentParsedJSON);
+                }
+                return;
+            }
+
+            const text = outputJSON.value;
+            if (!text) {
+                searchCount.textContent = '';
+                return;
+            }
+
+            // Find all matches
+            let pos = 0;
+            const lowerText = text.toLowerCase();
+            while ((pos = lowerText.indexOf(query, pos)) !== -1) {
+                searchMatches.push(pos);
+                pos += query.length;
+            }
+
+            if (searchMatches.length > 0) {
+                currentMatchIndex = 0;
+                searchCount.textContent = `1/${searchMatches.length}`;
+                highlightCurrentMatch();
+            } else {
+                searchCount.textContent = '0 found';
+            }
+        }
+
+        function navigateSearch(direction) {
+            if (searchMatches.length === 0) return;
+
+            currentMatchIndex += direction;
+            if (currentMatchIndex >= searchMatches.length) {
+                currentMatchIndex = 0;
+            } else if (currentMatchIndex < 0) {
+                currentMatchIndex = searchMatches.length - 1;
+            }
+
+            searchCount.textContent = `${currentMatchIndex + 1}/${searchMatches.length}`;
+            highlightCurrentMatch();
+        }
+
+        function highlightCurrentMatch() {
+            if (currentViewMode === 'text' && searchMatches.length > 0) {
+                const pos = searchMatches[currentMatchIndex];
+                const query = searchInput.value.trim();
+
+                // Select and scroll to the match in textarea
+                outputJSON.focus();
+                outputJSON.setSelectionRange(pos, pos + query.length);
+
+                // Scroll to selection (approximate)
+                const lineHeight = 21; // approximate line height
+                const charsPerLine = 80; // approximate
+                const lineNumber = Math.floor(pos / charsPerLine);
+                outputJSON.scrollTop = lineNumber * lineHeight - 100;
+            }
+        }
+
+        // ===========================================
+        // Update formatJSON to support tree view
+        // ===========================================
+
+        // Override format function to also update tree
+        const originalFormatJSON = formatJSON;
+        formatJSON = function (shouldSort = false) {
+            try {
+                const input = inputJSON.value.trim();
+                if (!input) {
+                    CodeUtils.Message.error('Please enter some JSON to format');
+                    return;
+                }
+                let parsed = JSON.parse(input);
+                if (shouldSort) {
+                    parsed = sortObjectKeys(parsed);
+                }
+                currentParsedJSON = parsed;
+                outputJSON.value = JSON.stringify(parsed, null, getIndent());
+
+                // Update tree view if visible
+                if (currentViewMode === 'tree') {
+                    renderTree(parsed);
+                }
+
+                const sortText = shouldSort ? ' and sorted' : '';
+                CodeUtils.Message.success(`JSON formatted${sortText} successfully!`);
+            } catch (error) {
+                CodeUtils.Message.error(parseJSONError(error, inputJSON.value));
+                outputJSON.value = '';
+                treeView.innerHTML = '';
+                currentParsedJSON = null;
+            }
+        };
 
         // Keyboard shortcuts
         CodeUtils.Shortcuts.register('Enter', formatJSON, true);
         CodeUtils.Shortcuts.register('m', minifyJSON, true);
         CodeUtils.Shortcuts.register('k', copyOutput, true);
+        CodeUtils.Shortcuts.register('s', sortAndFormat, true);
     </script>
 </body>
+
 </html>

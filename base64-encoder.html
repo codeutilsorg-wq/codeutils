@@ -69,6 +69,72 @@
     }
     </script>
 
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my data safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All Base64 encoding and decoding happens entirely in your browser using JavaScript. Your data never leaves your computer and is never uploaded to any server. We don't store, log, or transmit your data in any way. This makes our tool completely safe for sensitive information like API credentials, authentication tokens, or proprietary data. You can even use this tool offline after the initial page load."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start using the Base64 encoder/decoder immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use this tool offline?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! After you load the page for the first time, the tool can work offline because all processing happens in your browser. Your browser may cache the page, allowing you to use it without an internet connection. This is particularly useful when working in environments with restricted internet access or when handling sensitive credentials."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Base64 encoding and why is it used?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Base64 is a binary-to-text encoding scheme that converts binary data into a readable ASCII string format using 64 printable characters. It's used when you need to transmit binary data over text-based protocols like HTTP, email, or JSON. Base64 increases data size by approximately 33% but ensures that binary information can be safely transmitted without corruption through systems that only handle text."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this tool really free forever?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! All our tools are 100% free with no hidden costs, premium tiers, or paid features. We may add optional ads in the future to support hosting costs, but the core functionality will always remain free. We believe developer tools should be accessible to everyone."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I encode binary files like images with this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This tool primarily handles text-based encoding. For binary files like images, you'll need specialized tools that can read file bytes. However, this tool works perfectly for encoding text representations of data or for decoding Base64-encoded files that have already been converted to text. Many APIs return Base64-encoded images as text strings, which you can decode using this tool."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between Base64 and Base64URL encoding?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Standard Base64 uses '+' and '/' characters which can cause issues in URLs and filenames. Base64URL (RFC 4648) replaces '+' with '-' and '/' with '_' to make it safe for URLs and filenames. This tool uses standard Base64 encoding. Base64URL is commonly used in URLs, JWTs, and systems where URL-unsafe characters would cause problems."
+          }
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="css/common.css">
 </head>
 <body>
@@ -87,7 +153,7 @@
     <div class="container">
         <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
             <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Base64 Encoder/Decoder</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Encode text to Base64 or decode Base64 strings. All processing happens in your browser.</p>
+            <p style="margin: 0; color: var(--text-secondary);">Instantly encode text to Base64 format or decode Base64 strings back to plain text with our free online tool. Base64 encoding is essential for transmitting binary data over text-based protocols like HTTP, email, and JSON APIs. Whether you're encoding API credentials, embedding images in HTML, handling authentication tokens, or preparing data for transmission, this tool makes the process simple and secure. Features include UTF-8 support, real-time encoding/decoding, one-click copying, and complete privacy—all processing happens securely in your browser, so your sensitive data never touches our servers. Perfect for developers, system administrators, and anyone working with encoded data. Get started now with no registration required!</p>
         </div>
 
         <div class="controls">
@@ -128,24 +194,94 @@
         <!-- Info Section -->
         <div class="info-section">
             <h2>About Base64 Encoder/Decoder</h2>
-            <p>This tool encodes text to Base64 or decodes Base64 strings back to text. All processing happens in your browser.</p>
+            <p>Base64 is one of the most widely used encoding schemes in modern software development, enabling safe transmission of binary data across text-based systems. This tool provides a fast, secure way to encode plain text to Base64 format or decode Base64 strings back to readable text. Whether you're working with API authentication, embedding images in code, or handling data serialization, this Base64 encoder/decoder simplifies the process with an intuitive interface and powerful features. All operations occur entirely in your browser using JavaScript, ensuring your data remains completely private and never transmitted to external servers.</p>
 
-            <h3>What is Base64?</h3>
-            <p>Base64 is a binary-to-text encoding scheme that represents binary data in ASCII string format. It's commonly used to encode data for transmission over media designed to handle text.</p>
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Encode to Base64:</strong> Convert plain text strings to Base64 format instantly with proper UTF-8 character handling</li>
+                <li><strong>Decode from Base64:</strong> Convert Base64 encoded strings back to readable plain text with automatic error detection</li>
+                <li><strong>UTF-8 Support:</strong> Handles special characters, Unicode symbols, and international characters correctly</li>
+                <li><strong>Real-Time Processing:</strong> Get instant results without page reloads or delays</li>
+                <li><strong>One-Click Copy:</strong> Quickly copy encoded or decoded output to your clipboard</li>
+                <li><strong>Clear Function:</strong> Reset both input and output areas with a single button</li>
+                <li><strong>Error Detection:</strong> Receive clear error messages when decoding invalid Base64 strings</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
+            </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Encode Text to Base64</strong></p>
+            <ol>
+                <li>Paste your plain text into the "Input" text area on the left side</li>
+                <li>Click the "Encode to Base64" button to convert your text</li>
+                <li>The encoded Base64 string will appear in the "Output" area on the right</li>
+                <li>Use the "Copy Output" button to copy the result to your clipboard for use elsewhere</li>
+                <li>The encoded data is now ready to use in APIs, URLs, or configuration files</li>
+            </ol>
+
+            <p><strong>Method 2: Decode Base64 to Text</strong></p>
+            <ol>
+                <li>Paste your Base64 encoded string into the "Input" text area</li>
+                <li>Click the "Decode from Base64" button to convert it back to plain text</li>
+                <li>The decoded text appears immediately in the "Output" area</li>
+                <li>Copy the output using the "Copy Output" button if needed</li>
+                <li>If the input is invalid Base64, you'll see a clear error message</li>
+            </ol>
+
+            <p><strong>Keyboard Shortcuts (Power Users)</strong></p>
+            <ul>
+                <li><strong>Ctrl + Enter</strong> - Encode text to Base64</li>
+                <li><strong>Ctrl + D</strong> - Decode Base64 to text</li>
+            </ul>
+
+            <p><em>Pro tip: Paste your Base64 string and immediately click Decode to quickly verify what data it contains without needing external tools.</em></p>
 
             <h3>Common Use Cases</h3>
+
+            <p><strong>Encoding API Credentials for Basic Authentication</strong></p>
+            <p>Many APIs use HTTP Basic Authentication which requires credentials in "username:password" format encoded to Base64. For example, if you have credentials "admin:secret123", encoding them with this tool creates the Base64 string "YWRtaW46c2VjcmV0MTIz" which you then use in the Authorization header. This ensures credentials are obfuscated in transit (though not encrypted—always use HTTPS). This tool makes creating and verifying these credentials straightforward without needing command-line tools or complex scripting.</p>
+
+            <p><strong>Embedding Images in HTML and CSS (Data URLs)</strong></p>
+            <p>Instead of linking to external image files, you can embed images directly in HTML or CSS using data URLs. First encode your image file to Base64 (using a binary file converter), then use it in code like: &lt;img src="data:image/png;base64,iVBORw0KGgo..."&gt;. This reduces HTTP requests and prevents broken image links. Developers use this technique for icons, favicons, and small images embedded in web pages or email templates.</p>
+
+            <p><strong>Decoding JWT Tokens for Debugging</strong></p>
+            <p>JSON Web Tokens (JWTs) consist of three Base64-encoded parts separated by dots (header.payload.signature). To inspect token contents without validation, you can decode each part using this tool. This helps verify claims, expiration dates, and user information contained in authentication tokens. It's essential for debugging authentication issues and understanding token structure during API development.</p>
+
+            <p><strong>Transmitting Binary Data in JSON and XML</strong></p>
+            <p>JSON and XML are text-based formats that can't directly contain binary data like images, files, or cryptographic keys. Developers encode this binary data to Base64 before including it in JSON or XML documents, then decode it on the receiving end. This is commonly used when storing files in databases, transmitting files through APIs, or including binary content in configuration files.</p>
+
+            <h3>Tips & Best Practices</h3>
             <ul>
-                <li><strong>Email attachments:</strong> Encoding binary files for email</li>
-                <li><strong>Data URLs:</strong> Embedding images in HTML/CSS</li>
-                <li><strong>API authentication:</strong> Encoding credentials for Basic Auth</li>
-                <li><strong>Data storage:</strong> Storing binary data in JSON/XML</li>
+                <li><strong>Always verify URLs in emails:</strong> Phishing emails often use Base64-encoded malicious URLs to hide them from filters. Decode suspicious links with this tool before clicking</li>
+                <li><strong>Base64 is encoding, not encryption:</strong> Base64 is easily reversible and should never be used for security-sensitive data. Always combine with HTTPS and proper encryption for sensitive information</li>
+                <li><strong>UTF-8 characters work seamlessly:</strong> This tool handles international characters, emoji, and special symbols correctly thanks to UTF-8 encoding</li>
+                <li><strong>Data size increases by ~33%:</strong> Encoded Base64 is larger than the original data, so consider this when calculating bandwidth and storage requirements</li>
+                <li><strong>Use Base64URL for URLs and filenames:</strong> Standard Base64 contains characters like '+' and '/' that have special meaning in URLs. For URL-safe encoding, look for Base64URL variants</li>
+                <li><strong>Test before production use:</strong> Always decode your Base64 output to verify it matches the original data before using it in production systems</li>
             </ul>
 
-            <h3>Keyboard Shortcuts</h3>
-            <ul>
-                <li><strong>Ctrl+Enter:</strong> Encode to Base64</li>
-                <li><strong>Ctrl+D:</strong> Decode from Base64</li>
-            </ul>
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my data safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All Base64 encoding and decoding happens entirely in your browser using JavaScript. Your data never leaves your computer and is never uploaded to any server. We don't store, log, or transmit your data in any way. This makes our tool completely safe for sensitive information like API credentials, authentication tokens, or proprietary data. You can even use this tool offline after the initial page load.</p>
+
+            <p><strong>Q: What is Base64 encoding and why is it used?</strong></p>
+            <p>A: Base64 is a binary-to-text encoding scheme that converts binary data into a readable ASCII string format using 64 printable characters (A-Z, a-z, 0-9, +, /). It's used when you need to transmit binary data over text-based protocols like HTTP, email, or JSON. Base64 increases data size by approximately 33% but ensures that binary information can be safely transmitted without corruption through systems that only handle text. It's fundamental to modern web development and APIs.</p>
+
+            <p><strong>Q: Can I encode binary files like images with this tool?</strong></p>
+            <p>A: This tool primarily handles text-based encoding. For binary files like images, you need tools that can read file bytes directly. However, this tool works perfectly for encoding text representations of data or for decoding Base64-encoded files that have already been converted to text strings. Many APIs return Base64-encoded images as text strings in JSON responses, which you can decode using this tool. For true file encoding, consider using command-line tools like `base64` command or specialized online file converters.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start using the Base64 encoder/decoder immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
+
+            <p><strong>Q: What's the difference between Base64 and Base64URL encoding?</strong></p>
+            <p>A: Standard Base64 uses '+' and '/' characters which can cause issues in URLs and filenames since these characters have special meanings in those contexts. Base64URL (RFC 4648) replaces '+' with '-' and '/' with '_' to make it safe for URLs and filenames. This tool uses standard Base64 encoding. Base64URL is commonly used in URLs, JWTs (JSON Web Tokens), and systems where URL-unsafe characters would cause parsing problems.</p>
+
+            <p><strong>Q: Can I use this tool offline?</strong></p>
+            <p>A: Yes! After you load the page for the first time, the tool can work offline because all processing happens in your browser. Your browser may cache the page, allowing you to use it without an internet connection. This is particularly useful when working in environments with restricted internet access or when handling sensitive credentials that you prefer not to process while connected to networks.</p>
+
+            <h3>Technical Details</h3>
+            <p>Base64 encoding uses a 64-character alphabet (A-Z, a-z, 0-9, +, /) to represent binary data. The encoding process reads input data in 3-byte (24-bit) chunks and converts them to 4 Base64 characters. If the input length isn't divisible by 3, padding characters ('=') are added to the end. This tool uses JavaScript's native `btoa()` function for encoding and `atob()` for decoding, with proper UTF-8 handling using `encodeURIComponent()` and `decodeURIComponent()` to support international characters. Standard Base64 produces approximately 33% larger output than input due to the 6-bits-per-character encoding scheme. Browser support is universal across all modern browsers (Chrome, Firefox, Safari, Edge), and the tool requires only JavaScript to function.</p>
         </div>
     </div>
 

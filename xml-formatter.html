@@ -69,6 +69,64 @@
     }
     </script>
 
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What's the difference between XML and JSON?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Both XML and JSON are data format languages, but they serve different purposes. XML uses tags and attributes with explicit structure, better for complex hierarchical data and documents. JSON is lighter-weight and more human-readable, ideal for web APIs and configuration. XML is verbose but more flexible with attributes and mixed content. JSON is compact but less suitable for complex markup. Choose XML for documents, web services, and configuration files. Choose JSON for APIs, configuration, and data exchange. Both are widely supported, so choice depends on specific use case."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I validate XML documents?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This tool validates XML well-formedness (correct syntax), checking for proper tag closure, valid characters, and proper nesting. Well-formed XML is the basic requirement. For more rigorous validation, use XML Schema (XSD) validation which defines what elements/attributes are allowed. Document Type Definition (DTD) provides another validation method. This tool does well-formedness checking, which catches most common errors like unclosed tags, invalid characters, or improper nesting. Use an XSD validator for schema validation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is CDATA and when should I use it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CDATA (Character Data) is an XML section that treats content as literal text without interpreting tags or entities. Useful when text contains special characters like < or & that would otherwise need escaping. Example: &lt;script&gt; becomes <![CDATA[<script>]]> in CDATA. Use CDATA when embedding code, scripts, or text with many special characters. CDATA is also useful for embedding binary or unescaped content. This tool preserves CDATA sections during formatting and validation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are XML namespaces and why do they matter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "XML namespaces prevent element name conflicts by prefixing names with a namespace. Example: soap:Envelope uses the SOAP namespace. Namespaces use a prefix (soap:) mapped to a URI (http://schemas.xmlsoap.org/soap/envelope/). They're essential when combining multiple XML vocabularies or when different organizations define the same element names. This tool preserves namespaces during formatting and is compatible with namespace-aware XML documents."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can this tool validate against XML Schema (XSD)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This tool validates XML well-formedness (correct syntax) but not against XML Schema (XSD) definitions. Well-formedness checking ensures the XML structure is correct. Schema validation would verify the specific elements, attributes, and data types are allowed per the schema. For XSD validation, use specialized XSD validators or online schema validation tools. Start with well-formedness validation here, then validate against schema if your application requires it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I format XML with proper indentation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Click the 'Format' button (or Ctrl+Enter) to automatically format XML with proper indentation and line breaks. This tool uses 2-space indentation by default which is the XML standard. Formatting makes XML human-readable by adding whitespace and line breaks. Minified XML removes all whitespace for compact transmission. Use formatting for development and debugging. Use minification for production transmission. Both operations preserve XML data integrity—only formatting changes."
+          }
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="css/common.css">
 </head>
 <body>
@@ -87,7 +145,7 @@
     <div class="container">
         <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
             <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">XML Formatter</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Format, validate, and minify XML data. All processing happens in your browser.</p>
+            <p style="margin: 0; color: var(--text-secondary);">Instantly format, validate, and minify XML data with our free online tool. XML remains one of the most widely used data formats for configuration files, web services, APIs, and document processing. This tool helps you beautify minified XML for readability, validate syntax for errors, and minify for production transmission. Supports file uploads, drag-and-drop functionality, and one-click copying. Real-time error detection identifies malformed XML with clear error messages. Whether you're debugging SOAP web services, editing configuration files, processing XML feeds, or learning XML structure, this tool provides all essential XML operations in one place. All processing happens completely securely in your browser—your XML data never touches our servers.</p>
         </div>
 
         <div class="drop-zone" id="dropZone">
@@ -136,22 +194,102 @@
         <!-- Info Section -->
         <div class="info-section">
             <h2>About XML Formatter</h2>
-            <p>This tool helps you format, validate, and minify XML data. All processing happens in your browser - your data is never sent to any server.</p>
+            <p>XML (eXtensible Markup Language) is a flexible, widely-used format for representing structured data and documents. Unlike JSON which is optimized for APIs, XML excels at complex hierarchical data, mixed content, and attributes. This tool provides essential XML operations for developers working with configuration files, SOAP web services, RSS feeds, SVG graphics, and document processing systems. Whether you're debugging malformed XML, improving readability, or preparing XML for transmission, this formatter handles all common tasks efficiently.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Format:</strong> Beautify XML with proper indentation</li>
-                <li><strong>Minify:</strong> Remove all whitespace to create compact XML</li>
-                <li><strong>Validate:</strong> Check if your XML is well-formed</li>
-                <li><strong>File Support:</strong> Upload XML files or drag & drop</li>
+                <li><strong>Format XML:</strong> Beautify minified or compact XML with proper indentation (2 spaces)</li>
+                <li><strong>Minify XML:</strong> Remove all unnecessary whitespace and newlines for compact transmission</li>
+                <li><strong>Validate XML:</strong> Check for well-formedness and identify syntax errors with clear messages</li>
+                <li><strong>File Upload Support:</strong> Upload XML files directly or use drag-and-drop</li>
+                <li><strong>One-Click Copy:</strong> Instantly copy formatted output to clipboard</li>
+                <li><strong>Download Feature:</strong> Save formatted XML as a file</li>
+                <li><strong>Error Detection:</strong> Real-time parsing errors with specific line information</li>
+                <li><strong>100% Client-Side:</strong> All operations happen in your browser—data never leaves your computer</li>
             </ul>
 
-            <h3>Keyboard Shortcuts</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste XML Directly</strong></p>
+            <ol>
+                <li>Copy your XML from any source (API response, file, editor)</li>
+                <li>Paste it into the "Input XML" text area</li>
+                <li>Click "Format" to beautify or "Minify" to compact</li>
+                <li>View results instantly in the "Output" area</li>
+                <li>Click "Copy" to copy to clipboard or "Download" to save as file</li>
+            </ol>
+
+            <p><strong>Method 2: Upload an XML File</strong></p>
+            <ol>
+                <li>Click "Upload" button or drag-drop an XML file into the designated area</li>
+                <li>File content loads automatically into the input area</li>
+                <li>Click "Format" to process and beautify</li>
+                <li>Download or copy the formatted result</li>
+            </ol>
+
+            <p><strong>Method 3: Validate XML Before Processing</strong></p>
+            <ol>
+                <li>Paste or upload your XML</li>
+                <li>Click "Validate" to check for syntax errors</li>
+                <li>Fix any errors identified (see error messages for details)</li>
+                <li>Then format or minify as needed</li>
+            </ol>
+
+            <p><strong>Keyboard Shortcuts (Power Users)</strong></p>
             <ul>
-                <li><strong>Ctrl+Enter:</strong> Format XML</li>
-                <li><strong>Ctrl+M:</strong> Minify XML</li>
-                <li><strong>Ctrl+K:</strong> Copy output</li>
+                <li><strong>Ctrl + Enter</strong> - Format XML with indentation</li>
+                <li><strong>Ctrl + M</strong> - Minify XML to remove whitespace</li>
+                <li><strong>Ctrl + K</strong> - Copy output to clipboard</li>
             </ul>
+
+            <p><em>Pro tip: Always validate before formatting to catch errors early. If format fails, validate to see specific error messages.</em></p>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Debugging SOAP Web Services and XML APIs</strong></p>
+            <p>SOAP web services return minified XML in API responses. Paste the response into this tool and format it to understand the structure, find missing elements, verify data types, and debug issues. Clear formatting makes it obvious which tags are nested inside which parent elements, making troubleshooting much easier.</p>
+
+            <p><strong>Editing XML Configuration Files</strong></p>
+            <p>Applications use XML for configuration (Maven pom.xml, Spring configs, deployment descriptors). Edit configuration files, paste them here to validate syntax, then save. Catch errors before deploying—malformed XML causes runtime failures.</p>
+
+            <p><strong>Processing RSS and Atom Feed Data</strong></p>
+            <p>RSS feeds are XML-formatted. Paste feed content to prettify, extract specific fields, or validate structure. Makes parsing feeds programmatically easier when you understand the structure.</p>
+
+            <p><strong>Working with SVG Graphics and XML Documents</strong></p>
+            <p>SVG files are XML-based vector graphics. Format SVG to understand and edit the structure. Many tools generate minified SVG; this formatter makes it readable for manual editing or understanding.</p>
+
+            <h3>Tips & Best Practices</h3>
+            <ul>
+                <li><strong>Validate before formatting:</strong> Catch errors early using the Validate button before processing</li>
+                <li><strong>Use 2-space indentation:</strong> This tool uses 2-space standard indentation for readability without excess whitespace</li>
+                <li><strong>Minify for production:</strong> Keep formatted versions for development, minify only for transmission</li>
+                <li><strong>Watch for encoding issues:</strong> Ensure your XML declares proper encoding at the top (&lt;?xml version="1.0" encoding="UTF-8"?&gt;)</li>
+                <li><strong>Remember CDATA for special content:</strong> Use CDATA sections for content with many special characters</li>
+                <li><strong>Check namespaces:</strong> This tool preserves namespace declarations—verify they're correct</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What's the difference between XML and JSON?</strong></p>
+            <p>A: Both XML and JSON are data format languages, but they serve different purposes. XML uses tags and attributes with explicit structure, better for complex hierarchical data and documents. JSON is lighter-weight and more human-readable, ideal for web APIs and configuration. XML is verbose but more flexible with attributes and mixed content. JSON is compact but less suitable for complex markup. Choose XML for documents, web services, and configuration files. Choose JSON for APIs, configuration, and data exchange. Both are widely supported, so choice depends on specific use case.</p>
+
+            <p><strong>Q: How do I validate XML documents?</strong></p>
+            <p>A: This tool validates XML well-formedness (correct syntax), checking for proper tag closure, valid characters, and proper nesting. Well-formed XML is the basic requirement. For more rigorous validation, use XML Schema (XSD) validation which defines what elements/attributes are allowed. Document Type Definition (DTD) provides another validation method. This tool does well-formedness checking, which catches most common errors like unclosed tags, invalid characters, or improper nesting. Use an XSD validator for schema validation.</p>
+
+            <p><strong>Q: What is CDATA and when should I use it?</strong></p>
+            <p>A: CDATA (Character Data) is an XML section that treats content as literal text without interpreting tags or entities. Useful when text contains special characters like < or & that would otherwise need escaping. Example: &lt;script&gt; becomes <![CDATA[<script>]]> in CDATA. Use CDATA when embedding code, scripts, or text with many special characters. CDATA is also useful for embedding binary or unescaped content. This tool preserves CDATA sections during formatting and validation.</p>
+
+            <p><strong>Q: What are XML namespaces and why do they matter?</strong></p>
+            <p>A: XML namespaces prevent element name conflicts by prefixing names with a namespace. Example: soap:Envelope uses the SOAP namespace. Namespaces use a prefix (soap:) mapped to a URI (http://schemas.xmlsoap.org/soap/envelope/). They're essential when combining multiple XML vocabularies or when different organizations define the same element names. This tool preserves namespaces during formatting and is compatible with namespace-aware XML documents.</p>
+
+            <p><strong>Q: Can this tool validate against XML Schema (XSD)?</strong></p>
+            <p>A: This tool validates XML well-formedness (correct syntax) but not against XML Schema (XSD) definitions. Well-formedness checking ensures the XML structure is correct. Schema validation would verify the specific elements, attributes, and data types are allowed per the schema. For XSD validation, use specialized XSD validators or online schema validation tools. Start with well-formedness validation here, then validate against schema if your application requires it.</p>
+
+            <p><strong>Q: How do I format XML with proper indentation?</strong></p>
+            <p>A: Click the 'Format' button (or Ctrl+Enter) to automatically format XML with proper indentation and line breaks. This tool uses 2-space indentation by default which is the XML standard. Formatting makes XML human-readable by adding whitespace and line breaks. Minified XML removes all whitespace for compact transmission. Use formatting for development and debugging. Use minification for production transmission. Both operations preserve XML data integrity—only formatting changes.</p>
+
+            <h3>XML Structure and Best Practices</h3>
+            <p>Well-formed XML requires: a single root element, properly closed tags, proper nesting, unique attribute names within elements, and encoded special characters (< becomes &lt;). This tool checks all these rules. Use meaningful element names, keep nesting reasonable (avoid too much depth), and use attributes for metadata while keeping data in element content. Include an XML declaration at the top: &lt;?xml version="1.0" encoding="UTF-8"?&gt;</p>
         </div>
     </div>
 

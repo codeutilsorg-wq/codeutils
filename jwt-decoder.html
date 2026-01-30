@@ -69,6 +69,64 @@
     }
     </script>
 
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does this tool verify JWT signatures?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, this tool only decodes JWTs—it does not verify signatures. Signature verification requires the signing key which varies by system. Decoding shows you what data is in the token, but does not confirm the token's authenticity or that it hasn't been tampered with. Always verify JWT signatures on your server before trusting the token's contents. Never make security decisions based solely on decoded JWT data without signature verification."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check if a JWT is expired?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "JWTs contain an 'exp' claim that specifies the expiration time as a Unix timestamp (seconds since epoch). This tool automatically checks the expiration time and displays whether the token is valid or expired. Simply decode the JWT using this tool and look for the expiration status in the payload output. If the current time is greater than the exp value, the token is expired. Your server must also validate expiration before accepting the token."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are JWT claims and which ones matter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "JWT claims are pieces of information stored in the payload (the middle part of a JWT). Standard claims include: sub (subject/user ID), iss (issuer), aud (audience), exp (expiration time), iat (issued at time), nbf (not before time), and jti (unique identifier). Custom claims specific to your application can also be included. When debugging tokens, check the 'exp' and 'sub' claims first to verify the token isn't expired and belongs to the correct user."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I modify or create a JWT with this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, this tool only decodes JWTs. You cannot modify or create new tokens here. To create or modify JWTs, use backend code or specialized JWT tools that handle signing. Any JWT created without the proper signature will be rejected by your server. If you decode a JWT and want to see how changes would affect it, modify the payload values conceptually and re-encode manually, but understand this wouldn't be a valid token without proper signing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When and why should I use JWTs for authentication?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "JWTs are ideal for stateless authentication in modern web and mobile applications, APIs, and microservices. They contain all user information in the token itself, eliminating the need for server-side session storage. JWTs are URL-safe, can be easily transmitted in headers, and work well with CORS and cross-domain requests. However, JWTs require HTTPS to prevent interception, proper signature verification on the server, and careful management of sensitive information in the payload (don't include passwords or secrets)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are the three parts of a JWT and what do they mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A JWT has three parts separated by dots: Header (specifies token type and signing algorithm), Payload (contains the actual data/claims including user info and expiration), and Signature (cryptographically proves the token hasn't been tampered with). The header and payload are Base64-encoded and human-readable. The signature can only be verified with the secret key. This tool decodes and displays all three parts so you can inspect the data and signature value."
+          }
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="css/common.css">
     <style>
         .jwt-section {
@@ -147,7 +205,7 @@
     <div class="container">
         <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
             <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">JWT Decoder</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Decode and inspect JSON Web Tokens. All processing happens in your browser - tokens are never sent to any server.</p>
+            <p style="margin: 0; color: var(--text-secondary);">Instantly decode and inspect JSON Web Tokens (JWTs) to view their header, payload, and signature without server-side verification. JWTs are used extensively in modern authentication systems, APIs, microservices, and single-page applications (SPAs) for secure, stateless authentication. This tool helps you quickly debug authentication issues, verify token contents, check expiration times, and inspect claims. Simply paste your JWT token and instantly see the decoded data with automatic expiration status checking. All processing happens completely securely in your browser—tokens never leave your computer or touch our servers. Perfect for developers, DevOps engineers, and security professionals debugging JWT-based authentication systems. Note: This tool decodes tokens for inspection only; it does not verify signatures. Always verify JWT signatures on your server before trusting token contents.</p>
         </div>
 
         <div class="controls">
@@ -208,41 +266,100 @@
         <!-- Info Section -->
         <div class="info-section">
             <h2>About JWT Decoder</h2>
-            <p>This tool decodes JSON Web Tokens (JWT) and displays their contents. JWTs are commonly used for authentication and information exchange.</p>
+            <p>JSON Web Tokens (JWTs) are a standard for securely transmitting information as JSON objects in authentication systems, APIs, and microservices architectures. This tool provides a fast, secure way to decode and inspect JWTs by extracting and displaying the header, payload, and signature information. JWTs are stateless, URL-safe, and work seamlessly across domains, making them ideal for modern web applications, mobile apps, and APIs. Whether you're debugging authentication issues, verifying user claims, checking token expiration, or understanding API authentication flows, this decoder simplifies JWT inspection with an instant, privacy-first approach.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Decode:</strong> Parse and display JWT header and payload</li>
-                <li><strong>Claim Analysis:</strong> Identify standard claims (iss, sub, exp, etc.)</li>
-                <li><strong>Expiry Check:</strong> Automatically check if the token is expired</li>
-                <li><strong>Privacy:</strong> All decoding happens in your browser</li>
+                <li><strong>Decode All JWT Parts:</strong> Instantly extract and display header, payload, and signature from any JWT token</li>
+                <li><strong>Automatic Expiration Check:</strong> Automatically detects and displays whether a token is expired or still valid</li>
+                <li><strong>Claim Analysis:</strong> Identifies and displays standard JWT claims (sub, iss, exp, iat, aud, nbf, jti) and custom claims</li>
+                <li><strong>Formatted Output:</strong> Displays decoded JSON data with proper formatting for easy readability</li>
+                <li><strong>Timestamp Conversion:</strong> Automatically converts Unix timestamps (iat, exp, nbf) to human-readable dates</li>
+                <li><strong>One-Click Copy:</strong> Copy individual sections (header, payload, signature) or all decoded data to clipboard</li>
+                <li><strong>Sample JWT:</strong> Load a sample token to learn JWT structure without needing your own token</li>
+                <li><strong>100% Client-Side:</strong> All decoding happens in your browser—tokens never leave your computer</li>
             </ul>
 
-            <h3>JWT Structure</h3>
-            <p>A JWT consists of three parts separated by dots:</p>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Decode Your JWT</strong></p>
+            <ol>
+                <li>Copy your JWT token from your authentication system, API response, or browser storage</li>
+                <li>Paste it into the "JWT Token" text area</li>
+                <li>Click the "Decode" button (or press Ctrl+Enter) to instantly decode</li>
+                <li>View the decoded header, payload, and signature in the output sections below</li>
+                <li>Check the expiration status—automatically shown if the token has an exp claim</li>
+            </ol>
+
+            <p><strong>Method 2: Inspect Individual Token Parts</strong></p>
+            <ol>
+                <li>After decoding, each section (Header, Payload, Signature) displays separately for easy inspection</li>
+                <li>Click the "Copy" button on any section to copy just that part</li>
+                <li>Use the "Copy Decoded" button to copy all three parts together as formatted text</li>
+            </ol>
+
+            <p><strong>Method 3: Learn with Sample Token</strong></p>
+            <ol>
+                <li>Click the "Load Sample" button to pre-load an example JWT</li>
+                <li>Click "Decode" to see how a valid JWT token is structured</li>
+                <li>Examine the header, payload, and claims to understand JWT format</li>
+            </ol>
+
+            <p><strong>Keyboard Shortcuts (Power Users)</strong></p>
             <ul>
-                <li><strong>Header:</strong> Contains the token type and signing algorithm</li>
-                <li><strong>Payload:</strong> Contains the claims (user data, expiry, etc.)</li>
-                <li><strong>Signature:</strong> Verifies the token wasn't tampered with</li>
+                <li><strong>Ctrl + Enter</strong> - Decode JWT token</li>
+                <li><strong>Ctrl + K</strong> - Copy all decoded output</li>
+                <li><strong>Paste</strong> - Auto-decode when you paste a JWT</li>
             </ul>
 
-            <h3>Common Claims</h3>
+            <p><em>Pro tip: This tool auto-decodes when you paste a JWT, so you can quickly inspect tokens from your clipboard without manually clicking decode.</em></p>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Debugging Authentication and Authorization Issues</strong></p>
+            <p>When users report authentication problems or receive "unauthorized" errors, extract their JWT and decode it using this tool to verify the token contents, check expiration status, and confirm claims (sub for user ID, roles for authorization). Often you'll discover tokens are expired, missing required claims, or contain incorrect values—information that's impossible to see without decoding. This tool instantly reveals the underlying issue without needing server logs.</p>
+
+            <p><strong>Verifying User Claims in SPA Applications</strong></p>
+            <p>Single-page applications (SPAs) that store JWTs in localStorage or sessionStorage often need to inspect what user data is stored in the token. Decode the JWT to verify the user ID, email, roles, permissions, and other claims are correctly set. This is essential when debugging authorization issues where a user claims they should have certain permissions but the token doesn't contain the expected claims.</p>
+
+            <p><strong>Inspecting API Response Tokens</strong></p>
+            <p>When testing APIs that return JWTs in responses (especially OAuth2 or OpenID Connect flows), paste the returned token here to instantly see what the API included in the token. Verify that all expected claims are present, user information is correct, and the token hasn't expired. This speeds up API development and testing significantly compared to manually decoding tokens on the server.</p>
+
+            <p><strong>Understanding JWT Structure for Development and Learning</strong></p>
+            <p>New developers learning about JWT authentication can use this tool to understand the three-part structure (Header.Payload.Signature), see real token examples, and learn what information JWTs typically contain. The sample token feature provides a hands-on way to explore JWTs without requiring access to a live authentication system.</p>
+
+            <h3>Tips & Best Practices</h3>
             <ul>
-                <li><strong>iss:</strong> Issuer of the token</li>
-                <li><strong>sub:</strong> Subject (usually user ID)</li>
-                <li><strong>exp:</strong> Expiration time</li>
-                <li><strong>iat:</strong> Issued at time</li>
-                <li><strong>aud:</strong> Audience (intended recipient)</li>
+                <li><strong>Always verify on the server:</strong> This tool only decodes—it doesn't verify signatures. Never make security decisions based solely on decoded content. Always verify JWT signatures on your backend</li>
+                <li><strong>Check expiration first:</strong> When debugging authentication, the expiration (exp) claim is often the culprit. This tool automatically shows expiration status</li>
+                <li><strong>Inspect the aud claim:</strong> If your JWT has an 'aud' (audience) claim, verify it matches your application. Mismatched audience claims are a common configuration issue</li>
+                <li><strong>Never log JWTs in production:</strong> While this tool is safe and private, avoid logging tokens in production applications where they could be exposed in log files</li>
+                <li><strong>Watch for custom claims:</strong> Different applications add custom claims beyond standard ones. Document what custom claims your system uses to better understand decoded tokens</li>
+                <li><strong>Use HTTPS always:</strong> JWTs offer no inherent security—they're just formatted data. Always transmit JWTs over HTTPS to prevent interception</li>
             </ul>
 
-            <h3>Keyboard Shortcuts</h3>
-            <ul>
-                <li><strong>Ctrl+Enter:</strong> Decode JWT</li>
-                <li><strong>Ctrl+K:</strong> Copy decoded output</li>
-            </ul>
+            <h3>Frequently Asked Questions</h3>
 
-            <h3>Security Note</h3>
-            <p>This tool only <strong>decodes</strong> JWTs - it does not verify signatures. Never trust a JWT based solely on its decoded contents. Always verify the signature on your server.</p>
+            <p><strong>Q: Does this tool verify JWT signatures?</strong></p>
+            <p>A: No, this tool only decodes JWTs—it does not verify signatures. Signature verification requires the signing key which varies by system. Decoding shows you what data is in the token, but does not confirm the token's authenticity or that it hasn't been tampered with. Always verify JWT signatures on your server before trusting the token's contents. Never make security decisions based solely on decoded JWT data without signature verification.</p>
+
+            <p><strong>Q: How do I check if a JWT is expired?</strong></p>
+            <p>A: JWTs contain an 'exp' claim that specifies the expiration time as a Unix timestamp (seconds since epoch). This tool automatically checks the expiration time and displays whether the token is valid or expired. Simply decode the JWT using this tool and look for the expiration status in the payload output. If the current time is greater than the exp value, the token is expired. Your server must also validate expiration before accepting the token.</p>
+
+            <p><strong>Q: What are JWT claims and which ones matter?</strong></p>
+            <p>A: JWT claims are pieces of information stored in the payload (the middle part of a JWT). Standard claims include: sub (subject/user ID), iss (issuer), aud (audience), exp (expiration time), iat (issued at time), nbf (not before time), and jti (unique identifier). Custom claims specific to your application can also be included. When debugging tokens, check the 'exp' and 'sub' claims first to verify the token isn't expired and belongs to the correct user.</p>
+
+            <p><strong>Q: Can I modify or create a JWT with this tool?</strong></p>
+            <p>A: No, this tool only decodes JWTs. You cannot modify or create new tokens here. To create or modify JWTs, use backend code or specialized JWT tools that handle signing. Any JWT created without the proper signature will be rejected by your server. If you decode a JWT and want to see how changes would affect it, modify the payload values conceptually and re-encode manually, but understand this wouldn't be a valid token without proper signing.</p>
+
+            <p><strong>Q: When and why should I use JWTs for authentication?</strong></p>
+            <p>A: JWTs are ideal for stateless authentication in modern web and mobile applications, APIs, and microservices. They contain all user information in the token itself, eliminating the need for server-side session storage. JWTs are URL-safe, can be easily transmitted in headers, and work well with CORS and cross-domain requests. However, JWTs require HTTPS to prevent interception, proper signature verification on the server, and careful management of sensitive information in the payload (don't include passwords or secrets).</p>
+
+            <p><strong>Q: What are the three parts of a JWT and what do they mean?</strong></p>
+            <p>A: A JWT has three parts separated by dots: Header (specifies token type and signing algorithm), Payload (contains the actual data/claims including user info and expiration), and Signature (cryptographically proves the token hasn't been tampered with). The header and payload are Base64-encoded and human-readable. The signature can only be verified with the secret key. This tool decodes and displays all three parts so you can inspect the data and signature value.</p>
+
+            <h3>Understanding JWT Security</h3>
+            <p>JWTs are not encrypted by default—they are only Base64-encoded and signed. Anyone can decode a JWT to see its contents, which is why sensitive information like passwords should never be stored in JWT claims. The signature proves the token came from a trusted source and hasn't been modified, but only if verified with the correct signing key. Always use HTTPS when transmitting JWTs to prevent interception, and always verify signatures on your server before trusting the token's claims.</p>
         </div>
     </div>
 

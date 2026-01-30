@@ -69,6 +69,64 @@
     }
     </script>
 
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What's the difference between Unix timestamp and epoch time?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Unix timestamp and epoch time refer to the same concept. A Unix timestamp (also called POSIX time or epoch time) is the number of seconds (or milliseconds) elapsed since January 1, 1970, 00:00:00 UTC. This specific moment—January 1, 1970 UTC—is called the 'Unix epoch'. All timestamps count from this baseline. The terms are used interchangeably, though 'epoch time' more specifically refers to the baseline date itself."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I handle timezones when converting timestamps?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Unix timestamps are always in UTC (Coordinated Universal Time) and are timezone-independent. A timestamp represents the exact same moment worldwide regardless of timezone. When converting to a date, JavaScript automatically shows the date in your local timezone. This tool shows UTC, ISO (UTC), and local time for clarity. The timestamp itself doesn't contain timezone info—interpretation depends on where you display it. For database storage, always store timestamps in UTC."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why are there 10-digit and 13-digit timestamps?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "10-digit timestamps represent seconds since epoch (standard Unix time), while 13-digit timestamps represent milliseconds since epoch. JavaScript uses milliseconds by default (Date.getTime() returns 13 digits). Many other systems use seconds. This tool automatically detects which format you're using based on the number of digits. Multiply seconds by 1000 to convert to milliseconds, or divide milliseconds by 1000 to get seconds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the maximum and minimum date range for Unix timestamps?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "32-bit signed integer timestamps range from December 13, 1901 to January 19, 2038 (the 'Year 2038 problem'). 64-bit systems extend this range dramatically. This tool uses JavaScript which supports timestamps from January 1, 1970 to December 31, 9999. For most practical purposes, you won't encounter the limits. Legacy systems using 32-bit timestamps will fail on January 19, 2038—a known issue many systems are already addressing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I calculate time differences using timestamps?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Subtract two timestamps to get the time elapsed in seconds (or milliseconds if using 13-digit timestamps). Example: timestamp2 - timestamp1 = elapsed seconds. Divide by 60 for minutes, 3600 for hours, 86400 for days. This method works because timestamps are simple numbers—no timezone conversion needed. This is why timestamps are preferred for time calculations in programming."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I work with fractional seconds or microseconds?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Unix timestamps traditionally use whole seconds or milliseconds. Some systems support microseconds (6 decimal places) or nanoseconds (9 decimal places), but these are less common and not part of standard Unix time. JavaScript only supports milliseconds (13 digits). If you need higher precision, use system-specific tools. For most applications, millisecond precision is sufficient."
+          }
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="css/common.css">
     <style>
         .current-time {
@@ -259,36 +317,93 @@
         <div class="info-section">
             <h2>About Timestamp Converter</h2>
 
-            <p>This is a free online tool to convert Unix timestamps to human-readable dates and vice versa. All processing happens in your browser - your data is never sent to any server.</p>
+            <p>Unix timestamps are the standard way to represent time in computing systems, measuring seconds or milliseconds since January 1, 1970, UTC. This conversion tool helps developers, system administrators, and data analysts quickly convert between Unix timestamps and human-readable dates. Whether you're debugging log files, querying databases, handling API responses, or analyzing historical data, this tool simplifies timestamp conversion instantly. Supports both seconds (10-digit) and milliseconds (13-digit) formats with automatic detection. Shows current timestamp live, updating every second. All processing happens securely in your browser with no data transmission.</p>
 
-            <h3>What is a Unix Timestamp?</h3>
-            <p>A Unix timestamp (also known as Epoch time or POSIX time) is a way of tracking time as a running total of seconds or milliseconds since January 1, 1970, 00:00:00 UTC (the Unix epoch). This method of time representation is widely used in programming and computing.</p>
-
-            <h3>How to Use</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Current Time:</strong> Shows the current Unix timestamp updating in real-time</li>
-                <li><strong>Timestamp to Date:</strong> Enter a Unix timestamp (in seconds or milliseconds) to see the corresponding date and time</li>
-                <li><strong>Date to Timestamp:</strong> Select a date and time to get the Unix timestamp</li>
-                <li><strong>Copy:</strong> Click copy button to copy the result to clipboard</li>
+                <li><strong>Live Current Timestamp:</strong> Shows current Unix timestamp and date updating every second</li>
+                <li><strong>Timestamp to Date:</strong> Convert Unix timestamps (seconds or milliseconds) to readable dates in multiple formats</li>
+                <li><strong>Date to Timestamp:</strong> Select any date and time to generate corresponding Unix timestamp</li>
+                <li><strong>Auto-Detection:</strong> Automatically detects whether input is seconds (10 digits) or milliseconds (13 digits)</li>
+                <li><strong>Multiple Formats:</strong> Shows UTC, ISO 8601, and local timezone interpretations</li>
+                <li><strong>One-Click Copy:</strong> Copy any conversion result instantly to clipboard</li>
+                <li><strong>Timezone Aware:</strong> Displays results in both UTC and your local timezone for clarity</li>
+                <li><strong>100% Client-Side:</strong> All conversions happen in your browser—no data transmission</li>
             </ul>
 
-            <h3>Timestamp Formats</h3>
-            <ul>
-                <li><strong>Seconds:</strong> 10-digit number (e.g., 1706198400) - standard Unix timestamp</li>
-                <li><strong>Milliseconds:</strong> 13-digit number (e.g., 1706198400000) - used in JavaScript</li>
-            </ul>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Convert Unix Timestamp to Date</strong></p>
+            <ol>
+                <li>Paste or type a Unix timestamp (10-13 digits) in the "Timestamp to Date" field</li>
+                <li>Press Enter or click "Convert" button</li>
+                <li>See the date in UTC, ISO format, and your local timezone</li>
+                <li>Click "Copy" to copy the result to clipboard</li>
+            </ol>
+
+            <p><strong>Method 2: Convert Date to Unix Timestamp</strong></p>
+            <ol>
+                <li>Click the date/time picker in "Date to Timestamp" field</li>
+                <li>Select your desired date and time</li>
+                <li>The timestamp automatically converts and displays in both seconds and milliseconds</li>
+                <li>Click "Copy" to copy the timestamp to clipboard</li>
+            </ol>
+
+            <p><strong>Method 3: Check Current Time</strong></p>
+            <ol>
+                <li>Look at the "Current Unix Timestamp" section at the top</li>
+                <li>See the live timestamp updating every second</li>
+                <li>Compare with your data or use as reference point</li>
+            </ol>
+
+            <p><em>Pro tip: Timestamps are timezone-agnostic—a timestamp represents the exact same moment everywhere on Earth. Only the display changes based on your local timezone.</em></p>
 
             <h3>Common Use Cases</h3>
+
+            <p><strong>Debugging Application Logs and System Events</strong></p>
+            <p>Log files often contain timestamps. Convert them to readable dates to understand when events occurred. Sorting events by timestamp shows chronological order. This is essential for troubleshooting, understanding user activity, and analyzing system behavior.</p>
+
+            <p><strong>Database Queries and Data Analysis</strong></p>
+            <p>Databases store timestamps for created_at, updated_at, and event columns. Convert timestamps to dates for reporting and analysis. Calculate time differences between timestamps. Filter data by date ranges using timestamp conversions.</p>
+
+            <p><strong>API Development and Integration</strong></p>
+            <p>APIs often use timestamps for expires_at, created_at, and scheduled fields. Convert between your application's date representation and API timestamp format. Verify token or session expiration by comparing current timestamp with expiration timestamp.</p>
+
+            <p><strong>Data Import/Export and File Processing</strong></p>
+            <p>When importing data from various sources, timestamps may be in different formats. Convert to consistent Unix timestamp format for storage or processing. Export data with readable dates for end-users or reports.</p>
+
+            <h3>Tips & Best Practices</h3>
             <ul>
-                <li><strong>Debugging:</strong> Convert timestamps from logs to readable dates</li>
-                <li><strong>Database queries:</strong> Work with timestamp columns</li>
-                <li><strong>API development:</strong> Handle timestamp parameters</li>
-                <li><strong>Data analysis:</strong> Convert epoch time in datasets</li>
-                <li><strong>System administration:</strong> Analyze log files and system events</li>
+                <li><strong>Always use UTC for storage:</strong> Store timestamps in UTC internally, display in local timezone for users</li>
+                <li><strong>Know your precision:</strong> Know whether your system uses seconds (10 digits) or milliseconds (13 digits) to avoid errors</li>
+                <li><strong>Account for leap seconds:</strong> Unix time ignores leap seconds—most systems don't account for them anyway</li>
+                <li><strong>Watch for the 2038 problem:</strong> Legacy 32-bit systems will overflow January 19, 2038—systems should have already migrated to 64-bit</li>
+                <li><strong>Use timestamps for time math:</strong> Calculate time differences by subtracting timestamps—the result is immediately in seconds or milliseconds</li>
+                <li><strong>Remember timezone considerations:</strong> Timestamps are timezone-neutral; only the representation changes based on timezone</li>
             </ul>
 
-            <h3>Privacy & Security</h3>
-            <p>This tool runs entirely in your browser using JavaScript. No data is transmitted to any server. All conversions are performed locally on your computer.</p>
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What's the difference between Unix timestamp and epoch time?</strong></p>
+            <p>A: Unix timestamp and epoch time refer to the same concept. A Unix timestamp (also called POSIX time or epoch time) is the number of seconds (or milliseconds) elapsed since January 1, 1970, 00:00:00 UTC. This specific moment—January 1, 1970 UTC—is called the 'Unix epoch'. All timestamps count from this baseline. The terms are used interchangeably, though 'epoch time' more specifically refers to the baseline date itself.</p>
+
+            <p><strong>Q: How do I handle timezones when converting timestamps?</strong></p>
+            <p>A: Unix timestamps are always in UTC (Coordinated Universal Time) and are timezone-independent. A timestamp represents the exact same moment worldwide regardless of timezone. When converting to a date, JavaScript automatically shows the date in your local timezone. This tool shows UTC, ISO (UTC), and local time for clarity. The timestamp itself doesn't contain timezone info—interpretation depends on where you display it. For database storage, always store timestamps in UTC.</p>
+
+            <p><strong>Q: Why are there 10-digit and 13-digit timestamps?</strong></p>
+            <p>A: 10-digit timestamps represent seconds since epoch (standard Unix time), while 13-digit timestamps represent milliseconds since epoch. JavaScript uses milliseconds by default (Date.getTime() returns 13 digits). Many other systems use seconds. This tool automatically detects which format you're using based on the number of digits. Multiply seconds by 1000 to convert to milliseconds, or divide milliseconds by 1000 to get seconds.</p>
+
+            <p><strong>Q: What's the maximum and minimum date range for Unix timestamps?</strong></p>
+            <p>A: 32-bit signed integer timestamps range from December 13, 1901 to January 19, 2038 (the 'Year 2038 problem'). 64-bit systems extend this range dramatically. This tool uses JavaScript which supports timestamps from January 1, 1970 to December 31, 9999. For most practical purposes, you won't encounter the limits. Legacy systems using 32-bit timestamps will fail on January 19, 2038—a known issue many systems are already addressing.</p>
+
+            <p><strong>Q: How do I calculate time differences using timestamps?</strong></p>
+            <p>A: Subtract two timestamps to get the time elapsed in seconds (or milliseconds if using 13-digit timestamps). Example: timestamp2 - timestamp1 = elapsed seconds. Divide by 60 for minutes, 3600 for hours, 86400 for days. This method works because timestamps are simple numbers—no timezone conversion needed. This is why timestamps are preferred for time calculations in programming.</p>
+
+            <p><strong>Q: Can I work with fractional seconds or microseconds?</strong></p>
+            <p>A: Unix timestamps traditionally use whole seconds or milliseconds. Some systems support microseconds (6 decimal places) or nanoseconds (9 decimal places), but these are less common and not part of standard Unix time. JavaScript only supports milliseconds (13 digits). If you need higher precision, use system-specific tools. For most applications, millisecond precision is sufficient.</p>
+
+            <h3>Understanding Unix Epoch Time</h3>
+            <p>The Unix epoch—January 1, 1970, 00:00:00 UTC—was chosen as the reference point for Unix time. At this moment, the first Unix timestamp was 0. Every second after that, the timestamp increments by 1. This simple linear representation makes timestamps ideal for calculations, sorting, and comparisons. The epoch remains the same across all Unix and Unix-like systems worldwide.</p>
         </div>
     </div>
 

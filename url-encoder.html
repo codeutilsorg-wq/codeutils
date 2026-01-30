@@ -69,6 +69,64 @@
     }
     </script>
 
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What's the difference between encoding and escaping?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Encoding and escaping are related but different concepts. Escaping refers to adding special characters (usually backslashes) to represent characters that have special meaning in a context. URL encoding (percent encoding) converts characters to %XX format where XX is the hexadecimal character code. URL encoding is specifically about making URLs safe for transmission, while escaping is a broader term used in many programming contexts. This tool performs URL encoding, which is the proper method for making URLs safe."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When should I use encodeURI vs encodeURIComponent?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "encodeURI is used to encode an entire URL (protocol, domain, path) and preserves special characters like :/?#[]@!$&'()*+,;= that have meaning in URLs. encodeURIComponent is used to encode individual URI components (query parameters, fragment identifiers) and encodes all special characters. Use encodeURIComponent when encoding query parameters or values within URLs. This tool uses encodeURIComponent, which is appropriate for encoding individual values that will be used as query parameters or in other URL components."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do spaces sometimes become + and sometimes %20?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Both %20 and + represent spaces in URLs, but in different contexts. In query strings (application/x-www-form-urlencoded), spaces become +. In other URL components and percent encoding generally, spaces become %20. This tool outputs %20 which is the standard URL encoding format. When parsing URLs in different contexts, your server may handle both + and %20 as spaces depending on how it decodes the URL."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What characters need to be URL encoded?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Reserved characters (: / ? # [ ] @ ! $ & ' ( ) * + , ; =), unsafe characters (space, quotes, angle brackets), and characters outside ASCII range (accents, emoji, non-Latin scripts) all require URL encoding. Additionally, the percent sign (%) itself must be encoded as %25 to avoid confusion with the encoding format. Letters (A-Z, a-z), digits (0-9), hyphen (-), underscore (_), period (.), and tilde (~) are unreserved and don't need encoding. This tool automatically handles encoding all characters that need it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I encode international characters and emoji?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! This tool fully supports UTF-8 encoding of international characters, emoji, and any Unicode symbols. Characters like é, ñ, 中文, 日本語, and emoji are automatically converted to their UTF-8 byte representation and then percent-encoded as %XX sequences. This is essential for URLs containing non-English content, international domain names, and modern web applications that handle global data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is URL encoding the same as encryption?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, URL encoding is not encryption and provides no security. It's simply a way to represent special characters in a format safe for URLs. Anyone can easily decode %20 to a space or %3D to an equals sign. If you need to protect sensitive data in URLs, use HTTPS (which encrypts the entire connection) rather than relying on URL encoding. URL encoding is about format compliance, not security."
+          }
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="css/common.css">
 </head>
 <body>
@@ -85,6 +143,11 @@
     </header>
 
     <div class="container">
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">URL Encoder/Decoder</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Instantly encode text and special characters for safe URL transmission or decode percent-encoded strings back to readable text. URL encoding (also called percent encoding) is essential for safely passing data through URLs, query parameters, and API requests. Whether you're building web applications, working with APIs, debugging URL parameters, or handling international characters and emoji, this tool makes encoding and decoding simple and instant. This tool supports full UTF-8 and Unicode character encoding, handles international text seamlessly, and performs all operations securely in your browser—no data ever touches our servers. Perfect for developers, DevOps engineers, and anyone working with URLs and web APIs. No registration required—start encoding now!</p>
+        </div>
+
         <div class="tool-container">
             <!-- Toolbar -->
             <div class="toolbar">
@@ -145,66 +208,102 @@
         <!-- Info Section -->
         <div class="info-section">
             <h2>About URL Encoder/Decoder</h2>
+            <p>URL encoding is a fundamental technique in web development that converts special characters into a format safe for transmission through URLs. This tool provides fast, reliable encoding and decoding for URLs, query parameters, API requests, and any situation where you need to safely transmit text through URLs. Whether you're debugging API calls, building web applications with dynamic parameters, handling international content, or working with form data, URL encoding is essential. This tool simplifies the process with an intuitive interface, instant results, and complete privacy—all processing happens entirely in your browser.</p>
 
-            <p>This is a free online tool to encode text for URLs (percent encoding) or decode URL-encoded strings. All processing happens in your browser - your data is never sent to any server.</p>
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Encode to URL Format:</strong> Convert plain text and special characters to percent-encoded (URL-safe) format instantly</li>
+                <li><strong>Decode from URL Format:</strong> Convert percent-encoded strings back to readable plain text</li>
+                <li><strong>UTF-8 & Unicode Support:</strong> Handles international characters, emoji, accents, and all Unicode symbols correctly</li>
+                <li><strong>Real-Time Processing:</strong> Get instant results without page reloads or delays</li>
+                <li><strong>One-Click Copy:</strong> Quickly copy encoded or decoded output to your clipboard</li>
+                <li><strong>Error Detection:</strong> Receive clear error messages when decoding invalid percent-encoded strings</li>
+                <li><strong>Reserved Character Handling:</strong> Properly encodes all special characters while preserving URL structure</li>
+                <li><strong>100% Client-Side:</strong> All processing happens in your browser—your data never leaves your computer</li>
+            </ul>
 
-            <div class="feature-grid">
-                <div class="feature-box">
-                    <h3>100% Private</h3>
-                    <p>Your data is processed entirely in your browser. Nothing is uploaded to our servers.</p>
-                </div>
-                <div class="feature-box">
-                    <h3>Fast & Reliable</h3>
-                    <p>Instant encoding and decoding with no network delays. Works offline once loaded.</p>
-                </div>
-                <div class="feature-box">
-                    <h3>Free to Use</h3>
-                    <p>Completely free with no registration required. Use it as many times as you need.</p>
-                </div>
-                <div class="feature-box">
-                    <h3>Simple Interface</h3>
-                    <p>Clean, straightforward design focused on getting your work done quickly.</p>
-                </div>
-            </div>
+            <h3>How to Use This Tool</h3>
 
-            <h3>How to Use</h3>
+            <p><strong>Method 1: Encode Text for URLs</strong></p>
             <ol>
-                <li><strong>To Encode:</strong> Enter plain text or URL in the Input field and click "Encode URL"</li>
-                <li><strong>To Decode:</strong> Enter URL-encoded string in the Input field and click "Decode URL"</li>
-                <li>Click "Copy Output" to copy the result to clipboard</li>
-                <li>Click "Clear" to reset both fields</li>
+                <li>Paste your plain text into the "Input" text area on the left</li>
+                <li>Click the "Encode URL" button to convert it to percent-encoded format</li>
+                <li>The encoded result appears instantly in the "Output" area on the right</li>
+                <li>Use the "Copy Output" button to copy the encoded string to your clipboard</li>
+                <li>The encoded text is now safe to use in URLs, query parameters, and API calls</li>
             </ol>
 
-            <h3>Keyboard Shortcuts</h3>
+            <p><strong>Method 2: Decode URL-Encoded Strings</strong></p>
+            <ol>
+                <li>Paste your URL-encoded (percent-encoded) string into the "Input" text area</li>
+                <li>Click the "Decode URL" button to convert it back to readable text</li>
+                <li>The decoded text appears immediately in the "Output" area</li>
+                <li>Copy the result if needed using the "Copy Output" button</li>
+                <li>If the input is invalid, you'll see a clear error message</li>
+            </ol>
+
+            <p><strong>Keyboard Shortcuts (Power Users)</strong></p>
             <ul>
-                <li><strong>Ctrl+Enter</strong> - Encode URL</li>
-                <li><strong>Ctrl+Shift+Enter</strong> - Decode URL</li>
+                <li><strong>Ctrl + Enter</strong> - Encode URL</li>
+                <li><strong>Ctrl + Shift + Enter</strong> - Decode URL</li>
             </ul>
 
-            <h3>What is URL Encoding?</h3>
-            <p>URL encoding (also called percent encoding) is a mechanism for encoding information in a Uniform Resource Identifier (URI). URLs can only contain certain characters from the standard ASCII character set. Reserved or unsafe characters must be encoded using percent-encoding.</p>
+            <p><em>Pro tip: When debugging URLs from browser history or logs, paste the entire URL and decode it to see the original query parameters and values clearly.</em></p>
 
             <h3>Common Use Cases</h3>
+
+            <p><strong>Building Dynamic API Requests with Query Parameters</strong></p>
+            <p>When building REST APIs or web applications that accept query parameters, special characters in values like search queries, user names, or descriptions must be URL-encoded. For example, if a user searches for "hello world" in your app, you need to encode it as "hello%20world" (or "hello+world") before adding it to a URL like "https://api.example.com/search?q=hello%20world". This tool makes encoding parameter values simple—just paste the value and encode it to get the proper format for your URL.</p>
+
+            <p><strong>Debugging and Inspecting URLs from Logs and Browser History</strong></p>
+            <p>When working with logs, browser history, or API debugging tools, URLs often appear in encoded format making them difficult to read. Decode the URL to see the actual parameter values and understand what data was transmitted. For example, an encoded URL might look like "https://example.com/search?q=python%20programming&sort=date%20desc", but decoding it reveals the original values "python programming" and "date desc", making it much easier to debug issues or verify data transmission.</p>
+
+            <p><strong>Handling International Characters and Emoji in URLs</strong></p>
+            <p>Modern web applications need to support international content and emoji in URLs. Characters like é, ñ, 中文, or emoji aren't safe in URLs and must be encoded. This tool handles UTF-8 encoding automatically, converting international text and emoji to their percent-encoded equivalents. This is essential for global applications, multilingual search, and modern APIs that accept emoji or international user input in URLs.</p>
+
+            <p><strong>Form Data and POST Parameters</strong></p>
+            <p>When submitting HTML forms via GET requests or building form-encoded data for APIs, form field values containing special characters, spaces, or punctuation must be properly URL-encoded. This tool ensures values are correctly encoded before being added to URLs or form data. For example, a form field value "John O'Neill & Co." must be encoded as "John%20O%27Neill%20%26%20Co." to be transmitted safely through URLs.</p>
+
+            <h3>Tips & Best Practices</h3>
             <ul>
-                <li><strong>Query parameters:</strong> Encoding special characters in URL query strings</li>
-                <li><strong>Form data:</strong> Submitting form data via GET requests</li>
-                <li><strong>API requests:</strong> Safely passing parameters in API calls</li>
-                <li><strong>Path segments:</strong> Encoding file names or folder names in URLs</li>
-                <li><strong>Data transmission:</strong> Ensuring safe data transfer in URLs</li>
+                <li><strong>Use encoding for user input:</strong> Always encode user-supplied values before putting them in URLs to prevent injection attacks and ensure safe transmission</li>
+                <li><strong>Understand reserved vs. unreserved characters:</strong> Characters like /, :, ?, # have special meaning in URLs and should only be encoded in specific contexts (use encodeURIComponent for query values)</li>
+                <li><strong>Decode before displaying:</strong> When showing decoded URLs to users, always decode them first so they see the actual values rather than percent-encoded strings</li>
+                <li><strong>HTTPS protects encoding:</strong> Remember that URL encoding is for format compliance, not security. Always use HTTPS to protect sensitive data in URLs from being intercepted</li>
+                <li><strong>Test before production:</strong> Verify your encoded URLs work correctly in your application before deploying, especially when handling edge cases or international characters</li>
+                <li><strong>Watch for double encoding:</strong> If your backend also encodes, you may end up with double encoding (e.g., %20 becomes %2520). Only encode once at the appropriate layer</li>
             </ul>
 
-            <h3>Common Encodings</h3>
-            <ul>
-                <li><strong>Space:</strong> Encoded as <code>%20</code> or <code>+</code></li>
-                <li><strong>!</strong> Encoded as <code>%21</code></li>
-                <li><strong>#:</strong> Encoded as <code>%23</code></li>
-                <li><strong>$:</strong> Encoded as <code>%24</code></li>
-                <li><strong>&:</strong> Encoded as <code>%26</code></li>
-                <li><strong>@:</strong> Encoded as <code>%40</code></li>
-            </ul>
+            <h3>Frequently Asked Questions</h3>
 
-            <h3>Privacy & Security</h3>
-            <p>This tool runs entirely in your browser using JavaScript. Your data is never transmitted to any server. All encoding and decoding operations are performed locally on your computer.</p>
+            <p><strong>Q: What's the difference between encoding and escaping?</strong></p>
+            <p>A: Encoding and escaping are related but different concepts. Escaping refers to adding special characters (usually backslashes) to represent characters that have special meaning in a context. URL encoding (percent encoding) converts characters to %XX format where XX is the hexadecimal character code. URL encoding is specifically about making URLs safe for transmission, while escaping is a broader term used in many programming contexts. This tool performs URL encoding, which is the proper method for making URLs safe.</p>
+
+            <p><strong>Q: When should I use encodeURI vs encodeURIComponent?</strong></p>
+            <p>A: encodeURI is used to encode an entire URL (protocol, domain, path) and preserves special characters like :/?#[]@!$&'()*+,;= that have meaning in URLs. encodeURIComponent is used to encode individual URI components (query parameters, fragment identifiers) and encodes all special characters. Use encodeURIComponent when encoding query parameters or values within URLs. This tool uses encodeURIComponent, which is appropriate for encoding individual values that will be used as query parameters or in other URL components.</p>
+
+            <p><strong>Q: Why do spaces sometimes become + and sometimes %20?</strong></p>
+            <p>A: Both %20 and + represent spaces in URLs, but in different contexts. In query strings (application/x-www-form-urlencoded), spaces become +. In other URL components and percent encoding generally, spaces become %20. This tool outputs %20 which is the standard URL encoding format. When parsing URLs in different contexts, your server may handle both + and %20 as spaces depending on how it decodes the URL.</p>
+
+            <p><strong>Q: What characters need to be URL encoded?</strong></p>
+            <p>A: Reserved characters (: / ? # [ ] @ ! $ & ' ( ) * + , ; =), unsafe characters (space, quotes, angle brackets), and characters outside ASCII range (accents, emoji, non-Latin scripts) all require URL encoding. Additionally, the percent sign (%) itself must be encoded as %25 to avoid confusion with the encoding format. Letters (A-Z, a-z), digits (0-9), hyphen (-), underscore (_), period (.), and tilde (~) are unreserved and don't need encoding. This tool automatically handles encoding all characters that need it.</p>
+
+            <p><strong>Q: Can I encode international characters and emoji?</strong></p>
+            <p>A: Yes! This tool fully supports UTF-8 encoding of international characters, emoji, and any Unicode symbols. Characters like é, ñ, 中文, 日本語, and emoji are automatically converted to their UTF-8 byte representation and then percent-encoded as %XX sequences. This is essential for URLs containing non-English content, international domain names, and modern web applications that handle global data.</p>
+
+            <p><strong>Q: Is URL encoding the same as encryption?</strong></p>
+            <p>A: No, URL encoding is not encryption and provides no security. It's simply a way to represent special characters in a format safe for URLs. Anyone can easily decode %20 to a space or %3D to an equals sign. If you need to protect sensitive data in URLs, use HTTPS (which encrypts the entire connection) rather than relying on URL encoding. URL encoding is about format compliance, not security.</p>
+
+            <h3>URL Encoding Reference</h3>
+            <p>This tool encodes the following character categories:</p>
+            <ul>
+                <li><strong>Spaces:</strong> Encoded as %20</li>
+                <li><strong>Special characters:</strong> !, @, #, $, %, &, ', (, ), *, +, comma, :, ;, =, ?, [, ], etc. all encoded to %XX format</li>
+                <li><strong>International characters:</strong> À, é, ü, ñ, and all Unicode characters converted to UTF-8 bytes then percent-encoded</li>
+                <li><strong>Emoji:</strong> 😀, 🚀, ❤️ etc. converted to UTF-8 and percent-encoded</li>
+                <li><strong>Control characters:</strong> Newlines, tabs, and other non-printing characters properly encoded</li>
+            </ul>
+            <p>Unreserved characters that do NOT need encoding: A-Z, a-z, 0-9, hyphen (-), underscore (_), period (.), and tilde (~).</p>
         </div>
     </div>
 
