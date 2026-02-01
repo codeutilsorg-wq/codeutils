@@ -1091,5 +1091,25 @@
         "icon": "J>T",
         "popular": false,
         "status": "live"
+    },
+    {
+        "id": "javascript-optimizer",
+        "name": "JavaScript Code Optimizer",
+        "description": "Optimize and compress JavaScript code to reduce file size with minification and dead code removal",
+        "url": "javascript-optimizer.html",
+        "category": "Developer Tools",
+        "categoryId": "developer",
+        "keywords": [
+            "optimize javascript code",
+            "compress js",
+            "minify javascript",
+            "javascript optimizer",
+            "js optimizer",
+            "optimize code",
+            "javascript compression"
+        ],
+        "icon": "JS⚡",
+        "popular": true,
+        "status": "live"
     }
 ]

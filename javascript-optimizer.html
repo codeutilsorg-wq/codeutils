@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimize JavaScript Code Online - Free JS Code Optimizer & Minifier</title>
+    <meta name="description" content="Optimize and compress JavaScript code to reduce file size and improve performance. Free online JS optimizer with minification, dead code removal, and variable mangling. No signup required, 100% client-side processing.">
+    <meta name="keywords" content="optimize javascript code, compress js, minify javascript, javascript optimizer, js optimizer, optimize code, javascript compression, reduce js file size, javascript minifier, compress javascript">
+    <link rel="canonical" href="https://codeutils.org/javascript-optimizer.html">
+
+    <!-- Favicon and Touch Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <meta name="theme-color" content="#3498db">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/javascript-optimizer.html">
+    <meta property="og:title" content="Optimize JavaScript Code Online - Free JS Code Optimizer">
+    <meta property="og:description" content="Free online JavaScript optimizer. Reduce file size, minify, compress, and optimize JS code for production. 100% private client-side processing.">
+    <meta property="og:image" content="https://codeutils.org/images/og/javascript-optimizer.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="JavaScript Code Optimizer - Free online tool">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Optimize JavaScript Code - Free JS Optimizer">
+    <meta name="twitter:description" content="Free JavaScript code optimizer. Minify, compress, and optimize JS for production with dead code removal and variable mangling.">
+    <meta name="twitter:image" content="https://codeutils.org/images/og/javascript-optimizer.png">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <!-- Terser Library for JS Minification -->
+    <script src="https://cdn.jsdelivr.net/npm/terser@5.26.0/dist/bundle.min.js"></script>
+
+    <link rel="stylesheet" href="css/common.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>JavaScript Code Optimizer & Minifier</h2>
+
+        <div class="drop-zone" id="dropZone">
+            Drop JavaScript file here or click Upload button
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="optimizeJS()" title="Optimize JavaScript (Ctrl+Enter)">
+                Optimize Code
+            </button>
+            <button class="btn btn-secondary" onclick="copyOutput()" title="Copy to clipboard (Ctrl+K)">
+                Copy
+            </button>
+            <label for="fileUpload" class="btn btn-secondary" style="margin: 0;">
+                Upload JS File
+            </label>
+            <input type="file" id="fileUpload" class="file-upload" accept=".js,application/javascript,text/plain">
+            <button class="btn btn-secondary" onclick="downloadJS()">
+                Download
+            </button>
+            <button class="btn btn-outline" onclick="clearAll()">
+                Clear
+            </button>
+        </div>
+
+        <!-- Optimization Options -->
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h3 style="margin-top: 0; margin-bottom: var(--spacing-sm); font-size: 16px; color: var(--text-primary);">
+                Optimization Options
+            </h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="removeComments" checked>
+                    <span>Remove comments</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="removeConsole" checked>
+                    <span>Remove console.log()</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="mangleNames" checked>
+                    <span>Mangle variable names</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="removeDeadCode" checked>
+                    <span>Remove dead code</span>
+                </label>
+            </div>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div class="editor-container">
+            <div class="editor-section">
+                <div class="editor-header">Input JavaScript</div>
+                <textarea id="inputCode" class="editor" placeholder="Paste your JavaScript code here..."></textarea>
+            </div>
+            <div class="editor-section">
+                <div class="editor-header">Optimized Output</div>
+                <textarea id="outputCode" class="editor" readonly placeholder="Optimized JavaScript will appear here..."></textarea>
+            </div>
+        </div>
+
+        <!-- Stats Display -->
+        <div id="statsDisplay" class="card" style="display: none; margin-top: var(--spacing-md); padding: var(--spacing-md);">
+            <h3 style="margin-top: 0; margin-bottom: var(--spacing-sm); color: var(--primary);">
+                Optimization Results
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
+                <div>
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;">Original Size</div>
+                    <div style="font-size: 20px; font-weight: 600; color: var(--text-primary);" id="originalSize">-</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;">Optimized Size</div>
+                    <div style="font-size: 20px; font-weight: 600; color: var(--success);" id="optimizedSize">-</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;">Size Reduction</div>
+                    <div style="font-size: 20px; font-weight: 600; color: var(--primary);" id="reduction">-</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;">Compression</div>
+                    <div style="font-size: 20px; font-weight: 600; color: var(--success);" id="compressionRatio">-</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Tools -->
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="js-formatter.html">JavaScript Formatter</a></li>
+                <li><a href="json-formatter.html">JSON Formatter</a></li>
+                <li><a href="typescript-formatter.html">TypeScript Formatter</a></li>
+                <li><a href="hash-generator.html">Hash Generator</a></li>
+            </ul>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <h3>About JavaScript Code Optimizer</h3>
+            <p>
+                Optimize and compress JavaScript code to reduce file size and improve website performance. This free
+                online JavaScript optimizer uses Terser, the industry-standard minification tool, to minify, compress,
+                and optimize your JS code for production deployment. All processing happens entirely in your browser
+                using JavaScript - your code never leaves your device, ensuring complete privacy and security.
+            </p>
+
+            <h3>How to Optimize JavaScript Code</h3>
+            <ol>
+                <li><strong>Paste your code:</strong> Copy JavaScript code from your project and paste it into the input area</li>
+                <li><strong>Choose options:</strong> Select optimization options like removing console.log(), mangling variables, or removing dead code</li>
+                <li><strong>Click Optimize:</strong> Click the "Optimize Code" button or press Ctrl+Enter</li>
+                <li><strong>Copy result:</strong> Copy the optimized code using the Copy button or download it as a .js file</li>
+            </ol>
+
+            <h3>Optimization Features</h3>
+            <ul>
+                <li><strong>Code Minification:</strong> Remove whitespace, newlines, and unnecessary characters to reduce file size by 40-60%</li>
+                <li><strong>Variable Mangling:</strong> Shorten variable and function names (a, b, c) to further reduce file size</li>
+                <li><strong>Dead Code Elimination:</strong> Remove unreachable code and unused variables automatically</li>
+                <li><strong>Console.log Removal:</strong> Strip all console.log() statements for production builds</li>
+                <li><strong>Comment Removal:</strong> Remove all comments to reduce file size while preserving functionality</li>
+                <li><strong>Compression Statistics:</strong> See exactly how much smaller your code became with detailed stats</li>
+                <li><strong>File Upload Support:</strong> Upload .js files directly or drag and drop into the browser</li>
+                <li><strong>One-Click Download:</strong> Save optimized code as a .js file instantly</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing - your code never touches our servers</li>
+            </ul>
+
+            <h3>Why Optimize JavaScript Code?</h3>
+            <p><strong>Faster Page Load Times</strong></p>
+            <p>
+                Smaller JavaScript files download faster, especially on mobile networks or slow connections. By reducing
+                your JS file size by 40-60%, you significantly improve page load times and user experience. Every
+                kilobyte saved means faster downloads and quicker script execution.
+            </p>
+
+            <p><strong>Improved Website Performance</strong></p>
+            <p>
+                Modern websites often include hundreds of kilobytes of JavaScript. Optimizing your code reduces the
+                amount of data browsers need to download, parse, and execute. This leads to better performance scores
+                in tools like Google Lighthouse, PageSpeed Insights, and WebPageTest.
+            </p>
+
+            <p><strong>Better SEO Rankings</strong></p>
+            <p>
+                Google considers page speed as a ranking factor. Faster-loading pages rank higher in search results.
+                By optimizing JavaScript files, you reduce load times and improve Core Web Vitals metrics, which
+                directly impact your SEO performance.
+            </p>
+
+            <p><strong>Reduced Bandwidth Costs</strong></p>
+            <p>
+                For high-traffic websites, smaller files mean lower bandwidth usage and reduced hosting costs. If your
+                site serves millions of requests, optimizing JavaScript can save significant money on CDN and bandwidth
+                expenses.
+            </p>
+
+            <h3>JavaScript Optimization Best Practices</h3>
+            <ul>
+                <li><strong>Keep source code formatted:</strong> Maintain readable, formatted code in development. Only minify for production builds</li>
+                <li><strong>Use source maps:</strong> Generate source maps when building for production so you can debug minified code if needed</li>
+                <li><strong>Remove console statements:</strong> Always remove console.log() and debugging code before production deployment</li>
+                <li><strong>Enable variable mangling:</strong> Mangling reduces file size significantly with no impact on functionality</li>
+                <li><strong>Test after optimization:</strong> Always test your optimized code to ensure it works correctly</li>
+                <li><strong>Combine with compression:</strong> Use with gzip or Brotli compression on your server for maximum size reduction</li>
+                <li><strong>Optimize dependencies:</strong> Also minify third-party libraries and dependencies for best results</li>
+            </ul>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Production Deployment</strong></p>
+            <p>
+                Before deploying to production, optimize all JavaScript files to reduce load times. This is standard
+                practice for professional web development. Most build tools (webpack, vite, rollup) use Terser
+                internally for production builds.
+            </p>
+
+            <p><strong>Single-File Projects</strong></p>
+            <p>
+                For simple projects without build tools, use this online optimizer to prepare JavaScript files for
+                production. Upload your script, optimize it, and download the minified version ready for deployment.
+            </p>
+
+            <p><strong>Quick Testing</strong></p>
+            <p>
+                Test how much smaller your code becomes after optimization. See the impact of different optimization
+                options and find the best balance between file size and readability.
+            </p>
+
+            <p><strong>Learning and Teaching</strong></p>
+            <p>
+                Understand how minification works by seeing the before/after results. Learn about dead code elimination,
+                variable mangling, and other optimization techniques used in professional development.
+            </p>
+
+            <h3>Understanding the Results</h3>
+            <p>After optimization, you'll see detailed statistics:</p>
+            <ul>
+                <li><strong>Original Size:</strong> Size of your input code in bytes/KB</li>
+                <li><strong>Optimized Size:</strong> Size after minification and optimization</li>
+                <li><strong>Size Reduction:</strong> How many bytes were saved</li>
+                <li><strong>Compression Ratio:</strong> Percentage reduction (typically 40-60% for well-formatted code)</li>
+            </ul>
+
+            <h3>Tips for Maximum Optimization</h3>
+            <ul>
+                <li>Enable all optimization options for production builds</li>
+                <li>Remove console.log() statements - they add unnecessary bytes</li>
+                <li>Variable mangling is safe and saves significant space</li>
+                <li>Dead code elimination removes unreachable code automatically</li>
+                <li>Combine multiple JS files before optimization for better results</li>
+                <li>Test optimized code thoroughly before deployment</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my code safe when using this tool?</strong></p>
+            <p>
+                A: Yes! All JavaScript optimization happens entirely in your browser using the Terser library. Your code
+                never leaves your computer and is never uploaded to any server. We don't store, log, or transmit your
+                code in any way. This makes our tool completely safe for proprietary code, client projects, or sensitive
+                scripts.
+            </p>
+
+            <p><strong>Q: Will optimization break my code?</strong></p>
+            <p>
+                A: Terser is battle-tested and used by millions of developers in production. It's the same minifier used
+                by webpack, Next.js, and other major tools. However, always test optimized code before deploying. Some
+                edge cases (like code relying on specific function names) may need adjustments.
+            </p>
+
+            <p><strong>Q: What's the difference between minification and optimization?</strong></p>
+            <p>
+                A: Minification removes whitespace and shortens code. Optimization goes further by removing dead code,
+                simplifying expressions, and making the code more efficient. This tool does both - minifying for size
+                and optimizing for performance.
+            </p>
+
+            <p><strong>Q: Can I reverse the optimization?</strong></p>
+            <p>
+                A: No, minification is one-way. Variable names are lost during mangling. Always keep your original source
+                code. Use this tool only on copies destined for production, never on your only copy of the code.
+            </p>
+
+            <p><strong>Q: How much smaller will my code be?</strong></p>
+            <p>
+                A: Typical reduction is 40-60% for well-formatted code with comments. Code that's already compact may
+                see less reduction. Code with extensive comments and whitespace may see 70%+ reduction.
+            </p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Initialize theme
+        CodeUtils.Theme.init();
+
+        // Track tool visit
+        CodeUtils.RecentTools.add({
+            id: 'javascript-optimizer',
+            name: 'JavaScript Code Optimizer',
+            url: 'javascript-optimizer.html'
+        });
+
+        // DOM elements
+        const inputCode = document.getElementById('inputCode');
+        const outputCode = document.getElementById('outputCode');
+        const fileUpload = document.getElementById('fileUpload');
+        const statsDisplay = document.getElementById('statsDisplay');
+
+        // Options
+        const removeComments = document.getElementById('removeComments');
+        const removeConsole = document.getElementById('removeConsole');
+        const mangleNames = document.getElementById('mangleNames');
+        const removeDeadCode = document.getElementById('removeDeadCode');
+
+        // Initialize message handler
+        CodeUtils.Message.init('message');
+
+        // Initialize drag and drop
+        CodeUtils.DragDrop.init('dropZone', async (file) => {
+            const sizeCheck = CodeUtils.FileHandler.checkSize(file);
+            if (sizeCheck.level === 'error') {
+                CodeUtils.Message.error(sizeCheck.message);
+                return;
+            } else if (sizeCheck.level === 'warning') {
+                CodeUtils.Message.warning(sizeCheck.message);
+            }
+
+            try {
+                const content = await CodeUtils.FileHandler.readAsText(file);
+                inputCode.value = content;
+                CodeUtils.Message.success('File loaded successfully!');
+            } catch (err) {
+                CodeUtils.Message.error('Error reading file');
+            }
+        });
+
+        // File upload handler
+        fileUpload.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const sizeCheck = CodeUtils.FileHandler.checkSize(file);
+            if (sizeCheck.level === 'error') {
+                CodeUtils.Message.error(sizeCheck.message);
+                return;
+            } else if (sizeCheck.level === 'warning') {
+                CodeUtils.Message.warning(sizeCheck.message);
+            }
+
+            try {
+                const content = await CodeUtils.FileHandler.readAsText(file);
+                inputCode.value = content;
+                CodeUtils.Message.success('File loaded successfully!');
+            } catch (err) {
+                CodeUtils.Message.error('Error reading file');
+            }
+        });
+
+        // Format bytes to human readable
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        // Optimize JavaScript
+        async function optimizeJS() {
+            const input = inputCode.value.trim();
+
+            if (!input) {
+                CodeUtils.Message.error('Please enter JavaScript code to optimize');
+                return;
+            }
+
+            try {
+                // Show loading message
+                CodeUtils.Message.info('Optimizing JavaScript code...');
+
+                // Configure Terser options
+                const options = {
+                    compress: {
+                        dead_code: removeDeadCode.checked,
+                        drop_console: removeConsole.checked,
+                        drop_debugger: true,
+                        unused: removeDeadCode.checked
+                    },
+                    mangle: mangleNames.checked,
+                    format: {
+                        comments: !removeComments.checked ? 'all' : false
+                    }
+                };
+
+                // Run Terser minification
+                const result = await Terser.minify(input, options);
+
+                if (result.error) {
+                    throw result.error;
+                }
+
+                // Calculate statistics
+                const originalSize = new Blob([input]).size;
+                const optimizedSize = new Blob([result.code]).size;
+                const reduction = originalSize - optimizedSize;
+                const compressionRatio = ((reduction / originalSize) * 100).toFixed(1);
+
+                // Display optimized code
+                outputCode.value = result.code;
+
+                // Show statistics
+                document.getElementById('originalSize').textContent = formatBytes(originalSize);
+                document.getElementById('optimizedSize').textContent = formatBytes(optimizedSize);
+                document.getElementById('reduction').textContent = formatBytes(reduction);
+                document.getElementById('compressionRatio').textContent = compressionRatio + '%';
+                statsDisplay.style.display = 'block';
+
+                CodeUtils.Message.success(`Code optimized! Reduced by ${compressionRatio}% (${formatBytes(reduction)} saved)`);
+
+            } catch (error) {
+                CodeUtils.Message.error(`Optimization failed: ${error.message}`);
+                outputCode.value = '';
+                statsDisplay.style.display = 'none';
+            }
+        }
+
+        // Copy output to clipboard
+        async function copyOutput() {
+            if (!outputCode.value) {
+                CodeUtils.Message.error('Nothing to copy. Optimize code first.');
+                return;
+            }
+
+            try {
+                await CodeUtils.Clipboard.copy(outputCode.value);
+                CodeUtils.Message.success('Copied to clipboard!');
+            } catch (err) {
+                CodeUtils.Message.error(err.message);
+            }
+        }
+
+        // Download optimized JavaScript
+        function downloadJS() {
+            if (!outputCode.value) {
+                CodeUtils.Message.error('Nothing to download. Optimize code first.');
+                return;
+            }
+
+            CodeUtils.FileHandler.download(outputCode.value, 'optimized.min.js', 'application/javascript');
+            CodeUtils.Message.success('File downloaded!');
+        }
+
+        // Clear all inputs and outputs
+        function clearAll() {
+            inputCode.value = '';
+            outputCode.value = '';
+            statsDisplay.style.display = 'none';
+            CodeUtils.Message.hide();
+        }
+
+        // Keyboard shortcuts
+        CodeUtils.Shortcuts.register('Enter', optimizeJS, true);  // Ctrl+Enter to optimize
+        CodeUtils.Shortcuts.register('k', copyOutput, true);      // Ctrl+K to copy
+    </script>
+</body>
+</html>
