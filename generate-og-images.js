@@ -126,7 +126,7 @@ async function generateHomepageImage() {
     </head>
     <body>
       <h1>Code Utils</h1>
-      <div class="subtitle">59+ Free Developer Tools</div>
+      <div class="subtitle">62+ Free Developer Tools</div>
       <div class="badge">🔒 100% Private • No Registration • Free Forever</div>
       <div class="url">codeutils.org</div>
     </body>
