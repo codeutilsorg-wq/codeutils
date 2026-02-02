@@ -1,6 +1,12 @@
+# Dependencies
+node_modules/
+
 # Claude Code files
 .claude/
 CLAUDE.md
 planned_tools.md
 project-summary-md.txt
 *.md
+
+# MCP configuration (contains credentials)
+.mcp.json
