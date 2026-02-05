@@ -131,6 +131,44 @@
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <style>
+        /* Tool section standardization */
+        .tool-section {
+            background: var(--bg-primary);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .tool-section h3 {
+            color: var(--primary);
+            margin: 0 0 var(--spacing-md) 0;
+        }
+
+        /* Collapsible sections styling */
+        details.tool-section > summary {
+            list-style: none;
+            transition: background 0.2s;
+        }
+
+        details.tool-section > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details.tool-section > summary::before {
+            content: '▶ ';
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        details.tool-section[open] > summary::before {
+            transform: rotate(90deg);
+        }
+
+        details.tool-section > summary:hover {
+            background: var(--bg-secondary);
+        }
+
         .qr-container {
             display: flex;
             flex-direction: column;
@@ -149,7 +187,7 @@
         }
         .options-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: var(--spacing-md);
             margin-bottom: var(--spacing-md);
             width: 100%;
@@ -190,15 +228,6 @@
         #qrcode.hidden {
             display: none;
         }
-        .editor-section {
-            margin-bottom: var(--spacing-md);
-        }
-        .editor-section .options-grid {
-            margin-bottom: var(--spacing-sm);
-        }
-        .editor-section .editor {
-            width: 100%;
-        }
         #logoSizeValue {
             display: inline-block;
             margin-left: var(--spacing-xs);
@@ -207,6 +236,234 @@
         }
         #logoSize {
             width: calc(100% - 50px);
+        }
+
+        /* Keyboard Shortcuts & Accessibility */
+        kbd {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            padding: 2px 6px;
+            font-family: monospace;
+            font-size: 0.875em;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .keyboard-hints {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Screen reader only content */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Enhanced focus styles for accessibility */
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible,
+        a:focus-visible,
+        details > summary:focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
+        }
+
+        /* Preset Swatches */
+        .preset-swatch {
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 0;
+        }
+
+        .preset-swatch:hover {
+            transform: scale(1.1);
+            border-color: var(--primary);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .preset-swatch:active {
+            transform: scale(0.95);
+        }
+
+        .preset-swatch:focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Logo Upload Card */
+        .logo-upload-card {
+            background: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius);
+            border: 2px dashed var(--border);
+            text-align: center;
+        }
+
+        .logo-preview-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto var(--spacing-sm);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-primary);
+            overflow: hidden;
+        }
+
+        .logo-preview-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .upload-placeholder {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-align: center;
+            padding: var(--spacing-sm);
+        }
+
+        /* Validation Status Card */
+        .validation-status-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .validation-row {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            margin: 4px 0;
+            font-size: 0.875rem;
+            flex-wrap: wrap;
+        }
+
+        .validation-row > span {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        /* Download Toolbar */
+        .download-toolbar {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            margin-top: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .download-actions {
+            display: flex;
+            gap: var(--spacing-xs);
+            flex-wrap: wrap;
+        }
+
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tool-section {
+                padding: var(--spacing-md);
+            }
+
+            #qrcode {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .preset-swatch {
+                width: 45px;
+                height: 45px;
+            }
+
+            .validation-row {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .validation-row > span {
+                min-width: 0;
+            }
+
+            /* Download toolbar stacks on mobile */
+            .download-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .download-toolbar > div {
+                width: 100%;
+            }
+
+            .download-actions {
+                flex-direction: column;
+            }
+
+            .download-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            /* Larger touch targets on mobile */
+            .btn {
+                min-height: 44px;
+                padding: 12px 20px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            input[type="url"],
+            input[type="number"],
+            select,
+            textarea {
+                min-height: 44px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .preset-swatch {
+                width: 40px;
+                height: 40px;
+            }
+
+            .tool-section {
+                padding: var(--spacing-sm);
+            }
+
+            h3 {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -224,36 +481,51 @@
     </header>
 
     <div class="container">
-        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+        <div class="card tool-section" style="margin-bottom: var(--spacing-lg);">
             <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">QR Code Generator</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Professional QR code generator with advanced customization. Create branded QR codes with logo upload, gradient colors, custom shapes (squares, dots, rounded), and adjustable error correction. Generate specialized QR codes for vCard contacts, WiFi networks, emails, and SMS messages. Download in multiple formats (PNG, SVG vector, PDF) for print and web. Customize every aspect: colors, gradients, module patterns, and sizes up to 2048px. Perfect for business cards, marketing materials, event tickets, WiFi sharing, and professional branding. All processing happens securely in your browser—100% private with no data uploaded to servers.</p>
+            <p style="margin: 0; color: var(--text-secondary);">Create professional QR codes in seconds. Support for vCard, WiFi, Email, URLs, and more. 100% private - all processing in your browser.</p>
         </div>
 
-        <div class="options-grid">
-            <div class="option-group" style="grid-column: 1 / -1;">
-                <label>QR Code Type</label>
-                <select id="qrType" onchange="toggleQRTypeInputs()" style="width: 100%;">
-                    <option value="text">Text / URL</option>
-                    <option value="vcard">vCard (Contact)</option>
-                    <option value="wifi">WiFi Network</option>
-                    <option value="email">Email</option>
-                    <option value="sms">SMS</option>
-                    <option value="phone">Phone / Call</option>
-                    <option value="event">Event / Calendar</option>
-                    <option value="location">Location / Maps</option>
+        <div class="tool-section">
+            <h3 id="qrTypeHeading" style="margin-bottom: var(--spacing-md);">1. Select QR Code Type</h3>
+            <div class="option-group">
+                <label for="qrType">What do you want to encode?</label>
+                <select id="qrType" onchange="toggleQRTypeInputs()"
+                        aria-labelledby="qrTypeHeading"
+                        aria-describedby="qrTypeHint"
+                        style="width: 100%;">
+                    <option value="text">🔗 Text / URL</option>
+                    <option value="vcard">👤 vCard (Contact)</option>
+                    <option value="wifi">📶 WiFi Network</option>
+                    <option value="email">✉️ Email</option>
+                    <option value="sms">💬 SMS</option>
+                    <option value="phone">📞 Phone / Call</option>
+                    <option value="event">📅 Event / Calendar</option>
+                    <option value="location">📍 Location / Maps</option>
                 </select>
+                <small id="qrTypeHint" class="sr-only">Choose the type of information you want to encode in your QR code</small>
             </div>
         </div>
 
         <!-- Text/URL Input -->
-        <div id="textInput" class="editor-section">
-            <div class="editor-header">Content</div>
-            <textarea id="contentInput" class="editor" style="height: 80px; resize: vertical;" placeholder="Enter text, URL, or data..." oninput="validateInput()">https://codeutils.org</textarea>
+        <div id="textInput" class="tool-section">
+            <h3 id="contentHeading" style="margin-bottom: var(--spacing-md);">2. Enter Your Content</h3>
+            <div class="editor-header">
+                <label for="contentInput">Content</label>
+            </div>
+            <textarea id="contentInput" class="editor"
+                      aria-labelledby="contentHeading"
+                      aria-describedby="contentHint validationStatus"
+                      style="height: 80px; resize: vertical;"
+                      placeholder="Enter text, URL, or data..."
+                      oninput="validateInput()">https://codeutils.org</textarea>
+            <small id="contentHint" class="sr-only">Enter the text, URL, or data you want to encode in the QR code. Maximum 4,296 characters.</small>
             <div id="validationStatus" style="margin-top: var(--spacing-xs); font-size: 0.875rem; display: flex; gap: var(--spacing-md); flex-wrap: wrap;"></div>
         </div>
 
         <!-- vCard Input -->
-        <div id="vcardInput" class="editor-section" style="display: none;">
+        <div id="vcardInput" class="tool-section" style="display: none;">
+            <h3 style="margin-bottom: var(--spacing-md);">2. Enter Contact Information</h3>
             <div class="editor-header">Contact Information</div>
             <div class="options-grid">
                 <div class="option-group">
@@ -284,7 +556,8 @@
         </div>
 
         <!-- WiFi Input -->
-        <div id="wifiInput" class="editor-section" style="display: none;">
+        <div id="wifiInput" class="tool-section" style="display: none;">
+            <h3 style="margin-bottom: var(--spacing-md);">2. Enter WiFi Details</h3>
             <div class="editor-header">WiFi Network</div>
             <div class="options-grid">
                 <div class="option-group">
@@ -311,7 +584,8 @@
         </div>
 
         <!-- Email Input -->
-        <div id="emailInput" class="editor-section" style="display: none;">
+        <div id="emailInput" class="tool-section" style="display: none;">
+            <h3 style="margin-bottom: var(--spacing-md);">2. Enter Email Details</h3>
             <div class="editor-header">Email</div>
             <div class="options-grid">
                 <div class="option-group">
@@ -327,7 +601,8 @@
         </div>
 
         <!-- SMS Input -->
-        <div id="smsInput" class="editor-section" style="display: none;">
+        <div id="smsInput" class="tool-section" style="display: none;">
+            <h3 style="margin-bottom: var(--spacing-md);">2. Enter SMS Details</h3>
             <div class="editor-header">SMS</div>
             <div class="options-grid">
                 <div class="option-group">
@@ -339,7 +614,8 @@
         </div>
 
         <!-- Phone Input -->
-        <div id="phoneInput" class="editor-section" style="display: none;">
+        <div id="phoneInput" class="tool-section" style="display: none;">
+            <h3 style="margin-bottom: var(--spacing-md);">2. Enter Phone Number</h3>
             <div class="editor-header">Phone / Call</div>
             <div class="options-grid">
                 <div class="option-group">
@@ -350,7 +626,8 @@
         </div>
 
         <!-- Event Input -->
-        <div id="eventInput" class="editor-section" style="display: none;">
+        <div id="eventInput" class="tool-section" style="display: none;">
+            <h3 style="margin-bottom: var(--spacing-md);">2. Enter Event Details</h3>
             <div class="editor-header">Event / Calendar</div>
             <div class="options-grid">
                 <div class="option-group">
@@ -374,7 +651,8 @@
         </div>
 
         <!-- Location Input -->
-        <div id="locationInput" class="editor-section" style="display: none;">
+        <div id="locationInput" class="tool-section" style="display: none;">
+            <h3 style="margin-bottom: var(--spacing-md);">2. Enter Location</h3>
             <div class="editor-header">Location / Maps</div>
             <div class="options-grid">
                 <div class="option-group">
@@ -393,153 +671,270 @@
             </div>
         </div>
 
-        <div class="options-grid">
-            <div class="option-group">
-                <label>Size</label>
-                <select id="sizeSelect">
-                    <option value="128">128x128</option>
-                    <option value="256" selected>256x256</option>
-                    <option value="512">512x512</option>
-                    <option value="1024">1024x1024</option>
-                    <option value="2048">2048x2048</option>
-                </select>
+        <details class="tool-section" id="customizationPanel" open>
+            <summary style="cursor: pointer; font-weight: bold; font-size: 1.1rem; margin-bottom: var(--spacing-md); padding: var(--spacing-sm); background: var(--bg-secondary); border-radius: var(--radius); user-select: none;">
+                ⚙️ Customize Appearance (Optional - Click to collapse)
+            </summary>
+
+            <!-- Color Presets - Visual Swatches -->
+            <div style="margin-bottom: var(--spacing-md); padding: var(--spacing-md); background: var(--bg-secondary); border-radius: var(--radius); border: 2px solid var(--primary);">
+                <label style="font-weight: bold; font-size: 1rem; display: block; margin-bottom: var(--spacing-sm);">🎨 Quick Color Presets</label>
+
+                <!-- Visual Swatches -->
+                <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: var(--spacing-sm);">
+                    <button class="preset-swatch" onclick="applyPresetDirect('classic')"
+                            style="background: linear-gradient(135deg, #000000 50%, #ffffff 50%);"
+                            title="Classic Black & White">
+                    </button>
+                    <button class="preset-swatch" onclick="applyPresetDirect('sunset')"
+                            style="background: linear-gradient(135deg, #ff6b35, #f7931e);"
+                            title="Sunset Gradient">
+                    </button>
+                    <button class="preset-swatch" onclick="applyPresetDirect('ocean')"
+                            style="background: linear-gradient(135deg, #0077be, #00b4d8);"
+                            title="Ocean Blue">
+                    </button>
+                    <button class="preset-swatch" onclick="applyPresetDirect('berry')"
+                            style="background: linear-gradient(135deg, #7209b7, #f72585);"
+                            title="Berry Purple">
+                    </button>
+                    <button class="preset-swatch" onclick="applyPresetDirect('forest')"
+                            style="background: linear-gradient(135deg, #2d6a4f, #52b788);"
+                            title="Forest Green">
+                    </button>
+                    <button class="preset-swatch" onclick="applyPresetDirect('instagram')"
+                            style="background: linear-gradient(135deg, #e4405f, #f77737);"
+                            title="Instagram Gradient">
+                    </button>
+                    <button class="preset-swatch preset-more" onclick="showAllPresets()"
+                            style="background: var(--bg-primary); border: 2px dashed var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--text-secondary);"
+                            title="View all 29 presets">
+                        +23<br>more
+                    </button>
+                </div>
+
+                <!-- All Presets Dropdown (Initially Hidden) -->
+                <div id="allPresetsDropdown" style="display: none; margin-top: var(--spacing-sm);">
+                    <select id="colorPreset" onchange="applyColorPreset()" style="width: 100%; font-size: 0.95rem; padding: var(--spacing-xs);">
+                        <option value="">-- Select from All Presets --</option>
+                        <optgroup label="Professional">
+                            <option value="classic">Classic Black & White</option>
+                            <option value="navy">Navy Blue & White</option>
+                            <option value="corporate">Corporate Blue & Gray</option>
+                            <option value="elegant">Elegant Dark Gray & White</option>
+                            <option value="professional">Professional Charcoal & Cream</option>
+                        </optgroup>
+                        <optgroup label="Vibrant">
+                            <option value="sunset">Sunset Orange & Yellow</option>
+                            <option value="ocean">Ocean Blue & Teal</option>
+                            <option value="forest">Forest Green & Lime</option>
+                            <option value="berry">Berry Purple & Pink</option>
+                            <option value="fire">Fire Red & Orange</option>
+                            <option value="neon">Neon Pink & Blue</option>
+                        </optgroup>
+                        <optgroup label="Pastel">
+                            <option value="soft-pink">Soft Pink & White</option>
+                            <option value="mint">Mint Green & Cream</option>
+                            <option value="lavender">Lavender & Light Purple</option>
+                            <option value="peach">Peach & Coral</option>
+                            <option value="sky">Sky Blue & Light Blue</option>
+                        </optgroup>
+                        <optgroup label="High Contrast">
+                            <option value="inverse">White on Black</option>
+                            <option value="yellow-black">Yellow & Black</option>
+                            <option value="cyan-dark">Cyan & Dark Blue</option>
+                            <option value="lime-dark">Lime & Dark Green</option>
+                            <option value="magenta-dark">Magenta & Dark Purple</option>
+                        </optgroup>
+                        <optgroup label="Brand Colors">
+                            <option value="facebook">Facebook Blue</option>
+                            <option value="instagram">Instagram Gradient</option>
+                            <option value="twitter">Twitter Blue</option>
+                            <option value="linkedin">LinkedIn Blue</option>
+                            <option value="youtube">YouTube Red</option>
+                        </optgroup>
+                    </select>
+                    <button class="btn btn-outline btn-sm" onclick="hideAllPresets()" style="margin-top: var(--spacing-xs); font-size: 0.875rem;">Hide Full List</button>
+                </div>
+
+                <small style="display: block; margin-top: var(--spacing-xs); color: var(--text-secondary);">
+                    💡 Click a swatch for instant styling, or customize colors manually below
+                </small>
             </div>
-            <div class="option-group">
-                <label>Error Correction</label>
-                <select id="errorCorrection" title="Higher levels recover more data if QR code is damaged">
-                    <option value="L">L - Low (7%)</option>
-                    <option value="M" selected>M - Medium (15%)</option>
-                    <option value="Q">Q - Quartile (25%)</option>
-                    <option value="H">H - High (30%)</option>
-                </select>
+
+            <div class="options-grid">
+                <div class="option-group">
+                    <label>Size</label>
+                    <select id="sizeSelect">
+                        <option value="128">128x128</option>
+                        <option value="256" selected>256x256</option>
+                        <option value="512">512x512</option>
+                        <option value="1024">1024x1024</option>
+                        <option value="2048">2048x2048</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label>Error Correction</label>
+                    <select id="errorCorrection" title="Higher levels recover more data if QR code is damaged">
+                        <option value="L">L - Low (7%)</option>
+                        <option value="M" selected>M - Medium (15%)</option>
+                        <option value="Q">Q - Quartile (25%)</option>
+                        <option value="H">H - High (30%)</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label>Color Type</label>
+                    <select id="colorType" onchange="toggleGradientControls()">
+                        <option value="solid" selected>Solid Color</option>
+                        <option value="linear">Linear Gradient</option>
+                        <option value="radial">Radial Gradient</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label>Foreground</label>
+                    <input type="color" id="fgColor" value="#000000" onchange="checkContrast()">
+                </div>
+                <div class="option-group" id="fgColor2Group" style="display: none;">
+                    <label>Gradient Color 2</label>
+                    <input type="color" id="fgColor2" value="#3498db">
+                </div>
+                <div class="option-group">
+                    <label>Background</label>
+                    <input type="color" id="bgColor" value="#ffffff" onchange="checkContrast()">
+                </div>
+                <div class="option-group" style="grid-column: 1 / -1;">
+                    <div id="contrastIndicator" style="padding: var(--spacing-xs); border-radius: var(--radius); font-size: 0.875rem;"></div>
+                </div>
+                <div class="option-group">
+                    <label>Module Style</label>
+                    <select id="moduleStyle">
+                        <option value="square" selected>Squares</option>
+                        <option value="dots">Dots (Circles)</option>
+                        <option value="rounded">Rounded Squares</option>
+                    </select>
+                </div>
             </div>
-            <div class="option-group">
-                <label>Color Type</label>
-                <select id="colorType" onchange="toggleGradientControls()">
-                    <option value="solid" selected>Solid Color</option>
-                    <option value="linear">Linear Gradient</option>
-                    <option value="radial">Radial Gradient</option>
-                </select>
+
+            <!-- Logo Upload with Preview -->
+            <div class="logo-upload-card" style="margin-top: var(--spacing-md);">
+                <label style="font-weight: bold; display: block; margin-bottom: var(--spacing-sm);">📸 Logo Overlay (Optional)</label>
+
+                <div class="logo-preview-container" id="logoPreviewContainer">
+                    <img id="logoPreview" src="" alt="Logo preview" style="display: none;">
+                    <div id="logoPlaceholder" class="upload-placeholder">
+                        Click "Choose Logo" below<br>
+                        <small>PNG, JPG, SVG up to 2MB</small>
+                    </div>
+                </div>
+
+                <input type="file" id="logoUpload" accept="image/*" onchange="handleLogoUpload(event)" hidden>
+
+                <div style="display: flex; gap: var(--spacing-sm); justify-content: center; margin-bottom: var(--spacing-sm);">
+                    <label for="logoUpload" class="btn btn-secondary" style="cursor: pointer;">Choose Logo</label>
+                    <button class="btn btn-outline" onclick="clearLogo()" id="clearLogoBtn" style="display: none;">Remove</button>
+                </div>
+
+                <!-- Logo Size Control (shown only when logo loaded) -->
+                <div id="logoSizeControl" style="display: none;">
+                    <label style="display: block; margin-bottom: var(--spacing-xs);">
+                        Logo Size: <strong><span id="logoSizeValue">20%</span></strong>
+                    </label>
+                    <input type="range" id="logoSize" min="10" max="40" value="20" step="5" style="width: 100%;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;">
+                        <span>Smaller</span>
+                        <span>Larger</span>
+                    </div>
+                </div>
             </div>
-            <div class="option-group">
-                <label>Foreground</label>
-                <input type="color" id="fgColor" value="#000000" onchange="checkContrast()">
+        </details>
+
+        <div class="tool-section">
+            <h3 style="margin-bottom: var(--spacing-md);">3. Generate Your QR Code</h3>
+
+            <!-- Validation Status Card -->
+            <div class="validation-status-card" role="status" aria-live="polite">
+                <div class="validation-row">
+                    <span id="contentLengthIndicator">📏 0 / 4,296 characters</span>
+                    <span id="urlValidationIndicator">⚪ Enter content to begin</span>
+                </div>
+                <div class="validation-row">
+                    <span id="scanDifficultyIndicator">📱 Scan difficulty: Not generated</span>
+                    <span id="contrastStatusIndicator">🎨 Contrast: Not set</span>
+                </div>
             </div>
-            <div class="option-group" id="fgColor2Group" style="display: none;">
-                <label>Gradient Color 2</label>
-                <input type="color" id="fgColor2" value="#3498db">
+
+            <!-- Keyboard Shortcuts Hint -->
+            <div class="keyboard-hints" role="note" style="margin-bottom: var(--spacing-sm); padding: var(--spacing-xs); background: var(--bg-secondary); border-radius: var(--radius); text-align: center;">
+                <small style="color: var(--text-secondary);">
+                    💡 <strong>Tip:</strong> Press <kbd>Enter</kbd> to generate • <kbd>Ctrl+S</kbd> to download • <kbd>/</kbd> to search tools
+                </small>
             </div>
-            <div class="option-group">
-                <label>Background</label>
-                <input type="color" id="bgColor" value="#ffffff" onchange="checkContrast()">
+
+            <button class="btn" id="generateBtn" onclick="generateQR()"
+                    aria-label="Generate QR code from entered content"
+                    style="width: 100%; padding: 16px; font-size: 1.1rem; font-weight: bold;">
+                ✨ Generate QR Code
+            </button>
+            <div id="message" class="message" style="margin-top: var(--spacing-sm);" role="alert" aria-live="assertive"></div>
+        </div>
+
+        <!-- Screen reader announcements -->
+        <div id="sr-announcements" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
+        <div id="resultSection" class="tool-section" role="region" aria-labelledby="resultHeading" style="display: none;">
+            <h3 id="resultHeading" style="margin-bottom: var(--spacing-md);">Your QR Code</h3>
+
+            <div class="qr-container">
+                <div class="qr-display">
+                    <div id="qrPlaceholder" class="qr-placeholder">Click "Generate QR Code" to create</div>
+                    <canvas id="qrcode" class="hidden" role="img" aria-label="Generated QR code"></canvas>
+                </div>
             </div>
-            <div class="option-group" style="grid-column: 1 / -1;">
-                <div id="contrastIndicator" style="padding: var(--spacing-xs); border-radius: var(--radius); font-size: 0.875rem;"></div>
-            </div>
-            <div class="option-group">
-                <label>Module Style</label>
-                <select id="moduleStyle">
-                    <option value="square" selected>Squares</option>
-                    <option value="dots">Dots (Circles)</option>
-                    <option value="rounded">Rounded Squares</option>
-                </select>
-            </div>
-            <div class="option-group" style="grid-column: 1 / -1;">
-                <label>Color Presets (Quick Apply)</label>
-                <select id="colorPreset" onchange="applyColorPreset()">
-                    <option value="">-- Select a Preset --</option>
-                    <optgroup label="Professional">
-                        <option value="classic">Classic Black & White</option>
-                        <option value="navy">Navy Blue & White</option>
-                        <option value="corporate">Corporate Blue & Gray</option>
-                        <option value="elegant">Elegant Dark Gray & White</option>
-                        <option value="professional">Professional Charcoal & Cream</option>
-                    </optgroup>
-                    <optgroup label="Vibrant">
-                        <option value="sunset">Sunset Orange & Yellow</option>
-                        <option value="ocean">Ocean Blue & Teal</option>
-                        <option value="forest">Forest Green & Lime</option>
-                        <option value="berry">Berry Purple & Pink</option>
-                        <option value="fire">Fire Red & Orange</option>
-                        <option value="neon">Neon Pink & Blue</option>
-                    </optgroup>
-                    <optgroup label="Pastel">
-                        <option value="soft-pink">Soft Pink & White</option>
-                        <option value="mint">Mint Green & Cream</option>
-                        <option value="lavender">Lavender & Light Purple</option>
-                        <option value="peach">Peach & Coral</option>
-                        <option value="sky">Sky Blue & Light Blue</option>
-                    </optgroup>
-                    <optgroup label="High Contrast">
-                        <option value="inverse">White on Black</option>
-                        <option value="yellow-black">Yellow & Black</option>
-                        <option value="cyan-dark">Cyan & Dark Blue</option>
-                        <option value="lime-dark">Lime & Dark Green</option>
-                        <option value="magenta-dark">Magenta & Dark Purple</option>
-                    </optgroup>
-                    <optgroup label="Brand Colors">
-                        <option value="facebook">Facebook Blue</option>
-                        <option value="instagram">Instagram Gradient</option>
-                        <option value="twitter">Twitter Blue</option>
-                        <option value="linkedin">LinkedIn Blue</option>
-                        <option value="youtube">YouTube Red</option>
-                    </optgroup>
-                </select>
+
+            <!-- Download Toolbar -->
+            <div class="download-toolbar">
+                <div style="display: flex; align-items: center; gap: var(--spacing-xs); flex: 1; min-width: 200px;">
+                    <label style="font-weight: bold; white-space: nowrap;">Filename:</label>
+                    <input type="text" id="qrFilename" placeholder="qrcode" value="qrcode" style="flex: 1; min-width: 100px; padding: var(--spacing-xs); border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-primary); color: var(--text-primary);">
+                </div>
+
+                <div class="download-actions">
+                    <button class="btn" onclick="downloadQR()"
+                            aria-label="Download QR code as PNG image"
+                            style="min-height: 44px;">📥 PNG</button>
+                    <button class="btn" onclick="downloadSVG()"
+                            aria-label="Download QR code as SVG vector"
+                            style="min-height: 44px;">📐 SVG</button>
+                    <button class="btn" onclick="downloadPDF()"
+                            aria-label="Download QR code as PDF document"
+                            style="min-height: 44px;">📄 PDF</button>
+                    <button class="btn" onclick="downloadAllFormats()"
+                            aria-label="Download QR code in all formats as ZIP file"
+                            style="background: var(--primary); color: white; min-height: 44px; font-weight: bold;">📦 All (ZIP)</button>
+                    <button class="btn btn-secondary" onclick="copyQR()"
+                            aria-label="Copy QR code image to clipboard"
+                            style="min-height: 44px;">📋 Copy</button>
+                </div>
             </div>
         </div>
 
-        <div class="options-grid">
-            <div class="option-group">
-                <label>Logo (Optional)</label>
-                <input type="file" id="logoUpload" accept="image/*" onchange="handleLogoUpload(event)">
-            </div>
-            <div class="option-group">
-                <label>Logo Size (%)</label>
-                <input type="range" id="logoSize" min="10" max="40" value="20" step="5">
-                <span id="logoSizeValue">20%</span>
-            </div>
-            <div class="option-group">
-                <button class="btn btn-secondary" onclick="clearLogo()" style="margin-top: 24px;">Clear Logo</button>
-            </div>
-        </div>
-
-        <div class="controls">
-            <button class="btn" onclick="generateQR()">Generate QR Code</button>
-        </div>
-
-        <div id="message" class="message"></div>
-
-        <div class="qr-container">
-            <div class="qr-display">
-                <div id="qrPlaceholder" class="qr-placeholder">Click "Generate QR Code" to create</div>
-                <canvas id="qrcode" class="hidden"></canvas>
-            </div>
-        </div>
-
-        <div style="margin-top: var(--spacing-md); display: flex; gap: var(--spacing-sm); align-items: center; flex-wrap: wrap;">
-            <label style="font-weight: bold;">Filename:</label>
-            <input type="text" id="qrFilename" placeholder="qrcode" value="qrcode" style="flex: 1; min-width: 150px; padding: var(--spacing-xs); border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-primary); color: var(--text-primary);">
-        </div>
-
-        <div class="controls" style="margin-top: var(--spacing-sm);">
-            <button class="btn" onclick="downloadQR()">Download PNG</button>
-            <button class="btn" onclick="downloadSVG()">Download SVG</button>
-            <button class="btn" onclick="downloadPDF()">Download PDF</button>
-            <button class="btn" onclick="downloadAllFormats()" style="background: var(--primary); color: white;">📦 Download All (ZIP)</button>
-            <button class="btn btn-secondary" onclick="copyQR()">Copy to Clipboard</button>
-        </div>
-
-        <div class="card" style="margin-top: var(--spacing-lg);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md);">
-                <h3 style="margin: 0;">Recent QR Codes</h3>
-                <button class="btn btn-secondary btn-sm" onclick="clearHistory()" style="font-size: 0.875rem; padding: 0.25rem 0.75rem;">Clear All</button>
-            </div>
-            <div id="historyContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--spacing-md);">
+        <details class="tool-section" id="historySection" style="margin-top: var(--spacing-lg);">
+            <summary style="cursor: pointer; font-weight: bold; font-size: 1.1rem; padding: var(--spacing-sm); background: var(--bg-secondary); border-radius: var(--radius); user-select: none; display: flex; justify-content: space-between; align-items: center;"
+                     aria-label="Recent QR codes history">
+                <span id="historyHeader">📚 Recent QR Codes (0)</span>
+                <button class="btn btn-secondary btn-sm" onclick="event.stopPropagation(); clearHistory();"
+                        aria-label="Clear all history"
+                        style="font-size: 0.875rem; padding: 0.25rem 0.75rem;">Clear All</button>
+            </summary>
+            <div id="historyContainer"
+                 role="region"
+                 aria-label="QR code history items"
+                 style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--spacing-md); margin-top: var(--spacing-md);">
                 <p style="color: var(--text-secondary); text-align: center; grid-column: 1 / -1; margin: var(--spacing-md) 0;">No recent QR codes yet. Generate your first QR code to see it here!</p>
             </div>
-        </div>
+        </details>
 
-        <div class="related-tools">
+        <div class="related-tools tool-section">
             <h3>Related Tools</h3>
             <ul class="related-tools-list">
                 <li><a href="base64-encoder.html">Base64 Encoder</a></li>
@@ -548,7 +943,7 @@
             </ul>
         </div>
 
-        <div class="info-section">
+        <div class="info-section tool-section">
             <h2>About QR Code Generator</h2>
             <p>QR (Quick Response) codes are 2D barcodes that encode information in a visual pattern readable by smartphones and barcode scanners. Created in 1994, QR codes have become ubiquitous for marketing, product tracking, event management, and data sharing. This tool generates professional QR codes instantly with customization options and instant download capabilities. Perfect for businesses, marketers, developers, and anyone needing to share data through scannable codes.</p>
 
@@ -678,7 +1073,20 @@
                 const img = new Image();
                 img.onload = function() {
                     logoImage = img;
+
+                    // Show preview
+                    const preview = document.getElementById('logoPreview');
+                    const placeholder = document.getElementById('logoPlaceholder');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    placeholder.style.display = 'none';
+
+                    // Show logo controls
+                    document.getElementById('logoSizeControl').style.display = 'block';
+                    document.getElementById('clearLogoBtn').style.display = 'inline-block';
+
                     CodeUtils.Message.success('Logo loaded! Click "Generate QR Code" to apply.');
+                    announceToScreenReader('Logo image loaded successfully', 'polite');
                 };
                 img.src = e.target.result;
             };
@@ -688,7 +1096,20 @@
         function clearLogo() {
             logoImage = null;
             document.getElementById('logoUpload').value = '';
+
+            // Hide preview
+            const preview = document.getElementById('logoPreview');
+            const placeholder = document.getElementById('logoPlaceholder');
+            preview.style.display = 'none';
+            preview.src = '';
+            placeholder.style.display = 'block';
+
+            // Hide logo controls
+            document.getElementById('logoSizeControl').style.display = 'none';
+            document.getElementById('clearLogoBtn').style.display = 'none';
+
             CodeUtils.Message.success('Logo cleared');
+            announceToScreenReader('Logo removed', 'polite');
         }
 
         // History Management
@@ -713,6 +1134,7 @@
 
                 localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
                 loadHistory();
+                updateHistoryHeader();
             } catch (e) {
                 console.error('Failed to save to history:', e);
             }
@@ -722,6 +1144,7 @@
             try {
                 const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
                 const container = document.getElementById('historyContainer');
+                updateHistoryHeader();
 
                 if (history.length === 0) {
                     container.innerHTML = '<p style="color: var(--text-secondary); text-align: center; grid-column: 1 / -1; margin: var(--spacing-md) 0;">No recent QR codes yet. Generate your first QR code to see it here!</p>';
@@ -804,7 +1227,110 @@
             if (confirm('Are you sure you want to clear all QR code history?')) {
                 localStorage.removeItem(HISTORY_KEY);
                 loadHistory();
+                updateHistoryHeader();
                 CodeUtils.Message.success('History cleared');
+                announceToScreenReader('QR code history cleared', 'assertive');
+            }
+        }
+
+        // Save/restore customization panel state
+        const CUSTOMIZATION_STATE_KEY = 'qr-customization-panel-open';
+
+        function saveCustomizationState() {
+            const panel = document.getElementById('customizationPanel');
+            if (panel) {
+                localStorage.setItem(CUSTOMIZATION_STATE_KEY, panel.open ? 'true' : 'false');
+            }
+        }
+
+        function restoreCustomizationState() {
+            const panel = document.getElementById('customizationPanel');
+            const savedState = localStorage.getItem(CUSTOMIZATION_STATE_KEY);
+
+            // Default to open on first visit, then remember user preference
+            if (savedState === null) {
+                panel.open = true; // Default to open
+            } else {
+                panel.open = savedState === 'true';
+            }
+
+            // Save state when toggled
+            panel.addEventListener('toggle', saveCustomizationState);
+        }
+
+        // Screen reader announcements
+        function announceToScreenReader(message, priority = 'polite') {
+            const announcer = document.getElementById('sr-announcements');
+            if (announcer) {
+                announcer.setAttribute('aria-live', priority);
+                announcer.textContent = message;
+                // Clear after 3 seconds
+                setTimeout(() => {
+                    announcer.textContent = '';
+                }, 3000);
+            }
+        }
+
+        // Keyboard shortcuts
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', (e) => {
+                // Enter key on content input - generate QR
+                if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
+                    const activeElement = document.activeElement;
+                    // Only if focused on content input (not other textareas)
+                    if (activeElement && activeElement.id === 'contentInput') {
+                        e.preventDefault();
+                        generateQR();
+                        announceToScreenReader('Generating QR code', 'assertive');
+                    }
+                }
+
+                // Ctrl+S or Cmd+S - Download QR (prevent default save)
+                if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                    e.preventDefault();
+                    if (qrGenerated) {
+                        downloadQR();
+                        announceToScreenReader('Downloading QR code as PNG', 'assertive');
+                    } else {
+                        CodeUtils.Message.warning('Please generate a QR code first');
+                        announceToScreenReader('No QR code to download. Please generate one first.', 'assertive');
+                    }
+                }
+
+                // Ctrl+G or Cmd+G - Quick generate
+                if ((e.ctrlKey || e.metaKey) && e.key === 'g') {
+                    e.preventDefault();
+                    generateQR();
+                    announceToScreenReader('Generating QR code', 'assertive');
+                }
+
+                // Escape key - Close any open modals/dropdowns
+                if (e.key === 'Escape') {
+                    const dropdown = document.getElementById('allPresetsDropdown');
+                    if (dropdown && dropdown.style.display !== 'none') {
+                        hideAllPresets();
+                    }
+                }
+            });
+        }
+
+        // Update loadHistory to show count
+        function updateHistoryHeader() {
+            try {
+                const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+                const count = history.length;
+                const header = document.getElementById('historyHeader');
+                if (header) {
+                    header.textContent = `📚 Recent QR Codes (${count})`;
+                }
+
+                // Auto-expand if there are items (for first-time users after first generation)
+                const historySection = document.getElementById('historySection');
+                if (historySection && count > 0 && !historySection.hasAttribute('data-user-toggled')) {
+                    // Don't auto-expand, let user discover
+                }
+            } catch (e) {
+                console.error('Failed to update history header:', e);
             }
         }
 
@@ -813,15 +1339,29 @@
             loadHistory();
             validateInput();
             checkContrast();
+            restoreCustomizationState();
+            setupKeyboardShortcuts();
+            updateHistoryHeader();
+
+            // Track when user manually toggles history
+            const historySection = document.getElementById('historySection');
+            if (historySection) {
+                historySection.addEventListener('toggle', () => {
+                    historySection.setAttribute('data-user-toggled', 'true');
+                });
+            }
         });
 
-        // Input Validation
+        // Input Validation - Updated for new status card
         function validateInput() {
             const content = document.getElementById('contentInput').value;
-            const statusDiv = document.getElementById('validationStatus');
-            if (!statusDiv) return;
 
-            const indicators = [];
+            // Update individual indicators
+            const lengthIndicator = document.getElementById('contentLengthIndicator');
+            const urlIndicator = document.getElementById('urlValidationIndicator');
+            const scanIndicator = document.getElementById('scanDifficultyIndicator');
+
+            if (!lengthIndicator || !urlIndicator || !scanIndicator) return;
 
             // Length indicator
             const length = content.length;
@@ -831,66 +1371,91 @@
             if (lengthPercent > 80) lengthColor = 'var(--warning)';
             if (lengthPercent > 95) lengthColor = 'var(--error)';
 
-            indicators.push(`<span style="color: ${lengthColor};">📏 ${length}/${maxLength} characters (${lengthPercent.toFixed(1)}%)</span>`);
+            lengthIndicator.innerHTML = `<span style="color: ${lengthColor};">📏 ${length} / ${maxLength} characters</span>`;
 
             // URL validation
             if (content.trim()) {
                 try {
                     new URL(content.trim());
-                    indicators.push('<span style="color: var(--success);">✓ Valid URL</span>');
+                    urlIndicator.innerHTML = '<span style="color: var(--success);">✓ Valid URL</span>';
                 } catch {
                     if (content.includes('http')) {
-                        indicators.push('<span style="color: var(--warning);">⚠ Invalid URL format</span>');
+                        urlIndicator.innerHTML = '<span style="color: var(--warning);">⚠ Invalid URL format</span>';
+                    } else {
+                        urlIndicator.innerHTML = '<span style="color: var(--text-secondary);">ℹ️ Text content</span>';
                     }
                 }
+            } else {
+                urlIndicator.innerHTML = '<span style="color: var(--text-secondary);">⚪ Enter content to begin</span>';
             }
 
             // Scanning difficulty
             let difficulty = 'Easy';
             let difficultyColor = 'var(--success)';
+            let difficultyIcon = '✓';
             if (length > 1000) {
                 difficulty = 'Medium';
                 difficultyColor = 'var(--warning)';
+                difficultyIcon = '⚠';
             }
             if (length > 2500) {
                 difficulty = 'Hard';
                 difficultyColor = 'var(--error)';
+                difficultyIcon = '❌';
             }
-            indicators.push(`<span style="color: ${difficultyColor};">📱 Scan: ${difficulty}</span>`);
+            scanIndicator.innerHTML = `<span style="color: ${difficultyColor};">${difficultyIcon} Scan difficulty: ${difficulty}</span>`;
 
-            statusDiv.innerHTML = indicators.join(' ');
+            // Also update old validation status if it exists (for backwards compatibility)
+            const oldStatusDiv = document.getElementById('validationStatus');
+            if (oldStatusDiv) {
+                oldStatusDiv.style.display = 'none';
+            }
         }
 
         function checkContrast() {
             const fgColor = document.getElementById('fgColor').value;
             const bgColor = document.getElementById('bgColor').value;
-            const indicator = document.getElementById('contrastIndicator');
-            if (!indicator) return;
+
+            // Update both old and new indicators
+            const oldIndicator = document.getElementById('contrastIndicator');
+            const newIndicator = document.getElementById('contrastStatusIndicator');
 
             const ratio = getContrastRatio(fgColor, bgColor);
 
-            let message, color, bgStyle;
+            let message, shortMessage, color, bgStyle;
             if (ratio >= 7) {
                 message = `✓ Excellent contrast (${ratio.toFixed(1)}:1) - Perfect for scanning`;
+                shortMessage = `✓ Excellent (${ratio.toFixed(1)}:1)`;
                 color = 'var(--success)';
                 bgStyle = 'rgba(34, 197, 94, 0.1)';
             } else if (ratio >= 4.5) {
                 message = `✓ Good contrast (${ratio.toFixed(1)}:1) - Suitable for most uses`;
+                shortMessage = `✓ Good (${ratio.toFixed(1)}:1)`;
                 color = 'var(--success)';
                 bgStyle = 'rgba(34, 197, 94, 0.1)';
             } else if (ratio >= 3) {
                 message = `⚠ Fair contrast (${ratio.toFixed(1)}:1) - May be difficult to scan`;
+                shortMessage = `⚠ Fair (${ratio.toFixed(1)}:1)`;
                 color = 'var(--warning)';
                 bgStyle = 'rgba(251, 146, 60, 0.1)';
             } else {
                 message = `❌ Poor contrast (${ratio.toFixed(1)}:1) - QR code may not scan!`;
+                shortMessage = `❌ Poor (${ratio.toFixed(1)}:1)`;
                 color = 'var(--error)';
                 bgStyle = 'rgba(239, 68, 68, 0.1)';
             }
 
-            indicator.style.color = color;
-            indicator.style.background = bgStyle;
-            indicator.innerHTML = message;
+            // Update old indicator (in customization section)
+            if (oldIndicator) {
+                oldIndicator.style.color = color;
+                oldIndicator.style.background = bgStyle;
+                oldIndicator.innerHTML = message;
+            }
+
+            // Update new indicator (in status card)
+            if (newIndicator) {
+                newIndicator.innerHTML = `<span style="color: ${color};">🎨 ${shortMessage}</span>`;
+            }
         }
 
         function getContrastRatio(color1, color2) {
@@ -1127,10 +1692,16 @@
             fgColor2Group.style.display = colorType !== 'solid' ? 'block' : 'none';
         }
 
-        function applyColorPreset() {
-            const preset = document.getElementById('colorPreset').value;
-            if (!preset) return;
+        function showAllPresets() {
+            document.getElementById('allPresetsDropdown').style.display = 'block';
+        }
 
+        function hideAllPresets() {
+            document.getElementById('allPresetsDropdown').style.display = 'none';
+            document.getElementById('colorPreset').value = '';
+        }
+
+        function applyPresetDirect(presetName) {
             const presets = {
                 // Professional
                 'classic': { fg: '#000000', fg2: '#000000', bg: '#ffffff', type: 'solid' },
@@ -1169,21 +1740,31 @@
                 'youtube': { fg: '#ff0000', fg2: '#ff0000', bg: '#ffffff', type: 'solid' }
             };
 
-            const colors = presets[preset];
+            const colors = presets[presetName];
             if (colors) {
                 document.getElementById('colorType').value = colors.type;
                 document.getElementById('fgColor').value = colors.fg;
                 document.getElementById('fgColor2').value = colors.fg2;
                 document.getElementById('bgColor').value = colors.bg;
                 toggleGradientControls();
-                CodeUtils.Message.success('Color preset applied!');
-
-                // Reset dropdown
-                setTimeout(() => {
-                    document.getElementById('colorPreset').value = '';
-                }, 1000);
+                checkContrast();
+                CodeUtils.Message.success(`${presetName} preset applied!`);
+                announceToScreenReader(`${presetName} color preset applied`, 'polite');
             }
         }
+
+        function applyColorPreset() {
+            const preset = document.getElementById('colorPreset').value;
+            if (!preset) return;
+
+            applyPresetDirect(preset);
+
+            // Reset dropdown
+            setTimeout(() => {
+                document.getElementById('colorPreset').value = '';
+            }, 1000);
+        }
+
 
         function generateQR() {
             // Force focus/blur to trigger autofill recognition
@@ -1313,7 +1894,17 @@
                 canvas.classList.remove('hidden');
 
                 qrGenerated = true;
+
+                // Show result section
+                document.getElementById('resultSection').style.display = 'block';
+
+                // Scroll to result section
+                setTimeout(() => {
+                    document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+
                 CodeUtils.Message.success('QR code generated!');
+                announceToScreenReader('QR code generated successfully. You can now download it.', 'assertive');
 
                 // Save to history
                 saveToHistory({
@@ -1345,11 +1936,13 @@
             link.href = canvas.toDataURL('image/png');
             link.click();
             CodeUtils.Message.success('PNG downloaded!');
+            announceToScreenReader('QR code downloaded as PNG file', 'assertive');
         }
 
         function downloadSVG() {
             if (!qrGenerated || !currentQR) {
                 CodeUtils.Message.warning('Please generate a QR code first');
+                announceToScreenReader('No QR code to download. Please generate one first.', 'assertive');
                 return;
             }
 
@@ -1445,11 +2038,13 @@
             link.click();
             URL.revokeObjectURL(link.href);
             CodeUtils.Message.success('SVG downloaded!');
+            announceToScreenReader('QR code downloaded as SVG file', 'assertive');
         }
 
         function downloadPDF() {
             if (!qrGenerated) {
                 CodeUtils.Message.warning('Please generate a QR code first');
+                announceToScreenReader('No QR code to download. Please generate one first.', 'assertive');
                 return;
             }
 
@@ -1475,11 +2070,13 @@
             const filename = (document.getElementById('qrFilename').value.trim() || 'qrcode') + '.pdf';
             pdf.save(filename);
             CodeUtils.Message.success('PDF downloaded!');
+            announceToScreenReader('QR code downloaded as PDF file', 'assertive');
         }
 
         async function downloadAllFormats() {
             if (!qrGenerated || !currentQR) {
                 CodeUtils.Message.warning('Please generate a QR code first');
+                announceToScreenReader('No QR code to download. Please generate one first.', 'assertive');
                 return;
             }
 
@@ -1509,9 +2106,11 @@
                 URL.revokeObjectURL(link.href);
 
                 CodeUtils.Message.success('All formats downloaded as ZIP!');
+                announceToScreenReader('QR code downloaded in all formats as ZIP file', 'assertive');
             } catch (error) {
                 console.error('Batch download error:', error);
                 CodeUtils.Message.error('Failed to create ZIP file');
+                announceToScreenReader('Failed to create ZIP file', 'assertive');
             }
         }
 
@@ -1615,6 +2214,7 @@
         async function copyQR() {
             if (!qrGenerated) {
                 CodeUtils.Message.warning('Please generate a QR code first');
+                announceToScreenReader('No QR code to copy. Please generate one first.', 'assertive');
                 return;
             }
             try {
@@ -1624,9 +2224,11 @@
                         new ClipboardItem({ 'image/png': blob })
                     ]);
                     CodeUtils.Message.success('QR code copied!');
+                    announceToScreenReader('QR code image copied to clipboard', 'assertive');
                 });
             } catch (err) {
                 CodeUtils.Message.error('Failed to copy image');
+                announceToScreenReader('Failed to copy image to clipboard', 'assertive');
             }
         }
     </script>
