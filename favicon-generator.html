@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Favicon Generator | Create Icons from Text, Emoji & Images - Code Utils</title>
+    <title>Free Favicon Generator | Gradient Backgrounds, Custom Fonts & All Sizes - Code Utils</title>
     <meta name="description"
-        content="Free favicon generator with text, emoji, and image upload. Generate all sizes: 16x16, 32x32, 64x64, 180x180 (iOS), 192x192, 512x512 (PWA). Download as ZIP or ICO. 100% private.">
+        content="Free favicon generator with gradient backgrounds, 10 fonts, and 9 sizes (16-512px). Text, emoji & image support. Hexagon shapes, platform previews. Download ZIP/ICO. 100% private.">
     <link rel="canonical" href="https://codeutils.org/favicon-generator">
 
     <!-- Favicon and Touch Icons -->
@@ -60,21 +60,23 @@
         "price": "0",
         "priceCurrency": "USD"
       },
-      "description": "Free favicon generator tool. Create favicons from text, emoji, or upload images. Generate all sizes: 16x16, 32x32, 64x64, 180x180 (iOS), 192x192 (Android), 512x512 (PWA). Download as ZIP, ICO, or individual PNGs. 100% client-side processing - your images never leave your browser.",
+      "description": "Advanced favicon generator with unique gradient backgrounds (linear/radial), 10 custom fonts, and comprehensive size support (16x16 to 512x512). Create from text, 200+ emojis, or upload images. Features hexagon shapes, custom border radius, and platform preview mockups. Download as ZIP, ICO, or individual PNGs. 100% client-side processing - your images never leave your browser.",
       "url": "https://codeutils.org/favicon-generator",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
       "softwareVersion": "1.0",
       "featureList": [
-        "Text to favicon conversion",
-        "Emoji picker with 200+ emojis",
-        "Image upload (drag & drop)",
-        "6 sizes: 16x16, 32x32, 64x64, 180x180, 192x192, 512x512",
-        "iOS, Android, PWA support",
-        "ZIP download with all sizes",
-        "favicon.ico generation",
-        "Customizable colors and shapes",
-        "Client-side processing",
-        "No data uploads",
+        "Gradient backgrounds (linear & radial) - UNIQUE!",
+        "10 custom fonts (Arial, Georgia, Impact, etc.)",
+        "Text, emoji (200+), and image upload",
+        "9 comprehensive sizes: 16, 32, 64, 96, 128, 180, 192, 256, 512px",
+        "5 shapes: square, rounded, circle, hexagon, custom radius",
+        "Platform preview mockups (browser, iOS, Android)",
+        "iOS, Android, PWA, Chrome, Windows support",
+        "ZIP download with all sizes + README",
+        "favicon.ico generation (multi-size)",
+        "Drag & drop image upload",
+        "Client-side processing - 100% private",
+        "No data uploads, no limits",
         "Free forever"
       ]
     }
@@ -99,7 +101,7 @@
           "name": "What favicon sizes should I use for my website?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "For modern websites, you should include at least: 16x16 pixels for browser tabs, 32x32 pixels for taskbar shortcuts and high-DPI displays, and 180x180 pixels for Apple Touch icons (iOS home screen). For progressive web apps (PWAs), you'll also need 192x192 and 512x512 pixel sizes. Our tool generates ALL these sizes: 16x16, 32x32, 64x64, 180x180 (iOS), 192x192 (Android), and 512x512 (PWA)."
+            "text": "For modern websites, you should include: 16x16 for browser tabs, 32x32 for taskbar shortcuts, 180x180 for iOS, 192x192 for Android, and 512x512 for PWAs. Our tool generates ALL 9 professional sizes: 16x16, 32x32, 64x64, 96x96 (Google TV), 128x128 (Chrome extensions), 180x180 (iOS), 192x192 (Android), 256x256 (Windows tiles), and 512x512 (PWA). Download everything in one ZIP file."
           }
         },
         {
@@ -123,7 +125,7 @@
           "name": "What file format are the generated favicons?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Our tool generates favicons in both PNG and ICO formats. PNG is supported by all modern browsers and provides better quality, while ICO format ensures compatibility with older browsers like Internet Explorer. You can download a complete ZIP package with all sizes (16x16, 32x32, 64x64, 180x180, 192x192, 512x512) plus favicon.ico, or download formats individually."
+            "text": "Our tool generates favicons in both PNG and ICO formats. PNG is supported by all modern browsers and provides better quality, while ICO format ensures compatibility with older browsers. You can download a complete ZIP package with all 9 sizes (16x16 through 512x512) plus favicon.ico and installation instructions, or download formats individually. The ZIP includes properly named files for each platform (apple-touch-icon.png, android-chrome-192x192.png, etc.)."
           }
         }
       ]
@@ -287,6 +289,94 @@
             background: var(--bg-primary);
             color: var(--text-primary);
         }
+
+        /* Platform Preview Styles */
+        .platform-preview {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: var(--spacing-md);
+            text-align: center;
+        }
+
+        .platform-label {
+            font-weight: bold;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-primary);
+        }
+
+        /* Browser Tab Mock */
+        .browser-tab {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px 8px 0 0;
+            padding: 8px 12px;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+
+        .tab-title {
+            color: var(--text-primary);
+        }
+
+        .tab-close {
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+
+        /* iOS Home Screen Mock */
+        .ios-screen {
+            display: inline-block;
+            padding: var(--spacing-md);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+        }
+
+        .ios-icon {
+            margin-bottom: 8px;
+        }
+
+        .ios-icon canvas {
+            display: block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .ios-app-name {
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Android Home Screen Mock */
+        .android-screen {
+            display: inline-block;
+            padding: var(--spacing-md);
+            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+            border-radius: 8px;
+        }
+
+        .android-icon {
+            margin-bottom: 8px;
+        }
+
+        .android-icon canvas {
+            display: block;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            border-radius: 25%;
+        }
+
+        .android-app-name {
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
     </style>
 </head>
 
@@ -325,8 +415,41 @@
                     <div class="emoji-grid" id="emojiGrid"></div>
                 </div>
                 <div class="option-group">
+                    <label>Font Family</label>
+                    <select id="fontFamily" onchange="generateFavicon()">
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="Helvetica, sans-serif">Helvetica</option>
+                        <option value="'Times New Roman', serif">Times New Roman</option>
+                        <option value="Georgia, serif">Georgia</option>
+                        <option value="'Courier New', monospace">Courier New</option>
+                        <option value="Verdana, sans-serif">Verdana</option>
+                        <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+                        <option value="Impact, sans-serif">Impact</option>
+                        <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+                        <option value="'Brush Script MT', cursive">Brush Script</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label>Background Type</label>
+                    <select id="bgType" onchange="toggleBackgroundType()">
+                        <option value="solid">Solid Color</option>
+                        <option value="linear">Linear Gradient</option>
+                        <option value="radial">Radial Gradient</option>
+                    </select>
+                </div>
+                <div class="option-group" id="solidColorGroup">
                     <label>Background Color</label>
                     <input type="color" id="bgColor" value="#3b82f6" onchange="generateFavicon()">
+                </div>
+                <div class="option-group" id="gradientGroup" style="display: none;">
+                    <label>Gradient Colors</label>
+                    <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                        <input type="color" id="gradientColor1" value="#3b82f6" onchange="generateFavicon()" style="width: 50%;">
+                        <input type="color" id="gradientColor2" value="#8b5cf6" onchange="generateFavicon()" style="width: 50%;">
+                    </div>
+                    <label style="font-size: 0.875rem;">Angle (Linear) / Position (Radial)</label>
+                    <input type="range" id="gradientAngle" min="0" max="360" value="45" oninput="generateFavicon()" style="width: 100%;">
+                    <span id="angleValue" style="font-size: 0.75rem; color: var(--text-secondary);">45°</span>
                 </div>
                 <div class="option-group">
                     <label>Text Color</label>
@@ -338,7 +461,13 @@
                         <option value="square">Square</option>
                         <option value="rounded">Rounded</option>
                         <option value="circle">Circle</option>
+                        <option value="hexagon">Hexagon</option>
+                        <option value="custom">Custom Radius</option>
                     </select>
+                </div>
+                <div class="option-group" id="customRadiusGroup" style="display: none;">
+                    <label>Border Radius: <span id="radiusValue">20%</span></label>
+                    <input type="range" id="borderRadius" min="0" max="50" value="20" oninput="updateRadius()" style="width: 100%;">
                 </div>
             </div>
         </div>
@@ -367,10 +496,15 @@
             </div>
         </div>
 
+        <h3 style="margin-top: var(--spacing-lg); margin-bottom: var(--spacing-md);">Preview - All Sizes</h3>
         <div class="preview-container">
             <div class="preview-box">
                 <canvas id="preview512" width="512" height="512" style="max-width: 128px; max-height: 128px;"></canvas>
                 <div class="label">512x512 (PWA)</div>
+            </div>
+            <div class="preview-box">
+                <canvas id="preview256" width="256" height="256" style="max-width: 128px; max-height: 128px;"></canvas>
+                <div class="label">256x256 (Windows)</div>
             </div>
             <div class="preview-box">
                 <canvas id="preview192" width="192" height="192" style="max-width: 96px; max-height: 96px;"></canvas>
@@ -379,6 +513,14 @@
             <div class="preview-box">
                 <canvas id="preview180" width="180" height="180" style="max-width: 90px; max-height: 90px;"></canvas>
                 <div class="label">180x180 (iOS)</div>
+            </div>
+            <div class="preview-box">
+                <canvas id="preview128" width="128" height="128" style="max-width: 64px; max-height: 64px;"></canvas>
+                <div class="label">128x128 (Chrome)</div>
+            </div>
+            <div class="preview-box">
+                <canvas id="preview96" width="96" height="96" style="max-width: 64px; max-height: 64px;"></canvas>
+                <div class="label">96x96 (Google TV)</div>
             </div>
             <div class="preview-box">
                 <canvas id="preview64" width="64" height="64"></canvas>
@@ -394,6 +536,42 @@
             </div>
         </div>
 
+        <!-- Platform Preview Mockups -->
+        <h3 style="margin-top: var(--spacing-lg); margin-bottom: var(--spacing-md);">Platform Previews</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-md); margin-bottom: var(--spacing-md);">
+            <!-- Browser Tab Preview -->
+            <div class="platform-preview">
+                <div class="platform-label">Browser Tab</div>
+                <div class="browser-tab">
+                    <canvas id="previewBrowserTab" width="16" height="16" style="width: 16px; height: 16px;"></canvas>
+                    <span class="tab-title">Your Website</span>
+                    <span class="tab-close">×</span>
+                </div>
+            </div>
+
+            <!-- iOS Home Screen Preview -->
+            <div class="platform-preview">
+                <div class="platform-label">iOS Home Screen</div>
+                <div class="ios-screen">
+                    <div class="ios-icon">
+                        <canvas id="previewIOS" width="180" height="180" style="width: 60px; height: 60px; border-radius: 13px;"></canvas>
+                    </div>
+                    <div class="ios-app-name">Your App</div>
+                </div>
+            </div>
+
+            <!-- Android Home Screen Preview -->
+            <div class="platform-preview">
+                <div class="platform-label">Android Home Screen</div>
+                <div class="android-screen">
+                    <div class="android-icon">
+                        <canvas id="previewAndroid" width="192" height="192" style="width: 60px; height: 60px;"></canvas>
+                    </div>
+                    <div class="android-app-name">Your App</div>
+                </div>
+            </div>
+        </div>
+
         <div class="controls">
             <button class="btn btn-primary" onclick="downloadZip()">📦 Download All (ZIP)</button>
             <button class="btn" onclick="downloadIco()">Download favicon.ico</button>
@@ -404,12 +582,15 @@
 
         <div class="editor-section" style="margin-top: var(--spacing-md);">
             <div class="editor-header">HTML Code (Add to &lt;head&gt;)</div>
-            <textarea id="htmlCode" class="editor" readonly style="height: 180px;"><link rel="icon" type="image/x-icon" href="/favicon.ico">
+            <textarea id="htmlCode" class="editor" readonly style="height: 220px;"><link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64x64.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/google-tv-96x96.png">
+<link rel="icon" type="image/png" sizes="128x128" href="/chrome-extension-128x128.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="256x256" href="/windows-tile-256x256.png">
 <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png"></textarea>
         </div>
 
@@ -453,7 +634,7 @@
         CodeUtils.Message.init('message');
 
         // All favicon sizes to generate
-        const SIZES = [16, 32, 64, 180, 192, 512];
+        const SIZES = [16, 32, 64, 96, 128, 180, 192, 256, 512];
 
         // Comprehensive emoji library
         const EMOJI_LIBRARY = {
@@ -589,23 +770,82 @@
             reader.readAsDataURL(file);
         }
 
+        // Toggle background type controls
+        function toggleBackgroundType() {
+            const bgType = document.getElementById('bgType').value;
+            document.getElementById('solidColorGroup').style.display = bgType === 'solid' ? 'block' : 'none';
+            document.getElementById('gradientGroup').style.display = bgType !== 'solid' ? 'block' : 'none';
+            generateFavicon();
+        }
+
+        // Update custom radius display
+        function updateRadius() {
+            const value = document.getElementById('borderRadius').value;
+            document.getElementById('radiusValue').textContent = value + '%';
+            generateFavicon();
+        }
+
+        // Update gradient angle display
+        function updateAngleDisplay() {
+            const value = document.getElementById('gradientAngle').value;
+            document.getElementById('angleValue').textContent = value + '°';
+        }
+
+        // Show/hide custom radius control
+        function toggleShapeControls() {
+            const shape = document.getElementById('shape').value;
+            document.getElementById('customRadiusGroup').style.display = shape === 'custom' ? 'block' : 'none';
+        }
+
         // Generate favicon from text/emoji
         function generateFavicon() {
             if (currentInputMode !== 'text') return;
 
             const text = document.getElementById('textInput').value || 'F';
-            const bgColor = document.getElementById('bgColor').value;
             const textColor = document.getElementById('textColor').value;
+            const fontFamily = document.getElementById('fontFamily').value;
             const shape = document.getElementById('shape').value;
+            const bgType = document.getElementById('bgType').value;
+
+            // Background settings
+            const bgColor = document.getElementById('bgColor').value;
+            const gradientColor1 = document.getElementById('gradientColor1').value;
+            const gradientColor2 = document.getElementById('gradientColor2').value;
+            const gradientAngle = parseInt(document.getElementById('gradientAngle').value);
+            updateAngleDisplay();
+
+            toggleShapeControls();
 
             SIZES.forEach(size => {
                 const canvas = document.getElementById(`preview${size}`);
+                if (!canvas) return;
                 const ctx = canvas.getContext('2d');
 
                 ctx.clearRect(0, 0, size, size);
 
                 // Background
-                ctx.fillStyle = bgColor;
+                if (bgType === 'linear') {
+                    const angleRad = (gradientAngle - 90) * Math.PI / 180;
+                    const x1 = size / 2 + Math.cos(angleRad) * size / 2;
+                    const y1 = size / 2 + Math.sin(angleRad) * size / 2;
+                    const x2 = size / 2 - Math.cos(angleRad) * size / 2;
+                    const y2 = size / 2 - Math.sin(angleRad) * size / 2;
+                    const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+                    gradient.addColorStop(0, gradientColor1);
+                    gradient.addColorStop(1, gradientColor2);
+                    ctx.fillStyle = gradient;
+                } else if (bgType === 'radial') {
+                    const centerX = size / 2;
+                    const centerY = size / 2;
+                    const radius = size / 2;
+                    const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+                    gradient.addColorStop(0, gradientColor1);
+                    gradient.addColorStop(1, gradientColor2);
+                    ctx.fillStyle = gradient;
+                } else {
+                    ctx.fillStyle = bgColor;
+                }
+
                 drawShape(ctx, size, shape);
 
                 // Text
@@ -618,9 +858,12 @@
                 if (text.length === 2) fontSize = size * 0.45;
                 if (text.length >= 3) fontSize = size * 0.35;
 
-                ctx.font = `bold ${fontSize}px Arial, sans-serif`;
+                ctx.font = `bold ${fontSize}px ${fontFamily}`;
                 ctx.fillText(text, size / 2, size / 2 + (size * 0.05));
             });
+
+            // Update platform previews
+            updatePlatformPreviews();
         }
 
         // Generate favicon from uploaded image
@@ -675,6 +918,9 @@
                     ctx.drawImage(uploadedImage, x, y, scaledWidth, scaledHeight);
                 }
             });
+
+            // Update platform previews
+            updatePlatformPreviews();
         }
 
         // Draw shape helper
@@ -696,8 +942,71 @@
                 ctx.lineTo(0, r);
                 ctx.quadraticCurveTo(0, 0, r, 0);
                 ctx.fill();
+            } else if (shape === 'hexagon') {
+                // Draw hexagon
+                const centerX = size / 2;
+                const centerY = size / 2;
+                const radius = size / 2;
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    const angle = (Math.PI / 3) * i - Math.PI / 2;
+                    const x = centerX + radius * Math.cos(angle);
+                    const y = centerY + radius * Math.sin(angle);
+                    if (i === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+                ctx.closePath();
+                ctx.fill();
+            } else if (shape === 'custom') {
+                // Custom border radius
+                const radiusPercent = parseInt(document.getElementById('borderRadius').value) / 100;
+                const r = size * radiusPercent;
+                ctx.beginPath();
+                ctx.moveTo(r, 0);
+                ctx.lineTo(size - r, 0);
+                ctx.quadraticCurveTo(size, 0, size, r);
+                ctx.lineTo(size, size - r);
+                ctx.quadraticCurveTo(size, size, size - r, size);
+                ctx.lineTo(r, size);
+                ctx.quadraticCurveTo(0, size, 0, size - r);
+                ctx.lineTo(0, r);
+                ctx.quadraticCurveTo(0, 0, r, 0);
+                ctx.fill();
             } else {
                 ctx.fillRect(0, 0, size, size);
+            }
+        }
+
+        // Update platform preview mockups
+        function updatePlatformPreviews() {
+            // Browser tab preview (16x16)
+            const browserTabCanvas = document.getElementById('previewBrowserTab');
+            const preview16 = document.getElementById('preview16');
+            if (browserTabCanvas && preview16) {
+                const ctx = browserTabCanvas.getContext('2d');
+                ctx.clearRect(0, 0, 16, 16);
+                ctx.drawImage(preview16, 0, 0);
+            }
+
+            // iOS preview (180x180)
+            const iosCanvas = document.getElementById('previewIOS');
+            const preview180 = document.getElementById('preview180');
+            if (iosCanvas && preview180) {
+                const ctx = iosCanvas.getContext('2d');
+                ctx.clearRect(0, 0, 180, 180);
+                ctx.drawImage(preview180, 0, 0);
+            }
+
+            // Android preview (192x192)
+            const androidCanvas = document.getElementById('previewAndroid');
+            const preview192 = document.getElementById('preview192');
+            if (androidCanvas && preview192) {
+                const ctx = androidCanvas.getContext('2d');
+                ctx.clearRect(0, 0, 192, 192);
+                ctx.drawImage(preview192, 0, 0);
             }
         }
 
@@ -709,11 +1018,16 @@
                 // Add all PNG sizes
                 for (const size of SIZES) {
                     const canvas = document.getElementById(`preview${size}`);
+                    if (!canvas) continue;
                     const blob = await new Promise(resolve => canvas.toBlob(resolve));
-                    const filename = size === 180 ? 'apple-touch-icon.png' :
-                                    size === 192 ? 'android-chrome-192x192.png' :
-                                    size === 512 ? 'android-chrome-512x512.png' :
-                                    `favicon-${size}x${size}.png`;
+                    let filename;
+                    if (size === 180) filename = 'apple-touch-icon.png';
+                    else if (size === 192) filename = 'android-chrome-192x192.png';
+                    else if (size === 512) filename = 'android-chrome-512x512.png';
+                    else if (size === 256) filename = 'windows-tile-256x256.png';
+                    else if (size === 128) filename = 'chrome-extension-128x128.png';
+                    else if (size === 96) filename = 'google-tv-96x96.png';
+                    else filename = `favicon-${size}x${size}.png`;
                     zip.file(filename, blob);
                 }
 
