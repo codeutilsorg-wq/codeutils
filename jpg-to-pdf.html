@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free JPG to PDF Converter | Convert Images to PDF Online - Code Utils</title>
+    <meta name="description"
+        content="Convert JPG, JPEG, PNG images to PDF instantly. Free online image to PDF converter. Supports multiple images. 100% private - no uploads required.">
+    <link rel="canonical" href="https://codeutils.org/jpg-to-pdf">
+
+    <!-- Favicon and Touch Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <meta name="theme-color" content="#3498db">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/jpg-to-pdf">
+    <meta property="og:title" content="Free JPG to PDF Converter - Code Utils">
+    <meta property="og:description"
+        content="Convert JPG, PNG images to PDF instantly. Free online converter with 100% private client-side processing.">
+    <meta property="og:image" content="https://codeutils.org/images/og/jpg-to-pdf.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="JPG to PDF Converter - Free online image to PDF tool">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JPG to PDF Converter - Code Utils">
+    <meta name="twitter:description"
+        content="Convert images to PDF instantly. Free tool with 100% private client-side processing.">
+    <meta name="twitter:image" content="https://codeutils.org/images/og/jpg-to-pdf.png">
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <!-- Structured Data: WebApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "JPG to PDF Converter - Code Utils",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Free JPG to PDF converter. Convert multiple images (JPG, JPEG, PNG) to PDF instantly. 100% client-side processing.",
+      "url": "https://codeutils.org/jpg-to-pdf",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "softwareVersion": "1.0"
+    }
+    </script>
+
+    <!-- jsPDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <link rel="stylesheet" href="css/common.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>JPG to PDF Converter</h2>
+        <p class="tool-description">Convert JPG, JPEG, PNG images to PDF. Add multiple images and combine them into a
+            single PDF file.</p>
+
+        <div id="message-container"></div>
+
+        <div class="card">
+            <div class="form-group">
+                <label class="file-label">
+                    <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png" multiple>
+                    <span class="file-label-text">
+                        <span class="file-icon">📁</span>
+                        <span>Choose Images (JPG, PNG)</span>
+                    </span>
+                </label>
+                <div class="file-info" id="fileInfo">No files selected</div>
+            </div>
+
+            <div id="imagePreview" class="image-preview"></div>
+
+            <div class="button-group">
+                <button id="convertBtn" class="btn btn-primary" disabled>Convert to PDF</button>
+                <button id="clearBtn" class="btn btn-secondary">Clear</button>
+            </div>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="merge-pdf.html">Merge PDF</a></li>
+                <li><a href="split-pdf.html">Split PDF</a></li>
+                <li><a href="compress-pdf.html">Compress PDF</a></li>
+                <li><a href="pdf-to-png.html">PDF to PNG</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h3>About This Tool</h3>
+            <p>Convert your JPG, JPEG, and PNG images to PDF format instantly. This free online converter allows you to
+                combine multiple images into a single PDF document.</p>
+
+            <h4>Features</h4>
+            <ul>
+                <li><strong>Multiple Images:</strong> Add and convert multiple images at once</li>
+                <li><strong>Format Support:</strong> Supports JPG, JPEG, and PNG formats</li>
+                <li><strong>Image Order:</strong> Images are added in the order you select them</li>
+                <li><strong>100% Private:</strong> All processing happens in your browser - no uploads</li>
+                <li><strong>Free & Unlimited:</strong> No sign-up, no limits, completely free</li>
+            </ul>
+
+            <h4>How to Use</h4>
+            <ol>
+                <li>Click "Choose Images" and select one or more images (JPG, PNG)</li>
+                <li>Preview your selected images</li>
+                <li>Click "Convert to PDF" to generate the PDF</li>
+                <li>The PDF will be automatically downloaded</li>
+            </ol>
+
+            <h4>Privacy & Security</h4>
+            <p>Your images are processed entirely in your browser using JavaScript. Nothing is uploaded to any server.
+                Your images never leave your computer, making this tool completely safe for sensitive documents.</p>
+
+            <h4>Tips</h4>
+            <ul>
+                <li>For best results, use high-quality images</li>
+                <li>Images will be added to PDF in the order you selected them</li>
+                <li>Each image will appear on a separate page in the PDF</li>
+                <li>Supported formats: JPG, JPEG, PNG</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Track tool visit
+        CodeUtils.RecentTools.add({
+            id: 'jpg-to-pdf',
+            name: 'JPG to PDF Converter',
+            url: 'jpg-to-pdf.html'
+        });
+
+        // Initialize message container
+        CodeUtils.Message.init('message-container');
+
+        // Get elements
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const imagePreview = document.getElementById('imagePreview');
+        const convertBtn = document.getElementById('convertBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        let selectedImages = [];
+
+        // File input change handler
+        fileInput.addEventListener('change', handleFileSelect);
+
+        function handleFileSelect(e) {
+            const files = Array.from(e.target.files);
+
+            if (files.length === 0) return;
+
+            // Validate files
+            const validFiles = files.filter(file => {
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+                if (!validTypes.includes(file.type)) {
+                    CodeUtils.Message.warning(`Skipped ${file.name}: Only JPG and PNG images are supported`);
+                    return false;
+                }
+                if (file.size > 10 * 1024 * 1024) {
+                    CodeUtils.Message.warning(`Skipped ${file.name}: File size must be less than 10MB`);
+                    return false;
+                }
+                return true;
+            });
+
+            if (validFiles.length === 0) return;
+
+            selectedImages = validFiles;
+            displayImages(validFiles);
+            updateFileInfo(validFiles);
+            convertBtn.disabled = false;
+        }
+
+        function displayImages(files) {
+            imagePreview.innerHTML = '';
+
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const imgContainer = document.createElement('div');
+                    imgContainer.className = 'image-preview-item';
+                    imgContainer.innerHTML = `
+                        <img src="${e.target.result}" alt="${file.name}">
+                        <div class="image-preview-info">
+                            <div class="image-preview-name">${index + 1}. ${file.name}</div>
+                            <div class="image-preview-size">${formatFileSize(file.size)}</div>
+                        </div>
+                    `;
+                    imagePreview.appendChild(imgContainer);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function updateFileInfo(files) {
+            const count = files.length;
+            const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+            fileInfo.textContent = `${count} image${count > 1 ? 's' : ''} selected (${formatFileSize(totalSize)})`;
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        // Convert button handler
+        convertBtn.addEventListener('click', async () => {
+            if (selectedImages.length === 0) {
+                CodeUtils.Message.error('Please select at least one image');
+                return;
+            }
+
+            try {
+                convertBtn.disabled = true;
+                convertBtn.textContent = 'Converting...';
+                CodeUtils.Message.success('Converting images to PDF...');
+
+                // Create PDF using jsPDF
+                const { jsPDF } = window.jspdf;
+
+                // Process images
+                const imageDataArray = await Promise.all(
+                    selectedImages.map(file => loadImage(file))
+                );
+
+                // Create PDF with first image dimensions
+                const firstImg = imageDataArray[0];
+                const pdf = new jsPDF({
+                    orientation: firstImg.width > firstImg.height ? 'landscape' : 'portrait',
+                    unit: 'px',
+                    format: [firstImg.width, firstImg.height]
+                });
+
+                // Add images to PDF
+                imageDataArray.forEach((imgData, index) => {
+                    if (index > 0) {
+                        pdf.addPage([imgData.width, imgData.height], imgData.width > imgData.height ? 'landscape' : 'portrait');
+                    }
+                    pdf.addImage(imgData.src, 'JPEG', 0, 0, imgData.width, imgData.height);
+                });
+
+                // Download PDF
+                pdf.save('converted-images.pdf');
+
+                CodeUtils.Message.success('PDF created successfully!');
+
+                // Track conversion
+                gtag('event', 'convert', {
+                    'event_category': 'jpg_to_pdf',
+                    'event_label': 'success',
+                    'value': selectedImages.length
+                });
+
+            } catch (error) {
+                console.error('Conversion error:', error);
+                CodeUtils.Message.error('Failed to convert images: ' + error.message);
+
+                gtag('event', 'error', {
+                    'event_category': 'jpg_to_pdf',
+                    'event_label': error.message
+                });
+            } finally {
+                convertBtn.disabled = false;
+                convertBtn.textContent = 'Convert to PDF';
+            }
+        });
+
+        // Load image and get dimensions
+        function loadImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        resolve({
+                            src: e.target.result,
+                            width: img.width,
+                            height: img.height
+                        });
+                    };
+                    img.onerror = reject;
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Clear button handler
+        clearBtn.addEventListener('click', () => {
+            fileInput.value = '';
+            selectedImages = [];
+            imagePreview.innerHTML = '';
+            fileInfo.textContent = 'No files selected';
+            convertBtn.disabled = true;
+            CodeUtils.Message.success('Cleared all images');
+        });
+
+        // Drag and drop support
+        const container = document.querySelector('.card');
+
+        container.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            container.style.borderColor = '#3498db';
+        });
+
+        container.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            container.style.borderColor = '';
+        });
+
+        container.addEventListener('drop', (e) => {
+            e.preventDefault();
+            container.style.borderColor = '';
+
+            const files = Array.from(e.dataTransfer.files);
+            const imageFiles = files.filter(f => f.type.startsWith('image/'));
+
+            if (imageFiles.length > 0) {
+                // Create a new FileList-like object
+                const dt = new DataTransfer();
+                imageFiles.forEach(file => dt.items.add(file));
+                fileInput.files = dt.files;
+
+                // Trigger change event
+                fileInput.dispatchEvent(new Event('change'));
+            } else {
+                CodeUtils.Message.warning('Please drop image files (JPG, PNG)');
+            }
+        });
+    </script>
+
+    <style>
+        .image-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .image-preview-item {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--bg-secondary);
+        }
+
+        .image-preview-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-preview-info {
+            padding: 0.75rem;
+        }
+
+        .image-preview-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .image-preview-size {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</body>
+
+</html>

@@ -1111,5 +1111,78 @@
         "icon": "JS⚡",
         "popular": true,
         "status": "live"
+    },
+    {
+        "id": "jpg-to-pdf",
+        "name": "JPG to PDF Converter",
+        "description": "Convert JPG, JPEG, PNG images to PDF instantly. Combine multiple images into one PDF.",
+        "url": "jpg-to-pdf.html",
+        "category": "PDF Tools",
+        "categoryId": "pdf-tools",
+        "keywords": [
+            "jpg to pdf",
+            "image to pdf",
+            "convert jpg to pdf",
+            "jpeg to pdf",
+            "png to pdf",
+            "images to pdf"
+        ],
+        "icon": "🖼️",
+        "popular": true,
+        "status": "live"
+    },
+    {
+        "id": "merge-pdf",
+        "name": "Merge PDF",
+        "description": "Combine multiple PDF files into one. Free online PDF merger tool.",
+        "url": "merge-pdf.html",
+        "category": "PDF Tools",
+        "categoryId": "pdf-tools",
+        "keywords": [
+            "merge pdf",
+            "combine pdf",
+            "join pdf",
+            "pdf merger",
+            "concatenate pdf"
+        ],
+        "icon": "📄",
+        "popular": true,
+        "status": "live"
+    },
+    {
+        "id": "split-pdf",
+        "name": "Split PDF",
+        "description": "Extract specific pages from PDF files. Split PDFs by page ranges.",
+        "url": "split-pdf.html",
+        "category": "PDF Tools",
+        "categoryId": "pdf-tools",
+        "keywords": [
+            "split pdf",
+            "extract pdf pages",
+            "pdf splitter",
+            "divide pdf",
+            "separate pdf"
+        ],
+        "icon": "✂️",
+        "popular": false,
+        "status": "live"
+    },
+    {
+        "id": "compress-pdf",
+        "name": "Compress PDF",
+        "description": "Reduce PDF file size while maintaining quality. Free PDF compressor.",
+        "url": "compress-pdf.html",
+        "category": "PDF Tools",
+        "categoryId": "pdf-tools",
+        "keywords": [
+            "compress pdf",
+            "reduce pdf size",
+            "pdf compressor",
+            "shrink pdf",
+            "optimize pdf"
+        ],
+        "icon": "🗜️",
+        "popular": true,
+        "status": "live"
     }
 ]

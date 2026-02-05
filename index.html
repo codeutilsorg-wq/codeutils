@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Developer Tools & Utilities | 62+ Online Tools - Code Utils</title>
+    <title>Free Developer Tools & Utilities | 66+ Online Tools - Code Utils</title>
     <meta name="description"
-        content="62+ free developer tools for formatting, encoding, converting, and generating code. JSON formatter, Base64 encoder, Hash generator, and more. 100% private - your data never leaves your browser. Try now!">
+        content="66+ free developer tools for formatting, encoding, converting, and generating code. JSON formatter, Base64 encoder, Hash generator, PDF tools, and more. 100% private - your data never leaves your browser. Try now!">
     <meta name="keywords"
         content="developer tools, code utilities, json formatter, xml formatter, base64 encoder, hash generator, url encoder, html encoder, timestamp converter, free tools, online tools">
     <meta name="author" content="Code Utils">
@@ -22,9 +22,9 @@
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://codeutils.org/">
-    <meta property="og:title" content="Free Developer Tools & Utilities | 62+ Online Tools - Code Utils">
+    <meta property="og:title" content="Free Developer Tools & Utilities | 66+ Online Tools - Code Utils">
     <meta property="og:description"
-        content="62+ free developer tools for formatting, encoding, converting, and generating code. 100% private - your data never leaves your browser.">
+        content="66+ free developer tools for formatting, encoding, converting, and generating code. 100% private - your data never leaves your browser.">
     <meta property="og:image" content="https://codeutils.org/images/og/codeutils-home.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -33,7 +33,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Free Developer Tools & Utilities - Code Utils">
     <meta name="twitter:description"
-        content="62+ free developer tools. JSON formatter, Base64 encoder, Hash generator, and more. 100% private client-side processing.">
+        content="66+ free developer tools. JSON formatter, Base64 encoder, Hash generator, PDF tools, and more. 100% private client-side processing.">
     <meta name="twitter:image" content="https://codeutils.org/images/og/codeutils-home.png">
 
     <!-- Preconnect for performance -->
@@ -56,7 +56,7 @@
       "@type": "WebSite",
       "name": "Code Utils",
       "url": "https://codeutils.org",
-      "description": "Free developer tools and utilities. 62+ tools for formatting, encoding, converting, and generating code.",
+      "description": "Free developer tools and utilities. 66+ tools for formatting, encoding, converting, and generating code.",
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
@@ -244,8 +244,8 @@
 
         <div class="search-container">
             <span class="search-icon">&#128269;</span>
-            <input type="text" id="searchInput" class="search-input" placeholder="Search 61 developer tools..."
-                autocomplete="off">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search 66 developer tools..."
+                autocomplete="off" data-dynamic-placeholder="true">
             <span class="search-shortcut">/</span>
             <div id="searchResults" class="search-results"></div>
         </div>
@@ -339,12 +339,32 @@
             try {
                 const response = await fetch('data/tools.json');
                 toolsData = await response.json();
+
+                // Update dynamic tool count in search placeholder
+                updateToolCount();
+
                 renderPage();
             } catch (err) {
                 console.error('Failed to load tools:', err);
                 // Fallback to hardcoded data
                 toolsData = getHardcodedTools();
+
+                // Update dynamic tool count
+                updateToolCount();
+
                 renderPage();
+            }
+        }
+
+        // Update tool count dynamically
+        function updateToolCount() {
+            const liveTools = toolsData.filter(tool => tool.status === 'live');
+            const count = liveTools.length;
+
+            // Update search placeholder
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput && searchInput.dataset.dynamicPlaceholder) {
+                searchInput.placeholder = `Search ${count} developer tools...`;
             }
         }
 

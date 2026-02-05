@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free PDF Compressor | Reduce PDF File Size Online - Code Utils</title>
+    <meta name="description"
+        content="Compress PDF files to reduce size. Free online PDF compressor. Reduce file size while maintaining quality. 100% private - no uploads required.">
+    <link rel="canonical" href="https://codeutils.org/compress-pdf">
+
+    <!-- Favicon and Touch Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <meta name="theme-color" content="#3498db">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/compress-pdf">
+    <meta property="og:title" content="Free PDF Compressor - Code Utils">
+    <meta property="og:description"
+        content="Compress PDF files to reduce size instantly. Free online PDF compressor with 100% private client-side processing.">
+    <meta property="og:image" content="https://codeutils.org/images/og/compress-pdf.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Compress PDF - Free online PDF compression tool">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PDF Compressor - Code Utils">
+    <meta name="twitter:description"
+        content="Reduce PDF file size instantly. Free tool with 100% private client-side processing.">
+    <meta name="twitter:image" content="https://codeutils.org/images/og/compress-pdf.png">
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <!-- Structured Data: WebApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Compress PDF - Code Utils",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Free PDF compressor. Reduce PDF file size. 100% client-side processing.",
+      "url": "https://codeutils.org/compress-pdf",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "softwareVersion": "1.0"
+    }
+    </script>
+
+    <!-- pdf-lib Library -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+    <link rel="stylesheet" href="css/common.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Compress PDF Files</h2>
+        <p class="tool-description">Reduce PDF file size while maintaining quality. Optimize your PDFs for web, email, or storage.</p>
+
+        <div id="message-container"></div>
+
+        <div class="card">
+            <div class="form-group">
+                <label class="file-label">
+                    <input type="file" id="fileInput" accept=".pdf,application/pdf">
+                    <span class="file-label-text">
+                        <span class="file-icon">📁</span>
+                        <span>Choose PDF File</span>
+                    </span>
+                </label>
+                <div class="file-info" id="fileInfo">No file selected</div>
+            </div>
+
+            <div id="pdfInfo" class="pdf-info" style="display: none;"></div>
+
+            <div class="button-group" id="actionButtons" style="display: none;">
+                <button id="compressBtn" class="btn btn-primary">Compress PDF</button>
+                <button id="clearBtn" class="btn btn-secondary">Clear</button>
+            </div>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="merge-pdf.html">Merge PDF</a></li>
+                <li><a href="split-pdf.html">Split PDF</a></li>
+                <li><a href="jpg-to-pdf.html">JPG to PDF</a></li>
+                <li><a href="pdf-to-png.html">PDF to PNG</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h3>About This Tool</h3>
+            <p>Compress your PDF files to reduce file size. Perfect for emailing large PDFs, uploading to websites, or saving storage space.</p>
+
+            <h4>Features</h4>
+            <ul>
+                <li><strong>Smart Compression:</strong> Reduces file size while maintaining readability</li>
+                <li><strong>Quality Preservation:</strong> Balances compression and quality</li>
+                <li><strong>Fast Processing:</strong> Compress PDFs in seconds</li>
+                <li><strong>100% Private:</strong> All processing happens in your browser - no uploads</li>
+                <li><strong>Free & Unlimited:</strong> No sign-up, no limits, completely free</li>
+            </ul>
+
+            <h4>How to Use</h4>
+            <ol>
+                <li>Click "Choose PDF File" and select your PDF</li>
+                <li>View the original file size and page count</li>
+                <li>Click "Compress PDF" to reduce the file size</li>
+                <li>The compressed PDF will be automatically downloaded</li>
+            </ol>
+
+            <h4>Compression Methods</h4>
+            <p>This tool uses several techniques to reduce PDF file size:</p>
+            <ul>
+                <li>Remove duplicate font definitions</li>
+                <li>Optimize object streams</li>
+                <li>Remove unused objects</li>
+                <li>Compress data streams</li>
+            </ul>
+
+            <h4>Privacy & Security</h4>
+            <p>Your PDF file is processed entirely in your browser using JavaScript. Nothing is uploaded to any server.
+                Your file never leaves your computer, making this tool completely safe for confidential documents.</p>
+
+            <h4>Tips</h4>
+            <ul>
+                <li>Compression results vary depending on the PDF content</li>
+                <li>PDFs with many images may benefit more from compression</li>
+                <li>Text-only PDFs may not compress significantly</li>
+                <li>For best results, use this on scanned documents or image-heavy PDFs</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Track tool visit
+        CodeUtils.RecentTools.add({
+            id: 'compress-pdf',
+            name: 'Compress PDF',
+            url: 'compress-pdf.html'
+        });
+
+        // Initialize message container
+        CodeUtils.Message.init('message-container');
+
+        // Get elements
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const pdfInfo = document.getElementById('pdfInfo');
+        const actionButtons = document.getElementById('actionButtons');
+        const compressBtn = document.getElementById('compressBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        let loadedPdf = null;
+        let pdfFile = null;
+        let originalSize = 0;
+
+        // File input change handler
+        fileInput.addEventListener('change', handleFileSelect);
+
+        async function handleFileSelect(e) {
+            const file = e.target.files[0];
+
+            if (!file) return;
+
+            if (file.type !== 'application/pdf') {
+                CodeUtils.Message.error('Please select a PDF file');
+                return;
+            }
+
+            if (file.size > 50 * 1024 * 1024) {
+                CodeUtils.Message.error('File size must be less than 50MB');
+                return;
+            }
+
+            try {
+                pdfFile = file;
+                originalSize = file.size;
+                fileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
+
+                // Load PDF
+                CodeUtils.Message.success('Loading PDF...');
+                const arrayBuffer = await file.arrayBuffer();
+                const { PDFDocument } = PDFLib;
+                loadedPdf = await PDFDocument.load(arrayBuffer);
+
+                const pageCount = loadedPdf.getPageCount();
+
+                pdfInfo.style.display = 'block';
+                pdfInfo.innerHTML = `
+                    <div class="pdf-stats">
+                        <div class="pdf-stat">
+                            <div class="pdf-stat-label">Original Size</div>
+                            <div class="pdf-stat-value">${formatFileSize(originalSize)}</div>
+                        </div>
+                        <div class="pdf-stat">
+                            <div class="pdf-stat-label">Pages</div>
+                            <div class="pdf-stat-value">${pageCount}</div>
+                        </div>
+                    </div>
+                `;
+
+                actionButtons.style.display = 'flex';
+
+                CodeUtils.Message.success(`PDF loaded: ${pageCount} pages`);
+
+            } catch (error) {
+                console.error('Load error:', error);
+                CodeUtils.Message.error('Failed to load PDF: ' + error.message);
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        // Compress button handler
+        compressBtn.addEventListener('click', async () => {
+            if (!loadedPdf) {
+                CodeUtils.Message.error('Please select a PDF file first');
+                return;
+            }
+
+            try {
+                compressBtn.disabled = true;
+                compressBtn.textContent = 'Compressing...';
+                CodeUtils.Message.success('Compressing PDF...');
+
+                // Save with compression
+                const pdfBytes = await loadedPdf.save({
+                    useObjectStreams: true,  // Enable object streams
+                    addDefaultPage: false,
+                    objectsPerTick: 50
+                });
+
+                const compressedSize = pdfBytes.length;
+                const reduction = ((originalSize - compressedSize) / originalSize * 100).toFixed(1);
+
+                // Update stats
+                pdfInfo.innerHTML = `
+                    <div class="pdf-stats">
+                        <div class="pdf-stat">
+                            <div class="pdf-stat-label">Original Size</div>
+                            <div class="pdf-stat-value">${formatFileSize(originalSize)}</div>
+                        </div>
+                        <div class="pdf-stat">
+                            <div class="pdf-stat-label">Compressed Size</div>
+                            <div class="pdf-stat-value success">${formatFileSize(compressedSize)}</div>
+                        </div>
+                        <div class="pdf-stat">
+                            <div class="pdf-stat-label">Reduction</div>
+                            <div class="pdf-stat-value success">${reduction}%</div>
+                        </div>
+                    </div>
+                `;
+
+                // Download
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'compressed.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                CodeUtils.Message.success(`Compressed by ${reduction}%! Size: ${formatFileSize(compressedSize)}`);
+
+                // Track compression
+                gtag('event', 'compress', {
+                    'event_category': 'compress_pdf',
+                    'event_label': 'success',
+                    'value': Math.round(reduction)
+                });
+
+            } catch (error) {
+                console.error('Compression error:', error);
+                CodeUtils.Message.error('Failed to compress PDF: ' + error.message);
+
+                gtag('event', 'error', {
+                    'event_category': 'compress_pdf',
+                    'event_label': error.message
+                });
+            } finally {
+                compressBtn.disabled = false;
+                compressBtn.textContent = 'Compress PDF';
+            }
+        });
+
+        // Clear button handler
+        clearBtn.addEventListener('click', () => {
+            fileInput.value = '';
+            loadedPdf = null;
+            pdfFile = null;
+            originalSize = 0;
+            fileInfo.textContent = 'No file selected';
+            pdfInfo.style.display = 'none';
+            actionButtons.style.display = 'none';
+            CodeUtils.Message.success('Cleared');
+        });
+
+        // Drag and drop support
+        const container = document.querySelector('.card');
+
+        container.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            container.style.borderColor = '#3498db';
+        });
+
+        container.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            container.style.borderColor = '';
+        });
+
+        container.addEventListener('drop', (e) => {
+            e.preventDefault();
+            container.style.borderColor = '';
+
+            const files = Array.from(e.dataTransfer.files);
+            const pdfFile = files.find(f => f.type === 'application/pdf');
+
+            if (pdfFile) {
+                const dt = new DataTransfer();
+                dt.items.add(pdfFile);
+                fileInput.files = dt.files;
+                fileInput.dispatchEvent(new Event('change'));
+            } else {
+                CodeUtils.Message.warning('Please drop a PDF file');
+            }
+        });
+    </script>
+
+    <style>
+        .pdf-info {
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .pdf-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .pdf-stat {
+            text-align: center;
+        }
+
+        .pdf-stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .pdf-stat-value.success {
+            color: var(--success-color);
+        }
+    </style>
+</body>
+
+</html>

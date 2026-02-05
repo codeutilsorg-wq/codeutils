@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free PDF Splitter | Extract Pages from PDF Online - Code Utils</title>
+    <meta name="description"
+        content="Split PDF files by extracting specific pages. Free online PDF splitter. Extract pages or page ranges. 100% private - no uploads required.">
+    <link rel="canonical" href="https://codeutils.org/split-pdf">
+
+    <!-- Favicon and Touch Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <meta name="theme-color" content="#3498db">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://codeutils.org/split-pdf">
+    <meta property="og:title" content="Free PDF Splitter - Code Utils">
+    <meta property="og:description"
+        content="Split PDF files and extract pages instantly. Free online PDF splitter with 100% private client-side processing.">
+    <meta property="og:image" content="https://codeutils.org/images/og/split-pdf.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Split PDF - Free online PDF splitter tool">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PDF Splitter - Code Utils">
+    <meta name="twitter:description"
+        content="Extract pages from PDF files instantly. Free tool with 100% private client-side processing.">
+    <meta name="twitter:image" content="https://codeutils.org/images/og/split-pdf.png">
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-RPHPBJ4291');
+    </script>
+
+    <!-- Structured Data: WebApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Split PDF - Code Utils",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Free PDF splitter. Extract pages from PDF files. 100% client-side processing.",
+      "url": "https://codeutils.org/split-pdf",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "softwareVersion": "1.0"
+    }
+    </script>
+
+    <!-- pdf-lib Library -->
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
+    <link rel="stylesheet" href="css/common.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <h1>Code Utils</h1>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
+                <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Split PDF Files</h2>
+        <p class="tool-description">Extract specific pages from your PDF file. Enter page numbers or ranges to create a new PDF.</p>
+
+        <div id="message-container"></div>
+
+        <div class="card">
+            <div class="form-group">
+                <label class="file-label">
+                    <input type="file" id="fileInput" accept=".pdf,application/pdf">
+                    <span class="file-label-text">
+                        <span class="file-icon">📁</span>
+                        <span>Choose PDF File</span>
+                    </span>
+                </label>
+                <div class="file-info" id="fileInfo">No file selected</div>
+            </div>
+
+            <div id="pdfInfo" class="pdf-info" style="display: none;"></div>
+
+            <div class="form-group" id="pageSelectionGroup" style="display: none;">
+                <label for="pageRange">Pages to Extract</label>
+                <input type="text" id="pageRange" class="form-input" placeholder="e.g., 1-3, 5, 7-10">
+                <div class="form-help">
+                    Enter page numbers or ranges separated by commas. Examples:<br>
+                    • Single pages: <code>1, 3, 5</code><br>
+                    • Ranges: <code>1-5</code><br>
+                    • Mixed: <code>1-3, 7, 10-15</code>
+                </div>
+            </div>
+
+            <div class="button-group" id="actionButtons" style="display: none;">
+                <button id="splitBtn" class="btn btn-primary">Split PDF</button>
+                <button id="clearBtn" class="btn btn-secondary">Clear</button>
+            </div>
+        </div>
+
+        <div class="related-tools">
+            <h3>Related Tools</h3>
+            <ul class="related-tools-list">
+                <li><a href="merge-pdf.html">Merge PDF</a></li>
+                <li><a href="compress-pdf.html">Compress PDF</a></li>
+                <li><a href="jpg-to-pdf.html">JPG to PDF</a></li>
+                <li><a href="pdf-to-png.html">PDF to PNG</a></li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h3>About This Tool</h3>
+            <p>Extract specific pages from your PDF files. Split large PDFs into smaller documents by selecting the pages you need.</p>
+
+            <h4>Features</h4>
+            <ul>
+                <li><strong>Page Selection:</strong> Extract individual pages or page ranges</li>
+                <li><strong>Flexible Input:</strong> Use commas and dashes for complex selections</li>
+                <li><strong>Preserve Quality:</strong> Original PDF quality is maintained</li>
+                <li><strong>100% Private:</strong> All processing happens in your browser - no uploads</li>
+                <li><strong>Free & Unlimited:</strong> No sign-up, no limits, completely free</li>
+            </ul>
+
+            <h4>How to Use</h4>
+            <ol>
+                <li>Click "Choose PDF File" and select your PDF</li>
+                <li>Enter the pages you want to extract (e.g., "1-5, 10, 15-20")</li>
+                <li>Click "Split PDF" to extract the pages</li>
+                <li>The new PDF will be automatically downloaded</li>
+            </ol>
+
+            <h4>Page Selection Examples</h4>
+            <ul>
+                <li><code>1</code> - Extract page 1 only</li>
+                <li><code>1-5</code> - Extract pages 1 through 5</li>
+                <li><code>1, 3, 5</code> - Extract pages 1, 3, and 5</li>
+                <li><code>1-3, 7-10</code> - Extract pages 1-3 and 7-10</li>
+                <li><code>1-5, 10, 15-20</code> - Mixed selection</li>
+            </ul>
+
+            <h4>Privacy & Security</h4>
+            <p>Your PDF file is processed entirely in your browser using JavaScript. Nothing is uploaded to any server.
+                Your file never leaves your computer, making this tool completely safe for confidential documents.</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Code Utils. All rights reserved.</p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Track tool visit
+        CodeUtils.RecentTools.add({
+            id: 'split-pdf',
+            name: 'Split PDF',
+            url: 'split-pdf.html'
+        });
+
+        // Initialize message container
+        CodeUtils.Message.init('message-container');
+
+        // Get elements
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const pdfInfo = document.getElementById('pdfInfo');
+        const pageRange = document.getElementById('pageRange');
+        const pageSelectionGroup = document.getElementById('pageSelectionGroup');
+        const actionButtons = document.getElementById('actionButtons');
+        const splitBtn = document.getElementById('splitBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        let loadedPdf = null;
+        let pdfFile = null;
+
+        // File input change handler
+        fileInput.addEventListener('change', handleFileSelect);
+
+        async function handleFileSelect(e) {
+            const file = e.target.files[0];
+
+            if (!file) return;
+
+            if (file.type !== 'application/pdf') {
+                CodeUtils.Message.error('Please select a PDF file');
+                return;
+            }
+
+            if (file.size > 50 * 1024 * 1024) {
+                CodeUtils.Message.error('File size must be less than 50MB');
+                return;
+            }
+
+            try {
+                pdfFile = file;
+                fileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
+
+                // Load PDF
+                CodeUtils.Message.success('Loading PDF...');
+                const arrayBuffer = await file.arrayBuffer();
+                const { PDFDocument } = PDFLib;
+                loadedPdf = await PDFDocument.load(arrayBuffer);
+
+                const pageCount = loadedPdf.getPageCount();
+
+                pdfInfo.style.display = 'block';
+                pdfInfo.innerHTML = `
+                    <div class="pdf-detail">
+                        <strong>Total Pages:</strong> ${pageCount}
+                    </div>
+                `;
+
+                pageSelectionGroup.style.display = 'block';
+                actionButtons.style.display = 'flex';
+
+                // Set default page range
+                pageRange.value = `1-${pageCount}`;
+                pageRange.focus();
+
+                CodeUtils.Message.success(`PDF loaded: ${pageCount} pages`);
+
+            } catch (error) {
+                console.error('Load error:', error);
+                CodeUtils.Message.error('Failed to load PDF: ' + error.message);
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        // Parse page range input
+        function parsePageRange(input, maxPages) {
+            const pages = new Set();
+            const parts = input.split(',').map(p => p.trim());
+
+            for (const part of parts) {
+                if (part.includes('-')) {
+                    // Range (e.g., "1-5")
+                    const [start, end] = part.split('-').map(n => parseInt(n.trim()));
+                    if (isNaN(start) || isNaN(end) || start < 1 || end > maxPages || start > end) {
+                        throw new Error(`Invalid range: ${part}`);
+                    }
+                    for (let i = start; i <= end; i++) {
+                        pages.add(i - 1); // Convert to 0-indexed
+                    }
+                } else {
+                    // Single page (e.g., "5")
+                    const pageNum = parseInt(part);
+                    if (isNaN(pageNum) || pageNum < 1 || pageNum > maxPages) {
+                        throw new Error(`Invalid page number: ${part}`);
+                    }
+                    pages.add(pageNum - 1); // Convert to 0-indexed
+                }
+            }
+
+            return Array.from(pages).sort((a, b) => a - b);
+        }
+
+        // Split button handler
+        splitBtn.addEventListener('click', async () => {
+            if (!loadedPdf) {
+                CodeUtils.Message.error('Please select a PDF file first');
+                return;
+            }
+
+            const pageRangeInput = pageRange.value.trim();
+            if (!pageRangeInput) {
+                CodeUtils.Message.error('Please enter pages to extract');
+                return;
+            }
+
+            try {
+                splitBtn.disabled = true;
+                splitBtn.textContent = 'Splitting...';
+
+                const maxPages = loadedPdf.getPageCount();
+
+                // Parse page range
+                const pagesToExtract = parsePageRange(pageRangeInput, maxPages);
+
+                if (pagesToExtract.length === 0) {
+                    throw new Error('No pages selected');
+                }
+
+                CodeUtils.Message.success(`Extracting ${pagesToExtract.length} page(s)...`);
+
+                // Create new PDF
+                const { PDFDocument } = PDFLib;
+                const newPdf = await PDFDocument.create();
+
+                // Copy selected pages
+                const copiedPages = await newPdf.copyPages(loadedPdf, pagesToExtract);
+                copiedPages.forEach((page) => newPdf.addPage(page));
+
+                // Save the new PDF
+                const pdfBytes = await newPdf.save();
+
+                // Download
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'split.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                CodeUtils.Message.success(`Extracted ${pagesToExtract.length} page(s) successfully!`);
+
+                // Track split
+                gtag('event', 'split', {
+                    'event_category': 'split_pdf',
+                    'event_label': 'success',
+                    'value': pagesToExtract.length
+                });
+
+            } catch (error) {
+                console.error('Split error:', error);
+                CodeUtils.Message.error('Failed to split PDF: ' + error.message);
+
+                gtag('event', 'error', {
+                    'event_category': 'split_pdf',
+                    'event_label': error.message
+                });
+            } finally {
+                splitBtn.disabled = false;
+                splitBtn.textContent = 'Split PDF';
+            }
+        });
+
+        // Clear button handler
+        clearBtn.addEventListener('click', () => {
+            fileInput.value = '';
+            loadedPdf = null;
+            pdfFile = null;
+            fileInfo.textContent = 'No file selected';
+            pdfInfo.style.display = 'none';
+            pageSelectionGroup.style.display = 'none';
+            actionButtons.style.display = 'none';
+            pageRange.value = '';
+            CodeUtils.Message.success('Cleared');
+        });
+
+        // Drag and drop support
+        const container = document.querySelector('.card');
+
+        container.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            container.style.borderColor = '#3498db';
+        });
+
+        container.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            container.style.borderColor = '';
+        });
+
+        container.addEventListener('drop', (e) => {
+            e.preventDefault();
+            container.style.borderColor = '';
+
+            const files = Array.from(e.dataTransfer.files);
+            const pdfFile = files.find(f => f.type === 'application/pdf');
+
+            if (pdfFile) {
+                const dt = new DataTransfer();
+                dt.items.add(pdfFile);
+                fileInput.files = dt.files;
+                fileInput.dispatchEvent(new Event('change'));
+            } else {
+                CodeUtils.Message.warning('Please drop a PDF file');
+            }
+        });
+    </script>
+
+    <style>
+        .pdf-info {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .pdf-detail {
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-detail:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-help {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .form-help code {
+            background: var(--bg-secondary);
+            padding: 0.125rem 0.375rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</body>
+
+</html>

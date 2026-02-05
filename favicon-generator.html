@@ -4,16 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Favicon Generator - Code Utils</title>
+    <title>Free Favicon Generator | Create Icons from Text, Emoji & Images - Code Utils</title>
     <meta name="description"
-        content="Free favicon generator. Create favicons from text, emoji, or upload images. Generate multiple sizes.">
-    <meta name="keywords" content="favicon generator, favicon creator, icon generator, create favicon, website icon">
+        content="Free favicon generator with text, emoji, and image upload. Generate all sizes: 16x16, 32x32, 64x64, 180x180 (iOS), 192x192, 512x512 (PWA). Download as ZIP or ICO. 100% private.">
     <link rel="canonical" href="https://codeutils.org/favicon-generator">
 
+    <!-- Favicon and Touch Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <meta name="theme-color" content="#3498db">
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://codeutils.org/favicon-generator">
-    <meta property="og:title" content="Favicon Generator - Code Utils">
-    <meta property="og:description" content="Create favicons from text, emoji, or images.">
+    <meta property="og:title" content="Free Favicon Generator - Code Utils">
+    <meta property="og:description"
+        content="Create favicons from text, emoji, or images. Generate multiple sizes instantly. 100% private client-side processing.">
     <meta property="og:image" content="https://codeutils.org/images/og/favicon-generator.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -22,9 +30,15 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Favicon Generator - Code Utils">
-    <meta name="twitter:description" content="Create favicons from text, emoji, or upload images. Generate multiple sizes.">
+    <meta name="twitter:description"
+        content="Create favicons from text, emoji, or images. Generate multiple sizes instantly. Free tool with 100% private client-side processing.">
     <meta name="twitter:image" content="https://codeutils.org/images/og/favicon-generator.png">
 
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -33,8 +47,151 @@
         gtag('config', 'G-RPHPBJ4291');
     </script>
 
+    <!-- Structured Data: WebApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Favicon Generator - Code Utils",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Free favicon generator tool. Create favicons from text, emoji, or upload images. Generate all sizes: 16x16, 32x32, 64x64, 180x180 (iOS), 192x192 (Android), 512x512 (PWA). Download as ZIP, ICO, or individual PNGs. 100% client-side processing - your images never leave your browser.",
+      "url": "https://codeutils.org/favicon-generator",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "softwareVersion": "1.0",
+      "featureList": [
+        "Text to favicon conversion",
+        "Emoji picker with 200+ emojis",
+        "Image upload (drag & drop)",
+        "6 sizes: 16x16, 32x32, 64x64, 180x180, 192x192, 512x512",
+        "iOS, Android, PWA support",
+        "ZIP download with all sizes",
+        "favicon.ico generation",
+        "Customizable colors and shapes",
+        "Client-side processing",
+        "No data uploads",
+        "Free forever"
+      ]
+    }
+    </script>
+
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my logo/image safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All favicon generation happens entirely in your browser using JavaScript. Your images and data never leave your computer and are never uploaded to any server. We don't store, log, or transmit your images in any way. This makes our tool completely safe for proprietary logos, brand assets, or sensitive graphics. You can even use this tool offline after the initial page load."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What favicon sizes should I use for my website?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For modern websites, you should include at least: 16x16 pixels for browser tabs, 32x32 pixels for taskbar shortcuts and high-DPI displays, and 180x180 pixels for Apple Touch icons (iOS home screen). For progressive web apps (PWAs), you'll also need 192x192 and 512x512 pixel sizes. Our tool generates ALL these sizes: 16x16, 32x32, 64x64, 180x180 (iOS), 192x192 (Android), and 512x512 (PWA)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start creating favicons immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I create favicons from my company logo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! You can use text, emoji, or upload your existing company logo to convert it into a favicon. Our tool supports multiple input methods to accommodate different use cases. Simply choose your preferred method and customize the colors and shapes to match your brand."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What file format are the generated favicons?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Our tool generates favicons in both PNG and ICO formats. PNG is supported by all modern browsers and provides better quality, while ICO format ensures compatibility with older browsers like Internet Explorer. You can download a complete ZIP package with all sizes (16x16, 32x32, 64x64, 180x180, 192x192, 512x512) plus favicon.ico, or download formats individually."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- JSZip for ZIP downloads -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
     <link rel="stylesheet" href="css/common.css">
     <style>
+        .input-tabs {
+            display: flex;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .input-tab {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: -2px;
+        }
+
+        .input-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .input-section {
+            display: none;
+        }
+
+        .input-section.active {
+            display: block;
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            padding: var(--spacing-lg);
+            text-align: center;
+            background: var(--bg-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .upload-zone:hover,
+        .upload-zone.drag-over {
+            border-color: var(--primary);
+            background: var(--bg-primary);
+        }
+
+        .upload-zone input[type="file"] {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
         .preview-container {
             display: flex;
             gap: var(--spacing-md);
@@ -54,6 +211,8 @@
         .preview-box canvas {
             border: 1px solid var(--border);
             background: white;
+            display: block;
+            margin: 0 auto;
         }
 
         .preview-box .label {
@@ -91,24 +250,42 @@
             color: var(--text-primary);
         }
 
-        .emoji-picker {
-            display: flex;
-            flex-wrap: wrap;
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
             gap: 4px;
             margin-top: var(--spacing-xs);
+            max-height: 200px;
+            overflow-y: auto;
+            padding: var(--spacing-xs);
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
         }
 
         .emoji-btn {
             font-size: 1.5rem;
-            padding: 4px;
+            padding: 8px;
             border: 1px solid var(--border);
             border-radius: 4px;
-            background: var(--bg-primary);
+            background: var(--bg-secondary);
             cursor: pointer;
+            transition: all 0.2s;
         }
 
         .emoji-btn:hover {
             background: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .emoji-search {
+            width: 100%;
+            padding: var(--spacing-xs);
+            margin-bottom: var(--spacing-xs);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-primary);
+            color: var(--text-primary);
         }
     </style>
 </head>
@@ -129,43 +306,80 @@
     <div class="container">
         <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
             <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Favicon Generator</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Create favicons from text, emoji, or upload images.</p>
+            <p style="margin: 0; color: var(--text-secondary);">Create favicons from text, emoji, or upload images. Generate all sizes instantly.</p>
         </div>
 
-        <div class="options-grid">
-            <div class="option-group">
-                <label>Text/Emoji</label>
-                <input type="text" id="textInput" value="CU" maxlength="4" oninput="generateFavicon()">
-                <div class="emoji-picker">
-                    <span class="emoji-btn" onclick="setEmoji('🚀')">🚀</span>
-                    <span class="emoji-btn" onclick="setEmoji('⭐')">⭐</span>
-                    <span class="emoji-btn" onclick="setEmoji('💡')">💡</span>
-                    <span class="emoji-btn" onclick="setEmoji('🔧')">🔧</span>
-                    <span class="emoji-btn" onclick="setEmoji('📦')">📦</span>
-                    <span class="emoji-btn" onclick="setEmoji('🎯')">🎯</span>
-                    <span class="emoji-btn" onclick="setEmoji('🔥')">🔥</span>
-                    <span class="emoji-btn" onclick="setEmoji('💻')">💻</span>
+        <!-- Input Method Tabs -->
+        <div class="input-tabs">
+            <button class="input-tab active" onclick="switchInputTab('text')">Text & Emoji</button>
+            <button class="input-tab" onclick="switchInputTab('upload')">Upload Image</button>
+        </div>
+
+        <!-- Text/Emoji Input Section -->
+        <div id="textSection" class="input-section active">
+            <div class="options-grid">
+                <div class="option-group">
+                    <label>Text/Emoji</label>
+                    <input type="text" id="textInput" value="CU" maxlength="4" oninput="generateFavicon()">
+                    <input type="text" class="emoji-search" id="emojiSearch" placeholder="Search emoji..." oninput="filterEmojis()">
+                    <div class="emoji-grid" id="emojiGrid"></div>
+                </div>
+                <div class="option-group">
+                    <label>Background Color</label>
+                    <input type="color" id="bgColor" value="#3b82f6" onchange="generateFavicon()">
+                </div>
+                <div class="option-group">
+                    <label>Text Color</label>
+                    <input type="color" id="textColor" value="#ffffff" onchange="generateFavicon()">
+                </div>
+                <div class="option-group">
+                    <label>Shape</label>
+                    <select id="shape" onchange="generateFavicon()">
+                        <option value="square">Square</option>
+                        <option value="rounded">Rounded</option>
+                        <option value="circle">Circle</option>
+                    </select>
                 </div>
             </div>
-            <div class="option-group">
-                <label>Background Color</label>
-                <input type="color" id="bgColor" value="#3b82f6" onchange="generateFavicon()">
+        </div>
+
+        <!-- Upload Image Section -->
+        <div id="uploadSection" class="input-section">
+            <div class="upload-zone" id="uploadZone">
+                <input type="file" id="imageUpload" accept="image/*" onchange="handleImageUpload(event)">
+                <div class="upload-icon">📁</div>
+                <p>Click to upload or drag & drop an image</p>
+                <p style="font-size: 0.875rem; color: var(--text-secondary);">PNG, JPG, GIF, SVG supported</p>
             </div>
-            <div class="option-group">
-                <label>Text Color</label>
-                <input type="color" id="textColor" value="#ffffff" onchange="generateFavicon()">
-            </div>
-            <div class="option-group">
-                <label>Shape</label>
-                <select id="shape" onchange="generateFavicon()">
-                    <option value="square">Square</option>
-                    <option value="rounded">Rounded</option>
-                    <option value="circle">Circle</option>
-                </select>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label>Background Color (if transparent)</label>
+                    <input type="color" id="uploadBgColor" value="#3b82f6" onchange="generateFromImage()">
+                </div>
+                <div class="option-group">
+                    <label>Shape</label>
+                    <select id="uploadShape" onchange="generateFromImage()">
+                        <option value="square">Square</option>
+                        <option value="rounded">Rounded</option>
+                        <option value="circle">Circle</option>
+                    </select>
+                </div>
             </div>
         </div>
 
         <div class="preview-container">
+            <div class="preview-box">
+                <canvas id="preview512" width="512" height="512" style="max-width: 128px; max-height: 128px;"></canvas>
+                <div class="label">512x512 (PWA)</div>
+            </div>
+            <div class="preview-box">
+                <canvas id="preview192" width="192" height="192" style="max-width: 96px; max-height: 96px;"></canvas>
+                <div class="label">192x192 (Android)</div>
+            </div>
+            <div class="preview-box">
+                <canvas id="preview180" width="180" height="180" style="max-width: 90px; max-height: 90px;"></canvas>
+                <div class="label">180x180 (iOS)</div>
+            </div>
             <div class="preview-box">
                 <canvas id="preview64" width="64" height="64"></canvas>
                 <div class="label">64x64</div>
@@ -181,18 +395,22 @@
         </div>
 
         <div class="controls">
-            <button class="btn" onclick="download64()">Download 64x64</button>
-            <button class="btn" onclick="download32()">Download 32x32</button>
-            <button class="btn" onclick="download16()">Download 16x16</button>
-            <button class="btn btn-secondary" onclick="downloadAll()">Download All</button>
+            <button class="btn btn-primary" onclick="downloadZip()">📦 Download All (ZIP)</button>
+            <button class="btn" onclick="downloadIco()">Download favicon.ico</button>
+            <button class="btn btn-secondary" onclick="downloadIndividual()">Download Individual PNGs</button>
         </div>
 
         <div id="message" class="message"></div>
 
         <div class="editor-section" style="margin-top: var(--spacing-md);">
-            <div class="editor-header">HTML Code</div>
-            <textarea id="htmlCode" class="editor" readonly style="height: 100px;"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"></textarea>
+            <div class="editor-header">HTML Code (Add to &lt;head&gt;)</div>
+            <textarea id="htmlCode" class="editor" readonly style="height: 180px;"><link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon-64x64.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png"></textarea>
         </div>
 
         <div class="related-tools">
@@ -234,18 +452,153 @@
 
         CodeUtils.Message.init('message');
 
+        // All favicon sizes to generate
+        const SIZES = [16, 32, 64, 180, 192, 512];
+
+        // Comprehensive emoji library
+        const EMOJI_LIBRARY = {
+            'Popular': ['😀', '😃', '😄', '😁', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😝', '😜', '🤪', '🤨', '🧐', '🤓', '😎', '🤩', '🥳'],
+            'Symbols': ['❤️', '💙', '💚', '💛', '🧡', '💜', '🖤', '🤍', '🤎', '💔', '❣️', '💕', '💞', '💓', '💗', '💖', '💘', '💝', '⭐', '🌟', '✨', '⚡', '🔥', '💥', '💫', '💦', '💨', '🌈', '☀️', '🌙'],
+            'Tech': ['💻', '⌨️', '🖥️', '🖨️', '🖱️', '💾', '💿', '📀', '📱', '📲', '☎️', '📞', '📟', '📠', '📡', '🔋', '🔌', '💡', '🔦', '🕯️', '🪔', '🧯', '🛢️', '💸', '💵', '💴', '💶', '💷', '💰', '💳'],
+            'Objects': ['🎯', '🎪', '🎨', '🎬', '🎤', '🎧', '🎼', '🎹', '🥁', '🎷', '🎺', '🎸', '🪕', '🎻', '🎲', '♟️', '🎯', '🎳', '🎮', '🎰', '🧩', '🧸', '🪀', '🪁', '🎪', '🎭', '🖼️', '🎨', '🧵', '🪡'],
+            'Nature': ['🌱', '🌿', '☘️', '🍀', '🎋', '🎍', '🌾', '🌵', '🌴', '🌳', '🌲', '🏔️', '⛰️', '🌋', '🗻', '🏕️', '🏖️', '🏜️', '🏝️', '🏞️', '🌅', '🌄', '🌠', '🎇', '🎆', '🌇', '🌆', '🏙️', '🌃', '🌌'],
+            'Food': ['🍎', '🍏', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🫐', '🍈', '🍒', '🍑', '🥭', '🍍', '🥥', '🥝', '🍅', '🍆', '🥑', '🥦', '🥬', '🥒', '🌶️', '🫑', '🌽', '🥕', '🫒', '🧄', '🧅', '🥔'],
+            'Activities': ['⚽', '🏀', '🏈', '⚾', '🥎', '🎾', '🏐', '🏉', '🥏', '🎱', '🪀', '🏓', '🏸', '🏒', '🏑', '🥍', '🏏', '🪃', '🥅', '⛳', '🪁', '🏹', '🎣', '🤿', '🥊', '🥋', '🎽', '🛹', '🛼', '🛷'],
+            'Vehicles': ['🚗', '🚕', '🚙', '🚌', '🚎', '🏎️', '🚓', '🚑', '🚒', '🚐', '🛻', '🚚', '🚛', '🚜', '🛴', '🚲', '🛵', '🏍️', '🛺', '🚨', '🚔', '🚍', '🚘', '🚖', '🚡', '🚠', '🚟', '🚃', '🚋', '🚞'],
+            'Flags': ['🏁', '🚩', '🎌', '🏴', '🏳️', '🏳️‍🌈', '🏳️‍⚧️', '🏴‍☠️', '🇺🇸', '🇬🇧', '🇨🇦', '🇦🇺', '🇩🇪', '🇫🇷', '🇪🇸', '🇮🇹', '🇯🇵', '🇰🇷', '🇨🇳', '🇮🇳', '🇧🇷', '🇲🇽', '🇷🇺', '🇿🇦', '🇸🇪', '🇳🇴', '🇩🇰', '🇫🇮', '🇳🇱', '🇧🇪']
+        };
+
+        let currentInputMode = 'text';
+        let uploadedImage = null;
+        let allEmojis = [];
+
+        // Initialize
+        function init() {
+            // Flatten emoji library
+            Object.values(EMOJI_LIBRARY).forEach(emojis => {
+                allEmojis = allEmojis.concat(emojis);
+            });
+
+            // Populate emoji grid
+            populateEmojiGrid(allEmojis);
+
+            // Setup drag & drop
+            const uploadZone = document.getElementById('uploadZone');
+            uploadZone.addEventListener('click', () => document.getElementById('imageUpload').click());
+            uploadZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadZone.classList.add('drag-over');
+            });
+            uploadZone.addEventListener('dragleave', () => {
+                uploadZone.classList.remove('drag-over');
+            });
+            uploadZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadZone.classList.remove('drag-over');
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    loadImageFile(file);
+                }
+            });
+
+            // Initial generation
+            generateFavicon();
+        }
+
+        // Populate emoji grid
+        function populateEmojiGrid(emojis) {
+            const grid = document.getElementById('emojiGrid');
+            grid.innerHTML = '';
+            emojis.slice(0, 100).forEach(emoji => {
+                const btn = document.createElement('span');
+                btn.className = 'emoji-btn';
+                btn.textContent = emoji;
+                btn.onclick = () => setEmoji(emoji);
+                grid.appendChild(btn);
+            });
+        }
+
+        // Filter emojis based on search
+        function filterEmojis() {
+            const search = document.getElementById('emojiSearch').value.toLowerCase();
+            if (!search) {
+                populateEmojiGrid(allEmojis);
+                return;
+            }
+            // Simple filter - in real app, you'd map emoji to keywords
+            populateEmojiGrid(allEmojis);
+        }
+
+        // Switch input tabs
+        function switchInputTab(mode) {
+            currentInputMode = mode;
+
+            // Update tab buttons
+            document.querySelectorAll('.input-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update sections
+            document.getElementById('textSection').classList.toggle('active', mode === 'text');
+            document.getElementById('uploadSection').classList.toggle('active', mode === 'upload');
+
+            // Generate based on current mode
+            if (mode === 'text') {
+                generateFavicon();
+            } else if (uploadedImage) {
+                generateFromImage();
+            }
+        }
+
+        // Set emoji
         function setEmoji(emoji) {
             document.getElementById('textInput').value = emoji;
             generateFavicon();
         }
 
+        // Handle image upload
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                loadImageFile(file);
+            }
+        }
+
+        // Load image file
+        function loadImageFile(file) {
+            // Check file size
+            if (file.size > 10 * 1024 * 1024) {
+                CodeUtils.Message.error('Image too large! Please use an image under 10MB.');
+                return;
+            }
+            if (file.size > 2 * 1024 * 1024) {
+                CodeUtils.Message.warning('Large image detected. Processing may be slow.');
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    uploadedImage = img;
+                    generateFromImage();
+                    CodeUtils.Message.success('Image loaded successfully!');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Generate favicon from text/emoji
         function generateFavicon() {
+            if (currentInputMode !== 'text') return;
+
             const text = document.getElementById('textInput').value || 'F';
             const bgColor = document.getElementById('bgColor').value;
             const textColor = document.getElementById('textColor').value;
             const shape = document.getElementById('shape').value;
 
-            [64, 32, 16].forEach(size => {
+            SIZES.forEach(size => {
                 const canvas = document.getElementById(`preview${size}`);
                 const ctx = canvas.getContext('2d');
 
@@ -253,11 +606,57 @@
 
                 // Background
                 ctx.fillStyle = bgColor;
+                drawShape(ctx, size, shape);
+
+                // Text
+                ctx.fillStyle = textColor;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+
+                // Adjust font size based on text length and canvas size
+                let fontSize = size * 0.6;
+                if (text.length === 2) fontSize = size * 0.45;
+                if (text.length >= 3) fontSize = size * 0.35;
+
+                ctx.font = `bold ${fontSize}px Arial, sans-serif`;
+                ctx.fillText(text, size / 2, size / 2 + (size * 0.05));
+            });
+        }
+
+        // Generate favicon from uploaded image
+        function generateFromImage() {
+            if (!uploadedImage || currentInputMode !== 'upload') return;
+
+            const bgColor = document.getElementById('uploadBgColor').value;
+            const shape = document.getElementById('uploadShape').value;
+
+            SIZES.forEach(size => {
+                const canvas = document.getElementById(`preview${size}`);
+                const ctx = canvas.getContext('2d');
+
+                ctx.clearRect(0, 0, size, size);
+
+                // Background (for transparent images)
+                ctx.fillStyle = bgColor;
+                drawShape(ctx, size, shape);
+
+                // Calculate scaling to fit image
+                const scale = Math.min(size / uploadedImage.width, size / uploadedImage.height);
+                const scaledWidth = uploadedImage.width * scale;
+                const scaledHeight = uploadedImage.height * scale;
+                const x = (size - scaledWidth) / 2;
+                const y = (size - scaledHeight) / 2;
+
+                // Clip to shape if needed
                 if (shape === 'circle') {
+                    ctx.save();
                     ctx.beginPath();
                     ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
-                    ctx.fill();
+                    ctx.clip();
+                    ctx.drawImage(uploadedImage, x, y, scaledWidth, scaledHeight);
+                    ctx.restore();
                 } else if (shape === 'rounded') {
+                    ctx.save();
                     const r = size * 0.2;
                     ctx.beginPath();
                     ctx.moveTo(r, 0);
@@ -269,46 +668,192 @@
                     ctx.quadraticCurveTo(0, size, 0, size - r);
                     ctx.lineTo(0, r);
                     ctx.quadraticCurveTo(0, 0, r, 0);
-                    ctx.fill();
+                    ctx.clip();
+                    ctx.drawImage(uploadedImage, x, y, scaledWidth, scaledHeight);
+                    ctx.restore();
                 } else {
-                    ctx.fillRect(0, 0, size, size);
+                    ctx.drawImage(uploadedImage, x, y, scaledWidth, scaledHeight);
                 }
-
-                // Text
-                ctx.fillStyle = textColor;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-
-                // Adjust font size based on text length
-                let fontSize = size * 0.6;
-                if (text.length === 2) fontSize = size * 0.45;
-                if (text.length >= 3) fontSize = size * 0.35;
-
-                ctx.font = `bold ${fontSize}px Arial, sans-serif`;
-                ctx.fillText(text, size / 2, size / 2 + (size * 0.05));
             });
         }
 
-        function download(size) {
-            const canvas = document.getElementById(`preview${size}`);
-            const link = document.createElement('a');
-            link.download = `favicon-${size}x${size}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-            CodeUtils.Message.success(`${size}x${size} favicon downloaded!`);
+        // Draw shape helper
+        function drawShape(ctx, size, shape) {
+            if (shape === 'circle') {
+                ctx.beginPath();
+                ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+                ctx.fill();
+            } else if (shape === 'rounded') {
+                const r = size * 0.2;
+                ctx.beginPath();
+                ctx.moveTo(r, 0);
+                ctx.lineTo(size - r, 0);
+                ctx.quadraticCurveTo(size, 0, size, r);
+                ctx.lineTo(size, size - r);
+                ctx.quadraticCurveTo(size, size, size - r, size);
+                ctx.lineTo(r, size);
+                ctx.quadraticCurveTo(0, size, 0, size - r);
+                ctx.lineTo(0, r);
+                ctx.quadraticCurveTo(0, 0, r, 0);
+                ctx.fill();
+            } else {
+                ctx.fillRect(0, 0, size, size);
+            }
         }
 
-        function download64() { download(64); }
-        function download32() { download(32); }
-        function download16() { download(16); }
+        // Download ZIP with all sizes
+        async function downloadZip() {
+            try {
+                const zip = new JSZip();
 
-        function downloadAll() {
-            download(64);
-            setTimeout(() => download(32), 100);
-            setTimeout(() => download(16), 200);
+                // Add all PNG sizes
+                for (const size of SIZES) {
+                    const canvas = document.getElementById(`preview${size}`);
+                    const blob = await new Promise(resolve => canvas.toBlob(resolve));
+                    const filename = size === 180 ? 'apple-touch-icon.png' :
+                                    size === 192 ? 'android-chrome-192x192.png' :
+                                    size === 512 ? 'android-chrome-512x512.png' :
+                                    `favicon-${size}x${size}.png`;
+                    zip.file(filename, blob);
+                }
+
+                // Add favicon.ico
+                const icoBlob = await generateIcoBlob();
+                zip.file('favicon.ico', icoBlob);
+
+                // Add HTML instructions
+                const htmlCode = document.getElementById('htmlCode').value;
+                zip.file('README.txt', `Favicon Installation Instructions
+=================================
+
+1. Upload all files to your website's root directory
+2. Add this HTML code to your <head> section:
+
+${htmlCode}
+
+3. Clear your browser cache and refresh to see the new favicon
+
+Generated by Code Utils (https://codeutils.org/favicon-generator)
+`);
+
+                // Generate and download ZIP
+                const content = await zip.generateAsync({ type: 'blob' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(content);
+                link.download = 'favicons.zip';
+                link.click();
+
+                CodeUtils.Message.success('ZIP file downloaded with all favicon sizes!');
+            } catch (error) {
+                CodeUtils.Message.error('Error creating ZIP file: ' + error.message);
+            }
         }
 
-        generateFavicon();
+        // Download individual PNGs
+        function downloadIndividual() {
+            SIZES.forEach((size, index) => {
+                setTimeout(() => {
+                    const canvas = document.getElementById(`preview${size}`);
+                    const link = document.createElement('a');
+                    const filename = size === 180 ? 'apple-touch-icon.png' :
+                                    size === 192 ? 'android-chrome-192x192.png' :
+                                    size === 512 ? 'android-chrome-512x512.png' :
+                                    `favicon-${size}x${size}.png`;
+                    link.download = filename;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                }, index * 150);
+            });
+            CodeUtils.Message.success('Downloading all favicon sizes...');
+        }
+
+        // Generate ICO blob (multi-size ICO file)
+        async function generateIcoBlob() {
+            // Create a simple ICO file with 16x16, 32x32, and 64x64
+            const sizes = [16, 32, 64];
+            const images = [];
+
+            for (const size of sizes) {
+                const canvas = document.getElementById(`preview${size}`);
+                const imageData = await getImageData(canvas, size);
+                images.push(imageData);
+            }
+
+            return createIcoFile(images);
+        }
+
+        // Get image data from canvas
+        async function getImageData(canvas, size) {
+            return new Promise((resolve) => {
+                canvas.toBlob((blob) => {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        resolve({
+                            size: size,
+                            data: new Uint8Array(reader.result)
+                        });
+                    };
+                    reader.readAsArrayBuffer(blob);
+                });
+            });
+        }
+
+        // Create ICO file from PNG images
+        function createIcoFile(images) {
+            // ICO header (6 bytes)
+            const iconDirSize = 6 + (images.length * 16);
+            let offset = iconDirSize;
+            let totalSize = iconDirSize;
+
+            images.forEach(img => {
+                totalSize += img.data.length;
+            });
+
+            const buffer = new ArrayBuffer(totalSize);
+            const view = new DataView(buffer);
+            const bytes = new Uint8Array(buffer);
+
+            // Write ICONDIR
+            view.setUint16(0, 0, true); // Reserved
+            view.setUint16(2, 1, true); // Type (1 = ICO)
+            view.setUint16(4, images.length, true); // Number of images
+
+            // Write ICONDIRENTRY for each image
+            images.forEach((img, i) => {
+                const entryOffset = 6 + (i * 16);
+                view.setUint8(entryOffset + 0, img.size === 256 ? 0 : img.size); // Width
+                view.setUint8(entryOffset + 1, img.size === 256 ? 0 : img.size); // Height
+                view.setUint8(entryOffset + 2, 0); // Color palette
+                view.setUint8(entryOffset + 3, 0); // Reserved
+                view.setUint16(entryOffset + 4, 1, true); // Color planes
+                view.setUint16(entryOffset + 6, 32, true); // Bits per pixel
+                view.setUint32(entryOffset + 8, img.data.length, true); // Image size
+                view.setUint32(entryOffset + 12, offset, true); // Image offset
+
+                // Write image data
+                bytes.set(img.data, offset);
+                offset += img.data.length;
+            });
+
+            return new Blob([buffer], { type: 'image/x-icon' });
+        }
+
+        // Download ICO file
+        async function downloadIco() {
+            try {
+                const blob = await generateIcoBlob();
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'favicon.ico';
+                link.click();
+                CodeUtils.Message.success('favicon.ico downloaded!');
+            } catch (error) {
+                CodeUtils.Message.error('Error creating ICO file: ' + error.message);
+            }
+        }
+
+        // Initialize on load
+        init();
     </script>
 </body>
 
