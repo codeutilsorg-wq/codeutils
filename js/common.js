@@ -47,6 +47,11 @@ const Message = {
         this.container.textContent = text;
         this.container.className = 'message ' + type;
 
+        // Scroll message into view
+        setTimeout(() => {
+            this.container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+
         if (this.timeout) {
             clearTimeout(this.timeout);
         }

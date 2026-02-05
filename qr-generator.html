@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Generator | Create & Download QR Codes - Code Utils</title>
-    <meta name="description" content="Generate QR codes from text, URLs, or data instantly. Download as PNG, customizable size. Works offline with 100% private client-side processing. Create QR codes now!">
-    <meta name="keywords" content="qr code generator, qr code maker, create qr code, qr code creator">
+    <title>QR Code Generator | Create Custom QR Codes with Logo & Gradients - Code Utils</title>
+    <meta name="description" content="Professional QR code generator with logo upload, gradients, vector downloads (SVG/PDF). Create vCard, WiFi, Email, SMS QR codes. Customizable colors, patterns, shapes. 100% free & private. No registration required.">
+    <meta name="keywords" content="qr code generator, qr code maker, custom qr code, qr code with logo, vcard qr code, wifi qr code, qr code svg, qr code pdf, gradient qr code">
     <link rel="canonical" href="https://codeutils.org/qr-generator">
 
     <!-- Favicon and Touch Icons -->
@@ -18,17 +18,17 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://codeutils.org/qr-generator">
-    <meta property="og:title" content="QR Code Generator - Create & Download QR Codes - Code Utils">
-    <meta property="og:description" content="Generate QR codes from text, URLs, or data instantly. Download as PNG with customizable size. 100% private client-side processing.">
+    <meta property="og:title" content="Professional QR Code Generator - Custom QR Codes with Logo & Gradients">
+    <meta property="og:description" content="Create professional QR codes with logo upload, gradients, and vector downloads. Support for vCard, WiFi, Email, SMS. Fully customizable colors, patterns, and shapes. 100% free.">
     <meta property="og:image" content="https://codeutils.org/images/og/qr-generator.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="QR Code Generator - Free online tool">
+    <meta property="og:image:alt" content="QR Code Generator with Logo and Gradients - Free Professional Tool">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="QR Code Generator - Create & Download QR Codes - Code Utils">
-    <meta name="twitter:description" content="Generate and download QR codes instantly. Free tool with customizable size and 100% private processing.">
+    <meta name="twitter:title" content="Professional QR Code Generator - Custom QR Codes with Logo & Gradients">
+    <meta name="twitter:description" content="Create custom QR codes with logo upload, gradients, vector downloads (SVG/PDF). vCard, WiFi, Email, SMS support. 100% free & private.">
     <meta name="twitter:image" content="https://codeutils.org/images/og/qr-generator.png">
 
     <!-- Preconnect for performance -->
@@ -56,10 +56,10 @@
         "price": "0",
         "priceCurrency": "USD"
       },
-      "description": "Free QR code generator. Create QR codes from text, URLs, or data with customizable size. Download as PNG. 100% client-side processing.",
+      "description": "Professional QR code generator with logo upload, gradients, vector downloads (SVG/PDF/PNG). Create vCard, WiFi, Email, SMS QR codes. Customizable colors, patterns, shapes, and error correction. 100% free client-side processing.",
       "url": "https://codeutils.org/qr-generator",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
+      "softwareVersion": "2.0",
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "4.5",
@@ -128,6 +128,7 @@
 
     <link rel="stylesheet" href="css/common.css">
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <style>
         .qr-container {
             display: flex;
@@ -188,6 +189,24 @@
         #qrcode.hidden {
             display: none;
         }
+        .editor-section {
+            margin-bottom: var(--spacing-md);
+        }
+        .editor-section .options-grid {
+            margin-bottom: var(--spacing-sm);
+        }
+        .editor-section .editor {
+            width: 100%;
+        }
+        #logoSizeValue {
+            display: inline-block;
+            margin-left: var(--spacing-xs);
+            font-weight: bold;
+            min-width: 40px;
+        }
+        #logoSize {
+            width: calc(100% - 50px);
+        }
     </style>
 </head>
 <body>
@@ -206,12 +225,112 @@
     <div class="container">
         <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
             <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">QR Code Generator</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Instantly generate QR codes from text, URLs, contact information, or any data. QR codes provide a fast, scannable way to share information, links, WiFi credentials, and more using any smartphone camera. This tool creates fully customizable QR codes with adjustable size, colors, and download as PNG. Supports high error correction for reliability even if codes are damaged or partially obscured. Perfect for marketing campaigns, product tracking, event registrations, WiFi sharing, and data distribution. Generate, download, or copy to clipboard instantly. All processing happens securely in your browser with no data transmission.</p>
+            <p style="margin: 0; color: var(--text-secondary);">Professional QR code generator with advanced customization. Create branded QR codes with logo upload, gradient colors, custom shapes (squares, dots, rounded), and adjustable error correction. Generate specialized QR codes for vCard contacts, WiFi networks, emails, and SMS messages. Download in multiple formats (PNG, SVG vector, PDF) for print and web. Customize every aspect: colors, gradients, module patterns, and sizes up to 2048px. Perfect for business cards, marketing materials, event tickets, WiFi sharing, and professional branding. All processing happens securely in your browser—100% private with no data uploaded to servers.</p>
         </div>
 
-        <div class="editor-section">
+        <div class="options-grid">
+            <div class="option-group" style="grid-column: 1 / -1;">
+                <label>QR Code Type</label>
+                <select id="qrType" onchange="toggleQRTypeInputs()" style="width: 100%;">
+                    <option value="text">Text / URL</option>
+                    <option value="vcard">vCard (Contact)</option>
+                    <option value="wifi">WiFi Network</option>
+                    <option value="email">Email</option>
+                    <option value="sms">SMS</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Text/URL Input -->
+        <div id="textInput" class="editor-section">
             <div class="editor-header">Content</div>
-            <textarea id="contentInput" class="editor" style="height: 100px;" placeholder="Enter text, URL, or data...">https://codeutils.org</textarea>
+            <textarea id="contentInput" class="editor" style="height: 80px; resize: vertical;" placeholder="Enter text, URL, or data...">https://codeutils.org</textarea>
+        </div>
+
+        <!-- vCard Input -->
+        <div id="vcardInput" class="editor-section" style="display: none;">
+            <div class="editor-header">Contact Information</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="vcardName" placeholder="John Doe">
+                </div>
+                <div class="option-group">
+                    <label>Phone</label>
+                    <input type="tel" id="vcardPhone" placeholder="+1234567890">
+                </div>
+                <div class="option-group">
+                    <label>Email</label>
+                    <input type="email" id="vcardEmail" placeholder="john@example.com">
+                </div>
+                <div class="option-group">
+                    <label>Organization</label>
+                    <input type="text" id="vcardOrg" placeholder="Company Name">
+                </div>
+                <div class="option-group">
+                    <label>Job Title</label>
+                    <input type="text" id="vcardTitle" placeholder="CEO">
+                </div>
+                <div class="option-group">
+                    <label>Website</label>
+                    <input type="url" id="vcardUrl" placeholder="https://example.com">
+                </div>
+            </div>
+        </div>
+
+        <!-- WiFi Input -->
+        <div id="wifiInput" class="editor-section" style="display: none;">
+            <div class="editor-header">WiFi Network</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label>Network Name (SSID) *</label>
+                    <input type="text" id="wifiSSID" placeholder="MyWiFi">
+                </div>
+                <div class="option-group">
+                    <label>Password</label>
+                    <input type="text" id="wifiPassword" placeholder="password123">
+                </div>
+                <div class="option-group">
+                    <label>Encryption</label>
+                    <select id="wifiEncryption">
+                        <option value="WPA">WPA/WPA2</option>
+                        <option value="WEP">WEP</option>
+                        <option value="nopass">None (Open)</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label>Hidden Network</label>
+                    <input type="checkbox" id="wifiHidden">
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Input -->
+        <div id="emailInput" class="editor-section" style="display: none;">
+            <div class="editor-header">Email</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label>To (Email Address) *</label>
+                    <input type="email" id="emailTo" name="email" autocomplete="email" placeholder="recipient@example.com">
+                </div>
+                <div class="option-group">
+                    <label>Subject</label>
+                    <input type="text" id="emailSubject" name="subject" autocomplete="off" placeholder="Subject">
+                </div>
+            </div>
+            <textarea id="emailBody" class="editor" style="height: 60px; margin-top: var(--spacing-sm); resize: vertical;" placeholder="Email body (optional)..."></textarea>
+        </div>
+
+        <!-- SMS Input -->
+        <div id="smsInput" class="editor-section" style="display: none;">
+            <div class="editor-header">SMS</div>
+            <div class="options-grid">
+                <div class="option-group">
+                    <label>Phone Number *</label>
+                    <input type="tel" id="smsPhone" placeholder="+1234567890">
+                </div>
+            </div>
+            <textarea id="smsMessage" class="editor" style="height: 60px; margin-top: var(--spacing-sm); resize: vertical;" placeholder="Message text (optional)..."></textarea>
         </div>
 
         <div class="options-grid">
@@ -221,21 +340,69 @@
                     <option value="128">128x128</option>
                     <option value="256" selected>256x256</option>
                     <option value="512">512x512</option>
+                    <option value="1024">1024x1024</option>
+                    <option value="2048">2048x2048</option>
+                </select>
+            </div>
+            <div class="option-group">
+                <label>Error Correction</label>
+                <select id="errorCorrection" title="Higher levels recover more data if QR code is damaged">
+                    <option value="L">L - Low (7%)</option>
+                    <option value="M" selected>M - Medium (15%)</option>
+                    <option value="Q">Q - Quartile (25%)</option>
+                    <option value="H">H - High (30%)</option>
+                </select>
+            </div>
+            <div class="option-group">
+                <label>Color Type</label>
+                <select id="colorType" onchange="toggleGradientControls()">
+                    <option value="solid" selected>Solid Color</option>
+                    <option value="linear">Linear Gradient</option>
+                    <option value="radial">Radial Gradient</option>
                 </select>
             </div>
             <div class="option-group">
                 <label>Foreground</label>
                 <input type="color" id="fgColor" value="#000000">
             </div>
+            <div class="option-group" id="fgColor2Group" style="display: none;">
+                <label>Gradient Color 2</label>
+                <input type="color" id="fgColor2" value="#3498db">
+            </div>
             <div class="option-group">
                 <label>Background</label>
                 <input type="color" id="bgColor" value="#ffffff">
+            </div>
+            <div class="option-group">
+                <label>Module Style</label>
+                <select id="moduleStyle">
+                    <option value="square" selected>Squares</option>
+                    <option value="dots">Dots (Circles)</option>
+                    <option value="rounded">Rounded Squares</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="options-grid">
+            <div class="option-group">
+                <label>Logo (Optional)</label>
+                <input type="file" id="logoUpload" accept="image/*" onchange="handleLogoUpload(event)">
+            </div>
+            <div class="option-group">
+                <label>Logo Size (%)</label>
+                <input type="range" id="logoSize" min="10" max="40" value="20" step="5">
+                <span id="logoSizeValue">20%</span>
+            </div>
+            <div class="option-group">
+                <button class="btn btn-secondary" onclick="clearLogo()" style="margin-top: 24px;">Clear Logo</button>
             </div>
         </div>
 
         <div class="controls">
             <button class="btn" onclick="generateQR()">Generate QR Code</button>
         </div>
+
+        <div id="message" class="message"></div>
 
         <div class="qr-container">
             <div class="qr-display">
@@ -246,10 +413,10 @@
 
         <div class="controls" style="margin-top: var(--spacing-md);">
             <button class="btn" onclick="downloadQR()">Download PNG</button>
+            <button class="btn" onclick="downloadSVG()">Download SVG</button>
+            <button class="btn" onclick="downloadPDF()">Download PDF</button>
             <button class="btn btn-secondary" onclick="copyQR()">Copy to Clipboard</button>
         </div>
-
-        <div id="message" class="message"></div>
 
         <div class="related-tools">
             <h3>Related Tools</h3>
@@ -266,14 +433,18 @@
 
             <h3>Key Features</h3>
             <ul>
-                <li><strong>Fast Generation:</strong> Create QR codes instantly from any content</li>
-                <li><strong>Customizable Size:</strong> Generate 128x128, 256x256, or 512x512 pixel codes</li>
-                <li><strong>Color Customization:</strong> Adjust foreground and background colors for branding</li>
-                <li><strong>PNG Download:</strong> Save as high-quality PNG images</li>
+                <li><strong>Multiple QR Types:</strong> Text/URL, vCard (contacts), WiFi credentials, Email, SMS</li>
+                <li><strong>Logo Upload:</strong> Add your brand logo to QR codes with adjustable size (10-40%)</li>
+                <li><strong>Gradient Colors:</strong> Linear and radial gradients for eye-catching designs</li>
+                <li><strong>Module Patterns:</strong> Choose from squares, dots, or rounded shapes</li>
+                <li><strong>Vector Downloads:</strong> Export as SVG, PDF, or PNG for print and web</li>
+                <li><strong>Flexible Sizes:</strong> Generate codes from 128x128 to 2048x2048 pixels</li>
+                <li><strong>Error Correction:</strong> Choose Low (7%), Medium (15%), Quartile (25%), or High (30%)</li>
+                <li><strong>Color Customization:</strong> Full control over foreground and background colors</li>
                 <li><strong>Clipboard Copy:</strong> Copy QR code image directly to clipboard</li>
-                <li><strong>Error Correction:</strong> Built-in robustness for partial damage tolerance</li>
-                <li><strong>Unlimited Content:</strong> Encode up to 4,296 characters</li>
-                <li><strong>100% Client-Side:</strong> No data transmission—all processing in browser</li>
+                <li><strong>WiFi QR Codes:</strong> Generate scannable WiFi credentials (WPA/WPA2/WEP/Open)</li>
+                <li><strong>vCard QR Codes:</strong> Create digital business cards with contact info</li>
+                <li><strong>100% Private:</strong> All processing happens in your browser—no data uploaded</li>
             </ul>
 
             <h3>How to Use This Tool</h3>
@@ -364,26 +535,212 @@
         CodeUtils.Message.init('message');
 
         let qrGenerated = false;
+        let currentQR = null;
+        let currentSettings = {};
+        let logoImage = null;
+
+        // Update logo size display
+        document.getElementById('logoSize').addEventListener('input', function(e) {
+            document.getElementById('logoSizeValue').textContent = e.target.value + '%';
+        });
+
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 2 * 1024 * 1024) {
+                CodeUtils.Message.warning('Logo file should be under 2MB for best results');
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    logoImage = img;
+                    CodeUtils.Message.success('Logo loaded! Click "Generate QR Code" to apply.');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearLogo() {
+            logoImage = null;
+            document.getElementById('logoUpload').value = '';
+            CodeUtils.Message.success('Logo cleared');
+        }
+
+        function toggleQRTypeInputs() {
+            const qrType = document.getElementById('qrType').value;
+            document.getElementById('textInput').style.display = qrType === 'text' ? 'block' : 'none';
+            document.getElementById('vcardInput').style.display = qrType === 'vcard' ? 'block' : 'none';
+            document.getElementById('wifiInput').style.display = qrType === 'wifi' ? 'block' : 'none';
+            document.getElementById('emailInput').style.display = qrType === 'email' ? 'block' : 'none';
+            document.getElementById('smsInput').style.display = qrType === 'sms' ? 'block' : 'none';
+        }
+
+        function buildQRContent() {
+            const qrType = document.getElementById('qrType').value;
+
+            if (qrType === 'vcard') {
+                const name = document.getElementById('vcardName').value.trim();
+                const phone = document.getElementById('vcardPhone').value.trim();
+                const email = document.getElementById('vcardEmail').value.trim();
+                const org = document.getElementById('vcardOrg').value.trim();
+                const title = document.getElementById('vcardTitle').value.trim();
+                const url = document.getElementById('vcardUrl').value.trim();
+
+                if (!name) {
+                    CodeUtils.Message.error('Name is required for vCard');
+                    return null;
+                }
+
+                let vcard = 'BEGIN:VCARD\nVERSION:3.0\n';
+                vcard += `FN:${name}\n`;
+                vcard += `N:${name};;;\n`;
+                if (phone) vcard += `TEL:${phone}\n`;
+                if (email) vcard += `EMAIL:${email}\n`;
+                if (org) vcard += `ORG:${org}\n`;
+                if (title) vcard += `TITLE:${title}\n`;
+                if (url) vcard += `URL:${url}\n`;
+                vcard += 'END:VCARD';
+                return vcard;
+
+            } else if (qrType === 'wifi') {
+                const ssid = document.getElementById('wifiSSID').value.trim();
+                const password = document.getElementById('wifiPassword').value.trim();
+                const encryption = document.getElementById('wifiEncryption').value;
+                const hidden = document.getElementById('wifiHidden').checked ? 'true' : 'false';
+
+                if (!ssid) {
+                    CodeUtils.Message.error('SSID is required for WiFi');
+                    return null;
+                }
+
+                let wifi = `WIFI:T:${encryption};S:${ssid};`;
+                if (password && encryption !== 'nopass') wifi += `P:${password};`;
+                wifi += `H:${hidden};;`;
+                return wifi;
+
+            } else if (qrType === 'email') {
+                const toEl = document.getElementById('emailTo');
+                const subjectEl = document.getElementById('emailSubject');
+                const bodyEl = document.getElementById('emailBody');
+
+                if (!toEl || !subjectEl || !bodyEl) {
+                    CodeUtils.Message.error('Email input fields not found');
+                    return null;
+                }
+
+                const to = toEl.value.trim();
+                const subject = subjectEl.value.trim();
+                const body = bodyEl.value.trim();
+
+                // Debug logging
+                console.log('Email fields:', { to, subject, body });
+
+                if (!to) {
+                    CodeUtils.Message.error('Email address is required. Please enter an email address.');
+                    return null;
+                }
+
+                let mailto = `mailto:${to}`;
+                const params = [];
+                if (subject) params.push(`subject=${encodeURIComponent(subject)}`);
+                if (body) params.push(`body=${encodeURIComponent(body)}`);
+                if (params.length > 0) mailto += '?' + params.join('&');
+                return mailto;
+
+            } else if (qrType === 'sms') {
+                const phoneEl = document.getElementById('smsPhone');
+                const messageEl = document.getElementById('smsMessage');
+
+                if (!phoneEl || !messageEl) {
+                    CodeUtils.Message.error('SMS input fields not found');
+                    return null;
+                }
+
+                const phone = phoneEl.value.trim();
+                const message = messageEl.value.trim();
+
+                if (!phone) {
+                    CodeUtils.Message.error('Phone number is required for SMS');
+                    return null;
+                }
+
+                let sms = `sms:${phone}`;
+                if (message) sms += `?body=${encodeURIComponent(message)}`;
+                return sms;
+
+            } else {
+                // Text/URL
+                const contentEl = document.getElementById('contentInput');
+                if (!contentEl) {
+                    CodeUtils.Message.error('Content input field not found');
+                    return null;
+                }
+                const content = contentEl.value.trim();
+                if (!content) {
+                    CodeUtils.Message.error('Please enter some content');
+                    return null;
+                }
+                return content;
+            }
+        }
+
+        function toggleGradientControls() {
+            const colorType = document.getElementById('colorType').value;
+            const fgColor2Group = document.getElementById('fgColor2Group');
+            fgColor2Group.style.display = colorType !== 'solid' ? 'block' : 'none';
+        }
 
         function generateQR() {
-            const content = document.getElementById('contentInput').value.trim();
-            const size = parseInt(document.getElementById('sizeSelect').value);
-            const fgColor = document.getElementById('fgColor').value;
-            const bgColor = document.getElementById('bgColor').value;
-
-            if (!content) {
-                CodeUtils.Message.error('Please enter some content');
-                return;
+            // Force focus/blur to trigger autofill recognition
+            const qrType = document.getElementById('qrType').value;
+            if (qrType === 'email') {
+                const emailTo = document.getElementById('emailTo');
+                if (emailTo) {
+                    emailTo.focus();
+                    emailTo.blur();
+                }
             }
+
+            // Delay to ensure autofilled values are available
+            setTimeout(() => {
+                const content = buildQRContent();
+                if (!content) {
+                    return; // Error message already shown in buildQRContent
+                }
+
+                const size = parseInt(document.getElementById('sizeSelect').value);
+                const errorCorrectionLevel = document.getElementById('errorCorrection').value;
+                const colorType = document.getElementById('colorType').value;
+                const moduleStyle = document.getElementById('moduleStyle').value;
+                const fgColor = document.getElementById('fgColor').value;
+                const fgColor2 = document.getElementById('fgColor2').value;
+                const bgColor = document.getElementById('bgColor').value;
 
             try {
                 // Determine QR code type/version based on content length
                 const typeNumber = content.length > 100 ? 0 : 4; // 0 = auto
-                const errorCorrectionLevel = 'M';
 
                 const qr = qrcode(typeNumber, errorCorrectionLevel);
                 qr.addData(content);
                 qr.make();
+
+                // Store for exports
+                currentQR = qr;
+                const logoSizePercent = logoImage ? parseInt(document.getElementById('logoSize').value) : 0;
+                currentSettings = {
+                    size,
+                    colorType,
+                    moduleStyle,
+                    fgColor,
+                    fgColor2,
+                    bgColor,
+                    hasLogo: !!logoImage,
+                    logoSizePercent
+                };
 
                 const canvas = document.getElementById('qrcode');
                 const moduleCount = qr.getModuleCount();
@@ -399,14 +756,65 @@
                 ctx.fillStyle = bgColor;
                 ctx.fillRect(0, 0, actualSize, actualSize);
 
-                // Draw QR code modules
-                ctx.fillStyle = fgColor;
+                // Create foreground gradient or solid color
+                if (colorType === 'linear') {
+                    const gradient = ctx.createLinearGradient(0, 0, actualSize, actualSize);
+                    gradient.addColorStop(0, fgColor);
+                    gradient.addColorStop(1, fgColor2);
+                    ctx.fillStyle = gradient;
+                } else if (colorType === 'radial') {
+                    const centerX = actualSize / 2;
+                    const centerY = actualSize / 2;
+                    const radius = actualSize / 2;
+                    const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+                    gradient.addColorStop(0, fgColor);
+                    gradient.addColorStop(1, fgColor2);
+                    ctx.fillStyle = gradient;
+                } else {
+                    ctx.fillStyle = fgColor;
+                }
+
+                // Draw QR code modules with selected style
                 for (let row = 0; row < moduleCount; row++) {
                     for (let col = 0; col < moduleCount; col++) {
                         if (qr.isDark(row, col)) {
-                            ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+                            const x = col * cellSize;
+                            const y = row * cellSize;
+
+                            if (moduleStyle === 'dots') {
+                                // Draw circles
+                                ctx.beginPath();
+                                ctx.arc(x + cellSize / 2, y + cellSize / 2, cellSize / 2, 0, Math.PI * 2);
+                                ctx.fill();
+                            } else if (moduleStyle === 'rounded') {
+                                // Draw rounded rectangles
+                                const radius = cellSize * 0.3;
+                                ctx.beginPath();
+                                ctx.roundRect(x, y, cellSize, cellSize, radius);
+                                ctx.fill();
+                            } else {
+                                // Draw squares (default)
+                                ctx.fillRect(x, y, cellSize, cellSize);
+                            }
                         }
                     }
+                }
+
+                // Draw logo overlay if present
+                if (logoImage) {
+                    const logoSizePercent = parseInt(document.getElementById('logoSize').value);
+                    const logoSize = (actualSize * logoSizePercent) / 100;
+                    const logoX = (actualSize - logoSize) / 2;
+                    const logoY = (actualSize - logoSize) / 2;
+
+                    // Draw white background circle for logo
+                    ctx.fillStyle = 'white';
+                    ctx.beginPath();
+                    ctx.arc(actualSize / 2, actualSize / 2, logoSize / 2 + 5, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Draw logo
+                    ctx.drawImage(logoImage, logoX, logoY, logoSize, logoSize);
                 }
 
                 // Show canvas, hide placeholder
@@ -418,6 +826,7 @@
             } catch (err) {
                 CodeUtils.Message.error('Failed to generate QR code: ' + err.message);
             }
+            }, 150); // 150ms delay to ensure autofilled values are available
         }
 
         function downloadQR() {
@@ -431,6 +840,134 @@
             link.href = canvas.toDataURL('image/png');
             link.click();
             CodeUtils.Message.success('QR code downloaded!');
+        }
+
+        function downloadSVG() {
+            if (!qrGenerated || !currentQR) {
+                CodeUtils.Message.warning('Please generate a QR code first');
+                return;
+            }
+
+            const moduleCount = currentQR.getModuleCount();
+            const cellSize = Math.floor(currentSettings.size / moduleCount);
+            const actualSize = cellSize * moduleCount;
+
+            // Create SVG with gradient definitions if needed
+            let svg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="${actualSize}" height="${actualSize}" viewBox="0 0 ${actualSize} ${actualSize}">
+    <defs>`;
+
+            let fillAttribute = `fill="${currentSettings.fgColor}"`;
+
+            if (currentSettings.colorType === 'linear') {
+                svg += `
+        <linearGradient id="qrGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:${currentSettings.fgColor};stop-opacity:1" />
+            <stop offset="100%" style="stop-color:${currentSettings.fgColor2};stop-opacity:1" />
+        </linearGradient>`;
+                fillAttribute = 'fill="url(#qrGradient)"';
+            } else if (currentSettings.colorType === 'radial') {
+                svg += `
+        <radialGradient id="qrGradient" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" style="stop-color:${currentSettings.fgColor};stop-opacity:1" />
+            <stop offset="100%" style="stop-color:${currentSettings.fgColor2};stop-opacity:1" />
+        </radialGradient>`;
+                fillAttribute = 'fill="url(#qrGradient)"';
+            }
+
+            svg += `
+    </defs>
+    <rect width="${actualSize}" height="${actualSize}" fill="${currentSettings.bgColor}"/>
+    <g ${fillAttribute}>`;
+
+            // Draw QR modules with selected style
+            for (let row = 0; row < moduleCount; row++) {
+                for (let col = 0; col < moduleCount; col++) {
+                    if (currentQR.isDark(row, col)) {
+                        const x = col * cellSize;
+                        const y = row * cellSize;
+
+                        if (currentSettings.moduleStyle === 'dots') {
+                            const cx = x + cellSize / 2;
+                            const cy = y + cellSize / 2;
+                            const r = cellSize / 2;
+                            svg += `
+        <circle cx="${cx}" cy="${cy}" r="${r}"/>`;
+                        } else if (currentSettings.moduleStyle === 'rounded') {
+                            const radius = cellSize * 0.3;
+                            svg += `
+        <rect x="${x}" y="${y}" width="${cellSize}" height="${cellSize}" rx="${radius}" ry="${radius}"/>`;
+                        } else {
+                            svg += `
+        <rect x="${x}" y="${y}" width="${cellSize}" height="${cellSize}"/>`;
+                        }
+                    }
+                }
+            }
+
+            svg += `
+    </g>`;
+
+            // Add logo if present
+            if (logoImage && currentSettings.hasLogo) {
+                const logoSize = (actualSize * currentSettings.logoSizePercent) / 100;
+                const logoX = (actualSize - logoSize) / 2;
+                const logoY = (actualSize - logoSize) / 2;
+                const radius = logoSize / 2 + 5;
+
+                // Create canvas to convert logo to data URL
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = logoImage.width;
+                tempCanvas.height = logoImage.height;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.drawImage(logoImage, 0, 0);
+                const logoDataURL = tempCanvas.toDataURL('image/png');
+
+                svg += `
+    <circle cx="${actualSize / 2}" cy="${actualSize / 2}" r="${radius}" fill="white"/>
+    <image x="${logoX}" y="${logoY}" width="${logoSize}" height="${logoSize}" href="${logoDataURL}"/>`;
+            }
+
+            svg += `
+</svg>`;
+
+            // Download SVG
+            const blob = new Blob([svg], { type: 'image/svg+xml' });
+            const link = document.createElement('a');
+            link.download = 'qrcode.svg';
+            link.href = URL.createObjectURL(blob);
+            link.click();
+            URL.revokeObjectURL(link.href);
+            CodeUtils.Message.success('SVG downloaded!');
+        }
+
+        function downloadPDF() {
+            if (!qrGenerated) {
+                CodeUtils.Message.warning('Please generate a QR code first');
+                return;
+            }
+
+            const canvas = document.getElementById('qrcode');
+            const imgData = canvas.toDataURL('image/png');
+
+            // Create PDF using jsPDF
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            // Calculate dimensions to fit QR code centered on page
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const qrSize = Math.min(pageWidth - 40, pageHeight - 40, 150); // Max 150mm
+            const x = (pageWidth - qrSize) / 2;
+            const y = (pageHeight - qrSize) / 2;
+
+            pdf.addImage(imgData, 'PNG', x, y, qrSize, qrSize);
+            pdf.save('qrcode.pdf');
+            CodeUtils.Message.success('PDF downloaded!');
         }
 
         async function copyQR() {
