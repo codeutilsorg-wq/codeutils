@@ -290,6 +290,65 @@
             color: var(--text-primary);
         }
 
+        /* Gradient Stop Styles */
+        .gradient-stop {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            padding: 8px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+
+        .gradient-stop input[type="color"] {
+            width: 60px;
+            height: 36px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .gradient-stop input[type="range"] {
+            flex: 1;
+        }
+
+        .gradient-stop-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            min-width: 40px;
+        }
+
+        /* Template Styles */
+        .template-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: var(--spacing-sm);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .template-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .template-preview {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto var(--spacing-xs);
+            border-radius: var(--radius);
+        }
+
+        .template-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
         /* Platform Preview Styles */
         .platform-preview {
             background: var(--bg-secondary);
@@ -403,6 +462,15 @@
         <div class="input-tabs">
             <button class="input-tab active" onclick="switchInputTab('text')">Text & Emoji</button>
             <button class="input-tab" onclick="switchInputTab('upload')">Upload Image</button>
+            <button class="input-tab" onclick="switchInputTab('templates')">Templates</button>
+        </div>
+
+        <!-- Templates Section -->
+        <div id="templatesSection" class="input-section">
+            <p style="margin-bottom: var(--spacing-md); color: var(--text-secondary);">Choose a pre-designed template to get started quickly. Click any template to apply it.</p>
+            <div id="templateGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: var(--spacing-md); margin-bottom: var(--spacing-md);">
+                <!-- Templates populated by JavaScript -->
+            </div>
         </div>
 
         <!-- Text/Emoji Input Section -->
@@ -435,19 +503,37 @@
                         <option value="solid">Solid Color</option>
                         <option value="linear">Linear Gradient</option>
                         <option value="radial">Radial Gradient</option>
+                        <option value="pattern">Pattern</option>
                     </select>
                 </div>
                 <div class="option-group" id="solidColorGroup">
                     <label>Background Color</label>
                     <input type="color" id="bgColor" value="#3b82f6" onchange="generateFavicon()">
                 </div>
+                <div class="option-group" id="patternGroup" style="display: none;">
+                    <label>Pattern Type</label>
+                    <select id="patternType" onchange="generateFavicon()">
+                        <option value="stripes">Stripes</option>
+                        <option value="dots">Dots</option>
+                        <option value="checkerboard">Checkerboard</option>
+                        <option value="diagonal">Diagonal Lines</option>
+                        <option value="grid">Grid</option>
+                    </select>
+                    <label style="margin-top: 8px;">Pattern Color 1</label>
+                    <input type="color" id="patternColor1" value="#3b82f6" onchange="generateFavicon()" style="width: 100%; margin-bottom: 8px;">
+                    <label>Pattern Color 2</label>
+                    <input type="color" id="patternColor2" value="#8b5cf6" onchange="generateFavicon()" style="width: 100%;">
+                </div>
                 <div class="option-group" id="gradientGroup" style="display: none;">
-                    <label>Gradient Colors</label>
-                    <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-                        <input type="color" id="gradientColor1" value="#3b82f6" onchange="generateFavicon()" style="width: 50%;">
-                        <input type="color" id="gradientColor2" value="#8b5cf6" onchange="generateFavicon()" style="width: 50%;">
+                    <label>Gradient Color Stops</label>
+                    <div id="gradientStops">
+                        <!-- Dynamically populated color stops -->
                     </div>
-                    <label style="font-size: 0.875rem;">Angle (Linear) / Position (Radial)</label>
+                    <div style="display: flex; gap: 8px; margin-top: 8px;">
+                        <button type="button" class="btn btn-sm" onclick="addGradientStop()" style="flex: 1;">+ Add Color</button>
+                        <button type="button" class="btn btn-sm btn-secondary" onclick="removeGradientStop()" style="flex: 1;">- Remove</button>
+                    </div>
+                    <label style="font-size: 0.875rem; margin-top: 12px;">Angle (Linear) / Position (Radial)</label>
                     <input type="range" id="gradientAngle" min="0" max="360" value="45" oninput="generateFavicon()" style="width: 100%;">
                     <span id="angleValue" style="font-size: 0.75rem; color: var(--text-secondary);">45°</span>
                 </div>
@@ -468,6 +554,21 @@
                 <div class="option-group" id="customRadiusGroup" style="display: none;">
                     <label>Border Radius: <span id="radiusValue">20%</span></label>
                     <input type="range" id="borderRadius" min="0" max="50" value="20" oninput="updateRadius()" style="width: 100%;">
+                </div>
+                <div class="option-group">
+                    <label>
+                        <input type="checkbox" id="enableShadow" onchange="toggleShadow()"> Text Shadow
+                    </label>
+                    <div id="shadowControls" style="display: none; margin-top: 8px;">
+                        <label style="font-size: 0.875rem;">Shadow Color</label>
+                        <input type="color" id="shadowColor" value="#000000" onchange="generateFavicon()" style="width: 100%; margin-bottom: 8px;">
+                        <label style="font-size: 0.875rem;">Blur: <span id="shadowBlurValue">4px</span></label>
+                        <input type="range" id="shadowBlur" min="0" max="20" value="4" oninput="updateShadowBlur()" style="width: 100%; margin-bottom: 8px;">
+                        <label style="font-size: 0.875rem;">Offset X: <span id="shadowXValue">2px</span></label>
+                        <input type="range" id="shadowX" min="-10" max="10" value="2" oninput="updateShadowX()" style="width: 100%; margin-bottom: 8px;">
+                        <label style="font-size: 0.875rem;">Offset Y: <span id="shadowYValue">2px</span></label>
+                        <input type="range" id="shadowY" min="-10" max="10" value="2" oninput="updateShadowY()" style="width: 100%;">
+                    </div>
                 </div>
             </div>
         </div>
@@ -575,6 +676,7 @@
         <div class="controls">
             <button class="btn btn-primary" onclick="downloadZip()">📦 Download All (ZIP)</button>
             <button class="btn" onclick="downloadIco()">Download favicon.ico</button>
+            <button class="btn" onclick="downloadSvg()">Download SVG</button>
             <button class="btn btn-secondary" onclick="downloadIndividual()">Download Individual PNGs</button>
         </div>
 
@@ -649,9 +751,156 @@
             'Flags': ['🏁', '🚩', '🎌', '🏴', '🏳️', '🏳️‍🌈', '🏳️‍⚧️', '🏴‍☠️', '🇺🇸', '🇬🇧', '🇨🇦', '🇦🇺', '🇩🇪', '🇫🇷', '🇪🇸', '🇮🇹', '🇯🇵', '🇰🇷', '🇨🇳', '🇮🇳', '🇧🇷', '🇲🇽', '🇷🇺', '🇿🇦', '🇸🇪', '🇳🇴', '🇩🇰', '🇫🇮', '🇳🇱', '🇧🇪']
         };
 
+        // Emoji keyword mapping for search
+        const EMOJI_KEYWORDS = {
+            '😀': ['smile', 'happy', 'joy', 'grin', 'face'],
+            '😃': ['smile', 'happy', 'joy', 'big', 'grin'],
+            '😄': ['smile', 'happy', 'laugh', 'joy'],
+            '😁': ['grin', 'smile', 'happy', 'teeth'],
+            '😅': ['sweat', 'relief', 'phew', 'laugh'],
+            '😂': ['laugh', 'tears', 'joy', 'lol', 'funny'],
+            '🤣': ['rofl', 'laugh', 'rolling', 'floor'],
+            '😊': ['blush', 'smile', 'happy', 'shy'],
+            '😇': ['angel', 'innocent', 'halo', 'saint'],
+            '😍': ['love', 'heart', 'eyes', 'adore'],
+            '🥰': ['love', 'hearts', 'smile', 'affection'],
+            '😘': ['kiss', 'love', 'heart', 'blow'],
+            '😎': ['cool', 'sunglasses', 'awesome', 'rad'],
+            '🤩': ['star', 'wow', 'excited', 'amazed'],
+            '🥳': ['party', 'celebrate', 'birthday', 'hat'],
+            '❤️': ['heart', 'love', 'red', 'romance'],
+            '💙': ['heart', 'blue', 'love', 'loyal'],
+            '💚': ['heart', 'green', 'love', 'nature'],
+            '💛': ['heart', 'yellow', 'love', 'gold'],
+            '🧡': ['heart', 'orange', 'love', 'warm'],
+            '💜': ['heart', 'purple', 'love', 'passion'],
+            '🖤': ['heart', 'black', 'love', 'dark'],
+            '🤍': ['heart', 'white', 'love', 'pure'],
+            '⭐': ['star', 'favorite', 'best', 'gold'],
+            '🌟': ['star', 'sparkle', 'shine', 'glow'],
+            '✨': ['sparkle', 'shine', 'magic', 'glitter'],
+            '⚡': ['lightning', 'bolt', 'electric', 'power', 'fast'],
+            '🔥': ['fire', 'hot', 'flame', 'burn', 'lit'],
+            '💥': ['boom', 'explosion', 'bang', 'crash'],
+            '🌈': ['rainbow', 'color', 'pride', 'arc'],
+            '☀️': ['sun', 'sunny', 'bright', 'day', 'weather'],
+            '🌙': ['moon', 'night', 'crescent', 'dark'],
+            '💻': ['computer', 'laptop', 'tech', 'work', 'code'],
+            '⌨️': ['keyboard', 'type', 'keys', 'input'],
+            '🖥️': ['desktop', 'computer', 'monitor', 'screen'],
+            '🖨️': ['printer', 'print', 'paper', 'office'],
+            '🖱️': ['mouse', 'click', 'cursor', 'pointer'],
+            '💾': ['floppy', 'disk', 'save', 'storage'],
+            '💿': ['cd', 'disc', 'music', 'data'],
+            '📀': ['dvd', 'disc', 'video', 'movie'],
+            '📱': ['phone', 'mobile', 'cell', 'smartphone'],
+            '📲': ['phone', 'call', 'mobile', 'arrow'],
+            '☎️': ['phone', 'telephone', 'call', 'old'],
+            '📞': ['phone', 'receiver', 'call'],
+            '🔋': ['battery', 'power', 'charge', 'energy'],
+            '🔌': ['plug', 'electric', 'power', 'socket'],
+            '💡': ['bulb', 'light', 'idea', 'bright', 'innovation'],
+            '🔦': ['flashlight', 'torch', 'light'],
+            '🚀': ['rocket', 'space', 'launch', 'fast', 'startup'],
+            '🎯': ['target', 'dart', 'goal', 'bullseye', 'aim'],
+            '🎨': ['art', 'paint', 'palette', 'creative', 'design'],
+            '🎬': ['movie', 'film', 'cinema', 'action', 'video'],
+            '🎤': ['microphone', 'sing', 'music', 'voice'],
+            '🎧': ['headphones', 'music', 'listen', 'audio'],
+            '🎮': ['game', 'controller', 'gaming', 'play', 'video'],
+            '🎲': ['dice', 'game', 'random', 'chance'],
+            '🧩': ['puzzle', 'piece', 'game', 'solve'],
+            '🌱': ['plant', 'grow', 'seedling', 'green', 'nature'],
+            '🌿': ['herb', 'leaf', 'green', 'nature'],
+            '🍀': ['clover', 'luck', 'four', 'irish', 'green'],
+            '🌵': ['cactus', 'desert', 'plant', 'prickly'],
+            '🌴': ['palm', 'tree', 'tropical', 'beach'],
+            '🌳': ['tree', 'nature', 'green', 'forest'],
+            '🏔️': ['mountain', 'peak', 'snow', 'high'],
+            '🌋': ['volcano', 'lava', 'erupt', 'mountain'],
+            '🏖️': ['beach', 'sand', 'ocean', 'vacation'],
+            '🌅': ['sunrise', 'sunset', 'dawn', 'morning'],
+            '🌆': ['city', 'sunset', 'buildings', 'dusk'],
+            '🏙️': ['city', 'buildings', 'urban', 'skyline'],
+            '🌃': ['city', 'night', 'stars', 'urban'],
+            '🍎': ['apple', 'fruit', 'red', 'food', 'healthy'],
+            '🍏': ['apple', 'green', 'fruit', 'food'],
+            '🍊': ['orange', 'fruit', 'citrus', 'food'],
+            '🍋': ['lemon', 'yellow', 'citrus', 'sour'],
+            '🍌': ['banana', 'yellow', 'fruit', 'food'],
+            '🍉': ['watermelon', 'fruit', 'summer', 'red'],
+            '🍇': ['grapes', 'fruit', 'purple', 'wine'],
+            '🍓': ['strawberry', 'fruit', 'red', 'berry'],
+            '🍑': ['peach', 'fruit', 'orange', 'fuzzy'],
+            '🍍': ['pineapple', 'fruit', 'tropical', 'yellow'],
+            '🥥': ['coconut', 'fruit', 'tropical', 'brown'],
+            '🥝': ['kiwi', 'fruit', 'green', 'fuzzy'],
+            '🍅': ['tomato', 'red', 'vegetable', 'food'],
+            '🥑': ['avocado', 'green', 'fruit', 'healthy'],
+            '🥦': ['broccoli', 'green', 'vegetable', 'healthy'],
+            '🌽': ['corn', 'yellow', 'vegetable', 'food'],
+            '🥕': ['carrot', 'orange', 'vegetable', 'food'],
+            '⚽': ['soccer', 'football', 'ball', 'sport'],
+            '🏀': ['basketball', 'ball', 'sport', 'hoop'],
+            '🏈': ['football', 'american', 'ball', 'sport'],
+            '⚾': ['baseball', 'ball', 'sport', 'game'],
+            '🎾': ['tennis', 'ball', 'sport', 'racket'],
+            '🏐': ['volleyball', 'ball', 'sport', 'beach'],
+            '🏓': ['ping', 'pong', 'table', 'tennis'],
+            '🏸': ['badminton', 'shuttlecock', 'racket'],
+            '🥊': ['boxing', 'glove', 'fight', 'sport'],
+            '🥋': ['martial', 'arts', 'karate', 'judo'],
+            '🛹': ['skateboard', 'skate', 'sport', 'board'],
+            '🚗': ['car', 'auto', 'vehicle', 'drive'],
+            '🚕': ['taxi', 'cab', 'car', 'transport'],
+            '🚙': ['suv', 'car', 'vehicle', 'auto'],
+            '🚌': ['bus', 'transport', 'public', 'vehicle'],
+            '🏎️': ['race', 'car', 'fast', 'formula'],
+            '🚓': ['police', 'car', 'cop', 'law'],
+            '🚑': ['ambulance', 'emergency', 'medical'],
+            '🚒': ['fire', 'truck', 'emergency', 'engine'],
+            '🚲': ['bicycle', 'bike', 'cycle', 'ride'],
+            '🛵': ['scooter', 'motor', 'moped', 'bike'],
+            '🏍️': ['motorcycle', 'bike', 'motor', 'ride'],
+            '✈️': ['airplane', 'plane', 'flight', 'travel'],
+            '🚁': ['helicopter', 'chopper', 'flight'],
+            '🚂': ['train', 'locomotive', 'railway'],
+            '🚢': ['ship', 'boat', 'cruise', 'ocean'],
+            '⛵': ['sailboat', 'boat', 'sail', 'yacht'],
+            '🚤': ['speedboat', 'boat', 'motor', 'fast'],
+            '🏁': ['checkered', 'flag', 'race', 'finish'],
+            '🚩': ['red', 'flag', 'warning', 'mark'],
+            '🎌': ['flag', 'crossed', 'japan'],
+            '🏳️‍🌈': ['pride', 'rainbow', 'lgbt', 'flag']
+        };
+
         let currentInputMode = 'text';
         let uploadedImage = null;
         let allEmojis = [];
+        let emojiKeywordMap = new Map();
+        let gradientStops = [
+            { color: '#3b82f6', position: 0 },
+            { color: '#8b5cf6', position: 100 }
+        ];
+
+        // Favicon templates
+        const TEMPLATES = [
+            { name: 'Tech Startup', text: '🚀', bgType: 'linear', colors: ['#667eea', '#764ba2'], font: 'Arial, sans-serif', shape: 'rounded' },
+            { name: 'E-commerce', text: '🛒', bgType: 'linear', colors: ['#f093fb', '#f5576c'], font: 'Arial, sans-serif', shape: 'rounded' },
+            { name: 'Blog', text: '✏️', bgType: 'solid', colors: ['#ff6b6b'], font: 'Georgia, serif', shape: 'circle' },
+            { name: 'Portfolio', text: '💼', bgType: 'linear', colors: ['#4facfe', '#00f2fe'], font: 'Helvetica, sans-serif', shape: 'square' },
+            { name: 'Gaming', text: '🎮', bgType: 'linear', colors: ['#fa709a', '#fee140'], font: 'Impact, sans-serif', shape: 'hexagon' },
+            { name: 'Music', text: '🎵', bgType: 'radial', colors: ['#a8edea', '#fed6e3'], font: 'Arial, sans-serif', shape: 'circle' },
+            { name: 'Food & Drink', text: '🍕', bgType: 'solid', colors: ['#ff8a00'], font: 'Arial, sans-serif', shape: 'rounded' },
+            { name: 'Travel', text: '✈️', bgType: 'linear', colors: ['#30cfd0', '#330867'], font: 'Verdana, sans-serif', shape: 'rounded' },
+            { name: 'Finance', text: '💰', bgType: 'linear', colors: ['#1e3c72', '#2a5298'], font: 'Georgia, serif', shape: 'square' },
+            { name: 'Health & Fitness', text: '💪', bgType: 'linear', colors: ['#56ab2f', '#a8e063'], font: 'Arial, sans-serif', shape: 'circle' },
+            { name: 'Education', text: '📚', bgType: 'solid', colors: ['#3b82f6'], font: 'Arial, sans-serif', shape: 'rounded' },
+            { name: 'Creative', text: '🎨', bgType: 'linear', colors: ['#ff0080', '#ff8c00', '#40e0d0'], font: 'Brush Script MT, cursive', shape: 'custom' },
+            { name: 'Corporate', text: 'C', bgType: 'solid', colors: ['#2c3e50'], font: 'Arial, sans-serif', shape: 'square' },
+            { name: 'Social', text: '💬', bgType: 'radial', colors: ['#ee9ca7', '#ffdde1'], font: 'Verdana, sans-serif', shape: 'circle' },
+            { name: 'Minimalist', text: 'M', bgType: 'solid', colors: ['#ffffff'], font: 'Helvetica, sans-serif', shape: 'square' }
+        ];
 
         // Initialize
         function init() {
@@ -660,8 +909,20 @@
                 allEmojis = allEmojis.concat(emojis);
             });
 
+            // Build keyword map for search
+            allEmojis.forEach(emoji => {
+                const keywords = EMOJI_KEYWORDS[emoji] || [];
+                emojiKeywordMap.set(emoji, keywords);
+            });
+
             // Populate emoji grid
             populateEmojiGrid(allEmojis);
+
+            // Initialize gradient stops UI
+            renderGradientStops();
+
+            // Initialize templates
+            renderTemplates();
 
             // Setup drag & drop
             const uploadZone = document.getElementById('uploadZone');
@@ -701,13 +962,170 @@
 
         // Filter emojis based on search
         function filterEmojis() {
-            const search = document.getElementById('emojiSearch').value.toLowerCase();
+            const search = document.getElementById('emojiSearch').value.toLowerCase().trim();
             if (!search) {
                 populateEmojiGrid(allEmojis);
                 return;
             }
-            // Simple filter - in real app, you'd map emoji to keywords
-            populateEmojiGrid(allEmojis);
+
+            // Filter by keywords
+            const filtered = allEmojis.filter(emoji => {
+                const keywords = emojiKeywordMap.get(emoji) || [];
+                // Check if emoji itself matches (for copy-paste search)
+                if (emoji.includes(search)) return true;
+                // Check if any keyword contains the search term
+                return keywords.some(keyword => keyword.includes(search));
+            });
+
+            populateEmojiGrid(filtered);
+
+            // Show message if no results
+            if (filtered.length === 0) {
+                const grid = document.getElementById('emojiGrid');
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: var(--spacing-md); color: var(--text-secondary);">No emojis found for "' + search + '"</div>';
+            }
+        }
+
+        // Render gradient stops UI
+        function renderGradientStops() {
+            const container = document.getElementById('gradientStops');
+            container.innerHTML = '';
+
+            gradientStops.forEach((stop, index) => {
+                const stopDiv = document.createElement('div');
+                stopDiv.className = 'gradient-stop';
+                stopDiv.innerHTML = `
+                    <input type="color" value="${stop.color}" onchange="updateGradientStopColor(${index}, this.value)">
+                    <input type="range" min="0" max="100" value="${stop.position}" oninput="updateGradientStopPosition(${index}, this.value)">
+                    <span class="gradient-stop-label">${stop.position}%</span>
+                `;
+                container.appendChild(stopDiv);
+            });
+        }
+
+        // Add gradient stop
+        function addGradientStop() {
+            if (gradientStops.length >= 4) {
+                CodeUtils.Message.warning('Maximum 4 color stops allowed');
+                return;
+            }
+
+            // Add new stop in the middle
+            const newPosition = gradientStops.length === 2 ? 50 :
+                                gradientStops.length === 3 ? 67 : 75;
+            const newColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+
+            gradientStops.push({ color: newColor, position: newPosition });
+            gradientStops.sort((a, b) => a.position - b.position);
+
+            renderGradientStops();
+            generateFavicon();
+        }
+
+        // Remove gradient stop
+        function removeGradientStop() {
+            if (gradientStops.length <= 2) {
+                CodeUtils.Message.warning('Minimum 2 color stops required');
+                return;
+            }
+
+            gradientStops.pop();
+            renderGradientStops();
+            generateFavicon();
+        }
+
+        // Update gradient stop color
+        function updateGradientStopColor(index, color) {
+            gradientStops[index].color = color;
+            generateFavicon();
+        }
+
+        // Update gradient stop position
+        function updateGradientStopPosition(index, position) {
+            gradientStops[index].position = parseInt(position);
+            // Update the label
+            const labels = document.querySelectorAll('.gradient-stop-label');
+            if (labels[index]) {
+                labels[index].textContent = position + '%';
+            }
+            generateFavicon();
+        }
+
+        // Render templates
+        function renderTemplates() {
+            const grid = document.getElementById('templateGrid');
+            grid.innerHTML = '';
+
+            TEMPLATES.forEach((template, index) => {
+                const card = document.createElement('div');
+                card.className = 'template-card';
+                card.onclick = () => applyTemplate(index);
+
+                // Create mini preview
+                const preview = document.createElement('div');
+                preview.className = 'template-preview';
+                preview.style.background = template.bgType === 'solid' ?
+                    template.colors[0] :
+                    `linear-gradient(45deg, ${template.colors.join(', ')})`;
+                preview.style.display = 'flex';
+                preview.style.alignItems = 'center';
+                preview.style.justifyContent = 'center';
+                preview.style.fontSize = '2rem';
+                preview.textContent = template.text;
+
+                const name = document.createElement('div');
+                name.className = 'template-name';
+                name.textContent = template.name;
+
+                card.appendChild(preview);
+                card.appendChild(name);
+                grid.appendChild(card);
+            });
+        }
+
+        // Apply template
+        function applyTemplate(index) {
+            const template = TEMPLATES[index];
+
+            // Switch to text mode
+            currentInputMode = 'text';
+            document.querySelectorAll('.input-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.input-tab')[0].classList.add('active');
+            document.getElementById('textSection').classList.add('active');
+            document.getElementById('uploadSection').classList.remove('active');
+            document.getElementById('templatesSection').classList.remove('active');
+
+            // Apply template settings
+            document.getElementById('textInput').value = template.text;
+            document.getElementById('fontFamily').value = template.font;
+            document.getElementById('shape').value = template.shape;
+            document.getElementById('bgType').value = template.bgType;
+
+            if (template.bgType === 'solid') {
+                document.getElementById('bgColor').value = template.colors[0];
+            } else {
+                // Update gradient stops
+                gradientStops = template.colors.map((color, i) => ({
+                    color: color,
+                    position: i * (100 / (template.colors.length - 1))
+                }));
+                renderGradientStops();
+            }
+
+            // Update text color for contrast
+            const bgColor = template.colors[0];
+            const rgb = parseInt(bgColor.slice(1), 16);
+            const r = (rgb >> 16) & 0xff;
+            const g = (rgb >> 8) & 0xff;
+            const b = (rgb >> 0) & 0xff;
+            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+            document.getElementById('textColor').value = brightness > 128 ? '#000000' : '#ffffff';
+
+            toggleBackgroundType();
+            toggleShapeControls();
+            generateFavicon();
+
+            CodeUtils.Message.success(`Applied template: ${template.name}`);
         }
 
         // Switch input tabs
@@ -723,11 +1141,12 @@
             // Update sections
             document.getElementById('textSection').classList.toggle('active', mode === 'text');
             document.getElementById('uploadSection').classList.toggle('active', mode === 'upload');
+            document.getElementById('templatesSection').classList.toggle('active', mode === 'templates');
 
             // Generate based on current mode
             if (mode === 'text') {
                 generateFavicon();
-            } else if (uploadedImage) {
+            } else if (mode === 'upload' && uploadedImage) {
                 generateFromImage();
             }
         }
@@ -774,8 +1193,78 @@
         function toggleBackgroundType() {
             const bgType = document.getElementById('bgType').value;
             document.getElementById('solidColorGroup').style.display = bgType === 'solid' ? 'block' : 'none';
-            document.getElementById('gradientGroup').style.display = bgType !== 'solid' ? 'block' : 'none';
+            document.getElementById('patternGroup').style.display = bgType === 'pattern' ? 'block' : 'none';
+            document.getElementById('gradientGroup').style.display = (bgType === 'linear' || bgType === 'radial') ? 'block' : 'none';
             generateFavicon();
+        }
+
+        // Create pattern
+        function createPattern(ctx, size, patternType, color1, color2) {
+            const patternCanvas = document.createElement('canvas');
+            const patternSize = Math.max(16, size / 8);
+            patternCanvas.width = patternSize;
+            patternCanvas.height = patternSize;
+            const pCtx = patternCanvas.getContext('2d');
+
+            switch(patternType) {
+                case 'stripes':
+                    // Vertical stripes
+                    pCtx.fillStyle = color1;
+                    pCtx.fillRect(0, 0, patternSize, patternSize);
+                    pCtx.fillStyle = color2;
+                    pCtx.fillRect(patternSize / 2, 0, patternSize / 2, patternSize);
+                    break;
+
+                case 'dots':
+                    // Polka dots
+                    pCtx.fillStyle = color1;
+                    pCtx.fillRect(0, 0, patternSize, patternSize);
+                    pCtx.fillStyle = color2;
+                    pCtx.beginPath();
+                    pCtx.arc(patternSize / 4, patternSize / 4, patternSize / 6, 0, Math.PI * 2);
+                    pCtx.arc(3 * patternSize / 4, 3 * patternSize / 4, patternSize / 6, 0, Math.PI * 2);
+                    pCtx.fill();
+                    break;
+
+                case 'checkerboard':
+                    // Checkerboard
+                    pCtx.fillStyle = color1;
+                    pCtx.fillRect(0, 0, patternSize, patternSize);
+                    pCtx.fillStyle = color2;
+                    pCtx.fillRect(0, 0, patternSize / 2, patternSize / 2);
+                    pCtx.fillRect(patternSize / 2, patternSize / 2, patternSize / 2, patternSize / 2);
+                    break;
+
+                case 'diagonal':
+                    // Diagonal lines
+                    pCtx.fillStyle = color1;
+                    pCtx.fillRect(0, 0, patternSize, patternSize);
+                    pCtx.strokeStyle = color2;
+                    pCtx.lineWidth = patternSize / 8;
+                    pCtx.beginPath();
+                    pCtx.moveTo(0, 0);
+                    pCtx.lineTo(patternSize, patternSize);
+                    pCtx.moveTo(patternSize, 0);
+                    pCtx.lineTo(0, patternSize);
+                    pCtx.stroke();
+                    break;
+
+                case 'grid':
+                    // Grid
+                    pCtx.fillStyle = color1;
+                    pCtx.fillRect(0, 0, patternSize, patternSize);
+                    pCtx.strokeStyle = color2;
+                    pCtx.lineWidth = patternSize / 16;
+                    pCtx.beginPath();
+                    pCtx.moveTo(0, patternSize / 2);
+                    pCtx.lineTo(patternSize, patternSize / 2);
+                    pCtx.moveTo(patternSize / 2, 0);
+                    pCtx.lineTo(patternSize / 2, patternSize);
+                    pCtx.stroke();
+                    break;
+            }
+
+            return ctx.createPattern(patternCanvas, 'repeat');
         }
 
         // Update custom radius display
@@ -797,6 +1286,34 @@
             document.getElementById('customRadiusGroup').style.display = shape === 'custom' ? 'block' : 'none';
         }
 
+        // Toggle shadow controls
+        function toggleShadow() {
+            const enabled = document.getElementById('enableShadow').checked;
+            document.getElementById('shadowControls').style.display = enabled ? 'block' : 'none';
+            generateFavicon();
+        }
+
+        // Update shadow blur display
+        function updateShadowBlur() {
+            const value = document.getElementById('shadowBlur').value;
+            document.getElementById('shadowBlurValue').textContent = value + 'px';
+            generateFavicon();
+        }
+
+        // Update shadow X offset display
+        function updateShadowX() {
+            const value = document.getElementById('shadowX').value;
+            document.getElementById('shadowXValue').textContent = value + 'px';
+            generateFavicon();
+        }
+
+        // Update shadow Y offset display
+        function updateShadowY() {
+            const value = document.getElementById('shadowY').value;
+            document.getElementById('shadowYValue').textContent = value + 'px';
+            generateFavicon();
+        }
+
         // Generate favicon from text/emoji
         function generateFavicon() {
             if (currentInputMode !== 'text') return;
@@ -809,8 +1326,6 @@
 
             // Background settings
             const bgColor = document.getElementById('bgColor').value;
-            const gradientColor1 = document.getElementById('gradientColor1').value;
-            const gradientColor2 = document.getElementById('gradientColor2').value;
             const gradientAngle = parseInt(document.getElementById('gradientAngle').value);
             updateAngleDisplay();
 
@@ -831,17 +1346,31 @@
                     const x2 = size / 2 - Math.cos(angleRad) * size / 2;
                     const y2 = size / 2 - Math.sin(angleRad) * size / 2;
                     const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
-                    gradient.addColorStop(0, gradientColor1);
-                    gradient.addColorStop(1, gradientColor2);
+
+                    // Add all color stops
+                    gradientStops.forEach(stop => {
+                        gradient.addColorStop(stop.position / 100, stop.color);
+                    });
+
                     ctx.fillStyle = gradient;
                 } else if (bgType === 'radial') {
                     const centerX = size / 2;
                     const centerY = size / 2;
                     const radius = size / 2;
                     const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
-                    gradient.addColorStop(0, gradientColor1);
-                    gradient.addColorStop(1, gradientColor2);
+
+                    // Add all color stops
+                    gradientStops.forEach(stop => {
+                        gradient.addColorStop(stop.position / 100, stop.color);
+                    });
+
                     ctx.fillStyle = gradient;
+                } else if (bgType === 'pattern') {
+                    const patternType = document.getElementById('patternType').value;
+                    const patternColor1 = document.getElementById('patternColor1').value;
+                    const patternColor2 = document.getElementById('patternColor2').value;
+                    const pattern = createPattern(ctx, size, patternType, patternColor1, patternColor2);
+                    ctx.fillStyle = pattern;
                 } else {
                     ctx.fillStyle = bgColor;
                 }
@@ -853,6 +1382,22 @@
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
 
+                // Apply shadow if enabled
+                const shadowEnabled = document.getElementById('enableShadow').checked;
+                if (shadowEnabled) {
+                    const shadowColor = document.getElementById('shadowColor').value;
+                    const shadowBlur = parseInt(document.getElementById('shadowBlur').value);
+                    const shadowX = parseInt(document.getElementById('shadowX').value);
+                    const shadowY = parseInt(document.getElementById('shadowY').value);
+
+                    // Scale shadow based on size
+                    const scale = size / 64;
+                    ctx.shadowColor = shadowColor;
+                    ctx.shadowBlur = shadowBlur * scale;
+                    ctx.shadowOffsetX = shadowX * scale;
+                    ctx.shadowOffsetY = shadowY * scale;
+                }
+
                 // Adjust font size based on text length and canvas size
                 let fontSize = size * 0.6;
                 if (text.length === 2) fontSize = size * 0.45;
@@ -860,6 +1405,14 @@
 
                 ctx.font = `bold ${fontSize}px ${fontFamily}`;
                 ctx.fillText(text, size / 2, size / 2 + (size * 0.05));
+
+                // Reset shadow
+                if (shadowEnabled) {
+                    ctx.shadowColor = 'transparent';
+                    ctx.shadowBlur = 0;
+                    ctx.shadowOffsetX = 0;
+                    ctx.shadowOffsetY = 0;
+                }
             });
 
             // Update platform previews
@@ -1035,6 +1588,14 @@
                 const icoBlob = await generateIcoBlob();
                 zip.file('favicon.ico', icoBlob);
 
+                // Add SVG (if text mode)
+                if (currentInputMode === 'text') {
+                    const svgContent = generateSvg();
+                    if (svgContent) {
+                        zip.file('favicon.svg', svgContent);
+                    }
+                }
+
                 // Add HTML instructions
                 const htmlCode = document.getElementById('htmlCode').value;
                 zip.file('README.txt', `Favicon Installation Instructions
@@ -1163,6 +1724,106 @@ Generated by Code Utils (https://codeutils.org/favicon-generator)
                 CodeUtils.Message.success('favicon.ico downloaded!');
             } catch (error) {
                 CodeUtils.Message.error('Error creating ICO file: ' + error.message);
+            }
+        }
+
+        // Generate SVG favicon
+        function generateSvg() {
+            if (currentInputMode !== 'text') {
+                CodeUtils.Message.warning('SVG export only supports text/emoji mode');
+                return null;
+            }
+
+            const text = document.getElementById('textInput').value || 'F';
+            const textColor = document.getElementById('textColor').value;
+            const fontFamily = document.getElementById('fontFamily').value;
+            const shape = document.getElementById('shape').value;
+            const bgType = document.getElementById('bgType').value;
+            const size = 512;
+
+            let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}">`;
+
+            // Background
+            if (bgType === 'solid') {
+                const bgColor = document.getElementById('bgColor').value;
+                if (shape === 'circle') {
+                    svgContent += `<circle cx="${size/2}" cy="${size/2}" r="${size/2}" fill="${bgColor}"/>`;
+                } else {
+                    const rx = shape === 'rounded' ? size * 0.1 : 0;
+                    svgContent += `<rect width="${size}" height="${size}" rx="${rx}" fill="${bgColor}"/>`;
+                }
+            } else if (bgType === 'linear' || bgType === 'radial') {
+                const gradientId = 'grad' + Date.now();
+                const angle = parseInt(document.getElementById('gradientAngle').value);
+
+                if (bgType === 'linear') {
+                    const angleRad = (angle - 90) * Math.PI / 180;
+                    const x1 = 50 + Math.cos(angleRad) * 50;
+                    const y1 = 50 + Math.sin(angleRad) * 50;
+                    const x2 = 50 - Math.cos(angleRad) * 50;
+                    const y2 = 50 - Math.sin(angleRad) * 50;
+
+                    svgContent += `<defs><linearGradient id="${gradientId}" x1="${x1}%" y1="${y1}%" x2="${x2}%" y2="${y2}%">`;
+                    gradientStops.forEach(stop => {
+                        svgContent += `<stop offset="${stop.position}%" stop-color="${stop.color}"/>`;
+                    });
+                    svgContent += `</linearGradient></defs>`;
+                } else {
+                    svgContent += `<defs><radialGradient id="${gradientId}">`;
+                    gradientStops.forEach(stop => {
+                        svgContent += `<stop offset="${stop.position}%" stop-color="${stop.color}"/>`;
+                    });
+                    svgContent += `</radialGradient></defs>`;
+                }
+
+                if (shape === 'circle') {
+                    svgContent += `<circle cx="${size/2}" cy="${size/2}" r="${size/2}" fill="url(#${gradientId})"/>`;
+                } else {
+                    const rx = shape === 'rounded' ? size * 0.1 : 0;
+                    svgContent += `<rect width="${size}" height="${size}" rx="${rx}" fill="url(#${gradientId})"/>`;
+                }
+            }
+
+            // Text
+            let fontSize = size * 0.6;
+            if (text.length === 2) fontSize = size * 0.45;
+            if (text.length >= 3) fontSize = size * 0.35;
+
+            const shadowEnabled = document.getElementById('enableShadow').checked;
+            let textElement = `<text x="${size/2}" y="${size/2 + fontSize * 0.35}" font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" text-anchor="middle" fill="${textColor}"`;
+
+            if (shadowEnabled) {
+                const shadowColor = document.getElementById('shadowColor').value;
+                const shadowBlur = parseInt(document.getElementById('shadowBlur').value);
+                const shadowX = parseInt(document.getElementById('shadowX').value);
+                const shadowY = parseInt(document.getElementById('shadowY').value);
+                const filterId = 'shadow' + Date.now();
+
+                svgContent += `<defs><filter id="${filterId}"><feDropShadow dx="${shadowX}" dy="${shadowY}" stdDeviation="${shadowBlur}" flood-color="${shadowColor}"/></filter></defs>`;
+                textElement += ` filter="url(#${filterId})"`;
+            }
+
+            textElement += `>${text}</text>`;
+            svgContent += textElement;
+            svgContent += '</svg>';
+
+            return svgContent;
+        }
+
+        // Download SVG file
+        function downloadSvg() {
+            try {
+                const svgContent = generateSvg();
+                if (!svgContent) return;
+
+                const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'favicon.svg';
+                link.click();
+                CodeUtils.Message.success('SVG favicon downloaded!');
+            } catch (error) {
+                CodeUtils.Message.error('Error creating SVG: ' + error.message);
             }
         }
 
