@@ -1,6 +1,19 @@
 {
+  "name": "codeutils",
+  "version": "1.0.0",
+  "description": "Free developer utilities - 100% client-side processing",
+  "scripts": {
+    "build": "node build.js",
+    "build:og": "node generate-og-images.js",
+    "dev": "echo 'Use unminified files for development'",
+    "prebuild:og": "npm run build"
+  },
   "dependencies": {
     "puppeteer": "^24.36.0",
     "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "clean-css-cli": "^5.6.3",
+    "terser": "^5.46.0"
   }
 }

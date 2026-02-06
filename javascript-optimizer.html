@@ -31,6 +31,12 @@
     <meta name="twitter:description" content="Free JavaScript code optimizer. Minify, compress, and optimize JS for production with dead code removal and variable mangling.">
     <meta name="twitter:image" content="https://codeutils.org/images/og/javascript-optimizer.png">
 
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
     <script>
@@ -41,9 +47,9 @@
     </script>
 
     <!-- Terser Library for JS Minification -->
-    <script src="https://cdn.jsdelivr.net/npm/terser@5.26.0/dist/bundle.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/terser@5.26.0/dist/bundle.min.js"></script>
 
-    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/common.min.css">
 </head>
 
 <body>
@@ -318,7 +324,7 @@
         <p>&copy; 2025 Code Utils. All rights reserved.</p>
     </footer>
 
-    <script src="js/common.js"></script>
+    <script src="js/common.min.js"></script>
     <script>
         // Initialize theme
         CodeUtils.Theme.init();

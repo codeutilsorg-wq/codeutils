@@ -80,7 +80,7 @@
     }
     </script>
 
-    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/common.min.css">
     <style>
         /* Homepage-specific styles */
         .hero {
@@ -319,7 +319,7 @@
         <p>Free developer utilities - 100% client-side processing</p>
     </footer>
 
-    <script src="js/common.js"></script>
+    <script src="js/common.min.js"></script>
     <script>
         // Tool and category data
         let toolsData = [];
@@ -334,25 +334,55 @@
             { id: 'developer', name: 'Developer', icon: '&#128187;', description: 'Dev utilities' }
         ];
 
-        // Load tools data
+        // Load tools data with lazy loading optimization
+        let fullDataLoaded = false;
+
         async function loadTools() {
-            try {
-                const response = await fetch('data/tools.json');
-                toolsData = await response.json();
+            // Use hardcoded data immediately for fast initial render
+            toolsData = getHardcodedTools();
+            updateToolCount();
+            renderPage();
 
-                // Update dynamic tool count in search placeholder
-                updateToolCount();
+            // Lazy load full data in background after 2 seconds or on user interaction
+            const loadFullData = async () => {
+                if (fullDataLoaded) return;
 
-                renderPage();
-            } catch (err) {
-                console.error('Failed to load tools:', err);
-                // Fallback to hardcoded data
-                toolsData = getHardcodedTools();
+                try {
+                    const response = await fetch('data/tools.json');
+                    toolsData = await response.json();
+                    fullDataLoaded = true;
 
-                // Update dynamic tool count
-                updateToolCount();
+                    // Update dynamic tool count
+                    updateToolCount();
 
-                renderPage();
+                    // Silently update the page with full data
+                    renderPage();
+                } catch (err) {
+                    console.error('Failed to load full tools data:', err);
+                    // Keep using hardcoded fallback
+                }
+            };
+
+            // Load full data after 2 seconds (background load)
+            setTimeout(loadFullData, 2000);
+
+            // Also load on first user interaction (search focus, scroll, click)
+            const loadOnInteraction = () => {
+                loadFullData();
+                // Remove listeners after first trigger
+                document.removeEventListener('scroll', loadOnInteraction);
+                document.removeEventListener('click', loadOnInteraction);
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) {
+                    searchInput.removeEventListener('focus', loadOnInteraction);
+                }
+            };
+
+            document.addEventListener('scroll', loadOnInteraction, { once: true, passive: true });
+            document.addEventListener('click', loadOnInteraction, { once: true });
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('focus', loadOnInteraction, { once: true });
             }
         }
 
