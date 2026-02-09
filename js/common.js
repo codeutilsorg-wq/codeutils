@@ -8,24 +8,25 @@
 
 const Theme = {
     STORAGE_KEY: 'codeutils-theme',
-    DARK_CLASS: 'dark-mode',
+    LIGHT_CLASS: 'light-mode',
 
     init() {
+        // Default is DARK - only add light-mode class if explicitly saved
         const savedTheme = localStorage.getItem(this.STORAGE_KEY);
-        if (savedTheme === 'dark') {
-            document.body.classList.add(this.DARK_CLASS);
+        if (savedTheme === 'light') {
+            document.body.classList.add(this.LIGHT_CLASS);
         }
     },
 
     toggle() {
-        document.body.classList.toggle(this.DARK_CLASS);
-        const isDark = document.body.classList.contains(this.DARK_CLASS);
-        localStorage.setItem(this.STORAGE_KEY, isDark ? 'dark' : 'light');
-        return isDark;
+        document.body.classList.toggle(this.LIGHT_CLASS);
+        const isLight = document.body.classList.contains(this.LIGHT_CLASS);
+        localStorage.setItem(this.STORAGE_KEY, isLight ? 'light' : 'dark');
+        return !isLight; // Return isDark
     },
 
     isDark() {
-        return document.body.classList.contains(this.DARK_CLASS);
+        return !document.body.classList.contains(this.LIGHT_CLASS);
     }
 };
 

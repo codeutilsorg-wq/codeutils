@@ -39,6 +39,11 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -130,18 +135,34 @@
     }
     </script>
 
-    <link rel="stylesheet" href="css/common.min.css">
+    <link rel="stylesheet" href="css/common.css">
     <script defer src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <style>
-        /* Tool section standardization */
+        /* QR Generator specific styles - Grid now in base.css */
+
+        /* Tool section standardization - Modern Glassmorphism */
         .tool-section {
-            background: var(--bg-primary);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             padding: var(--spacing-lg);
             margin-bottom: var(--spacing-lg);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
+            border-radius: 12px;
+            border: 1px solid rgba(229, 231, 235, 0.8);
+            box-shadow:
+                0 4px 6px rgba(0, 0, 0, 0.05),
+                0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .tool-section {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(51, 65, 85, 0.8);
+            box-shadow:
+                0 4px 6px rgba(0, 0, 0, 0.2),
+                0 1px 3px rgba(0, 0, 0, 0.15);
         }
 
         .tool-section h3 {
@@ -149,10 +170,15 @@
             margin: 0 0 var(--spacing-md) 0;
         }
 
-        /* Collapsible sections styling */
+        /* Collapsible sections styling - Enhanced */
         details.tool-section > summary {
             list-style: none;
-            transition: background 0.2s;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            user-select: none;
+            padding: var(--spacing-md);
+            margin: calc(var(--spacing-md) * -1);
+            border-radius: 8px;
         }
 
         details.tool-section > summary::-webkit-details-marker {
@@ -160,9 +186,12 @@
         }
 
         details.tool-section > summary::before {
-            content: '▶ ';
+            content: '▶';
             display: inline-block;
-            transition: transform 0.2s;
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+            font-size: 0.8em;
+            color: var(--primary);
         }
 
         details.tool-section[open] > summary::before {
@@ -170,7 +199,12 @@
         }
 
         details.tool-section > summary:hover {
-            background: var(--bg-secondary);
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        details.tool-section[open] {
+            border-color: var(--primary);
         }
 
         .qr-container {
@@ -181,13 +215,26 @@
         }
         .qr-display {
             background: white;
-            padding: var(--spacing-md);
-            border-radius: var(--radius);
+            padding: 24px;
+            border-radius: 16px;
             display: inline-block;
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.1),
+                0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 3px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+        .qr-display:hover {
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.15),
+                0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: rgba(102, 126, 234, 0.3);
+            transform: translateY(-4px);
         }
         #qrcode {
             width: 256px;
             height: 256px;
+            display: block;
         }
         .options-grid {
             display: grid;
@@ -199,20 +246,36 @@
         .option-group {
             background: var(--bg-secondary);
             padding: var(--spacing-md);
-            border-radius: var(--radius);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+        }
+        .option-group:hover {
+            border-color: rgba(102, 126, 234, 0.3);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
         }
         .option-group label {
             display: block;
             margin-bottom: var(--spacing-xs);
-            font-weight: bold;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
         }
         .option-group input, .option-group select {
             width: 100%;
-            padding: var(--spacing-xs);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
+            padding: 10px 12px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
             background: var(--bg-primary);
             color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        .option-group input:focus, .option-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         .qr-placeholder {
             width: 256px;
@@ -287,30 +350,55 @@
             box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
         }
 
-        /* Preset Swatches */
+        /* Preset Swatches - Enhanced */
         .preset-swatch {
             width: 50px;
             height: 50px;
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
+            border: 3px solid var(--border);
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preset-swatch::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
         }
 
         .preset-swatch:hover {
-            transform: scale(1.1);
+            transform: scale(1.15) translateY(-2px);
             border-color: var(--primary);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+            z-index: 10;
         }
 
         .preset-swatch:active {
-            transform: scale(0.95);
+            transform: scale(1.05);
         }
 
         .preset-swatch:focus-visible {
             outline: 3px solid var(--primary);
-            outline-offset: 2px;
+            outline-offset: 3px;
+            box-shadow: 0 0 0 6px rgba(102, 126, 234, 0.2);
+        }
+
+        .preset-more {
+            font-weight: 700;
+            color: var(--primary);
+            border-style: dashed;
+        }
+
+        .preset-more:hover {
+            background: var(--primary-light) !important;
         }
 
         /* Logo Upload Card */
@@ -469,6 +557,70 @@
                 font-size: 1rem;
             }
         }
+
+        /* Page Header Enhancement */
+        .page-header {
+            text-align: center;
+            padding: 48px 32px;
+            background: linear-gradient(135deg,
+                rgba(6, 182, 212, 0.08) 0%,
+                rgba(14, 165, 233, 0.05) 100%);
+            border: 2px solid rgba(6, 182, 212, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .light-mode .page-header {
+            background: linear-gradient(135deg,
+                rgba(6, 182, 212, 0.03) 0%,
+                rgba(14, 165, 233, 0.02) 100%);
+            border-color: rgba(6, 182, 212, 0.15);
+        }
+
+        .page-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .page-header h2 {
+                font-size: 24px;
+            }
+
+            .page-header p {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -485,13 +637,13 @@
     </header>
 
     <div class="container">
-        <div class="card tool-section" style="margin-bottom: var(--spacing-lg);">
-            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">QR Code Generator</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Create professional QR codes in seconds. Support for vCard, WiFi, Email, URLs, and more. 100% private - all processing in your browser.</p>
+        <div class="card tool-section page-header" style="margin-bottom: var(--spacing-lg);">
+            <h2>QR Code Generator</h2>
+            <p>Create professional QR codes in seconds. Support for vCard, WiFi, Email, URLs, and more. 100% private - all processing in your browser.</p>
         </div>
 
         <div class="tool-section">
-            <h3 id="qrTypeHeading" style="margin-bottom: var(--spacing-md);">1. Select QR Code Type</h3>
+            <h3 id="qrTypeHeading" style="margin-bottom: var(--spacing-md); font-size: 20px; font-weight: 700;">QR Code Type</h3>
             <div class="option-group">
                 <label for="qrType">What do you want to encode?</label>
                 <select id="qrType" onchange="toggleQRTypeInputs()"
@@ -513,7 +665,7 @@
 
         <!-- Text/URL Input -->
         <div id="textInput" class="tool-section">
-            <h3 id="contentHeading" style="margin-bottom: var(--spacing-md);">2. Enter Your Content</h3>
+            <h3 id="contentHeading" style="margin-bottom: var(--spacing-md);">Content</h3>
             <div class="editor-header">
                 <label for="contentInput">Content</label>
             </div>
@@ -529,7 +681,7 @@
 
         <!-- vCard Input -->
         <div id="vcardInput" class="tool-section" style="display: none;">
-            <h3 style="margin-bottom: var(--spacing-md);">2. Enter Contact Information</h3>
+            <h3 style="margin-bottom: var(--spacing-md);">Contact Information</h3>
             <div class="editor-header">Contact Information</div>
             <div class="options-grid">
                 <div class="option-group">
@@ -561,7 +713,7 @@
 
         <!-- WiFi Input -->
         <div id="wifiInput" class="tool-section" style="display: none;">
-            <h3 style="margin-bottom: var(--spacing-md);">2. Enter WiFi Details</h3>
+            <h3 style="margin-bottom: var(--spacing-md);">WiFi Network</h3>
             <div class="editor-header">WiFi Network</div>
             <div class="options-grid">
                 <div class="option-group">
@@ -589,7 +741,7 @@
 
         <!-- Email Input -->
         <div id="emailInput" class="tool-section" style="display: none;">
-            <h3 style="margin-bottom: var(--spacing-md);">2. Enter Email Details</h3>
+            <h3 style="margin-bottom: var(--spacing-md);">Email Details</h3>
             <div class="editor-header">Email</div>
             <div class="options-grid">
                 <div class="option-group">
@@ -606,7 +758,7 @@
 
         <!-- SMS Input -->
         <div id="smsInput" class="tool-section" style="display: none;">
-            <h3 style="margin-bottom: var(--spacing-md);">2. Enter SMS Details</h3>
+            <h3 style="margin-bottom: var(--spacing-md);">SMS Message</h3>
             <div class="editor-header">SMS</div>
             <div class="options-grid">
                 <div class="option-group">
@@ -619,7 +771,7 @@
 
         <!-- Phone Input -->
         <div id="phoneInput" class="tool-section" style="display: none;">
-            <h3 style="margin-bottom: var(--spacing-md);">2. Enter Phone Number</h3>
+            <h3 style="margin-bottom: var(--spacing-md);">Phone Number</h3>
             <div class="editor-header">Phone / Call</div>
             <div class="options-grid">
                 <div class="option-group">
@@ -631,7 +783,7 @@
 
         <!-- Event Input -->
         <div id="eventInput" class="tool-section" style="display: none;">
-            <h3 style="margin-bottom: var(--spacing-md);">2. Enter Event Details</h3>
+            <h3 style="margin-bottom: var(--spacing-md);">Event Details</h3>
             <div class="editor-header">Event / Calendar</div>
             <div class="options-grid">
                 <div class="option-group">
@@ -656,7 +808,7 @@
 
         <!-- Location Input -->
         <div id="locationInput" class="tool-section" style="display: none;">
-            <h3 style="margin-bottom: var(--spacing-md);">2. Enter Location</h3>
+            <h3 style="margin-bottom: var(--spacing-md);">Location</h3>
             <div class="editor-header">Location / Maps</div>
             <div class="options-grid">
                 <div class="option-group">
@@ -853,7 +1005,7 @@
         </details>
 
         <div class="tool-section">
-            <h3 style="margin-bottom: var(--spacing-md);">3. Generate Your QR Code</h3>
+            <h3 style="margin-bottom: var(--spacing-md);">Generate QR Code</h3>
 
             <!-- Validation Status Card -->
             <div class="validation-status-card" role="status" aria-live="polite">
@@ -874,9 +1026,9 @@
                 </small>
             </div>
 
-            <button class="btn" id="generateBtn" onclick="generateQR()"
+            <button class="btn btn-primary" id="generateBtn" onclick="generateQR()"
                     aria-label="Generate QR code from entered content"
-                    style="width: 100%; padding: 16px; font-size: 1.1rem; font-weight: bold;">
+                    style="width: 100%; padding: 18px; font-size: 1.1rem; font-weight: 700;">
                 ✨ Generate QR Code
             </button>
             <div id="message" class="message" style="margin-top: var(--spacing-sm);" role="alert" aria-live="assertive"></div>
@@ -912,9 +1064,9 @@
                     <button class="btn" onclick="downloadPDF()"
                             aria-label="Download QR code as PDF document"
                             style="min-height: 44px;">📄 PDF</button>
-                    <button class="btn" onclick="downloadAllFormats()"
+                    <button class="btn btn-primary" onclick="downloadAllFormats()"
                             aria-label="Download QR code in all formats as ZIP file"
-                            style="background: var(--primary); color: white; min-height: 44px; font-weight: bold;">📦 All (ZIP)</button>
+                            style="min-height: 44px; font-weight: 700;">📦 All (ZIP)</button>
                     <button class="btn btn-secondary" onclick="copyQR()"
                             aria-label="Copy QR code image to clipboard"
                             style="min-height: 44px;">📋 Copy</button>
@@ -1044,7 +1196,7 @@
         <p>Free developer utilities - 100% client-side processing</p>
     </footer>
 
-    <script src="js/common.min.js"></script>
+    <script src="js/common.js"></script>
     <script>
         CodeUtils.RecentTools.add({
             id: 'qr-generator',
