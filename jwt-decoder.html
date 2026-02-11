@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JWT Decoder with Signature Verification | Decode & Verify JWTs Online - Code Utils</title>
-    <meta name="description" content="Decode and verify JSON Web Tokens (JWT) with HS256 signature verification. Visual expiration status, token history with labels, claim tooltips, and auto-decode. 100% private - tokens never leave your browser. Try it!">
-    <meta name="keywords" content="jwt decoder, jwt verifier, jwt signature verification, jwt parser, json web token, jwt debugger, decode jwt, jwt inspector, jwt online, hs256">
+    <title>JWT Decoder, Generator & Verifier | Decode, Create & Verify JWTs Online - Code Utils</title>
+    <meta name="description" content="Professional JWT tool: decode, generate, verify, and compare tokens. Supports HS256/RS256/ES256 verification, creates signed JWTs, compares tokens side-by-side. Token history, visual badges, base64 view. 100% private client-side processing.">
+    <meta name="keywords" content="jwt decoder, jwt generator, jwt verifier, jwt signature verification, jwt comparison, rs256, es256, hs256, create jwt, generate jwt, jwt parser, json web token, jwt debugger, jwt tool">
     <link rel="canonical" href="https://codeutils.org/jwt-decoder">
 
     <!-- Favicon and Touch Icons -->
@@ -18,17 +18,17 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://codeutils.org/jwt-decoder">
-    <meta property="og:title" content="JWT Decoder with Signature Verification - Code Utils">
-    <meta property="og:description" content="Decode and verify JWTs with HS256 signature verification, visual expiration badges, token history, and claim tooltips. 100% private client-side processing.">
+    <meta property="og:title" content="JWT Decoder, Generator & Verifier - Code Utils">
+    <meta property="og:description" content="Professional JWT tool: decode, generate, verify (HS256/RS256/ES256), and compare tokens. Token history, visual badges, base64 view. 100% private client-side.">
     <meta property="og:image" content="https://codeutils.org/images/og/jwt-decoder.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="JWT Decoder with Signature Verification - Free online tool">
+    <meta property="og:image:alt" content="JWT Decoder, Generator & Verifier - Free online tool">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="JWT Decoder with Signature Verification - Code Utils">
-    <meta name="twitter:description" content="Decode & verify JWTs with HS256 verification, token history, and visual expiration status. Free tool with 100% private processing.">
+    <meta name="twitter:title" content="JWT Decoder, Generator & Verifier - Code Utils">
+    <meta name="twitter:description" content="Decode, generate & verify JWTs with HS256/RS256/ES256 support. Compare tokens, token history, visual badges. Free & 100% private.">
     <meta name="twitter:image" content="https://codeutils.org/images/og/jwt-decoder.png">
 
     <!-- Preconnect for performance -->
@@ -57,7 +57,7 @@
         "price": "0",
         "priceCurrency": "USD"
       },
-      "description": "Free JWT decoder with HS256 signature verification. Decode and verify JSON Web Tokens, save token history with labels, view visual expiration status, and get claim explanations. 100% client-side processing.",
+      "description": "Professional JWT tool with decode, generate, verify (HS256/RS256/ES256), and compare features. Create signed JWTs, verify signatures with public/secret keys, compare tokens side-by-side, save token history with labels, view visual expiration status, and get claim explanations. 100% client-side processing.",
       "url": "https://codeutils.org/jwt-decoder",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
       "softwareVersion": "1.0",
@@ -80,7 +80,7 @@
           "name": "Does this tool verify JWT signatures?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes! This tool now supports HS256 signature verification. You can verify JWT signatures signed with HMAC-SHA256 by entering your secret key in the Verify Signature section. The tool will validate whether the signature is authentic and the token hasn't been tampered with. Important: Only use test or development keys—never enter production secret keys in browser tools. For production tokens, always verify signatures on your secure server. Note: This tool currently supports HS256 only; RS256 and ES256 support may be added in future updates."
+            "text": "Yes! This tool supports HS256, RS256, and ES256 signature verification. For HS256 (HMAC-SHA256), enter your secret key. For RS256 (RSA-SHA256) and ES256 (ECDSA P-256), enter your public key in PEM format. The tool validates whether the signature is authentic and the token hasn't been tampered with. Important: Only use test or development keys—never enter production keys in browser tools. All verification happens client-side using Web Crypto API."
           }
         },
         {
@@ -101,10 +101,10 @@
         },
         {
           "@type": "Question",
-          "name": "Can I modify or create a JWT with this tool?",
+          "name": "Can I create or generate JWTs with this tool?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No, this tool only decodes JWTs. You cannot modify or create new tokens here. To create or modify JWTs, use backend code or specialized JWT tools that handle signing. Any JWT created without the proper signature will be rejected by your server. If you decode a JWT and want to see how changes would affect it, modify the payload values conceptually and re-encode manually, but understand this wouldn't be a valid token without proper signing."
+            "text": "Yes! This tool now includes JWT generation. Click 'Generate JWT' to create new tokens from custom header and payload JSON. You can generate unsigned tokens (for testing) or HS256-signed tokens (with your secret key). Enter your desired claims in the payload, select the signing algorithm, and the tool creates a valid JWT. Generated tokens can be immediately decoded, verified, or copied for use in your applications. This is perfect for testing authentication flows without needing backend code."
           }
         },
         {
@@ -129,6 +129,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Token history is a unique feature that lets you save up to 10 JWT tokens with custom labels for quick access during debugging. For example, you can save tokens labeled 'Production API', 'Staging Server', 'Test User 1', etc. This eliminates the need to constantly re-paste tokens when switching between different environments or test accounts. Simply select a saved token from the dropdown to instantly load and decode it. This feature is stored locally in your browser and never sent to any server, maintaining complete privacy."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I compare two JWT tokens?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use the 'Compare Tokens' feature to see differences between two JWTs side-by-side. Paste both tokens and click Compare. The tool shows added claims (green), removed claims (red), changed values (yellow), and identical claims (gray). This is invaluable for debugging token changes between environments, comparing development vs production tokens, or understanding why authentication works in one environment but not another. No other JWT tool offers this comparison feature."
           }
         }
       ]
@@ -357,6 +365,70 @@
         .collapse-icon.collapsed {
             transform: rotate(-90deg);
         }
+        .diff-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-sm);
+        }
+        .diff-section {
+            padding: var(--spacing-md);
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        .diff-section h4 {
+            margin-top: 0;
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary);
+        }
+        .diff-item {
+            padding: var(--spacing-xs);
+            margin: var(--spacing-xs) 0;
+            border-radius: var(--radius);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+        }
+        .diff-added {
+            background: #d4edda;
+            color: #155724;
+            border-left: 3px solid #28a745;
+        }
+        .diff-removed {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 3px solid #dc3545;
+        }
+        .diff-changed {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 3px solid #ffc107;
+        }
+        .diff-same {
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            border-left: 3px solid var(--border);
+        }
+        [data-theme="dark"] .diff-added {
+            background: #1e4620;
+            color: #a3e9a4;
+            border-left-color: #28a745;
+        }
+        [data-theme="dark"] .diff-removed {
+            background: #4a1a1a;
+            color: #f5b7b1;
+            border-left-color: #dc3545;
+        }
+        [data-theme="dark"] .diff-changed {
+            background: #4a3a0a;
+            color: #f9e79f;
+            border-left-color: #ffc107;
+        }
+        @media (max-width: 768px) {
+            .diff-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -375,7 +447,7 @@
     <div class="container">
         <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
             <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">JWT Decoder</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Instantly decode and verify JSON Web Tokens (JWTs) with HS256 signature verification, visual expiration badges, and token history management. JWTs are used extensively in modern authentication systems, APIs, microservices, and single-page applications (SPAs) for secure, stateless authentication. This tool helps you quickly debug authentication issues, verify token authenticity, check expiration times with color-coded badges, and inspect claims with helpful tooltips. Unique token history feature lets you save up to 10 tokens with custom labels for faster debugging. Simply paste your JWT token and it auto-decodes instantly with visual status indicators. Verify signatures using your HS256 secret key to ensure tokens haven't been tampered with. All processing happens completely securely in your browser—tokens never leave your computer or touch our servers. Perfect for developers, DevOps engineers, and security professionals debugging JWT-based authentication systems.</p>
+            <p style="margin: 0; color: var(--text-secondary);">Professional JWT tool for developers: decode, generate, verify, and compare JSON Web Tokens. Supports HS256, RS256, and ES256 signature verification with secret/public keys. Create new signed JWTs from custom header and payload JSON. Compare two tokens side-by-side with visual diff highlighting added, removed, and changed claims. Save up to 10 tokens with custom labels for quick access. JWTs are used extensively in modern authentication systems, APIs, microservices, and SPAs for secure, stateless authentication. This comprehensive tool helps you debug authentication issues, verify token authenticity, generate test tokens, compare environments, and inspect claims with automatic explanations. Features visual expiration badges (green/yellow/red), base64 raw view toggle, auto-decode as you type, and timestamp conversion. All processing happens completely securely in your browser using Web Crypto API—tokens never leave your computer. Perfect for developers, DevOps engineers, and security professionals working with JWT-based authentication.</p>
         </div>
 
         <div class="controls">
@@ -417,18 +489,99 @@
             <div class="verify-header" onclick="toggleVerifySection()">
                 <div>
                     <strong>🔐 Verify Signature (Optional)</strong>
-                    <span style="font-size: 0.875rem; color: var(--text-secondary); margin-left: var(--spacing-sm);">HS256 algorithm only</span>
+                    <span style="font-size: 0.875rem; color: var(--text-secondary); margin-left: var(--spacing-sm);">Supports HS256, RS256, ES256</span>
                 </div>
                 <span class="collapse-icon" id="verifyCollapseIcon">▼</span>
             </div>
             <div id="verifyContent" class="verify-content" style="display: none;">
                 <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: var(--spacing-sm);">
-                    ⚠️ <strong>Security Warning:</strong> Enter your secret key only for testing. Never use production keys in browser tools.
+                    ⚠️ <strong>Security Warning:</strong> Enter keys only for testing. Never use production keys in browser tools.
                 </p>
-                <label style="display: block; margin-bottom: var(--spacing-xs); font-weight: 600;">Secret Key</label>
-                <input type="text" id="secretKey" class="editor" placeholder="Enter your HS256 secret key..." style="margin-bottom: var(--spacing-sm);">
+
+                <label style="display: block; margin-bottom: var(--spacing-xs); font-weight: 600;">Algorithm</label>
+                <select id="verifyAlgorithm" class="token-history-select" style="width: 200px; margin-bottom: var(--spacing-sm);" onchange="updateVerifyKeyInput()">
+                    <option value="HS256">HS256 (HMAC-SHA256)</option>
+                    <option value="RS256">RS256 (RSA-SHA256)</option>
+                    <option value="ES256">ES256 (ECDSA P-256)</option>
+                </select>
+
+                <div id="verifyKeyContainer">
+                    <label style="display: block; margin-bottom: var(--spacing-xs); font-weight: 600;">Secret Key</label>
+                    <input type="text" id="secretKey" class="editor" placeholder="Enter your HS256 secret key..." style="margin-bottom: var(--spacing-sm);">
+                </div>
+
                 <button class="btn" onclick="verifySignature()">Verify Signature</button>
                 <div id="verifyResult"></div>
+            </div>
+        </div>
+
+        <!-- JWT Generation -->
+        <div class="verify-section" style="margin-top: var(--spacing-md);">
+            <div class="verify-header" onclick="toggleGenerateSection()">
+                <div>
+                    <strong>🔧 Generate JWT (Optional)</strong>
+                    <span style="font-size: 0.875rem; color: var(--text-secondary); margin-left: var(--spacing-sm);">Create new tokens</span>
+                </div>
+                <span class="collapse-icon collapsed" id="generateCollapseIcon">▼</span>
+            </div>
+            <div id="generateContent" class="verify-content" style="display: none;">
+                <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: var(--spacing-sm);">
+                    Create new JWT tokens by entering header and payload JSON. Optionally sign with HS256.
+                </p>
+
+                <label style="display: block; margin-bottom: var(--spacing-xs); font-weight: 600;">Header JSON</label>
+                <textarea id="generateHeader" class="editor" placeholder='{"alg": "HS256", "typ": "JWT"}' style="min-height: 80px; margin-bottom: var(--spacing-sm);"></textarea>
+
+                <label style="display: block; margin-bottom: var(--spacing-xs); font-weight: 600;">Payload JSON</label>
+                <textarea id="generatePayload" class="editor" placeholder='{"sub": "1234567890", "name": "John Doe", "iat": 1516239022}' style="min-height: 120px; margin-bottom: var(--spacing-sm);"></textarea>
+
+                <label style="display: block; margin-bottom: var(--spacing-xs); font-weight: 600;">Signing Algorithm</label>
+                <select id="generateAlgorithm" class="token-history-select" style="width: 200px; margin-bottom: var(--spacing-sm);" onchange="updateGenerateKeyInput()">
+                    <option value="none">None (Unsigned)</option>
+                    <option value="HS256">HS256 (HMAC-SHA256)</option>
+                </select>
+
+                <div id="generateKeyContainer" style="display: none;">
+                    <label style="display: block; margin-bottom: var(--spacing-xs); font-weight: 600;">Secret Key</label>
+                    <input type="text" id="generateSecretKey" class="editor" placeholder="Enter your secret key..." style="margin-bottom: var(--spacing-sm);">
+                </div>
+
+                <button class="btn" onclick="generateJWT()">Generate JWT</button>
+                <button class="btn btn-secondary" onclick="loadGenerateExample()">Load Example</button>
+
+                <div id="generateResult" style="margin-top: var(--spacing-sm);"></div>
+            </div>
+        </div>
+
+        <!-- Token Comparison -->
+        <div class="verify-section" style="margin-top: var(--spacing-md);">
+            <div class="verify-header" onclick="toggleCompareSection()">
+                <div>
+                    <strong>🔍 Compare Tokens (Optional)</strong>
+                    <span style="font-size: 0.875rem; color: var(--text-secondary); margin-left: var(--spacing-sm);">Side-by-side diff</span>
+                </div>
+                <span class="collapse-icon collapsed" id="compareCollapseIcon">▼</span>
+            </div>
+            <div id="compareContent" class="verify-content" style="display: none;">
+                <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: var(--spacing-sm);">
+                    Compare two JWT tokens to see what's different. Useful for debugging token changes between environments.
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md); margin-bottom: var(--spacing-sm);">
+                    <div>
+                        <label style="display: block; margin-bottom: var(--spacing-xs); font-weight: 600;">Token 1</label>
+                        <textarea id="compareToken1" class="editor" placeholder="Paste first JWT token here..." style="min-height: 100px;"></textarea>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: var(--spacing-xs); font-weight: 600;">Token 2</label>
+                        <textarea id="compareToken2" class="editor" placeholder="Paste second JWT token here..." style="min-height: 100px;"></textarea>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="compareTokens()">Compare Tokens</button>
+                <button class="btn btn-secondary" onclick="loadCurrentToken()">Load Current Token as Token 1</button>
+
+                <div id="compareResult" style="margin-top: var(--spacing-md);"></div>
             </div>
         </div>
 
@@ -436,7 +589,10 @@
             <div class="jwt-section">
                 <div class="jwt-section-header header-section">
                     <span>Header</span>
-                    <button class="btn btn-sm btn-outline" onclick="copySection('header')">Copy</button>
+                    <div>
+                        <button class="btn btn-sm btn-outline" onclick="toggleHeaderView()" id="headerViewToggle">Base64</button>
+                        <button class="btn btn-sm btn-outline" onclick="copySection('header')">Copy</button>
+                    </div>
                 </div>
                 <div class="jwt-section-content" id="headerOutput">Decoded header will appear here...</div>
             </div>
@@ -444,7 +600,10 @@
             <div class="jwt-section">
                 <div class="jwt-section-header payload-section">
                     <span>Payload</span>
-                    <button class="btn btn-sm btn-outline" onclick="copySection('payload')">Copy</button>
+                    <div>
+                        <button class="btn btn-sm btn-outline" onclick="togglePayloadView()" id="payloadViewToggle">Base64</button>
+                        <button class="btn btn-sm btn-outline" onclick="copySection('payload')">Copy</button>
+                    </div>
                 </div>
                 <div class="jwt-section-content" id="payloadOutput">Decoded payload will appear here...</div>
             </div>
@@ -477,15 +636,17 @@
             <h3>Key Features</h3>
             <ul>
                 <li><strong>Decode All JWT Parts:</strong> Instantly extract and display header, payload, and signature from any JWT token</li>
+                <li><strong>Generate JWTs:</strong> Create new tokens from custom header and payload JSON. Generate unsigned tokens or HS256-signed tokens for testing</li>
+                <li><strong>Multi-Algorithm Verification:</strong> Verify signatures using HS256 (HMAC-SHA256), RS256 (RSA-SHA256), or ES256 (ECDSA P-256) with secret or public keys</li>
+                <li><strong>Token Comparison:</strong> Compare two JWTs side-by-side with visual diff showing added (green), removed (red), and changed (yellow) claims—unique feature!</li>
+                <li><strong>Token History with Labels:</strong> Save up to 10 tokens with custom labels (e.g., "Production", "Test User 1") for quick access during debugging—unique feature!</li>
                 <li><strong>Visual Expiration Status:</strong> Color-coded badges show at a glance if token is valid (green), expired (red), or expiring soon (yellow) with time remaining</li>
-                <li><strong>HS256 Signature Verification:</strong> Verify JWT signatures using HMAC-SHA256 algorithm with your secret key to ensure token authenticity</li>
-                <li><strong>Token History with Labels:</strong> Save up to 10 tokens with custom labels (e.g., "Production", "Test User 1") for quick access during debugging—unique feature not found in other tools!</li>
-                <li><strong>Claim Tooltips:</strong> Hover over standard claims to see explanations of what each claim means (sub, iss, aud, exp, etc.)</li>
+                <li><strong>Base64 Raw View:</strong> Toggle between JSON and raw base64url-encoded view for header and payload—useful for debugging encoding issues</li>
+                <li><strong>Claim Explanations:</strong> Automatic explanations for standard JWT claims (sub, iss, aud, exp, iat, nbf, jti, etc.)</li>
                 <li><strong>Auto-Decode on Input:</strong> Automatically decodes JWTs as you type or paste—no need to click the Decode button</li>
                 <li><strong>Timestamp Conversion:</strong> Automatically converts Unix timestamps (iat, exp, nbf) to human-readable dates</li>
                 <li><strong>One-Click Copy:</strong> Copy individual sections (header, payload, signature) or all decoded data to clipboard</li>
-                <li><strong>Sample JWT:</strong> Load a sample token to learn JWT structure without needing your own token</li>
-                <li><strong>100% Client-Side:</strong> All decoding and verification happens in your browser—tokens never leave your computer</li>
+                <li><strong>100% Client-Side:</strong> All operations happen in your browser using Web Crypto API—tokens never leave your computer</li>
             </ul>
 
             <h3>How to Use This Tool</h3>
@@ -616,8 +777,14 @@
         let decodedData = {
             header: null,
             payload: null,
-            signature: null
+            signature: null,
+            headerRaw: null,
+            payloadRaw: null
         };
+
+        // View states
+        let headerViewMode = 'json'; // 'json' or 'base64'
+        let payloadViewMode = 'json'; // 'json' or 'base64'
 
         // Initialize message handler
         CodeUtils.Message.init('message');
@@ -745,10 +912,20 @@
             }
 
             try {
+                // Store raw base64 parts
+                decodedData.headerRaw = parts[0];
+                decodedData.payloadRaw = parts[1];
+
                 // Decode header
                 const headerStr = base64UrlDecode(parts[0]);
                 decodedData.header = JSON.parse(headerStr);
-                headerOutput.textContent = JSON.stringify(decodedData.header, null, 2);
+
+                // Display header based on current view mode
+                if (headerViewMode === 'json') {
+                    headerOutput.textContent = JSON.stringify(decodedData.header, null, 2);
+                } else {
+                    headerOutput.textContent = parts[0];
+                }
 
                 // Decode payload
                 const payloadStr = base64UrlDecode(parts[1]);
@@ -795,38 +972,45 @@
 
                 // Clear and set payload output
                 payloadOutput.innerHTML = '';
-                const textNode = document.createTextNode(payloadDisplay);
-                payloadOutput.appendChild(textNode);
 
-                // Add badge if expiration exists
-                if (decodedData.payload.exp) {
-                    const badge = createExpirationBadge(decodedData.payload.exp);
-                    const badgeContainer = document.createElement('div');
-                    badgeContainer.style.marginTop = 'var(--spacing-sm)';
-                    badgeContainer.innerHTML = badge;
-                    payloadOutput.appendChild(badgeContainer);
-                }
+                if (payloadViewMode === 'json') {
+                    const textNode = document.createTextNode(payloadDisplay);
+                    payloadOutput.appendChild(textNode);
 
-                // Add claim explanations for standard claims
-                const standardClaims = Object.keys(decodedData.payload).filter(claim => claimDescriptions[claim]);
-                if (standardClaims.length > 0) {
-                    const explanationsContainer = document.createElement('div');
-                    explanationsContainer.style.marginTop = 'var(--spacing-md)';
-                    explanationsContainer.style.padding = 'var(--spacing-sm)';
-                    explanationsContainer.style.background = 'var(--bg-secondary)';
-                    explanationsContainer.style.borderRadius = 'var(--radius)';
-                    explanationsContainer.style.fontSize = '0.875rem';
+                    // Add badge if expiration exists
+                    if (decodedData.payload.exp) {
+                        const badge = createExpirationBadge(decodedData.payload.exp);
+                        const badgeContainer = document.createElement('div');
+                        badgeContainer.style.marginTop = 'var(--spacing-sm)';
+                        badgeContainer.innerHTML = badge;
+                        payloadOutput.appendChild(badgeContainer);
+                    }
 
-                    let explanationsHtml = '<div style="font-weight: 600; margin-bottom: var(--spacing-xs); color: var(--primary);">📖 Claim Explanations:</div>';
-                    standardClaims.forEach(claim => {
-                        const value = decodedData.payload[claim];
-                        explanationsHtml += `<div style="margin: var(--spacing-xs) 0; padding: var(--spacing-xs); background: var(--bg-primary); border-radius: var(--radius);">`;
-                        explanationsHtml += `<strong style="color: var(--primary);">${claim}:</strong> ${claimDescriptions[claim]}`;
-                        explanationsHtml += `</div>`;
-                    });
+                    // Add claim explanations for standard claims
+                    const standardClaims = Object.keys(decodedData.payload).filter(claim => claimDescriptions[claim]);
+                    if (standardClaims.length > 0) {
+                        const explanationsContainer = document.createElement('div');
+                        explanationsContainer.style.marginTop = 'var(--spacing-md)';
+                        explanationsContainer.style.padding = 'var(--spacing-sm)';
+                        explanationsContainer.style.background = 'var(--bg-secondary)';
+                        explanationsContainer.style.borderRadius = 'var(--radius)';
+                        explanationsContainer.style.fontSize = '0.875rem';
 
-                    explanationsContainer.innerHTML = explanationsHtml;
-                    payloadOutput.appendChild(explanationsContainer);
+                        let explanationsHtml = '<div style="font-weight: 600; margin-bottom: var(--spacing-xs); color: var(--primary);">📖 Claim Explanations:</div>';
+                        standardClaims.forEach(claim => {
+                            const value = decodedData.payload[claim];
+                            explanationsHtml += `<div style="margin: var(--spacing-xs) 0; padding: var(--spacing-xs); background: var(--bg-primary); border-radius: var(--radius);">`;
+                            explanationsHtml += `<strong style="color: var(--primary);">${claim}:</strong> ${claimDescriptions[claim]}`;
+                            explanationsHtml += `</div>`;
+                        });
+
+                        explanationsContainer.innerHTML = explanationsHtml;
+                        payloadOutput.appendChild(explanationsContainer);
+                    }
+                } else {
+                    // Base64 view
+                    const textNode = document.createTextNode(parts[1]);
+                    payloadOutput.appendChild(textNode);
                 }
 
                 // Show signature (cannot decode, just display)
@@ -1051,18 +1235,34 @@
             }
         }
 
+        function updateVerifyKeyInput() {
+            const algorithm = document.getElementById('verifyAlgorithm').value;
+            const container = document.getElementById('verifyKeyContainer');
+
+            if (algorithm === 'HS256') {
+                container.innerHTML = `
+                    <label style="display: block; margin-bottom: var(--spacing-xs); font-weight: 600;">Secret Key</label>
+                    <input type="text" id="secretKey" class="editor" placeholder="Enter your HS256 secret key..." style="margin-bottom: var(--spacing-sm);">
+                `;
+            } else if (algorithm === 'RS256' || algorithm === 'ES256') {
+                const algName = algorithm === 'RS256' ? 'RSA' : 'ECDSA P-256';
+                container.innerHTML = `
+                    <label style="display: block; margin-bottom: var(--spacing-xs); font-weight: 600;">Public Key (PEM format)</label>
+                    <textarea id="publicKey" class="editor" placeholder="-----BEGIN PUBLIC KEY-----\n...\n-----END PUBLIC KEY-----" style="min-height: 150px; margin-bottom: var(--spacing-sm); font-size: 0.75rem;"></textarea>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: calc(var(--spacing-xs) * -1); margin-bottom: var(--spacing-sm);">
+                        Enter ${algName} public key in PEM format
+                    </p>
+                `;
+            }
+        }
+
         async function verifySignature() {
             const token = inputJWT.value.trim();
-            const secret = document.getElementById('secretKey').value.trim();
+            const algorithm = document.getElementById('verifyAlgorithm').value;
             const resultDiv = document.getElementById('verifyResult');
 
             if (!token) {
                 CodeUtils.Message.error('Please enter a JWT token first');
-                return;
-            }
-
-            if (!secret) {
-                CodeUtils.Message.error('Please enter a secret key');
                 return;
             }
 
@@ -1073,45 +1273,467 @@
             }
 
             try {
-                // Get the data to sign (header.payload)
                 const data = parts[0] + '.' + parts[1];
                 const signature = parts[2];
-
-                // Convert secret to key
                 const encoder = new TextEncoder();
-                const keyData = encoder.encode(secret);
-                const key = await crypto.subtle.importKey(
-                    'raw',
-                    keyData,
-                    { name: 'HMAC', hash: 'SHA-256' },
-                    false,
-                    ['sign']
-                );
 
-                // Sign the data
-                const signatureBuffer = await crypto.subtle.sign('HMAC', key, encoder.encode(data));
+                if (algorithm === 'HS256') {
+                    const secret = document.getElementById('secretKey');
+                    if (!secret || !secret.value.trim()) {
+                        CodeUtils.Message.error('Please enter a secret key');
+                        return;
+                    }
 
-                // Convert to base64url
-                const signatureArray = new Uint8Array(signatureBuffer);
-                let binary = '';
-                for (let i = 0; i < signatureArray.length; i++) {
-                    binary += String.fromCharCode(signatureArray[i]);
-                }
-                const base64 = btoa(binary);
-                const base64url = base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+                    // HMAC-SHA256 verification
+                    const keyData = encoder.encode(secret.value.trim());
+                    const key = await crypto.subtle.importKey(
+                        'raw',
+                        keyData,
+                        { name: 'HMAC', hash: 'SHA-256' },
+                        false,
+                        ['sign']
+                    );
 
-                // Compare signatures
-                if (base64url === signature) {
-                    resultDiv.innerHTML = '<div class="verify-result valid">✓ Signature is valid! Token has not been tampered with.</div>';
-                    CodeUtils.Message.success('Signature verified successfully!');
-                } else {
-                    resultDiv.innerHTML = '<div class="verify-result invalid">✗ Invalid signature! Token may have been tampered with or wrong secret key.</div>';
-                    CodeUtils.Message.warning('Signature verification failed');
+                    const signatureBuffer = await crypto.subtle.sign('HMAC', key, encoder.encode(data));
+                    const signatureArray = new Uint8Array(signatureBuffer);
+                    const base64 = btoa(String.fromCharCode(...signatureArray));
+                    const base64url = base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+
+                    if (base64url === signature) {
+                        resultDiv.innerHTML = '<div class="verify-result valid">✓ Signature is valid! Token has not been tampered with.</div>';
+                        CodeUtils.Message.success('Signature verified successfully!');
+                    } else {
+                        resultDiv.innerHTML = '<div class="verify-result invalid">✗ Invalid signature! Token may have been tampered with or wrong secret key.</div>';
+                        CodeUtils.Message.warning('Signature verification failed');
+                    }
+
+                } else if (algorithm === 'RS256' || algorithm === 'ES256') {
+                    const publicKeyInput = document.getElementById('publicKey');
+                    if (!publicKeyInput || !publicKeyInput.value.trim()) {
+                        CodeUtils.Message.error('Please enter a public key');
+                        return;
+                    }
+
+                    // Parse PEM public key
+                    const pemKey = publicKeyInput.value.trim();
+                    const pemContents = pemKey
+                        .replace(/-----BEGIN PUBLIC KEY-----/, '')
+                        .replace(/-----END PUBLIC KEY-----/, '')
+                        .replace(/\s/g, '');
+                    const binaryKey = atob(pemContents);
+                    const keyData = new Uint8Array(binaryKey.length);
+                    for (let i = 0; i < binaryKey.length; i++) {
+                        keyData[i] = binaryKey.charCodeAt(i);
+                    }
+
+                    // Import public key
+                    const keyAlgorithm = algorithm === 'RS256'
+                        ? { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }
+                        : { name: 'ECDSA', namedCurve: 'P-256' };
+
+                    const key = await crypto.subtle.importKey(
+                        'spki',
+                        keyData,
+                        keyAlgorithm,
+                        false,
+                        ['verify']
+                    );
+
+                    // Convert signature from base64url to ArrayBuffer
+                    const sigPadded = signature.replace(/-/g, '+').replace(/_/g, '/');
+                    const pad = sigPadded.length % 4;
+                    const sigBase64 = sigPadded + (pad ? '='.repeat(4 - pad) : '');
+                    const sigBinary = atob(sigBase64);
+                    const sigArray = new Uint8Array(sigBinary.length);
+                    for (let i = 0; i < sigBinary.length; i++) {
+                        sigArray[i] = sigBinary.charCodeAt(i);
+                    }
+
+                    // Verify signature
+                    const verifyAlgorithm = algorithm === 'RS256'
+                        ? 'RSASSA-PKCS1-v1_5'
+                        : { name: 'ECDSA', hash: 'SHA-256' };
+
+                    const isValid = await crypto.subtle.verify(
+                        verifyAlgorithm,
+                        key,
+                        sigArray,
+                        encoder.encode(data)
+                    );
+
+                    if (isValid) {
+                        resultDiv.innerHTML = '<div class="verify-result valid">✓ Signature is valid! Token has not been tampered with.</div>';
+                        CodeUtils.Message.success('Signature verified successfully!');
+                    } else {
+                        resultDiv.innerHTML = '<div class="verify-result invalid">✗ Invalid signature! Token may have been tampered with or wrong public key.</div>';
+                        CodeUtils.Message.warning('Signature verification failed');
+                    }
                 }
 
             } catch (error) {
                 resultDiv.innerHTML = '<div class="verify-result invalid">✗ Verification error: ' + error.message + '</div>';
                 CodeUtils.Message.error('Verification failed: ' + error.message);
+            }
+        }
+
+        // JWT Generation
+        function toggleGenerateSection() {
+            const content = document.getElementById('generateContent');
+            const icon = document.getElementById('generateCollapseIcon');
+
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                icon.classList.remove('collapsed');
+            } else {
+                content.style.display = 'none';
+                icon.classList.add('collapsed');
+            }
+        }
+
+        function updateGenerateKeyInput() {
+            const algorithm = document.getElementById('generateAlgorithm').value;
+            const container = document.getElementById('generateKeyContainer');
+
+            if (algorithm === 'none') {
+                container.style.display = 'none';
+            } else if (algorithm === 'HS256') {
+                container.style.display = 'block';
+            }
+        }
+
+        function loadGenerateExample() {
+            const currentTime = Math.floor(Date.now() / 1000);
+            const expiryTime = currentTime + 3600; // 1 hour from now
+
+            document.getElementById('generateHeader').value = JSON.stringify({
+                "alg": "HS256",
+                "typ": "JWT"
+            }, null, 2);
+
+            document.getElementById('generatePayload').value = JSON.stringify({
+                "sub": "1234567890",
+                "name": "John Doe",
+                "iat": currentTime,
+                "exp": expiryTime
+            }, null, 2);
+
+            document.getElementById('generateAlgorithm').value = 'HS256';
+            updateGenerateKeyInput();
+            document.getElementById('generateSecretKey').value = 'your-256-bit-secret';
+
+            CodeUtils.Message.success('Example loaded! Modify and click Generate JWT.');
+        }
+
+        async function generateJWT() {
+            const headerInput = document.getElementById('generateHeader').value.trim();
+            const payloadInput = document.getElementById('generatePayload').value.trim();
+            const algorithm = document.getElementById('generateAlgorithm').value;
+            const resultDiv = document.getElementById('generateResult');
+
+            if (!headerInput || !payloadInput) {
+                CodeUtils.Message.error('Please enter both header and payload JSON');
+                return;
+            }
+
+            try {
+                // Parse and validate JSON
+                const header = JSON.parse(headerInput);
+                const payload = JSON.parse(payloadInput);
+
+                // Base64URL encode
+                const base64urlEncode = (obj) => {
+                    const json = JSON.stringify(obj);
+                    const base64 = btoa(unescape(encodeURIComponent(json)));
+                    return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+                };
+
+                const headerEncoded = base64urlEncode(header);
+                const payloadEncoded = base64urlEncode(payload);
+
+                let jwt;
+
+                if (algorithm === 'none') {
+                    // Unsigned JWT
+                    jwt = headerEncoded + '.' + payloadEncoded + '.';
+
+                    resultDiv.innerHTML = `
+                        <div style="margin-top: var(--spacing-sm); padding: var(--spacing-md); background: var(--bg-secondary); border-radius: var(--radius); border: 1px solid var(--border);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xs);">
+                                <strong style="color: var(--primary);">Generated JWT (Unsigned)</strong>
+                                <button class="btn btn-sm" onclick="copyGeneratedJWT()">Copy JWT</button>
+                            </div>
+                            <textarea id="generatedJWT" readonly class="editor" style="min-height: 100px; font-size: 0.75rem; background: var(--bg-primary);">${jwt}</textarea>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--spacing-xs); margin-bottom: 0;">
+                                ⚠️ This JWT is unsigned. Most servers will reject unsigned tokens.
+                            </p>
+                        </div>
+                    `;
+
+                } else if (algorithm === 'HS256') {
+                    const secretKey = document.getElementById('generateSecretKey').value.trim();
+                    if (!secretKey) {
+                        CodeUtils.Message.error('Please enter a secret key for HS256');
+                        return;
+                    }
+
+                    // Sign with HMAC-SHA256
+                    const data = headerEncoded + '.' + payloadEncoded;
+                    const encoder = new TextEncoder();
+                    const keyData = encoder.encode(secretKey);
+                    const key = await crypto.subtle.importKey(
+                        'raw',
+                        keyData,
+                        { name: 'HMAC', hash: 'SHA-256' },
+                        false,
+                        ['sign']
+                    );
+
+                    const signatureBuffer = await crypto.subtle.sign('HMAC', key, encoder.encode(data));
+                    const signatureArray = new Uint8Array(signatureBuffer);
+                    const base64 = btoa(String.fromCharCode(...signatureArray));
+                    const signature = base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+
+                    jwt = data + '.' + signature;
+
+                    resultDiv.innerHTML = `
+                        <div style="margin-top: var(--spacing-sm); padding: var(--spacing-md); background: var(--bg-secondary); border-radius: var(--radius); border: 1px solid var(--border);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-xs);">
+                                <strong style="color: var(--primary);">Generated JWT (HS256 Signed)</strong>
+                                <div>
+                                    <button class="btn btn-sm btn-secondary" onclick="loadGeneratedJWT()">Load & Decode</button>
+                                    <button class="btn btn-sm" onclick="copyGeneratedJWT()">Copy JWT</button>
+                                </div>
+                            </div>
+                            <textarea id="generatedJWT" readonly class="editor" style="min-height: 100px; font-size: 0.75rem; background: var(--bg-primary);">${jwt}</textarea>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--spacing-xs); margin-bottom: 0;">
+                                ✓ JWT signed with HS256. You can verify it using the same secret key.
+                            </p>
+                        </div>
+                    `;
+                }
+
+                CodeUtils.Message.success('JWT generated successfully!');
+
+            } catch (error) {
+                resultDiv.innerHTML = '';
+                CodeUtils.Message.error('Generation error: ' + error.message);
+            }
+        }
+
+        async function copyGeneratedJWT() {
+            const jwtElement = document.getElementById('generatedJWT');
+            if (!jwtElement) {
+                CodeUtils.Message.error('No JWT to copy');
+                return;
+            }
+
+            try {
+                await CodeUtils.Clipboard.copy(jwtElement.value);
+                CodeUtils.Message.success('JWT copied to clipboard!');
+            } catch (err) {
+                CodeUtils.Message.error(err.message);
+            }
+        }
+
+        function loadGeneratedJWT() {
+            const jwtElement = document.getElementById('generatedJWT');
+            if (!jwtElement) {
+                CodeUtils.Message.error('No JWT to load');
+                return;
+            }
+
+            inputJWT.value = jwtElement.value;
+            decodeJWT();
+            CodeUtils.Message.success('Generated JWT loaded for decoding!');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Token Comparison
+        function toggleCompareSection() {
+            const content = document.getElementById('compareContent');
+            const icon = document.getElementById('compareCollapseIcon');
+
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                icon.classList.remove('collapsed');
+            } else {
+                content.style.display = 'none';
+                icon.classList.add('collapsed');
+            }
+        }
+
+        function loadCurrentToken() {
+            const token = inputJWT.value.trim();
+            if (!token) {
+                CodeUtils.Message.error('No token loaded in main input');
+                return;
+            }
+
+            document.getElementById('compareToken1').value = token;
+            CodeUtils.Message.success('Current token loaded as Token 1');
+        }
+
+        function compareTokens() {
+            const token1 = document.getElementById('compareToken1').value.trim();
+            const token2 = document.getElementById('compareToken2').value.trim();
+            const resultDiv = document.getElementById('compareResult');
+
+            if (!token1 || !token2) {
+                CodeUtils.Message.error('Please enter both tokens to compare');
+                return;
+            }
+
+            const parts1 = token1.split('.');
+            const parts2 = token2.split('.');
+
+            if (parts1.length !== 3 || parts2.length !== 3) {
+                CodeUtils.Message.error('Invalid JWT format in one or both tokens');
+                return;
+            }
+
+            try {
+                // Decode both tokens
+                const header1 = JSON.parse(base64UrlDecode(parts1[0]));
+                const payload1 = JSON.parse(base64UrlDecode(parts1[1]));
+                const signature1 = parts1[2];
+
+                const header2 = JSON.parse(base64UrlDecode(parts2[0]));
+                const payload2 = JSON.parse(base64UrlDecode(parts2[1]));
+                const signature2 = parts2[2];
+
+                // Compare headers
+                const headerDiff = compareObjects(header1, header2, 'Header');
+
+                // Compare payloads
+                const payloadDiff = compareObjects(payload1, payload2, 'Payload');
+
+                // Compare signatures
+                const signatureDiff = signature1 === signature2
+                    ? '<div class="diff-item diff-same">🔒 Signatures are identical</div>'
+                    : '<div class="diff-item diff-changed">🔒 Signatures are different</div>';
+
+                // Build result HTML
+                resultDiv.innerHTML = `
+                    <div class="diff-container">
+                        <div class="diff-section">
+                            <h4>Token 1</h4>
+                            ${headerDiff.token1}
+                            ${payloadDiff.token1}
+                            ${signatureDiff}
+                        </div>
+                        <div class="diff-section">
+                            <h4>Token 2</h4>
+                            ${headerDiff.token2}
+                            ${payloadDiff.token2}
+                            ${signatureDiff}
+                        </div>
+                    </div>
+                    <div style="margin-top: var(--spacing-md); padding: var(--spacing-md); background: var(--bg-secondary); border-radius: var(--radius); border: 1px solid var(--border);">
+                        <h4 style="margin-top: 0; margin-bottom: var(--spacing-sm); color: var(--primary);">Legend</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-xs); font-size: 0.875rem;">
+                            <div><span style="color: #28a745;">🟢 Added</span> - Present in Token 2 only</div>
+                            <div><span style="color: #dc3545;">🔴 Removed</span> - Present in Token 1 only</div>
+                            <div><span style="color: #ffc107;">🟡 Changed</span> - Different values</div>
+                            <div><span style="color: var(--text-secondary);">⚪ Same</span> - Identical in both</div>
+                        </div>
+                    </div>
+                `;
+
+                CodeUtils.Message.success('Tokens compared successfully!');
+
+            } catch (error) {
+                resultDiv.innerHTML = '';
+                CodeUtils.Message.error('Comparison error: ' + error.message);
+            }
+        }
+
+        function compareObjects(obj1, obj2, sectionName) {
+            const keys1 = Object.keys(obj1);
+            const keys2 = Object.keys(obj2);
+            const allKeys = [...new Set([...keys1, ...keys2])].sort();
+
+            let html1 = `<div style="margin-bottom: var(--spacing-sm);"><strong>${sectionName}:</strong></div>`;
+            let html2 = `<div style="margin-bottom: var(--spacing-sm);"><strong>${sectionName}:</strong></div>`;
+
+            allKeys.forEach(key => {
+                const inObj1 = key in obj1;
+                const inObj2 = key in obj2;
+
+                if (inObj1 && inObj2) {
+                    const val1 = JSON.stringify(obj1[key]);
+                    const val2 = JSON.stringify(obj2[key]);
+
+                    if (val1 === val2) {
+                        // Same value
+                        html1 += `<div class="diff-item diff-same">${key}: ${val1}</div>`;
+                        html2 += `<div class="diff-item diff-same">${key}: ${val2}</div>`;
+                    } else {
+                        // Changed value
+                        html1 += `<div class="diff-item diff-changed">🟡 ${key}: ${val1}</div>`;
+                        html2 += `<div class="diff-item diff-changed">🟡 ${key}: ${val2}</div>`;
+                    }
+                } else if (inObj1) {
+                    // Only in obj1 (removed in obj2)
+                    html1 += `<div class="diff-item diff-removed">🔴 ${key}: ${JSON.stringify(obj1[key])}</div>`;
+                    html2 += `<div class="diff-item diff-added" style="opacity: 0.3;">${key}: (not present)</div>`;
+                } else {
+                    // Only in obj2 (added in obj2)
+                    html1 += `<div class="diff-item diff-removed" style="opacity: 0.3;">${key}: (not present)</div>`;
+                    html2 += `<div class="diff-item diff-added">🟢 ${key}: ${JSON.stringify(obj2[key])}</div>`;
+                }
+            });
+
+            return { token1: html1, token2: html2 };
+        }
+
+        // Base64 View Toggle
+        function toggleHeaderView() {
+            if (!decodedData.header) {
+                CodeUtils.Message.error('Please decode a JWT first');
+                return;
+            }
+
+            const toggleBtn = document.getElementById('headerViewToggle');
+            const headerOutput = document.getElementById('headerOutput');
+
+            if (headerViewMode === 'json') {
+                // Switch to base64
+                headerViewMode = 'base64';
+                headerOutput.textContent = decodedData.headerRaw;
+                toggleBtn.textContent = 'JSON';
+                CodeUtils.Message.success('Showing raw base64url-encoded header');
+            } else {
+                // Switch to JSON
+                headerViewMode = 'json';
+                headerOutput.textContent = JSON.stringify(decodedData.header, null, 2);
+                toggleBtn.textContent = 'Base64';
+                CodeUtils.Message.success('Showing decoded JSON header');
+            }
+        }
+
+        function togglePayloadView() {
+            if (!decodedData.payload) {
+                CodeUtils.Message.error('Please decode a JWT first');
+                return;
+            }
+
+            const toggleBtn = document.getElementById('payloadViewToggle');
+            const payloadOutput = document.getElementById('payloadOutput');
+
+            if (payloadViewMode === 'json') {
+                // Switch to base64
+                payloadViewMode = 'base64';
+                payloadOutput.textContent = decodedData.payloadRaw;
+                toggleBtn.textContent = 'JSON';
+                CodeUtils.Message.success('Showing raw base64url-encoded payload');
+            } else {
+                // Switch to JSON - re-decode to get all features
+                payloadViewMode = 'json';
+                decodeJWT();
+                toggleBtn.textContent = 'Base64';
+                CodeUtils.Message.success('Showing decoded JSON payload');
             }
         }
 
