@@ -3,6 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CRITICAL: Apply theme immediately to prevent flash -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('codeutils-theme');
+            if (theme === 'light') {
+                document.documentElement.classList.add('light-mode');
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Generator | Create Custom QR Codes with Logo & Gradients - Code Utils</title>
     <meta name="description" content="Professional QR code generator with logo upload, gradients, vector downloads (SVG/PDF). Create vCard, WiFi, Email, SMS QR codes. Customizable colors, patterns, shapes. 100% free & private. No registration required.">
     <meta name="keywords" content="qr code generator, qr code maker, custom qr code, qr code with logo, vcard qr code, wifi qr code, qr code svg, qr code pdf, gradient qr code">
@@ -1090,13 +1102,23 @@
             </div>
         </details>
 
-        <div class="related-tools tool-section">
+        <!-- Related Tools -->
+        <div class="related-tools">
             <h3>Related Tools</h3>
-            <ul class="related-tools-list">
-                <li><a href="base64-encoder.html">Base64 Encoder</a></li>
-                <li><a href="url-encoder.html">URL Encoder</a></li>
-                <li><a href="uuid-generator.html">UUID Generator</a></li>
-            </ul>
+            <div class="related-tools-grid">
+                <a href="base64-encoder.html" class="related-tool-card">
+                    <span class="related-tool-icon">B64</span>
+                    <span class="related-tool-name">Base64 Encoder</span>
+                </a>
+                <a href="url-encoder.html" class="related-tool-card">
+                    <span class="related-tool-icon">%</span>
+                    <span class="related-tool-name">URL Encoder</span>
+                </a>
+                <a href="uuid-generator.html" class="related-tool-card">
+                    <span class="related-tool-icon">ID</span>
+                    <span class="related-tool-name">UUID Generator</span>
+                </a>
+            </div>
         </div>
 
         <div class="info-section tool-section">

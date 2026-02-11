@@ -3,6 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CRITICAL: Apply theme immediately to prevent flash -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('codeutils-theme');
+            if (theme === 'light') {
+                document.documentElement.classList.add('light-mode');
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YAML to JSON Converter - Code Utils</title>
     <meta name="description" content="Free YAML to JSON converter. Convert YAML data to JSON format instantly. 100% client-side processing - your data never leaves your browser.">
     <meta name="keywords" content="yaml to json, yaml json converter, convert yaml to json, yml to json, yaml converter">
@@ -115,12 +127,24 @@
         <!-- Related Tools -->
         <div class="related-tools">
             <h3>Related Tools</h3>
-            <ul class="related-tools-list">
-                <li><a href="json-to-yaml.html">JSON to YAML Converter</a></li>
-                <li><a href="json-formatter.html">JSON Formatter</a></li>
-                <li><a href="xml-formatter.html">XML Formatter</a></li>
-                <li><a href="csv-to-json.html">CSV to JSON Converter</a></li>
-            </ul>
+            <div class="related-tools-grid">
+                <a href="json-to-yaml.html" class="related-tool-card">
+                    <span class="related-tool-icon">J>Y</span>
+                    <span class="related-tool-name">JSON to YAML Converter</span>
+                </a>
+                <a href="json-formatter.html" class="related-tool-card">
+                    <span class="related-tool-icon">{ }</span>
+                    <span class="related-tool-name">JSON Formatter</span>
+                </a>
+                <a href="xml-formatter.html" class="related-tool-card">
+                    <span class="related-tool-icon"></></span>
+                    <span class="related-tool-name">XML Formatter</span>
+                </a>
+                <a href="csv-to-json.html" class="related-tool-card">
+                    <span class="related-tool-icon">C>J</span>
+                    <span class="related-tool-name">CSV to JSON Converter</span>
+                </a>
+            </div>
         </div>
 
         <!-- Info Section -->

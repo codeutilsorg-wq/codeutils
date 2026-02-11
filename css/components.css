@@ -136,6 +136,16 @@
     box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
 }
 
+.light-mode .btn-outline {
+    border-color: rgba(6, 182, 212, 0.5);
+    color: #0891b2;
+}
+
+.light-mode .btn-outline:hover {
+    background: rgba(6, 182, 212, 0.08);
+    border-color: #0891b2;
+}
+
 .btn-success {
     background: var(--success);
     color: #0a0e27;
@@ -201,8 +211,9 @@
 
 .light-mode .card-hover:hover {
     box-shadow:
-        0 16px 32px rgba(0, 0, 0, 0.12),
-        0 4px 8px rgba(6, 182, 212, 0.15);
+        0 16px 32px rgba(0, 0, 0, 0.15),
+        0 4px 8px rgba(6, 182, 212, 0.2);
+    border-color: rgba(6, 182, 212, 0.5);
 }
 
 .card-header {
@@ -639,9 +650,9 @@
 
 .light-mode .search-input {
     background: rgba(255, 255, 255, 0.95);
-    border-color: #e2e8f0;
+    border-color: #cbd5e1;
     box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.06),
+        0 4px 12px rgba(0, 0, 0, 0.08),
         inset 0 1px 0 rgba(0, 0, 0, 0.02);
 }
 
@@ -682,6 +693,11 @@
     font-family: monospace;
 }
 
+.light-mode .search-shortcut {
+    background: #e2e8f0;
+    border: 1px solid #cbd5e1;
+}
+
 .search-results {
     position: absolute;
     top: calc(100% + 12px);
@@ -708,11 +724,10 @@
 
 .light-mode .search-results {
     background: #ffffff;
-    border-color: rgba(6, 182, 212, 0.3);
+    border: 2px solid rgba(6, 182, 212, 0.4);
     box-shadow:
-        0 40px 80px rgba(0, 0, 0, 0.25),
         0 20px 40px rgba(0, 0, 0, 0.15),
-        0 0 0 1px rgba(6, 182, 212, 0.15);
+        0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .search-results.show {
@@ -844,9 +859,9 @@
 }
 
 .light-mode .search-result-item .category-tag {
-    background: rgba(6, 182, 212, 0.1);
+    background: rgba(6, 182, 212, 0.15);
     color: #0891b2;
-    border-color: rgba(6, 182, 212, 0.15);
+    border-color: rgba(6, 182, 212, 0.25);
 }
 
 /* ==========================================================================
@@ -950,6 +965,51 @@
     border-color: var(--primary);
     color: var(--primary);
     text-decoration: none;
+}
+
+/* Related Tools Grid Layout */
+.related-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.related-tool-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--spacing-md);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.related-tool-card:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.related-tool-icon {
+    font-size: 24px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: var(--primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.related-tool-name {
+    font-size: var(--font-sm);
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.related-tool-card:hover .related-tool-name {
+    color: var(--primary);
 }
 
 /* ==========================================================================

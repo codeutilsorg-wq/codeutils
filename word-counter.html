@@ -3,6 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CRITICAL: Apply theme immediately to prevent flash -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('codeutils-theme');
+            if (theme === 'light') {
+                document.documentElement.classList.add('light-mode');
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Word Counter | Count Words, Characters & Reading Time - Code Utils</title>
     <meta name="description" content="Count words, characters, sentences, paragraphs, and reading time instantly. Real-time statistics for writers and students. 100% free and private. Try now!">
     <meta name="keywords" content="word counter, character counter, text counter, word count, letter count">
@@ -161,14 +173,27 @@
 
         <div id="message" class="message"></div>
 
+        <!-- Related Tools -->
         <div class="related-tools">
             <h3>Related Tools</h3>
-            <ul class="related-tools-list">
-                <li><a href="case-converter.html">Case Converter</a></li>
-                <li><a href="text-sorter.html">Text Sorter</a></li>
-                <li><a href="duplicate-remover.html">Duplicate Remover</a></li>
-                <li><a href="lorem-ipsum.html">Lorem Ipsum Generator</a></li>
-            </ul>
+            <div class="related-tools-grid">
+                <a href="case-converter.html" class="related-tool-card">
+                    <span class="related-tool-icon">Aa</span>
+                    <span class="related-tool-name">Case Converter</span>
+                </a>
+                <a href="text-sorter.html" class="related-tool-card">
+                    <span class="related-tool-icon">AZ</span>
+                    <span class="related-tool-name">Text Sorter</span>
+                </a>
+                <a href="duplicate-remover.html" class="related-tool-card">
+                    <span class="related-tool-icon">D-</span>
+                    <span class="related-tool-name">Duplicate Remover</span>
+                </a>
+                <a href="lorem-ipsum.html" class="related-tool-card">
+                    <span class="related-tool-icon">Li</span>
+                    <span class="related-tool-name">Lorem Ipsum Generator</span>
+                </a>
+            </div>
         </div>
 
         <div class="info-section">

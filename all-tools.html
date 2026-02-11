@@ -3,6 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CRITICAL: Apply theme immediately to prevent flash -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('codeutils-theme');
+            if (theme === 'light') {
+                document.documentElement.classList.add('light-mode');
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Developer Tools - Code Utils</title>
     <meta name="description" content="Browse all free developer tools. JSON formatter, XML formatter, Base64 encoder, hash generator, and 50+ more utilities. 100% client-side processing.">
     <meta name="keywords" content="developer tools, code utilities, all tools, free tools, online tools">

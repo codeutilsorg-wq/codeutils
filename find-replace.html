@@ -3,6 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CRITICAL: Apply theme immediately to prevent flash -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('codeutils-theme');
+            if (theme === 'light') {
+                document.documentElement.classList.add('light-mode');
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find and Replace | Bulk Text Replace with Regex - Code Utils</title>
     <meta name="description" content="Find and replace text with regex support instantly. Bulk find-replace multiple patterns, case-sensitive options. 100% private client-side processing. Search now!">
     <meta name="keywords" content="find replace, search replace, text replace, regex replace, bulk replace">
@@ -179,14 +191,27 @@
             <textarea id="outputText" class="editor" readonly placeholder="Result will appear here..."></textarea>
         </div>
 
+        <!-- Related Tools -->
         <div class="related-tools">
             <h3>Related Tools</h3>
-            <ul class="related-tools-list">
-                <li><a href="regex-tester.html">Regex Tester</a></li>
-                <li><a href="case-converter.html">Case Converter</a></li>
-                <li><a href="diff-checker.html">Diff Checker</a></li>
-                <li><a href="duplicate-remover.html">Duplicate Remover</a></li>
-            </ul>
+            <div class="related-tools-grid">
+                <a href="regex-tester.html" class="related-tool-card">
+                    <span class="related-tool-icon">.*</span>
+                    <span class="related-tool-name">Regex Tester</span>
+                </a>
+                <a href="case-converter.html" class="related-tool-card">
+                    <span class="related-tool-icon">Aa</span>
+                    <span class="related-tool-name">Case Converter</span>
+                </a>
+                <a href="diff-checker.html" class="related-tool-card">
+                    <span class="related-tool-icon">+/-</span>
+                    <span class="related-tool-name">Diff Checker</span>
+                </a>
+                <a href="duplicate-remover.html" class="related-tool-card">
+                    <span class="related-tool-icon">D-</span>
+                    <span class="related-tool-name">Duplicate Remover</span>
+                </a>
+            </div>
         </div>
 
         <div class="info-section">

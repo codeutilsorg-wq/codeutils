@@ -3,6 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CRITICAL: Apply theme immediately to prevent flash -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('codeutils-theme');
+            if (theme === 'light') {
+                document.documentElement.classList.add('light-mode');
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTML Encoder/Decoder | HTML Entity Converter - Code Utils</title>
     <meta name="description" content="Encode special characters to HTML entities or decode HTML entities instantly. Prevent XSS attacks, escape HTML safely. 100% private client-side processing. Encode now!">
     <meta name="keywords" content="html encoder, html decoder, html entities, encode html, decode html, html escape, html unescape, developer tools">
@@ -75,53 +87,43 @@
     <header class="header">
         <div class="header-content">
             <a href="index.html" class="header-logo">
-                <h1>HTML Entity Encoder/Decoder</h1>
+                <h1>Code Utils</h1>
             </a>
             <nav class="header-nav">
-                <span class="privacy-badge">100% Client-Side</span>
+                <a href="index.html" class="btn btn-outline btn-sm">All Tools</a>
                 <button class="theme-toggle" onclick="CodeUtils.Theme.toggle()">Toggle Dark Mode</button>
             </nav>
         </div>
     </header>
 
     <div class="container">
-        <div class="tool-container">
-            <!-- Toolbar -->
-            <div class="toolbar">
-                <div class="toolbar-group">
-                    <button class="btn btn-primary" onclick="encodeHTML()">Encode HTML</button>
-                    <button class="btn btn-primary" onclick="decodeHTML()">Decode HTML</button>
-                </div>
-                <div class="toolbar-group">
-                    <button class="btn btn-secondary" onclick="copyOutput()">Copy Output</button>
-                    <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
-                </div>
+        <div class="controls">
+            <div class="controls-group">
+                <button class="btn" onclick="encodeHTML()">Encode HTML</button>
+                <button class="btn" onclick="decodeHTML()">Decode HTML</button>
             </div>
+            <div class="controls-group">
+                <button class="btn btn-secondary" onclick="copyOutput()">Copy Output</button>
+                <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+            </div>
+        </div>
 
-            <!-- Message -->
-            <div id="message" class="message"></div>
+        <div id="message" class="message"></div>
 
-            <!-- Editor Area -->
-            <div class="editor-split">
-                <div class="editor-pane">
-                    <div class="editor-header">
-                        <span class="editor-title">Input</span>
-                    </div>
-                    <textarea id="input" class="editor-textarea" placeholder="Enter text to encode or HTML entities to decode..."></textarea>
-                </div>
-
-                <div class="editor-pane">
-                    <div class="editor-header">
-                        <span class="editor-title">Output</span>
-                    </div>
-                    <textarea id="output" class="editor-textarea" placeholder="Result will appear here..." readonly></textarea>
-                </div>
+        <div class="editor-container">
+            <div class="editor-section">
+                <div class="editor-header">Input</div>
+                <textarea id="input" class="editor" placeholder="Enter text to encode or HTML entities to decode..."></textarea>
+            </div>
+            <div class="editor-section">
+                <div class="editor-header">Output</div>
+                <textarea id="output" class="editor" readonly placeholder="Result will appear here..."></textarea>
             </div>
         </div>
 
         <!-- Related Tools -->
         <div class="related-tools">
-            <h3 class="related-tools-title">Related Tools</h3>
+            <h3>Related Tools</h3>
             <div class="related-tools-grid">
                 <a href="url-encoder.html" class="related-tool-card">
                     <span class="related-tool-icon">%</span>

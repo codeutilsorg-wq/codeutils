@@ -3,6 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CRITICAL: Apply theme immediately to prevent flash -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('codeutils-theme');
+            if (theme === 'light') {
+                document.documentElement.classList.add('light-mode');
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timestamp Converter | Unix Time to Date Tool - Code Utils</title>
     <meta name="description" content="Convert Unix timestamps to dates and dates to timestamps instantly. Supports milliseconds and seconds with live current time. 100% private processing. Try it now!">
     <meta name="keywords" content="timestamp converter, unix timestamp, epoch converter, unix time, date converter, timestamp to date, epoch time, developer tools">
@@ -231,6 +243,50 @@
             white-space: pre-wrap;
             word-break: break-all;
         }
+
+        .related-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .related-tool-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: var(--spacing-md);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .related-tool-card:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .related-tool-icon {
+            font-size: 24px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .related-tool-name {
+            font-size: var(--font-sm);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .related-tool-card:hover .related-tool-name {
+            color: var(--primary);
+        }
     </style>
 </head>
 <body>
@@ -292,7 +348,7 @@
 
         <!-- Related Tools -->
         <div class="related-tools">
-            <h3 class="related-tools-title">Related Tools</h3>
+            <h3>Related Tools</h3>
             <div class="related-tools-grid">
                 <a href="json-formatter.html" class="related-tool-card">
                     <span class="related-tool-icon">{ }</span>

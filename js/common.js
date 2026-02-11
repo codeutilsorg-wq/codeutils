@@ -3,6 +3,16 @@
    ========================================================================== */
 
 // ==========================================================================
+// CRITICAL: Apply theme immediately to prevent FOUC
+// ==========================================================================
+(function() {
+    const savedTheme = localStorage.getItem('codeutils-theme');
+    if (savedTheme === 'light') {
+        document.documentElement.classList.add('light-mode');
+    }
+})();
+
+// ==========================================================================
 // Theme Management
 // ==========================================================================
 
@@ -11,22 +21,23 @@ const Theme = {
     LIGHT_CLASS: 'light-mode',
 
     init() {
-        // Default is DARK - only add light-mode class if explicitly saved
-        const savedTheme = localStorage.getItem(this.STORAGE_KEY);
-        if (savedTheme === 'light') {
+        // Theme already applied by IIFE above, this is just for compatibility
+        // Sync body class with documentElement class
+        if (document.documentElement.classList.contains(this.LIGHT_CLASS)) {
             document.body.classList.add(this.LIGHT_CLASS);
         }
     },
 
     toggle() {
+        document.documentElement.classList.toggle(this.LIGHT_CLASS);
         document.body.classList.toggle(this.LIGHT_CLASS);
-        const isLight = document.body.classList.contains(this.LIGHT_CLASS);
+        const isLight = document.documentElement.classList.contains(this.LIGHT_CLASS);
         localStorage.setItem(this.STORAGE_KEY, isLight ? 'light' : 'dark');
         return !isLight; // Return isDark
     },
 
     isDark() {
-        return !document.body.classList.contains(this.LIGHT_CLASS);
+        return !document.documentElement.classList.contains(this.LIGHT_CLASS);
     }
 };
 

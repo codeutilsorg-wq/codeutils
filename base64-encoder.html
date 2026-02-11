@@ -3,6 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CRITICAL: Apply theme immediately to prevent flash -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('codeutils-theme');
+            if (theme === 'light') {
+                document.documentElement.classList.add('light-mode');
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Base64 Encoder/Decoder | Encode & Decode Online - Code Utils</title>
     <meta name="description" content="Encode text to Base64 or decode Base64 strings instantly. Support for UTF-8, file uploads, and bulk processing. Free, fast, and completely private - no data uploaded to servers. Start encoding now!">
     <meta name="keywords" content="base64 encoder, base64 decoder, encode base64, decode base64, base64 online, base64 converter, developer tools">
@@ -183,12 +195,24 @@
         <!-- Related Tools -->
         <div class="related-tools">
             <h3>Related Tools</h3>
-            <ul class="related-tools-list">
-                <li><a href="url-encoder.html">URL Encoder</a></li>
-                <li><a href="html-encoder.html">HTML Encoder</a></li>
-                <li><a href="hash-generator.html">Hash Generator</a></li>
-                <li><a href="json-formatter.html">JSON Formatter</a></li>
-            </ul>
+            <div class="related-tools-grid">
+                <a href="url-encoder.html" class="related-tool-card">
+                    <span class="related-tool-icon">%</span>
+                    <span class="related-tool-name">URL Encoder</span>
+                </a>
+                <a href="html-encoder.html" class="related-tool-card">
+                    <span class="related-tool-icon">&;</span>
+                    <span class="related-tool-name">HTML Encoder</span>
+                </a>
+                <a href="hash-generator.html" class="related-tool-card">
+                    <span class="related-tool-icon">#</span>
+                    <span class="related-tool-name">Hash Generator</span>
+                </a>
+                <a href="json-formatter.html" class="related-tool-card">
+                    <span class="related-tool-icon">{ }</span>
+                    <span class="related-tool-name">JSON Formatter</span>
+                </a>
+            </div>
         </div>
 
         <!-- Info Section -->

@@ -3,6 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CRITICAL: Apply theme immediately to prevent flash -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('codeutils-theme');
+            if (theme === 'light') {
+                document.documentElement.classList.add('light-mode');
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>URL Encoder/Decoder | Percent Encoding Tool - Code Utils</title>
     <meta name="description" content="Encode URLs for safe transmission or decode percent-encoded strings instantly. Supports UTF-8 and special characters. 100% private client-side processing. Try it now!">
     <meta name="keywords" content="url encoder, url decoder, encode url, decode url, url encode online, percent encoding, uri encoder, developer tools">
@@ -148,43 +160,33 @@
             <p style="margin: 0; color: var(--text-secondary);">Instantly encode text and special characters for safe URL transmission or decode percent-encoded strings back to readable text. URL encoding (also called percent encoding) is essential for safely passing data through URLs, query parameters, and API requests. Whether you're building web applications, working with APIs, debugging URL parameters, or handling international characters and emoji, this tool makes encoding and decoding simple and instant. This tool supports full UTF-8 and Unicode character encoding, handles international text seamlessly, and performs all operations securely in your browser—no data ever touches our servers. Perfect for developers, DevOps engineers, and anyone working with URLs and web APIs. No registration required—start encoding now!</p>
         </div>
 
-        <div class="tool-container">
-            <!-- Toolbar -->
-            <div class="toolbar">
-                <div class="toolbar-group">
-                    <button class="btn btn-primary" onclick="encodeURL()">Encode URL</button>
-                    <button class="btn btn-primary" onclick="decodeURL()">Decode URL</button>
-                </div>
-                <div class="toolbar-group">
-                    <button class="btn btn-secondary" onclick="copyOutput()">Copy Output</button>
-                    <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
-                </div>
+        <div class="controls">
+            <div class="controls-group">
+                <button class="btn" onclick="encodeURL()">Encode URL</button>
+                <button class="btn" onclick="decodeURL()">Decode URL</button>
             </div>
+            <div class="controls-group">
+                <button class="btn btn-secondary" onclick="copyOutput()">Copy Output</button>
+                <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+            </div>
+        </div>
 
-            <!-- Message -->
-            <div id="message" class="message"></div>
+        <div id="message" class="message"></div>
 
-            <!-- Editor Area -->
-            <div class="editor-split">
-                <div class="editor-pane">
-                    <div class="editor-header">
-                        <span class="editor-title">Input</span>
-                    </div>
-                    <textarea id="input" class="editor-textarea" placeholder="Enter text to encode or URL-encoded string to decode..."></textarea>
-                </div>
-
-                <div class="editor-pane">
-                    <div class="editor-header">
-                        <span class="editor-title">Output</span>
-                    </div>
-                    <textarea id="output" class="editor-textarea" placeholder="Result will appear here..." readonly></textarea>
-                </div>
+        <div class="editor-container">
+            <div class="editor-section">
+                <div class="editor-header">Input</div>
+                <textarea id="input" class="editor" placeholder="Enter text to encode or URL-encoded string to decode..."></textarea>
+            </div>
+            <div class="editor-section">
+                <div class="editor-header">Output</div>
+                <textarea id="output" class="editor" readonly placeholder="Result will appear here..."></textarea>
             </div>
         </div>
 
         <!-- Related Tools -->
         <div class="related-tools">
-            <h3 class="related-tools-title">Related Tools</h3>
+            <h3>Related Tools</h3>
             <div class="related-tools-grid">
                 <a href="base64-encoder.html" class="related-tool-card">
                     <span class="related-tool-icon">B64</span>

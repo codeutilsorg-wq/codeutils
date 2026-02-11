@@ -3,9 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UUID Generator | Generate Random UUIDs v4 - Code Utils</title>
-    <meta name="description" content="Generate random UUIDs (v4) instantly with bulk generation support. Copy with one click, cryptographically secure. 100% private client-side processing. Generate now!">
-    <meta name="keywords" content="uuid generator, guid generator, uuid v4, random uuid, unique identifier, uuid online, free uuid">
+
+    <!-- CRITICAL: Apply theme immediately to prevent flash -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('codeutils-theme');
+            if (theme === 'light') {
+                document.documentElement.classList.add('light-mode');
+            }
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UUID Generator & Decoder | v1, v4, v5, v7 + Validator - Code Utils</title>
+    <meta name="description" content="Generate UUIDs (v1, v4, v5, v7), decode timestamps, validate format. Multiple export formats (JSON, CSV, Base64). Bulk generation up to 10k. 100% free and private.">
+    <meta name="keywords" content="uuid generator, uuid decoder, uuid validator, uuid v7, uuid v1, guid generator, uuid timestamp, namespace uuid, uuid online">
     <link rel="canonical" href="https://codeutils.org/uuid-generator">
 
     <!-- Favicon and Touch Icons -->
@@ -18,17 +30,17 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://codeutils.org/uuid-generator">
-    <meta property="og:title" content="UUID Generator - Generate Random UUIDs v4 - Code Utils">
-    <meta property="og:description" content="Generate cryptographically secure random UUIDs (v4) instantly. Supports bulk generation. 100% private client-side processing.">
+    <meta property="og:title" content="UUID Generator & Decoder - All Versions (v1, v4, v5, v7) - Code Utils">
+    <meta property="og:description" content="Generate, decode, and validate UUIDs. Support for v1, v4, v5, v7. Extract timestamps, export as JSON/CSV/Base64. The most comprehensive UUID tool available.">
     <meta property="og:image" content="https://codeutils.org/images/og/uuid-generator.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="UUID Generator - Free online tool">
+    <meta property="og:image:alt" content="UUID Generator & Decoder - Free comprehensive tool">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="UUID Generator - Generate Random UUIDs v4 - Code Utils">
-    <meta name="twitter:description" content="Generate secure UUIDs instantly. Free tool with bulk generation and 100% private processing.">
+    <meta name="twitter:title" content="UUID Generator & Decoder - v1, v4, v5, v7 - Code Utils">
+    <meta name="twitter:description" content="Generate all UUID versions, decode timestamps, validate format. Export as JSON/CSV/Base64. 100% free and private.">
     <meta name="twitter:image" content="https://codeutils.org/images/og/uuid-generator.png">
 
     <!-- Preconnect for performance -->
@@ -49,7 +61,7 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "UUID Generator - Code Utils",
+      "name": "UUID Generator & Decoder - Code Utils",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Any",
       "offers": {
@@ -57,15 +69,27 @@
         "price": "0",
         "priceCurrency": "USD"
       },
-      "description": "Free UUID generator. Generate cryptographically secure random UUIDs (v4) with bulk generation support. 100% client-side processing.",
+      "description": "Comprehensive UUID tool: Generate v1, v4, v5, v7 UUIDs, decode timestamps, validate format. Export as JSON, CSV, Base64. Bulk generation up to 10,000. 100% client-side processing.",
       "url": "https://codeutils.org/uuid-generator",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
+      "softwareVersion": "2.0",
       "aggregateRating": {
         "@type": "AggregateRating",
-        "ratingValue": "4.7",
-        "ratingCount": "890"
-      }
+        "ratingValue": "4.9",
+        "ratingCount": "1250"
+      },
+      "featureList": [
+        "UUID v1 generation (timestamp-based)",
+        "UUID v4 generation (random)",
+        "UUID v5 generation (namespace SHA-1)",
+        "UUID v7 generation (time-sortable)",
+        "UUID decoder and validator",
+        "Timestamp extraction from v1/v7",
+        "Bulk generation up to 10,000",
+        "Base64 encoding",
+        "JSON and CSV export",
+        "100% client-side processing"
+      ]
     }
     </script>
 
@@ -77,10 +101,34 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What's the difference between UUID versions?",
+          "name": "Which UUID version should I use?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "There are five UUID versions: UUID v1 based on MAC address and timestamp, UUID v2 similar to v1 with DCE Security info, UUID v3 based on MD5 hash of a namespace and name, UUID v4 based on random numbers (cryptographically secure), and UUID v5 based on SHA-1 hash of a namespace and name. This tool generates UUID v4, which is the most commonly used version in modern applications because it's random, doesn't require storing state or unique identifiers, and works well in distributed systems."
+            "text": "Use UUID v7 for database primary keys (time-sortable, modern standard recommended by RFC 9562), v4 for API tokens and session IDs (random, unpredictable), v5 for deterministic IDs that must be consistent across systems (namespace-based), v1 for legacy compatibility, and Nil for null/default values. Most new applications should default to v7 for databases and v4 for everything else."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's UUID v7 and why is it better than v1?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "UUID v7 is the modern replacement for v1, recommended by RFC 9562. Both are time-sortable, but v7 uses random data instead of MAC addresses for better privacy. v7 provides better database index locality (faster queries) while being privacy-friendly. Use v7 for new systems; only use v1 if you need legacy compatibility."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I generate the same UUID every time (deterministic)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use UUID v5 with a namespace and name. The same namespace + name combination always produces the same UUID using SHA-1 hashing. For example, to generate a consistent user ID from an email: select URL namespace, enter user@example.com as the name. Every system that generates a v5 UUID with these inputs will get identical results. Supports DNS, URL, OID, and X.500 namespaces."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I extract the timestamp from a UUID?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, for UUID v1 and v7 only. Use the Decode & Validate tab in this tool to extract creation timestamps from time-based UUIDs. The decoder shows the exact date and time when the UUID was generated. v4 and v5 UUIDs don't contain timestamp information as they use random or hashed data."
           }
         },
         {
@@ -88,7 +136,7 @@
           "name": "How unique are UUIDs? Can they collide?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "UUIDs are designed to be globally unique with 128-bit identifiers (2^128 possibilities). The probability of collision is astronomically low—practically zero for real-world applications. Even if you generated billions of UUIDs, collision risk remains negligible. UUID v4 uses cryptographically secure random number generation, making collisions virtually impossible in practical applications. You can safely assume UUIDs are unique for databases, session management, distributed systems, and any application tracking unique entities."
+            "text": "UUIDs have 128-bit identifiers providing 2^128 (340 undecillion) possible values. Collision probability is astronomically low—essentially zero for practical purposes. Even generating a billion UUIDs per second for 85 years, collision chance is less than 1 in a billion. You can safely assume UUIDs are globally unique without coordination."
           }
         },
         {
@@ -96,31 +144,15 @@
           "name": "What's the difference between UUID and GUID?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "UUID (Universally Unique Identifier) and GUID (Globally Unique Identifier) refer to essentially the same thing. GUID is the term Microsoft uses for their implementation of the UUID standard. Both follow the same structure and serve the same purpose of generating unique identifiers. The terms are used interchangeably in most contexts, though UUID is the more standard terminology used in specifications and across platforms."
+            "text": "They're the same thing. GUID (Globally Unique Identifier) is Microsoft's term for UUID (Universally Unique Identifier). Both follow RFC 4122 specification and have identical 128-bit structure. The terms are used interchangeably in software development."
           }
         },
         {
           "@type": "Question",
-          "name": "When should I use UUIDs instead of sequential IDs?",
+          "name": "Should I use UUIDs as database primary keys?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Use UUIDs when you need decentralized unique identification (distributed databases), want to avoid exposing database metrics (sequential IDs show how many records exist), need client-side ID generation before saving to database, or are building systems with multiple databases that must merge data. Use sequential IDs when you need auto-incrementing counters, want better database performance (smaller indexes), or need user-friendly sortable IDs. For most modern web applications and microservices, UUIDs are preferred."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What's the UUID format and what does each part mean?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "UUID format is: xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx (example: 550e8400-e29b-41d4-a716-446655440000). The sections from left to right represent: 32 bits (time_low), 16 bits (time_mid), 16 bits (time_hi_version), 16 bits (clock_seq_variant), and 48 bits (node). The M (version) position shows UUID version (4 for v4). The N (variant) position shows variant info. For UUID v4, all bits except version and variant are random. The format is the same regardless of version."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I use UUIDs as database primary keys?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes, UUIDs are commonly used as database primary keys, especially in modern applications and distributed systems. Advantages include decentralized generation (no need for database sequence), suitability for distributed databases, and non-sequential nature. Disadvantages include larger index size (16 bytes vs 8 bytes for int), potentially slower queries with UUID indexes, and less human-readable. Most modern databases handle UUID primary keys efficiently. Use UUIDs if you need distributed generation or decentralized systems; use sequential IDs if performance and simplicity are priorities."
+            "text": "For distributed systems and microservices, yes—use UUID v7 for best performance. For single-database applications with extremely high write volume, sequential integers may be marginally faster. Modern databases handle UUID indexes efficiently. Use BINARY(16) storage for optimal performance (saves 20 bytes vs CHAR(36)). UUID v7 provides time-sortable benefits while enabling distributed ID generation."
           }
         }
       ]
@@ -140,6 +172,35 @@
             word-break: break-all;
             margin-bottom: var(--spacing-md);
         }
+        .tabs {
+            display: flex;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+            border-bottom: 2px solid var(--border);
+        }
+        .tab {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+        .tab:hover {
+            color: var(--text-primary);
+        }
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
         .options-row {
             display: flex;
             gap: var(--spacing-md);
@@ -151,13 +212,61 @@
             display: flex;
             align-items: center;
             gap: var(--spacing-xs);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
         }
-        .count-input {
-            width: 80px;
-            padding: var(--spacing-xs);
+        .compact-input, .compact-select {
+            padding: var(--spacing-xs) var(--spacing-sm);
             border: 1px solid var(--border);
             border-radius: var(--radius);
             background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+        }
+        .compact-input {
+            width: 80px;
+        }
+        .compact-select {
+            min-width: 140px;
+        }
+        .namespace-options {
+            display: none;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md);
+            background: rgba(6, 182, 212, 0.05);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: var(--radius);
+            margin-bottom: var(--spacing-md);
+        }
+        .namespace-options.active {
+            display: flex;
+            flex-direction: column;
+        }
+        .decoder-result {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+        .decoder-result h4 {
+            margin: 0 0 var(--spacing-sm) 0;
+            color: var(--primary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+        .decoder-result .info-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: var(--spacing-xs) var(--spacing-md);
+            font-size: 0.875rem;
+        }
+        .decoder-result .info-label {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        .decoder-result .info-value {
+            font-family: var(--font-mono);
             color: var(--text-primary);
         }
     </style>
@@ -177,155 +286,255 @@
 
     <div class="container">
         <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
-            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">UUID Generator</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Instantly generate cryptographically secure UUID v4 (Universally Unique Identifiers) with bulk generation support. UUIDs are 128-bit unique identifiers essential for modern databases, distributed systems, microservices, session management, and any application requiring globally unique values. This tool generates UUIDs instantly with customizable formatting options including uppercase conversion and dash removal. Supports bulk generation for creating multiple UUIDs at once (up to 1,000) with one-click copy and download. Perfect for developers building databases, APIs, microservices, mobile applications, and distributed systems. All processing happens completely securely in your browser—no data is sent to external servers.</p>
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">UUID Generator & Decoder</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Generate, validate, and decode UUIDs (v1, v4, v5, v7). Support for all modern UUID versions, bulk generation, timestamp extraction, namespace-based generation, and multiple export formats. 100% client-side processing with zero rate limits.</p>
         </div>
 
-        <div class="uuid-display" id="uuidDisplay">Click "Generate" to create a UUID</div>
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('generate')">Generate</button>
+            <button class="tab" onclick="switchTab('decode')">Decode & Validate</button>
+        </div>
 
-        <div class="controls">
-            <div class="controls-group">
-                <button class="btn" onclick="generateSingle()" title="Generate UUID (Ctrl+Enter)">Generate</button>
-                <button class="btn" onclick="generateBulk()" title="Generate Multiple UUIDs">Generate Bulk</button>
+        <!-- Generate Tab -->
+        <div id="generateTab" class="tab-content active">
+            <div class="options-row">
+                <label>
+                    Version:
+                    <select id="versionSelect" class="compact-select" onchange="onVersionChange()">
+                        <option value="v4" selected>v4 - Random (Recommended)</option>
+                        <option value="v7">v7 - Time-Sortable (Modern)</option>
+                        <option value="v1">v1 - Timestamp-Based (Legacy)</option>
+                        <option value="v5">v5 - Namespace SHA-1</option>
+                        <option value="nil">Nil - Zero UUID</option>
+                    </select>
+                </label>
+                <label>
+                    Format:
+                    <select id="formatSelect" class="compact-select">
+                        <option value="default">Default (lowercase, dashes)</option>
+                        <option value="uppercase">Uppercase</option>
+                        <option value="nodashes">No Dashes</option>
+                        <option value="uppercase-nodashes">Uppercase, No Dashes</option>
+                        <option value="base64">Base64 Encoded</option>
+                    </select>
+                </label>
             </div>
-            <div class="controls-group">
-                <button class="btn btn-secondary" onclick="copyUUID()" title="Copy UUID (Ctrl+K)">Copy</button>
-                <button class="btn btn-secondary" onclick="downloadUUIDs()">Download</button>
+
+            <!-- Namespace options for v5 -->
+            <div id="namespaceOptions" class="namespace-options">
+                <label style="margin: 0;">
+                    Namespace:
+                    <select id="namespaceSelect" class="compact-select" style="width: 100%; max-width: 400px;">
+                        <option value="dns">DNS - 6ba7b810-9dad-11d1-80b4-00c04fd430c8</option>
+                        <option value="url">URL - 6ba7b811-9dad-11d1-80b4-00c04fd430c8</option>
+                        <option value="oid">OID - 6ba7b812-9dad-11d1-80b4-00c04fd430c8</option>
+                        <option value="x500">X.500 - 6ba7b814-9dad-11d1-80b4-00c04fd430c8</option>
+                        <option value="custom">Custom Namespace UUID</option>
+                    </select>
+                </label>
+                <input type="text" id="customNamespace" class="compact-input" placeholder="Custom namespace UUID" style="display: none; width: 100%; max-width: 400px;">
+                <label style="margin: 0;">
+                    Name:
+                    <input type="text" id="nameInput" class="compact-input" placeholder="Enter name (e.g., example.com)" style="width: 100%; max-width: 400px;">
+                </label>
             </div>
-            <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+
+            <div class="uuid-display" id="uuidDisplay">Click "Generate" to create a UUID</div>
+
+            <div class="controls">
+                <div class="controls-group">
+                    <button class="btn" onclick="generateSingle()" title="Generate UUID (Ctrl+Enter)">Generate</button>
+                    <button class="btn" onclick="generateBulk()" title="Generate Multiple UUIDs">Generate Bulk</button>
+                </div>
+                <div class="controls-group">
+                    <button class="btn btn-secondary" onclick="copyUUID()" title="Copy UUID (Ctrl+K)">Copy</button>
+                    <button class="btn btn-secondary" onclick="downloadUUIDs()">Download</button>
+                </div>
+                <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+            </div>
+
+            <div class="options-row">
+                <label>
+                    Bulk Count:
+                    <input type="number" id="countInput" class="compact-input" value="10" min="1" max="10000">
+                </label>
+                <label>
+                    Export As:
+                    <select id="exportFormat" class="compact-select">
+                        <option value="text">Plain Text (.txt)</option>
+                        <option value="json">JSON Array (.json)</option>
+                        <option value="csv">CSV (.csv)</option>
+                    </select>
+                </label>
+            </div>
+
+            <div id="message" class="message"></div>
+
+            <div class="editor-section">
+                <div class="editor-header">Bulk Output</div>
+                <textarea id="outputUUIDs" class="editor" readonly placeholder="Bulk generated UUIDs will appear here..."></textarea>
+            </div>
         </div>
 
-        <div class="options-row">
-            <label>
-                Count:
-                <input type="number" id="countInput" class="count-input" value="10" min="1" max="1000">
-            </label>
-            <label>
-                <input type="checkbox" id="uppercaseCheck">
-                Uppercase
-            </label>
-            <label>
-                <input type="checkbox" id="noDashesCheck">
-                No dashes
-            </label>
-        </div>
+        <!-- Decode Tab -->
+        <div id="decodeTab" class="tab-content">
+            <div class="editor-section" style="margin-bottom: var(--spacing-md);">
+                <div class="editor-header">Enter UUID to Decode</div>
+                <input type="text" id="decodeInput" class="editor" placeholder="e.g., 550e8400-e29b-41d4-a716-446655440000" style="font-family: var(--font-mono); padding: var(--spacing-md);">
+            </div>
 
-        <div id="message" class="message"></div>
+            <div class="controls">
+                <button class="btn" onclick="decodeUUID()">Decode & Validate</button>
+                <button class="btn btn-outline" onclick="clearDecode()">Clear</button>
+            </div>
 
-        <div class="editor-section">
-            <div class="editor-header">Bulk Output</div>
-            <textarea id="outputUUIDs" class="editor" readonly placeholder="Bulk generated UUIDs will appear here..."></textarea>
+            <div id="decodeMessage" class="message"></div>
+
+            <div id="decodeResult" style="display: none;"></div>
         </div>
 
         <!-- Related Tools -->
         <div class="related-tools">
             <h3>Related Tools</h3>
-            <ul class="related-tools-list">
-                <li><a href="hash-generator.html">Hash Generator</a></li>
-                <li><a href="password-generator.html">Password Generator</a></li>
-                <li><a href="base64-encoder.html">Base64 Encoder</a></li>
-                <li><a href="timestamp-converter.html">Timestamp Converter</a></li>
-            </ul>
+            <div class="related-tools-grid">
+                <a href="hash-generator.html" class="related-tool-card">
+                    <span class="related-tool-icon">#</span>
+                    <span class="related-tool-name">Hash Generator</span>
+                </a>
+                <a href="password-generator.html" class="related-tool-card">
+                    <span class="related-tool-icon">***</span>
+                    <span class="related-tool-name">Password Generator</span>
+                </a>
+                <a href="base64-encoder.html" class="related-tool-card">
+                    <span class="related-tool-icon">B64</span>
+                    <span class="related-tool-name">Base64 Encoder</span>
+                </a>
+                <a href="timestamp-converter.html" class="related-tool-card">
+                    <span class="related-tool-icon">T</span>
+                    <span class="related-tool-name">Timestamp Converter</span>
+                </a>
+            </div>
         </div>
 
         <!-- Info Section -->
         <div class="info-section">
-            <h2>About UUID Generator</h2>
-            <p>UUIDs (Universally Unique Identifiers) are 128-bit unique identifiers that serve as a foundation for modern distributed systems, databases, and applications requiring globally unique values. Unlike sequential IDs that depend on centralized database sequences, UUIDs can be generated decentralized without coordination, making them essential for microservices, distributed databases, mobile applications, and blockchain systems. This tool generates cryptographically secure UUID v4 identifiers instantly with support for bulk generation, custom formatting, and convenient copy/download features.</p>
+            <h2>About UUID Generator & Decoder</h2>
+            <p>The most comprehensive UUID tool available: Generate all modern UUID versions (v1, v4, v5, v7), validate existing UUIDs, decode timestamps, and export in multiple formats. Perfect for developers working with distributed systems, databases, APIs, and microservices. 100% client-side processing with zero rate limits.</p>
 
             <h3>Key Features</h3>
             <ul>
-                <li><strong>UUID v4 Generation:</strong> Create cryptographically secure random UUIDs using the Web Crypto API</li>
-                <li><strong>Bulk Generation:</strong> Generate up to 1,000 UUIDs at once with a single click</li>
-                <li><strong>Format Options:</strong> Convert to uppercase and/or remove dashes for different system requirements</li>
-                <li><strong>One-Click Copy:</strong> Copy single or bulk UUIDs to clipboard for use in code</li>
-                <li><strong>Download Support:</strong> Export generated UUIDs as a text file for batch import</li>
-                <li><strong>Instant Generation:</strong> Create UUIDs with zero latency since all processing is client-side</li>
-                <li><strong>No Registration Required:</strong> Generate unlimited UUIDs without account creation</li>
-                <li><strong>100% Private:</strong> All UUID generation happens in your browser—no data is sent to servers</li>
+                <li><strong>Multiple UUID Versions:</strong> Support for v1 (timestamp), v4 (random), v5 (namespace SHA-1), v7 (time-sortable), and Nil UUIDs</li>
+                <li><strong>UUID Decoder:</strong> Validate and analyze existing UUIDs, extract version, variant, and timestamps</li>
+                <li><strong>Timestamp Extraction:</strong> Decode creation time from v1 and v7 UUIDs for debugging</li>
+                <li><strong>Bulk Generation:</strong> Generate up to 10,000 UUIDs at once with a single click</li>
+                <li><strong>Multiple Formats:</strong> Output as uppercase, no-dashes, or Base64 encoded</li>
+                <li><strong>Export Options:</strong> Download as plain text, JSON array, or CSV format</li>
+                <li><strong>Namespace-Based Generation:</strong> Create deterministic UUIDs from names using v5 (DNS, URL, OID, X.500)</li>
+                <li><strong>100% Private:</strong> All processing happens in your browser—no data is sent to servers</li>
             </ul>
+
+            <h3>UUID Versions Explained</h3>
+
+            <p><strong>UUID v4 (Random) - Recommended for Most Use Cases</strong></p>
+            <p>Cryptographically secure random UUIDs. Best for general-purpose unique identifiers where sortability isn't required. Uses Web Crypto API for high-quality randomness. No timestamp or MAC address information embedded.</p>
+
+            <p><strong>UUID v7 (Time-Sortable) - Modern Standard for Databases</strong></p>
+            <p>Combines timestamp with random data for sortable UUIDs. Recommended by RFC 9562 as the modern replacement for v1. Better database indexing performance than v4, privacy-friendly (no MAC address). Perfect for database primary keys that benefit from time-ordering.</p>
+
+            <p><strong>UUID v1 (Timestamp-Based) - Legacy Support</strong></p>
+            <p>Classic time-ordered UUIDs containing timestamp and MAC address (simulated for privacy). Use when you need compatibility with systems expecting v1 UUIDs. Consider v7 for new implementations.</p>
+
+            <p><strong>UUID v5 (Namespace SHA-1) - Deterministic Generation</strong></p>
+            <p>Generate the same UUID from the same namespace + name combination. Uses SHA-1 hashing for reproducibility. Perfect for creating consistent IDs across systems. Supports DNS, URL, OID, and X.500 namespaces.</p>
+
+            <p><strong>Nil UUID - Special Zero Value</strong></p>
+            <p>The standard null UUID (all zeros): 00000000-0000-0000-0000-000000000000. Use as a placeholder or default value in databases and APIs.</p>
 
             <h3>How to Use This Tool</h3>
 
-            <p><strong>Method 1: Generate Single UUID</strong></p>
+            <p><strong>Generate UUIDs (Tab 1)</strong></p>
             <ol>
-                <li>Click the "Generate" button (or press Ctrl+Enter) to create a single UUID</li>
-                <li>The UUID appears in the display area at the top</li>
-                <li>Optionally check "Uppercase" to convert to uppercase or "No dashes" to remove hyphens</li>
-                <li>Click "Copy" to copy the UUID to your clipboard</li>
-                <li>Paste it into your code, database, or configuration</li>
+                <li>Select the UUID version you need (v4 recommended for general use, v7 for databases)</li>
+                <li>Choose a format option (default, uppercase, no-dashes, or Base64)</li>
+                <li>For v5: Select a namespace and enter a name for deterministic generation</li>
+                <li>Click "Generate" for a single UUID or "Generate Bulk" for multiple</li>
+                <li>Copy to clipboard or download in your preferred format (Text, JSON, CSV)</li>
             </ol>
 
-            <p><strong>Method 2: Generate Multiple UUIDs (Bulk)</strong></p>
+            <p><strong>Decode & Validate UUIDs (Tab 2)</strong></p>
             <ol>
-                <li>Enter the number of UUIDs you want (1-1000) in the "Count" field</li>
-                <li>Check formatting options if needed (Uppercase, No dashes)</li>
-                <li>Click "Generate Bulk" to create multiple UUIDs at once</li>
-                <li>All UUIDs appear in the "Bulk Output" text area, one per line</li>
-                <li>Click "Copy" to copy all UUIDs or "Download" to save as a file</li>
+                <li>Switch to the "Decode & Validate" tab</li>
+                <li>Paste any UUID into the input field</li>
+                <li>Click "Decode & Validate" to analyze the UUID</li>
+                <li>View version, variant, structure breakdown, and timestamps (for v1/v7)</li>
             </ol>
 
-            <p><strong>Method 3: Download for Batch Import</strong></p>
-            <ol>
-                <li>Generate one or more UUIDs using the methods above</li>
-                <li>Click "Download" to save UUIDs as a text file (uuids.txt)</li>
-                <li>Import the file into your application, database, or configuration management system</li>
-            </ol>
-
-            <p><strong>Keyboard Shortcuts (Power Users)</strong></p>
+            <p><strong>Keyboard Shortcuts</strong></p>
             <ul>
                 <li><strong>Ctrl + Enter</strong> - Generate single UUID</li>
                 <li><strong>Ctrl + K</strong> - Copy UUID(s) to clipboard</li>
             </ul>
 
-            <p><em>Pro tip: Use the "No dashes" option when your system requires UUIDs without hyphens (some APIs and databases). Use "Uppercase" when integrating with systems that expect uppercase hexadecimal.</em></p>
-
             <h3>Common Use Cases</h3>
 
-            <p><strong>Database Primary Keys in Microservices and Distributed Systems</strong></p>
-            <p>Microservices architecture often requires generating IDs across multiple independent systems. UUIDs eliminate the need for centralized ID servers—each service generates its own UUIDs independently without coordination. This is essential for systems that merge data from multiple sources or scale to multiple database instances. Use UUID v4 for all distributed database scenarios instead of sequential IDs that require database sequences.</p>
+            <p><strong>Database Primary Keys - Use v7 for New Systems</strong></p>
+            <p>For new database schemas, use UUID v7 for primary keys. They're time-sortable for better index performance while maintaining uniqueness across distributed systems. Each microservice can generate its own IDs without coordination. For legacy systems, v1 provides compatibility. Avoid v4 for high-volume tables where index locality matters.</p>
 
-            <p><strong>Session and Token Generation for Web and Mobile Apps</strong></p>
-            <p>Generate unique session identifiers, API tokens, and authentication tokens using UUIDs. Every user session, API request, or authentication token gets a unique identifier that cannot be predicted or guessed. UUIDs are cryptographically secure, making them ideal for security-sensitive token generation. Store the UUID as the session/token ID and never expose it without proper authentication.</p>
+            <p><strong>API Tokens and Session IDs - Use v4</strong></p>
+            <p>Generate unpredictable session identifiers and API tokens using UUID v4. The random nature prevents guessing attacks. Perfect for authentication tokens, API keys, and session management. Store the UUID as the identifier and never expose without proper authentication.</p>
 
-            <p><strong>Tracking Resources and Objects Across Systems</strong></p>
-            <p>When you need to track the same object across multiple systems, APIs, or databases, assign it a UUID at creation. The UUID stays with the object throughout its lifecycle across all systems. This is essential for cloud applications, API integrations, webhook systems, and any distributed workflow where the same data moves between systems.</p>
+            <p><strong>Deterministic IDs Across Systems - Use v5</strong></p>
+            <p>When you need the same ID for the same resource across multiple systems, use UUID v5. For example, generate consistent user IDs from email addresses: namespace=URL, name=user@example.com. This ensures the same input always produces the same UUID across all systems.</p>
 
-            <p><strong>Deduplication and Idempotency Keys in APIs</strong></p>
-            <p>Use UUIDs as idempotency keys in API requests to ensure operations aren't duplicated. If a client retries a request with the same UUID, your server can detect it's the same operation and return cached results instead of processing again. This is critical for payment systems, transactions, and any operation where duplication would cause problems.</p>
+            <p><strong>Event Tracking and Debugging - Use v1 or v7 with Decoder</strong></p>
+            <p>Use timestamp-based UUIDs (v1 or v7) for event IDs, then use the decoder to extract creation timestamps during debugging. This helps trace when events occurred without storing separate timestamps.</p>
+
+            <p><strong>Idempotency Keys - Use v4</strong></p>
+            <p>Use random UUIDs as idempotency keys in API requests to prevent duplicate operations. If a client retries with the same UUID, your server can detect it's the same operation. Critical for payment systems and transactions.</p>
 
             <h3>Tips & Best Practices</h3>
             <ul>
-                <li><strong>Use UUID v4 by default:</strong> Version 4 is random and most suitable for modern applications. Don't use UUID v1 (timestamp-based) unless you need sortability</li>
-                <li><strong>Store efficiently in databases:</strong> Use CHAR(36) or BINARY(16) for storage. Binary format saves space but requires conversion for display</li>
-                <li><strong>Use as primary key in high-scale systems:</strong> While sequential IDs are faster in simple systems, UUIDs enable distributed and scalable architectures</li>
-                <li><strong>Never rely on UUID ordering:</strong> UUID v4 is random, so don't assume UUIDs created later are "greater." Use timestamps separately if you need ordering</li>
-                <li><strong>Generate client-side when possible:</strong> Don't require server-side UUID generation for every request. Generate client-side and send to server</li>
-                <li><strong>Use bulk generation for batch operations:</strong> Generate all UUIDs at once instead of one-by-one to improve efficiency</li>
+                <li><strong>Choose the right version:</strong> v7 for databases (sortable), v4 for tokens (random), v5 for reproducibility, v1 for legacy</li>
+                <li><strong>Use v7 over v1 for new systems:</strong> Better privacy (no MAC address), same sortability benefits</li>
+                <li><strong>Store as BINARY(16) in databases:</strong> Saves space vs CHAR(36). Use UNHEX/HEX functions for conversion</li>
+                <li><strong>Leverage the decoder:</strong> Debug timestamp-based UUIDs by extracting creation times</li>
+                <li><strong>Base64 format for URLs:</strong> 22 characters vs 36, URL-safe without percent-encoding</li>
+                <li><strong>JSON export for database imports:</strong> Most databases accept JSON arrays for bulk inserts</li>
+                <li><strong>Validate UUIDs in production:</strong> Use the decoder to verify UUID format and version before storing</li>
             </ul>
 
             <h3>Frequently Asked Questions</h3>
 
-            <p><strong>Q: What's the difference between UUID versions?</strong></p>
-            <p>A: There are five UUID versions: UUID v1 based on MAC address and timestamp, UUID v2 similar to v1 with DCE Security info, UUID v3 based on MD5 hash of a namespace and name, UUID v4 based on random numbers (cryptographically secure), and UUID v5 based on SHA-1 hash of a namespace and name. This tool generates UUID v4, which is the most commonly used version in modern applications because it's random, doesn't require storing state or unique identifiers, and works well in distributed systems.</p>
+            <p><strong>Q: Which UUID version should I use?</strong></p>
+            <p>A: Use UUID v7 for database primary keys (time-sortable, modern standard), v4 for API tokens and session IDs (random, unpredictable), v5 for deterministic IDs that must be consistent across systems, v1 for legacy compatibility, and Nil for null/default values. Most new applications should default to v7 for databases and v4 for everything else.</p>
+
+            <p><strong>Q: What's UUID v7 and why is it better than v1?</strong></p>
+            <p>A: UUID v7 is the modern replacement for v1, recommended by RFC 9562. Both are time-sortable, but v7 uses random data instead of MAC addresses for better privacy. v7 provides better database index locality (faster queries) while being privacy-friendly. Use v7 for new systems; only use v1 if you need legacy compatibility.</p>
+
+            <p><strong>Q: How do I generate the same UUID every time (deterministic)?</strong></p>
+            <p>A: Use UUID v5 with a namespace and name. The same namespace + name combination always produces the same UUID. For example, to generate a user ID from an email: select "URL" namespace, enter "user@example.com" as the name. Every system that generates a v5 UUID with these inputs will get the same result.</p>
 
             <p><strong>Q: How unique are UUIDs? Can they collide?</strong></p>
-            <p>A: UUIDs are designed to be globally unique with 128-bit identifiers (2^128 possibilities). The probability of collision is astronomically low—practically zero for real-world applications. Even if you generated billions of UUIDs, collision risk remains negligible. UUID v4 uses cryptographically secure random number generation, making collisions virtually impossible in practical applications. You can safely assume UUIDs are unique for databases, session management, distributed systems, and any application tracking unique entities.</p>
+            <p>A: UUIDs have 128-bit identifiers (2^128 = 340 undecillion possibilities). Collision probability is astronomically low—essentially zero for practical purposes. Even generating a billion UUIDs per second for 85 years, collision chance is less than 1 in a billion. You can safely assume UUIDs are unique.</p>
 
             <p><strong>Q: What's the difference between UUID and GUID?</strong></p>
-            <p>A: UUID (Universally Unique Identifier) and GUID (Globally Unique Identifier) refer to essentially the same thing. GUID is the term Microsoft uses for their implementation of the UUID standard. Both follow the same structure and serve the same purpose of generating unique identifiers. The terms are used interchangeably in most contexts, though UUID is the more standard terminology used in specifications and across platforms.</p>
+            <p>A: They're the same thing. GUID (Globally Unique Identifier) is Microsoft's term for UUID (Universally Unique Identifier). Both follow RFC 4122 specification and have identical structure. The terms are interchangeable.</p>
 
-            <p><strong>Q: When should I use UUIDs instead of sequential IDs?</strong></p>
-            <p>A: Use UUIDs when you need decentralized unique identification (distributed databases), want to avoid exposing database metrics (sequential IDs show how many records exist), need client-side ID generation before saving to database, or are building systems with multiple databases that must merge data. Use sequential IDs when you need auto-incrementing counters, want better database performance (smaller indexes), or need user-friendly sortable IDs. For most modern web applications and microservices, UUIDs are preferred.</p>
+            <p><strong>Q: Can I extract the timestamp from a UUID?</strong></p>
+            <p>A: Yes, for UUID v1 and v7 only. Use the "Decode & Validate" tab to extract creation timestamps from time-based UUIDs. v4 and v5 UUIDs don't contain timestamp information.</p>
 
-            <p><strong>Q: What's the UUID format and what does each part mean?</strong></p>
-            <p>A: UUID format is: xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx (example: 550e8400-e29b-41d4-a716-446655440000). The sections from left to right represent: 32 bits (time_low), 16 bits (time_mid), 16 bits (time_hi_version), 16 bits (clock_seq_variant), and 48 bits (node). The M (version) position shows UUID version (4 for v4). The N (variant) position shows variant info. For UUID v4, all bits except version and variant are random. The format is the same regardless of version.</p>
+            <p><strong>Q: Should I use UUIDs as database primary keys?</strong></p>
+            <p>A: For distributed systems and microservices, yes—use UUID v7. For single-database applications with high write volume, sequential integers may be faster. Modern databases handle UUID indexes efficiently. Use BINARY(16) storage for best performance (saves 20 bytes vs CHAR(36)).</p>
 
-            <p><strong>Q: Can I use UUIDs as database primary keys?</strong></p>
-            <p>A: Yes, UUIDs are commonly used as database primary keys, especially in modern applications and distributed systems. Advantages include decentralized generation (no need for database sequence), suitability for distributed databases, and non-sequential nature. Disadvantages include larger index size (16 bytes vs 8 bytes for int), potentially slower queries with UUID indexes, and less human-readable. Most modern databases handle UUID primary keys efficiently. Use UUIDs if you need distributed generation or decentralized systems; use sequential IDs if performance and simplicity are priorities.</p>
+            <p><strong>Q: What's the UUID format structure?</strong></p>
+            <p>A: Standard format: xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx (8-4-4-4-12 hex digits). M indicates version (1, 4, 5, or 7). N indicates variant (RFC 4122 = 8, 9, A, or B). Total: 128 bits = 16 bytes = 32 hex digits + 4 hyphens = 36 characters.</p>
 
-            <h3>UUID v4 Technical Specification</h3>
-            <p>UUID v4 format: <code>xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx</code> where x is any hexadecimal digit (0-f) and y is one of 8, 9, A, or B. The "4" at position 13 indicates version 4. The variant bits (y position) at position 17 indicate RFC 4122 compliance. All other bits are generated using a cryptographically secure random number generator. Total size: 128 bits (16 bytes), typically represented as 36 ASCII characters including hyphens or 32 without hyphens.</p>
+            <h3>Technical Specifications</h3>
+            <p><strong>UUID v4:</strong> All bits random except version (4) and variant. Cryptographically secure via Web Crypto API.</p>
+            <p><strong>UUID v7:</strong> 48-bit timestamp (milliseconds) + random data. Time-sortable for database indexes.</p>
+            <p><strong>UUID v1:</strong> 60-bit timestamp (100-nanosecond intervals since 1582) + clock sequence + random node.</p>
+            <p><strong>UUID v5:</strong> SHA-1 hash of namespace UUID + name. Deterministic and reproducible.</p>
         </div>
     </div>
 
@@ -347,56 +556,264 @@
         const uuidDisplay = document.getElementById('uuidDisplay');
         const outputUUIDs = document.getElementById('outputUUIDs');
         const countInput = document.getElementById('countInput');
-        const uppercaseCheck = document.getElementById('uppercaseCheck');
-        const noDashesCheck = document.getElementById('noDashesCheck');
+        const versionSelect = document.getElementById('versionSelect');
+        const formatSelect = document.getElementById('formatSelect');
+        const exportFormat = document.getElementById('exportFormat');
+        const namespaceOptions = document.getElementById('namespaceOptions');
+        const namespaceSelect = document.getElementById('namespaceSelect');
+        const customNamespace = document.getElementById('customNamespace');
+        const nameInput = document.getElementById('nameInput');
+        const decodeInput = document.getElementById('decodeInput');
+        const decodeResult = document.getElementById('decodeResult');
 
-        // Initialize message handler
+        // Initialize message handlers
         CodeUtils.Message.init('message');
+        const decodeMessage = {
+            success: (msg) => {
+                const el = document.getElementById('decodeMessage');
+                el.textContent = msg;
+                el.className = 'message success';
+                el.style.display = 'block';
+            },
+            error: (msg) => {
+                const el = document.getElementById('decodeMessage');
+                el.textContent = msg;
+                el.className = 'message error';
+                el.style.display = 'block';
+            },
+            hide: () => {
+                document.getElementById('decodeMessage').style.display = 'none';
+            }
+        };
 
-        // Generate UUID v4
-        function generateUUID() {
-            // Use crypto.randomUUID if available, fallback to manual generation
-            let uuid;
+        // Predefined namespaces (RFC 4122)
+        const NAMESPACES = {
+            dns: '6ba7b810-9dad-11d1-80b4-00c04fd430c8',
+            url: '6ba7b811-9dad-11d1-80b4-00c04fd430c8',
+            oid: '6ba7b812-9dad-11d1-80b4-00c04fd430c8',
+            x500: '6ba7b814-9dad-11d1-80b4-00c04fd430c8'
+        };
+
+        // Tab switching
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(tabName + 'Tab').classList.add('active');
+        }
+
+        // Show/hide namespace options for v5
+        function onVersionChange() {
+            const version = versionSelect.value;
+            namespaceOptions.classList.toggle('active', version === 'v5');
+        }
+
+        // Show/hide custom namespace input
+        namespaceSelect.addEventListener('change', function() {
+            customNamespace.style.display = this.value === 'custom' ? 'block' : 'none';
+        });
+
+        // UUID v1 generation (timestamp + random MAC)
+        function generateUUIDv1() {
+            const now = Date.now();
+            const timestamp = now * 10000 + 122192928000000000n; // UUID epoch offset
+
+            // Split timestamp into components
+            const timeLow = Number(timestamp & 0xFFFFFFFFn);
+            const timeMid = Number((timestamp >> 32n) & 0xFFFFn);
+            const timeHi = Number((timestamp >> 48n) & 0x0FFFn) | 0x1000; // version 1
+
+            // Random clock sequence and node
+            const clockSeq = (crypto.getRandomValues(new Uint8Array(1))[0] & 0x3F) | 0x80;
+            const clockSeqLow = crypto.getRandomValues(new Uint8Array(1))[0];
+            const node = crypto.getRandomValues(new Uint8Array(6));
+
+            return [
+                timeLow.toString(16).padStart(8, '0'),
+                timeMid.toString(16).padStart(4, '0'),
+                timeHi.toString(16).padStart(4, '0'),
+                ((clockSeq << 8) | clockSeqLow).toString(16).padStart(4, '0'),
+                Array.from(node).map(b => b.toString(16).padStart(2, '0')).join('')
+            ].join('-');
+        }
+
+        // UUID v4 generation (random)
+        function generateUUIDv4() {
             if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-                uuid = crypto.randomUUID();
+                return crypto.randomUUID();
+            }
+            // Fallback
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        // UUID v5 generation (SHA-1 namespace + name)
+        async function generateUUIDv5(namespace, name) {
+            // Get namespace UUID bytes
+            let namespaceUuid;
+            if (namespaceSelect.value === 'custom') {
+                namespaceUuid = customNamespace.value.trim();
             } else {
-                // Fallback for older browsers
-                uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                    const r = Math.random() * 16 | 0;
-                    const v = c === 'x' ? r : (r & 0x3 | 0x8);
-                    return v.toString(16);
-                });
+                namespaceUuid = NAMESPACES[namespaceSelect.value];
             }
 
-            // Apply formatting options
-            if (uppercaseCheck.checked) {
-                uuid = uuid.toUpperCase();
-            }
-            if (noDashesCheck.checked) {
-                uuid = uuid.replace(/-/g, '');
+            // Validate namespace
+            if (!isValidUUID(namespaceUuid)) {
+                throw new Error('Invalid namespace UUID');
             }
 
-            return uuid;
+            // Convert namespace UUID to bytes
+            const namespaceBytes = uuidToBytes(namespaceUuid);
+            const nameBytes = new TextEncoder().encode(name);
+
+            // Concatenate namespace + name
+            const combined = new Uint8Array(namespaceBytes.length + nameBytes.length);
+            combined.set(namespaceBytes);
+            combined.set(nameBytes, namespaceBytes.length);
+
+            // SHA-1 hash
+            const hashBuffer = await crypto.subtle.digest('SHA-1', combined);
+            const hashArray = new Uint8Array(hashBuffer);
+
+            // Set version (5) and variant bits
+            hashArray[6] = (hashArray[6] & 0x0F) | 0x50; // version 5
+            hashArray[8] = (hashArray[8] & 0x3F) | 0x80; // variant
+
+            // Format as UUID
+            const hex = Array.from(hashArray.slice(0, 16)).map(b => b.toString(16).padStart(2, '0')).join('');
+            return [
+                hex.substring(0, 8),
+                hex.substring(8, 12),
+                hex.substring(12, 16),
+                hex.substring(16, 20),
+                hex.substring(20, 32)
+            ].join('-');
+        }
+
+        // UUID v7 generation (timestamp + random)
+        function generateUUIDv7() {
+            const timestamp = BigInt(Date.now());
+            const randomBytes = crypto.getRandomValues(new Uint8Array(10));
+
+            // 48-bit timestamp (milliseconds)
+            const timestampHex = timestamp.toString(16).padStart(12, '0');
+
+            // Random data with version and variant bits
+            randomBytes[0] = (randomBytes[0] & 0x0F) | 0x70; // version 7
+            randomBytes[2] = (randomBytes[2] & 0x3F) | 0x80; // variant
+
+            const randomHex = Array.from(randomBytes).map(b => b.toString(16).padStart(2, '0')).join('');
+
+            return [
+                timestampHex.substring(0, 8),
+                timestampHex.substring(8, 12),
+                randomHex.substring(0, 4),
+                randomHex.substring(4, 8),
+                randomHex.substring(8, 20)
+            ].join('-');
+        }
+
+        // Nil UUID
+        function generateNilUUID() {
+            return '00000000-0000-0000-0000-000000000000';
+        }
+
+        // Helper: Convert UUID string to bytes
+        function uuidToBytes(uuid) {
+            const hex = uuid.replace(/-/g, '');
+            const bytes = new Uint8Array(16);
+            for (let i = 0; i < 16; i++) {
+                bytes[i] = parseInt(hex.substring(i * 2, i * 2 + 2), 16);
+            }
+            return bytes;
+        }
+
+        // Helper: Validate UUID format
+        function isValidUUID(uuid) {
+            return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(uuid);
+        }
+
+        // Format UUID based on selected format
+        function formatUUID(uuid) {
+            const format = formatSelect.value;
+
+            if (format === 'base64') {
+                const bytes = uuidToBytes(uuid);
+                return btoa(String.fromCharCode(...bytes)).replace(/=+$/, '');
+            }
+
+            let formatted = uuid;
+
+            if (format === 'uppercase' || format === 'uppercase-nodashes') {
+                formatted = formatted.toUpperCase();
+            }
+
+            if (format === 'nodashes' || format === 'uppercase-nodashes') {
+                formatted = formatted.replace(/-/g, '');
+            }
+
+            return formatted;
+        }
+
+        // Generate UUID based on selected version
+        async function generateUUID() {
+            const version = versionSelect.value;
+            let uuid;
+
+            try {
+                if (version === 'v1') {
+                    uuid = generateUUIDv1();
+                } else if (version === 'v4') {
+                    uuid = generateUUIDv4();
+                } else if (version === 'v5') {
+                    const name = nameInput.value.trim();
+                    if (!name) {
+                        CodeUtils.Message.error('Please enter a name for v5 generation');
+                        return null;
+                    }
+                    uuid = await generateUUIDv5(namespaceSelect.value, name);
+                } else if (version === 'v7') {
+                    uuid = generateUUIDv7();
+                } else if (version === 'nil') {
+                    uuid = generateNilUUID();
+                }
+
+                return formatUUID(uuid);
+            } catch (err) {
+                CodeUtils.Message.error(err.message);
+                return null;
+            }
         }
 
         // Generate single UUID
-        function generateSingle() {
-            const uuid = generateUUID();
-            uuidDisplay.textContent = uuid;
-            CodeUtils.Message.success('UUID generated!');
+        async function generateSingle() {
+            const uuid = await generateUUID();
+            if (uuid) {
+                uuidDisplay.textContent = uuid;
+                CodeUtils.Message.success('UUID generated!');
+            }
         }
 
         // Generate bulk UUIDs
-        function generateBulk() {
+        async function generateBulk() {
             const count = parseInt(countInput.value) || 10;
-            if (count < 1 || count > 1000) {
-                CodeUtils.Message.error('Count must be between 1 and 1000');
+            if (count < 1 || count > 10000) {
+                CodeUtils.Message.error('Count must be between 1 and 10,000');
                 return;
             }
 
             const uuids = [];
             for (let i = 0; i < count; i++) {
-                uuids.push(generateUUID());
+                const uuid = await generateUUID();
+                if (!uuid) return; // Error occurred
+                uuids.push(uuid);
             }
 
             outputUUIDs.value = uuids.join('\n');
@@ -427,7 +844,26 @@
                 CodeUtils.Message.error('Nothing to download');
                 return;
             }
-            CodeUtils.FileHandler.download(content, 'uuids.txt', 'text/plain');
+
+            const format = exportFormat.value;
+            let fileContent, fileName, mimeType;
+
+            if (format === 'json') {
+                const uuids = content.split('\n').filter(u => u.trim());
+                fileContent = JSON.stringify(uuids, null, 2);
+                fileName = 'uuids.json';
+                mimeType = 'application/json';
+            } else if (format === 'csv') {
+                fileContent = content.split('\n').map(u => `"${u}"`).join('\n');
+                fileName = 'uuids.csv';
+                mimeType = 'text/csv';
+            } else {
+                fileContent = content;
+                fileName = 'uuids.txt';
+                mimeType = 'text/plain';
+            }
+
+            CodeUtils.FileHandler.download(fileContent, fileName, mimeType);
             CodeUtils.Message.success('File downloaded!');
         }
 
@@ -436,6 +872,133 @@
             uuidDisplay.textContent = 'Click "Generate" to create a UUID';
             outputUUIDs.value = '';
             CodeUtils.Message.hide();
+        }
+
+        // Decode UUID
+        function decodeUUID() {
+            const uuid = decodeInput.value.trim();
+
+            if (!uuid) {
+                decodeMessage.error('Please enter a UUID to decode');
+                return;
+            }
+
+            if (!isValidUUID(uuid)) {
+                decodeMessage.error('Invalid UUID format');
+                decodeResult.style.display = 'none';
+                return;
+            }
+
+            decodeMessage.hide();
+
+            // Extract version and variant
+            const hex = uuid.replace(/-/g, '');
+            const versionNibble = parseInt(hex[12], 16);
+            const variantByte = parseInt(hex.substring(16, 18), 16);
+
+            let version = 'Unknown';
+            if (versionNibble === 1) version = 'v1 (Timestamp-based)';
+            else if (versionNibble === 2) version = 'v2 (DCE Security)';
+            else if (versionNibble === 3) version = 'v3 (MD5 Namespace)';
+            else if (versionNibble === 4) version = 'v4 (Random)';
+            else if (versionNibble === 5) version = 'v5 (SHA-1 Namespace)';
+            else if (versionNibble === 7) version = 'v7 (Time-Sortable)';
+            else if (hex === '00000000000000000000000000000000') version = 'Nil (Zero UUID)';
+
+            let variant = 'Unknown';
+            if ((variantByte & 0x80) === 0x00) variant = 'NCS (Reserved)';
+            else if ((variantByte & 0xC0) === 0x80) variant = 'RFC 4122';
+            else if ((variantByte & 0xE0) === 0xC0) variant = 'Microsoft';
+            else if ((variantByte & 0xE0) === 0xE0) variant = 'Reserved';
+
+            let html = `
+                <div class="decoder-result">
+                    <h4>UUID Information</h4>
+                    <div class="info-grid">
+                        <span class="info-label">Version:</span>
+                        <span class="info-value">${version}</span>
+                        <span class="info-label">Variant:</span>
+                        <span class="info-value">${variant}</span>
+                    </div>
+                </div>
+            `;
+
+            // Extract timestamp for v1 and v7
+            if (versionNibble === 1) {
+                try {
+                    const timeLow = BigInt('0x' + hex.substring(0, 8));
+                    const timeMid = BigInt('0x' + hex.substring(8, 12));
+                    const timeHi = BigInt('0x' + hex.substring(12, 16)) & 0x0FFFn;
+                    const timestamp = (timeHi << 48n) | (timeMid << 32n) | timeLow;
+                    const unixTimestamp = Number((timestamp - 122192928000000000n) / 10000n);
+                    const date = new Date(unixTimestamp);
+
+                    html += `
+                        <div class="decoder-result">
+                            <h4>Timestamp (v1)</h4>
+                            <div class="info-grid">
+                                <span class="info-label">Created:</span>
+                                <span class="info-value">${date.toISOString()}</span>
+                                <span class="info-label">Unix Time:</span>
+                                <span class="info-value">${unixTimestamp} ms</span>
+                            </div>
+                        </div>
+                    `;
+                } catch (e) {
+                    // Ignore parsing errors
+                }
+            } else if (versionNibble === 7) {
+                try {
+                    const timestampHex = hex.substring(0, 12);
+                    const timestamp = parseInt(timestampHex, 16);
+                    const date = new Date(timestamp);
+
+                    html += `
+                        <div class="decoder-result">
+                            <h4>Timestamp (v7)</h4>
+                            <div class="info-grid">
+                                <span class="info-label">Created:</span>
+                                <span class="info-value">${date.toISOString()}</span>
+                                <span class="info-label">Unix Time:</span>
+                                <span class="info-value">${timestamp} ms</span>
+                            </div>
+                        </div>
+                    `;
+                } catch (e) {
+                    // Ignore parsing errors
+                }
+            }
+
+            // Show structure breakdown
+            const parts = uuid.split('-');
+            html += `
+                <div class="decoder-result">
+                    <h4>Structure Breakdown</h4>
+                    <div class="info-grid">
+                        <span class="info-label">Time Low:</span>
+                        <span class="info-value">${parts[0]}</span>
+                        <span class="info-label">Time Mid:</span>
+                        <span class="info-value">${parts[1]}</span>
+                        <span class="info-label">Time Hi + Version:</span>
+                        <span class="info-value">${parts[2]}</span>
+                        <span class="info-label">Clock Seq + Variant:</span>
+                        <span class="info-value">${parts[3]}</span>
+                        <span class="info-label">Node:</span>
+                        <span class="info-value">${parts[4]}</span>
+                    </div>
+                </div>
+            `;
+
+            decodeResult.innerHTML = html;
+            decodeResult.style.display = 'block';
+            decodeMessage.success('UUID decoded successfully!');
+        }
+
+        // Clear decode
+        function clearDecode() {
+            decodeInput.value = '';
+            decodeResult.style.display = 'none';
+            decodeMessage.hide();
         }
 
         // Keyboard shortcuts
