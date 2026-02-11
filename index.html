@@ -225,7 +225,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow: visible;
+            z-index: 100;
         }
 
         /* Hero glow effect */
@@ -708,6 +709,7 @@
             { id: 'encoders', name: 'Encoders', icon: '&lt;/&gt;', description: 'Encode & decode data' },
             { id: 'converters', name: 'Converters', icon: '&#8644;', description: 'Convert between formats' },
             { id: 'generators', name: 'Generators', icon: '&#9881;', description: 'Generate data & codes' },
+            { id: 'pdf-tools', name: 'PDF Tools', icon: '📄', description: 'PDF utilities' },
             { id: 'text', name: 'Text Tools', icon: 'Aa', description: 'Text manipulation' },
             { id: 'colors', name: 'Color Tools', icon: '&#127912;', description: 'Color utilities' },
             { id: 'developer', name: 'Developer', icon: '&#128187;', description: 'Dev utilities' }
@@ -794,7 +796,11 @@
                 { id: 'word-counter', name: 'Word Counter', description: 'Count words, characters, and sentences', url: 'word-counter.html', category: 'Text Tools', categoryId: 'text', icon: 'Wc', popular: false, status: 'live' },
                 { id: 'regex-tester', name: 'Regex Tester', description: 'Test regular expressions with live matching', url: 'regex-tester.html', category: 'Developer Tools', categoryId: 'developer', icon: '.*', popular: false, status: 'live' },
                 { id: 'diff-checker', name: 'Text Diff Checker', description: 'Compare two texts and highlight differences', url: 'diff-checker.html', category: 'Text Tools', categoryId: 'text', icon: '+/-', popular: false, status: 'live' },
-                { id: 'cron-parser', name: 'Cron Expression Parser', description: 'Parse and explain cron expressions', url: 'cron-parser.html', category: 'Developer Tools', categoryId: 'developer', icon: '*/', popular: false, status: 'live' }
+                { id: 'cron-parser', name: 'Cron Expression Parser', description: 'Parse and explain cron expressions', url: 'cron-parser.html', category: 'Developer Tools', categoryId: 'developer', icon: '*/', popular: false, status: 'live' },
+                { id: 'jpg-to-pdf', name: 'JPG to PDF Converter', description: 'Convert JPG, JPEG, PNG images to PDF instantly', url: 'jpg-to-pdf.html', category: 'PDF Tools', categoryId: 'pdf-tools', icon: '🖼️', popular: true, status: 'live', keywords: ['jpg to pdf', 'image to pdf', 'pdf'] },
+                { id: 'merge-pdf', name: 'Merge PDF', description: 'Combine multiple PDF files into one', url: 'merge-pdf.html', category: 'PDF Tools', categoryId: 'pdf-tools', icon: '📄', popular: true, status: 'live', keywords: ['merge pdf', 'combine pdf', 'pdf'] },
+                { id: 'split-pdf', name: 'Split PDF', description: 'Extract specific pages from PDF files', url: 'split-pdf.html', category: 'PDF Tools', categoryId: 'pdf-tools', icon: '✂️', popular: false, status: 'live', keywords: ['split pdf', 'extract pdf', 'pdf'] },
+                { id: 'compress-pdf', name: 'Compress PDF', description: 'Reduce PDF file size while maintaining quality', url: 'compress-pdf.html', category: 'PDF Tools', categoryId: 'pdf-tools', icon: '🗜️', popular: true, status: 'live', keywords: ['compress pdf', 'reduce pdf', 'pdf'] }
             ];
         }
 
@@ -930,7 +936,7 @@
                     if (tool.status !== 'live') return false;
                     return tool.name.toLowerCase().includes(query) ||
                         tool.description.toLowerCase().includes(query) ||
-                        (tool.keywords && tool.keywords.some(k => k.includes(query)));
+                        (tool.keywords && tool.keywords.some(k => k.toLowerCase().includes(query)));
                 }).slice(0, 8);
 
                 if (matches.length === 0) {
