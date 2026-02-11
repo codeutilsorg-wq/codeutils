@@ -8,5 +8,10 @@ planned_tools.md
 project-summary-md.txt
 *.md
 
+# Exception: Include analysis directory
+!analysis/
+!analysis/*.md
+!analysis/**/*.md
+
 # MCP configuration (contains credentials)
 .mcp.json

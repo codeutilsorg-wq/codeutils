@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JWT Decoder | Decode JSON Web Tokens Online - Code Utils</title>
-    <meta name="description" content="Decode and inspect JSON Web Tokens (JWT) without verification. View header, payload, and signature instantly. 100% private - tokens never leave your browser. Try it!">
-    <meta name="keywords" content="jwt decoder, jwt parser, json web token, jwt debugger, decode jwt, jwt inspector, jwt online">
+    <title>JWT Decoder with Signature Verification | Decode & Verify JWTs Online - Code Utils</title>
+    <meta name="description" content="Decode and verify JSON Web Tokens (JWT) with HS256 signature verification. Visual expiration status, token history with labels, claim tooltips, and auto-decode. 100% private - tokens never leave your browser. Try it!">
+    <meta name="keywords" content="jwt decoder, jwt verifier, jwt signature verification, jwt parser, json web token, jwt debugger, decode jwt, jwt inspector, jwt online, hs256">
     <link rel="canonical" href="https://codeutils.org/jwt-decoder">
 
     <!-- Favicon and Touch Icons -->
@@ -18,17 +18,17 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://codeutils.org/jwt-decoder">
-    <meta property="og:title" content="JWT Decoder - Decode JSON Web Tokens Online - Code Utils">
-    <meta property="og:description" content="Decode and inspect JSON Web Tokens instantly. View header, payload, and signature without verification. 100% private client-side processing.">
+    <meta property="og:title" content="JWT Decoder with Signature Verification - Code Utils">
+    <meta property="og:description" content="Decode and verify JWTs with HS256 signature verification, visual expiration badges, token history, and claim tooltips. 100% private client-side processing.">
     <meta property="og:image" content="https://codeutils.org/images/og/jwt-decoder.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="JWT Decoder - Free online tool">
+    <meta property="og:image:alt" content="JWT Decoder with Signature Verification - Free online tool">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="JWT Decoder - Decode JSON Web Tokens Online - Code Utils">
-    <meta name="twitter:description" content="Decode JWTs instantly with header and payload inspection. Free tool with 100% private processing.">
+    <meta name="twitter:title" content="JWT Decoder with Signature Verification - Code Utils">
+    <meta name="twitter:description" content="Decode & verify JWTs with HS256 verification, token history, and visual expiration status. Free tool with 100% private processing.">
     <meta name="twitter:image" content="https://codeutils.org/images/og/jwt-decoder.png">
 
     <!-- Preconnect for performance -->
@@ -57,7 +57,7 @@
         "price": "0",
         "priceCurrency": "USD"
       },
-      "description": "Free JWT decoder and inspector. Decode JSON Web Tokens and view header, payload, and signature without verification. 100% client-side processing.",
+      "description": "Free JWT decoder with HS256 signature verification. Decode and verify JSON Web Tokens, save token history with labels, view visual expiration status, and get claim explanations. 100% client-side processing.",
       "url": "https://codeutils.org/jwt-decoder",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
       "softwareVersion": "1.0",
@@ -80,7 +80,7 @@
           "name": "Does this tool verify JWT signatures?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No, this tool only decodes JWTs—it does not verify signatures. Signature verification requires the signing key which varies by system. Decoding shows you what data is in the token, but does not confirm the token's authenticity or that it hasn't been tampered with. Always verify JWT signatures on your server before trusting the token's contents. Never make security decisions based solely on decoded JWT data without signature verification."
+            "text": "Yes! This tool now supports HS256 signature verification. You can verify JWT signatures signed with HMAC-SHA256 by entering your secret key in the Verify Signature section. The tool will validate whether the signature is authentic and the token hasn't been tampered with. Important: Only use test or development keys—never enter production secret keys in browser tools. For production tokens, always verify signatures on your secure server. Note: This tool currently supports HS256 only; RS256 and ES256 support may be added in future updates."
           }
         },
         {
@@ -121,6 +121,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "A JWT has three parts separated by dots: Header (specifies token type and signing algorithm), Payload (contains the actual data/claims including user info and expiration), and Signature (cryptographically proves the token hasn't been tampered with). The header and payload are Base64-encoded and human-readable. The signature can only be verified with the secret key. This tool decodes and displays all three parts so you can inspect the data and signature value."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the token history feature and how does it help?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Token history is a unique feature that lets you save up to 10 JWT tokens with custom labels for quick access during debugging. For example, you can save tokens labeled 'Production API', 'Staging Server', 'Test User 1', etc. This eliminates the need to constantly re-paste tokens when switching between different environments or test accounts. Simply select a saved token from the dropdown to instantly load and decode it. This feature is stored locally in your browser and never sent to any server, maintaining complete privacy."
           }
         }
       ]
@@ -187,6 +195,168 @@
             color: #27ae60;
             font-weight: 600;
         }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: var(--spacing-xs);
+        }
+        .badge-valid {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .badge-expired {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .badge-expiring {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        [data-theme="dark"] .badge-valid {
+            background: #1e4620;
+            color: #a3e9a4;
+            border: 1px solid #2d5930;
+        }
+        [data-theme="dark"] .badge-expired {
+            background: #4a1a1a;
+            color: #f5b7b1;
+            border: 1px solid #5e2424;
+        }
+        [data-theme="dark"] .badge-expiring {
+            background: #4a3a0a;
+            color: #f9e79f;
+            border: 1px solid #5e4b10;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            margin-left: 4px;
+            color: var(--primary);
+            font-size: 0.75rem;
+            width: 14px;
+            height: 14px;
+            text-align: center;
+            border: 1px solid var(--primary);
+            border-radius: 50%;
+            line-height: 12px;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 300px;
+            background-color: var(--bg-secondary);
+            color: var(--text);
+            text-align: left;
+            border-radius: var(--radius);
+            padding: var(--spacing-sm);
+            position: absolute;
+            z-index: 1000;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -150px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .token-history {
+            margin-bottom: var(--spacing-md);
+        }
+        .token-history-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .token-history-select {
+            flex: 1;
+            min-width: 200px;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-primary);
+            color: var(--text);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+        }
+        .save-token-form {
+            display: flex;
+            gap: var(--spacing-xs);
+            margin-top: var(--spacing-xs);
+            align-items: center;
+        }
+        .save-token-input {
+            flex: 1;
+            min-width: 150px;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-primary);
+            color: var(--text);
+            font-size: 0.875rem;
+        }
+        .verify-section {
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+        .verify-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+            cursor: pointer;
+            user-select: none;
+        }
+        .verify-content {
+            margin-top: var(--spacing-md);
+        }
+        .verify-result {
+            margin-top: var(--spacing-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius);
+            font-weight: 600;
+        }
+        .verify-result.valid {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .verify-result.invalid {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        [data-theme="dark"] .verify-result.valid {
+            background: #1e4620;
+            color: #a3e9a4;
+            border: 1px solid #2d5930;
+        }
+        [data-theme="dark"] .verify-result.invalid {
+            background: #4a1a1a;
+            color: #f5b7b1;
+            border: 1px solid #5e2424;
+        }
+        .collapse-icon {
+            transition: transform 0.3s;
+        }
+        .collapse-icon.collapsed {
+            transform: rotate(-90deg);
+        }
     </style>
 </head>
 <body>
@@ -205,7 +375,7 @@
     <div class="container">
         <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
             <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">JWT Decoder</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Instantly decode and inspect JSON Web Tokens (JWTs) to view their header, payload, and signature without server-side verification. JWTs are used extensively in modern authentication systems, APIs, microservices, and single-page applications (SPAs) for secure, stateless authentication. This tool helps you quickly debug authentication issues, verify token contents, check expiration times, and inspect claims. Simply paste your JWT token and instantly see the decoded data with automatic expiration status checking. All processing happens completely securely in your browser—tokens never leave your computer or touch our servers. Perfect for developers, DevOps engineers, and security professionals debugging JWT-based authentication systems. Note: This tool decodes tokens for inspection only; it does not verify signatures. Always verify JWT signatures on your server before trusting token contents.</p>
+            <p style="margin: 0; color: var(--text-secondary);">Instantly decode and verify JSON Web Tokens (JWTs) with HS256 signature verification, visual expiration badges, and token history management. JWTs are used extensively in modern authentication systems, APIs, microservices, and single-page applications (SPAs) for secure, stateless authentication. This tool helps you quickly debug authentication issues, verify token authenticity, check expiration times with color-coded badges, and inspect claims with helpful tooltips. Unique token history feature lets you save up to 10 tokens with custom labels for faster debugging. Simply paste your JWT token and it auto-decodes instantly with visual status indicators. Verify signatures using your HS256 secret key to ensure tokens haven't been tampered with. All processing happens completely securely in your browser—tokens never leave your computer or touch our servers. Perfect for developers, DevOps engineers, and security professionals debugging JWT-based authentication systems.</p>
         </div>
 
         <div class="controls">
@@ -219,11 +389,47 @@
             <button class="btn btn-outline" onclick="clearAll()">Clear</button>
         </div>
 
+        <!-- Token History -->
+        <div class="token-history">
+            <div class="token-history-controls">
+                <select id="tokenHistorySelect" class="token-history-select" onchange="loadFromHistory()">
+                    <option value="">📚 Token History (0 saved)</option>
+                </select>
+                <button class="btn btn-sm btn-outline" onclick="toggleSaveForm()">Save Token</button>
+                <button class="btn btn-sm btn-outline" onclick="clearHistory()">Clear History</button>
+            </div>
+            <div id="saveTokenForm" class="save-token-form" style="display: none;">
+                <input type="text" id="tokenLabel" class="save-token-input" placeholder="Enter label (e.g., 'Production', 'Test User 1')" maxlength="50">
+                <button class="btn btn-sm" onclick="saveToken()">Save</button>
+                <button class="btn btn-sm btn-outline" onclick="toggleSaveForm()">Cancel</button>
+            </div>
+        </div>
+
         <div id="message" class="message"></div>
 
         <div class="editor-section" style="margin-bottom: var(--spacing-md);">
             <div class="editor-header">JWT Token</div>
             <textarea id="inputJWT" class="editor" placeholder="Paste your JWT token here..." style="min-height: 100px;"></textarea>
+        </div>
+
+        <!-- Signature Verification -->
+        <div class="verify-section">
+            <div class="verify-header" onclick="toggleVerifySection()">
+                <div>
+                    <strong>🔐 Verify Signature (Optional)</strong>
+                    <span style="font-size: 0.875rem; color: var(--text-secondary); margin-left: var(--spacing-sm);">HS256 algorithm only</span>
+                </div>
+                <span class="collapse-icon" id="verifyCollapseIcon">▼</span>
+            </div>
+            <div id="verifyContent" class="verify-content" style="display: none;">
+                <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: var(--spacing-sm);">
+                    ⚠️ <strong>Security Warning:</strong> Enter your secret key only for testing. Never use production keys in browser tools.
+                </p>
+                <label style="display: block; margin-bottom: var(--spacing-xs); font-weight: 600;">Secret Key</label>
+                <input type="text" id="secretKey" class="editor" placeholder="Enter your HS256 secret key..." style="margin-bottom: var(--spacing-sm);">
+                <button class="btn" onclick="verifySignature()">Verify Signature</button>
+                <div id="verifyResult"></div>
+            </div>
         </div>
 
         <div id="decodedOutput">
@@ -271,13 +477,15 @@
             <h3>Key Features</h3>
             <ul>
                 <li><strong>Decode All JWT Parts:</strong> Instantly extract and display header, payload, and signature from any JWT token</li>
-                <li><strong>Automatic Expiration Check:</strong> Automatically detects and displays whether a token is expired or still valid</li>
-                <li><strong>Claim Analysis:</strong> Identifies and displays standard JWT claims (sub, iss, exp, iat, aud, nbf, jti) and custom claims</li>
-                <li><strong>Formatted Output:</strong> Displays decoded JSON data with proper formatting for easy readability</li>
+                <li><strong>Visual Expiration Status:</strong> Color-coded badges show at a glance if token is valid (green), expired (red), or expiring soon (yellow) with time remaining</li>
+                <li><strong>HS256 Signature Verification:</strong> Verify JWT signatures using HMAC-SHA256 algorithm with your secret key to ensure token authenticity</li>
+                <li><strong>Token History with Labels:</strong> Save up to 10 tokens with custom labels (e.g., "Production", "Test User 1") for quick access during debugging—unique feature not found in other tools!</li>
+                <li><strong>Claim Tooltips:</strong> Hover over standard claims to see explanations of what each claim means (sub, iss, aud, exp, etc.)</li>
+                <li><strong>Auto-Decode on Input:</strong> Automatically decodes JWTs as you type or paste—no need to click the Decode button</li>
                 <li><strong>Timestamp Conversion:</strong> Automatically converts Unix timestamps (iat, exp, nbf) to human-readable dates</li>
                 <li><strong>One-Click Copy:</strong> Copy individual sections (header, payload, signature) or all decoded data to clipboard</li>
                 <li><strong>Sample JWT:</strong> Load a sample token to learn JWT structure without needing your own token</li>
-                <li><strong>100% Client-Side:</strong> All decoding happens in your browser—tokens never leave your computer</li>
+                <li><strong>100% Client-Side:</strong> All decoding and verification happens in your browser—tokens never leave your computer</li>
             </ul>
 
             <h3>How to Use This Tool</h3>
@@ -298,21 +506,39 @@
                 <li>Use the "Copy Decoded" button to copy all three parts together as formatted text</li>
             </ol>
 
-            <p><strong>Method 3: Learn with Sample Token</strong></p>
+            <p><strong>Method 3: Save and Manage Token History</strong></p>
+            <ol>
+                <li>After decoding a token, click "Save Token" button</li>
+                <li>Enter a descriptive label (e.g., "Production API", "Test User 1", "Staging Token")</li>
+                <li>Access saved tokens anytime from the "Token History" dropdown</li>
+                <li>Keep up to 10 frequently-used tokens for quick debugging</li>
+            </ol>
+
+            <p><strong>Method 4: Verify Token Signature (HS256)</strong></p>
+            <ol>
+                <li>Decode your JWT token first</li>
+                <li>Click "Verify Signature" section to expand</li>
+                <li>Enter your HS256 secret key (⚠️ test keys only, never production keys!)</li>
+                <li>Click "Verify Signature" to check if the token is authentic</li>
+                <li>Green checkmark means valid, red X means tampered or wrong key</li>
+            </ol>
+
+            <p><strong>Method 5: Learn with Sample Token</strong></p>
             <ol>
                 <li>Click the "Load Sample" button to pre-load an example JWT</li>
-                <li>Click "Decode" to see how a valid JWT token is structured</li>
+                <li>The token auto-decodes to show JWT structure</li>
                 <li>Examine the header, payload, and claims to understand JWT format</li>
+                <li>Hover over claims to see explanations with tooltips</li>
             </ol>
 
             <p><strong>Keyboard Shortcuts (Power Users)</strong></p>
             <ul>
                 <li><strong>Ctrl + Enter</strong> - Decode JWT token</li>
                 <li><strong>Ctrl + K</strong> - Copy all decoded output</li>
-                <li><strong>Paste</strong> - Auto-decode when you paste a JWT</li>
+                <li><strong>Type or Paste</strong> - Auto-decode as you type (500ms delay)</li>
             </ul>
 
-            <p><em>Pro tip: This tool auto-decodes when you paste a JWT, so you can quickly inspect tokens from your clipboard without manually clicking decode.</em></p>
+            <p><em>Pro tip: This tool auto-decodes as you type or paste, so you can instantly see token contents without clicking any buttons. Save frequently-used tokens with custom labels for even faster debugging!</em></p>
 
             <h3>Common Use Cases</h3>
 
@@ -341,7 +567,7 @@
             <h3>Frequently Asked Questions</h3>
 
             <p><strong>Q: Does this tool verify JWT signatures?</strong></p>
-            <p>A: No, this tool only decodes JWTs—it does not verify signatures. Signature verification requires the signing key which varies by system. Decoding shows you what data is in the token, but does not confirm the token's authenticity or that it hasn't been tampered with. Always verify JWT signatures on your server before trusting the token's contents. Never make security decisions based solely on decoded JWT data without signature verification.</p>
+            <p>A: Yes! This tool now supports HS256 signature verification. You can verify JWT signatures signed with HMAC-SHA256 by entering your secret key in the Verify Signature section. The tool will validate whether the signature is authentic and the token hasn't been tampered with. Important: Only use test or development keys—never enter production secret keys in browser tools. For production tokens, always verify signatures on your secure server. Note: This tool currently supports HS256 only; RS256 and ES256 support may be added in future updates.</p>
 
             <p><strong>Q: How do I check if a JWT is expired?</strong></p>
             <p>A: JWTs contain an 'exp' claim that specifies the expiration time as a Unix timestamp (seconds since epoch). This tool automatically checks the expiration time and displays whether the token is valid or expired. Simply decode the JWT using this tool and look for the expiration status in the payload output. If the current time is greater than the exp value, the token is expired. Your server must also validate expiration before accepting the token.</p>
@@ -357,6 +583,9 @@
 
             <p><strong>Q: What are the three parts of a JWT and what do they mean?</strong></p>
             <p>A: A JWT has three parts separated by dots: Header (specifies token type and signing algorithm), Payload (contains the actual data/claims including user info and expiration), and Signature (cryptographically proves the token hasn't been tampered with). The header and payload are Base64-encoded and human-readable. The signature can only be verified with the secret key. This tool decodes and displays all three parts so you can inspect the data and signature value.</p>
+
+            <p><strong>Q: What is the token history feature and how does it help?</strong></p>
+            <p>A: Token history is a unique feature that lets you save up to 10 JWT tokens with custom labels for quick access during debugging. For example, you can save tokens labeled "Production API", "Staging Server", "Test User 1", etc. This eliminates the need to constantly re-paste tokens when switching between different environments or test accounts. Simply select a saved token from the dropdown to instantly load and decode it. This feature is stored locally in your browser and never sent to any server, maintaining complete privacy.</p>
 
             <h3>Understanding JWT Security</h3>
             <p>JWTs are not encrypted by default—they are only Base64-encoded and signed. Anyone can decode a JWT to see its contents, which is why sensitive information like passwords should never be stored in JWT claims. The signature proves the token came from a trusted source and hasn't been modified, but only if verified with the correct signing key. Always use HTTPS when transmitting JWTs to prevent interception, and always verify signatures on your server before trusting the token's claims.</p>
@@ -425,6 +654,82 @@
             return Date.now() > exp * 1000;
         }
 
+        // Calculate time difference in human-readable format
+        function getTimeDifference(timestamp) {
+            const now = Date.now();
+            const targetTime = timestamp * 1000;
+            const diffMs = Math.abs(targetTime - now);
+
+            const seconds = Math.floor(diffMs / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            if (days > 0) return `${days} day${days > 1 ? 's' : ''}`;
+            if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''}`;
+            if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''}`;
+            return `${seconds} second${seconds !== 1 ? 's' : ''}`;
+        }
+
+        // Create expiration badge
+        function createExpirationBadge(exp) {
+            if (!exp) return '';
+
+            const now = Date.now();
+            const expTime = exp * 1000;
+            const isExpiredNow = now > expTime;
+            const timeUntilExpiry = expTime - now;
+            const fiveMinutes = 5 * 60 * 1000;
+
+            if (isExpiredNow) {
+                const timeAgo = getTimeDifference(exp);
+                return `<span class="badge badge-expired">✗ Expired ${timeAgo} ago</span>`;
+            } else if (timeUntilExpiry < fiveMinutes) {
+                const timeLeft = getTimeDifference(exp);
+                return `<span class="badge badge-expiring">⚠ Expires in ${timeLeft}</span>`;
+            } else {
+                const timeLeft = getTimeDifference(exp);
+                return `<span class="badge badge-valid">✓ Valid (${timeLeft} remaining)</span>`;
+            }
+        }
+
+        // Claim descriptions for tooltips
+        const claimDescriptions = {
+            'sub': 'Subject - The unique identifier of the user or entity this token represents',
+            'iss': 'Issuer - The entity that issued and signed the JWT (e.g., your auth server URL)',
+            'aud': 'Audience - The intended recipient(s) of the token (e.g., your application ID)',
+            'exp': 'Expiration Time - Unix timestamp when this token expires and should no longer be accepted',
+            'iat': 'Issued At - Unix timestamp when this token was created',
+            'nbf': 'Not Before - Unix timestamp before which the token should not be accepted',
+            'jti': 'JWT ID - Unique identifier for this token, used to prevent replay attacks',
+            'scope': 'Scope - Permissions or access levels granted to the bearer of this token',
+            'roles': 'Roles - User roles or groups for authorization purposes',
+            'email': 'Email - Email address of the user',
+            'name': 'Name - Full name of the user',
+            'username': 'Username - Username of the user',
+            'admin': 'Admin - Whether the user has admin privileges'
+        };
+
+        // Create tooltip HTML
+        function createTooltip(claim) {
+            const description = claimDescriptions[claim];
+            if (!description) return '';
+            return `<span class="tooltip">?<span class="tooltiptext">${description}</span></span>`;
+        }
+
+        // Format claim with tooltip
+        function formatClaimWithTooltip(claim, value) {
+            const tooltip = createTooltip(claim);
+            let formattedValue = value;
+
+            // Format timestamps
+            if ((claim === 'exp' || claim === 'iat' || claim === 'nbf') && typeof value === 'number') {
+                formattedValue = formatTimestamp(value);
+            }
+
+            return `  "${claim}": ${JSON.stringify(value)}${tooltip ? ' ' + tooltip : ''}`;
+        }
+
         // Decode JWT
         function decodeJWT() {
             const token = inputJWT.value.trim();
@@ -449,26 +754,80 @@
                 const payloadStr = base64UrlDecode(parts[1]);
                 decodedData.payload = JSON.parse(payloadStr);
 
-                // Format payload with claim descriptions
-                let payloadDisplay = JSON.stringify(decodedData.payload, null, 2);
+                // Format payload with tooltips
+                const payloadLines = [];
+                payloadLines.push('{');
+                const claims = Object.keys(decodedData.payload);
+                claims.forEach((claim, index) => {
+                    const value = decodedData.payload[claim];
+                    const isLast = index === claims.length - 1;
+                    const tooltip = createTooltip(claim);
+                    let valueStr;
 
-                // Add expiry status
+                    // Format timestamps
+                    if ((claim === 'exp' || claim === 'iat' || claim === 'nbf') && typeof value === 'number') {
+                        valueStr = `${value} (${formatTimestamp(value)})`;
+                    } else {
+                        valueStr = JSON.stringify(value);
+                    }
+
+                    payloadLines.push(`  "${claim}": ${valueStr}${isLast ? '' : ','}`);
+                });
+                payloadLines.push('}');
+
+                let payloadDisplay = payloadLines.join('\n');
+
+                // Add expiry status with badge
                 if (decodedData.payload.exp) {
-                    const expired = isExpired(decodedData.payload.exp);
-                    const expiryDate = formatTimestamp(decodedData.payload.exp);
+                    const badge = createExpirationBadge(decodedData.payload.exp);
                     payloadDisplay += '\n\n--- Token Status ---\n';
-                    payloadDisplay += 'Expires: ' + expiryDate + '\n';
-                    payloadDisplay += 'Status: ' + (expired ? 'EXPIRED' : 'VALID');
+                    payloadDisplay += 'Expires: ' + formatTimestamp(decodedData.payload.exp);
                 }
 
                 if (decodedData.payload.iat) {
                     if (!payloadDisplay.includes('--- Token Status ---')) {
                         payloadDisplay += '\n\n--- Token Status ---\n';
+                    } else {
+                        payloadDisplay += '\n';
                     }
-                    payloadDisplay += '\nIssued: ' + formatTimestamp(decodedData.payload.iat);
+                    payloadDisplay += 'Issued: ' + formatTimestamp(decodedData.payload.iat);
                 }
 
-                payloadOutput.textContent = payloadDisplay;
+                // Clear and set payload output
+                payloadOutput.innerHTML = '';
+                const textNode = document.createTextNode(payloadDisplay);
+                payloadOutput.appendChild(textNode);
+
+                // Add badge if expiration exists
+                if (decodedData.payload.exp) {
+                    const badge = createExpirationBadge(decodedData.payload.exp);
+                    const badgeContainer = document.createElement('div');
+                    badgeContainer.style.marginTop = 'var(--spacing-sm)';
+                    badgeContainer.innerHTML = badge;
+                    payloadOutput.appendChild(badgeContainer);
+                }
+
+                // Add claim explanations for standard claims
+                const standardClaims = Object.keys(decodedData.payload).filter(claim => claimDescriptions[claim]);
+                if (standardClaims.length > 0) {
+                    const explanationsContainer = document.createElement('div');
+                    explanationsContainer.style.marginTop = 'var(--spacing-md)';
+                    explanationsContainer.style.padding = 'var(--spacing-sm)';
+                    explanationsContainer.style.background = 'var(--bg-secondary)';
+                    explanationsContainer.style.borderRadius = 'var(--radius)';
+                    explanationsContainer.style.fontSize = '0.875rem';
+
+                    let explanationsHtml = '<div style="font-weight: 600; margin-bottom: var(--spacing-xs); color: var(--primary);">📖 Claim Explanations:</div>';
+                    standardClaims.forEach(claim => {
+                        const value = decodedData.payload[claim];
+                        explanationsHtml += `<div style="margin: var(--spacing-xs) 0; padding: var(--spacing-xs); background: var(--bg-primary); border-radius: var(--radius);">`;
+                        explanationsHtml += `<strong style="color: var(--primary);">${claim}:</strong> ${claimDescriptions[claim]}`;
+                        explanationsHtml += `</div>`;
+                    });
+
+                    explanationsContainer.innerHTML = explanationsHtml;
+                    payloadOutput.appendChild(explanationsContainer);
+                }
 
                 // Show signature (cannot decode, just display)
                 decodedData.signature = parts[2];
@@ -547,6 +906,218 @@
             CodeUtils.Message.hide();
         }
 
+        // Token History Management
+        const TOKEN_HISTORY_KEY = 'jwt_token_history';
+        const MAX_HISTORY_SIZE = 10;
+
+        function getTokenHistory() {
+            try {
+                const history = localStorage.getItem(TOKEN_HISTORY_KEY);
+                return history ? JSON.parse(history) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveTokenHistory(history) {
+            try {
+                localStorage.setItem(TOKEN_HISTORY_KEY, JSON.stringify(history));
+            } catch (e) {
+                CodeUtils.Message.error('Failed to save token history');
+            }
+        }
+
+        function updateHistoryDropdown() {
+            const history = getTokenHistory();
+            const select = document.getElementById('tokenHistorySelect');
+
+            select.innerHTML = `<option value="">📚 Token History (${history.length} saved)</option>`;
+
+            history.forEach((item, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                const preview = item.token.substring(0, 30) + '...';
+                option.textContent = `${item.label} - ${preview}`;
+                select.appendChild(option);
+            });
+        }
+
+        function toggleSaveForm() {
+            const form = document.getElementById('saveTokenForm');
+            const input = document.getElementById('tokenLabel');
+            form.style.display = form.style.display === 'none' ? 'flex' : 'none';
+            if (form.style.display === 'flex') {
+                input.focus();
+            } else {
+                input.value = '';
+            }
+        }
+
+        function saveToken() {
+            const token = inputJWT.value.trim();
+            const label = document.getElementById('tokenLabel').value.trim();
+
+            if (!token) {
+                CodeUtils.Message.error('No token to save');
+                return;
+            }
+
+            if (!label) {
+                CodeUtils.Message.error('Please enter a label for the token');
+                return;
+            }
+
+            const history = getTokenHistory();
+
+            // Check if already exists
+            const existingIndex = history.findIndex(item => item.token === token);
+            if (existingIndex !== -1) {
+                history[existingIndex].label = label;
+                history[existingIndex].timestamp = Date.now();
+            } else {
+                // Add to beginning
+                history.unshift({
+                    label: label,
+                    token: token,
+                    timestamp: Date.now()
+                });
+
+                // Keep only MAX_HISTORY_SIZE items
+                if (history.length > MAX_HISTORY_SIZE) {
+                    history.pop();
+                }
+            }
+
+            saveTokenHistory(history);
+            updateHistoryDropdown();
+            toggleSaveForm();
+            CodeUtils.Message.success(`Token saved as "${label}"`);
+        }
+
+        function loadFromHistory() {
+            const select = document.getElementById('tokenHistorySelect');
+            const index = parseInt(select.value);
+
+            if (isNaN(index)) return;
+
+            const history = getTokenHistory();
+            if (index < 0 || index >= history.length) return;
+
+            inputJWT.value = history[index].token;
+            decodeJWT();
+            CodeUtils.Message.success(`Loaded token: ${history[index].label}`);
+        }
+
+        function clearHistory() {
+            if (!confirm('Are you sure you want to clear all saved tokens?')) {
+                return;
+            }
+
+            localStorage.removeItem(TOKEN_HISTORY_KEY);
+            updateHistoryDropdown();
+            CodeUtils.Message.success('Token history cleared');
+        }
+
+        // Auto-decode functionality
+        let decodeTimeout = null;
+
+        function autoDecodeOnInput() {
+            const token = inputJWT.value.trim();
+
+            // Clear previous timeout
+            if (decodeTimeout) {
+                clearTimeout(decodeTimeout);
+            }
+
+            // Check if it looks like a JWT (3 parts separated by dots)
+            if (token && token.split('.').length === 3) {
+                decodeTimeout = setTimeout(() => {
+                    decodeJWT();
+                }, 500);
+            }
+        }
+
+        // Signature Verification
+        function toggleVerifySection() {
+            const content = document.getElementById('verifyContent');
+            const icon = document.getElementById('verifyCollapseIcon');
+
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                icon.classList.remove('collapsed');
+            } else {
+                content.style.display = 'none';
+                icon.classList.add('collapsed');
+            }
+        }
+
+        async function verifySignature() {
+            const token = inputJWT.value.trim();
+            const secret = document.getElementById('secretKey').value.trim();
+            const resultDiv = document.getElementById('verifyResult');
+
+            if (!token) {
+                CodeUtils.Message.error('Please enter a JWT token first');
+                return;
+            }
+
+            if (!secret) {
+                CodeUtils.Message.error('Please enter a secret key');
+                return;
+            }
+
+            const parts = token.split('.');
+            if (parts.length !== 3) {
+                CodeUtils.Message.error('Invalid JWT format');
+                return;
+            }
+
+            try {
+                // Get the data to sign (header.payload)
+                const data = parts[0] + '.' + parts[1];
+                const signature = parts[2];
+
+                // Convert secret to key
+                const encoder = new TextEncoder();
+                const keyData = encoder.encode(secret);
+                const key = await crypto.subtle.importKey(
+                    'raw',
+                    keyData,
+                    { name: 'HMAC', hash: 'SHA-256' },
+                    false,
+                    ['sign']
+                );
+
+                // Sign the data
+                const signatureBuffer = await crypto.subtle.sign('HMAC', key, encoder.encode(data));
+
+                // Convert to base64url
+                const signatureArray = new Uint8Array(signatureBuffer);
+                let binary = '';
+                for (let i = 0; i < signatureArray.length; i++) {
+                    binary += String.fromCharCode(signatureArray[i]);
+                }
+                const base64 = btoa(binary);
+                const base64url = base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+
+                // Compare signatures
+                if (base64url === signature) {
+                    resultDiv.innerHTML = '<div class="verify-result valid">✓ Signature is valid! Token has not been tampered with.</div>';
+                    CodeUtils.Message.success('Signature verified successfully!');
+                } else {
+                    resultDiv.innerHTML = '<div class="verify-result invalid">✗ Invalid signature! Token may have been tampered with or wrong secret key.</div>';
+                    CodeUtils.Message.warning('Signature verification failed');
+                }
+
+            } catch (error) {
+                resultDiv.innerHTML = '<div class="verify-result invalid">✗ Verification error: ' + error.message + '</div>';
+                CodeUtils.Message.error('Verification failed: ' + error.message);
+            }
+        }
+
+        // Initialize
+        updateHistoryDropdown();
+
         // Keyboard shortcuts
         CodeUtils.Shortcuts.register('Enter', decodeJWT, true);
         CodeUtils.Shortcuts.register('k', copyDecoded, true);
@@ -554,6 +1125,16 @@
         // Auto-decode on paste
         inputJWT.addEventListener('paste', () => {
             setTimeout(decodeJWT, 100);
+        });
+
+        // Auto-decode on input (debounced)
+        inputJWT.addEventListener('input', autoDecodeOnInput);
+
+        // Allow Enter key in save token label input
+        document.getElementById('tokenLabel').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                saveToken();
+            }
         });
     </script>
 </body>
