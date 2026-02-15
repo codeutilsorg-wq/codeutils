@@ -152,71 +152,98 @@
     <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <style>
-        /* QR Generator specific styles - Grid now in base.css */
+        /* QR Generator specific styles */
 
-        /* Tool section standardization - Modern Glassmorphism */
-        .tool-section {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-lg);
-            border-radius: 12px;
-            border: 1px solid rgba(229, 231, 235, 0.8);
-            box-shadow:
-                0 4px 6px rgba(0, 0, 0, 0.05),
-                0 1px 3px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+        /* Override default .editor height for QR generator */
+        .editor {
+            width: 100%; /* Auto-adjust to container width */
+            min-height: 80px; /* Override 400px from common.css */
+            max-height: 400px;
+            resize: vertical;
         }
 
-        .dark-mode .tool-section {
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(51, 65, 85, 0.8);
-            box-shadow:
-                0 4px 6px rgba(0, 0, 0, 0.2),
-                0 1px 3px rgba(0, 0, 0, 0.15);
+        /* Smaller textareas for optional fields */
+        .editor-small {
+            min-height: 60px;
+            max-height: 300px;
         }
 
-        .tool-section h3 {
-            color: var(--primary);
+        /* Standard form element styling */
+        input[type="text"], input[type="email"], input[type="tel"],
+        input[type="url"], input[type="number"], input[type="date"],
+        input[type="datetime-local"] {
+            width: 100%;
+            padding: var(--spacing-xs);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-white);
+            color: var(--text-primary);
+            font-size: var(--font-md);
+            line-height: 1.5;
+        }
+
+        /* Select dropdowns - theme-aware colors */
+        select {
+            width: 100%;
+            padding: var(--spacing-xs);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: var(--font-md);
+            line-height: 1.5;
+            background: var(--bg-white);
+            color: var(--text-primary);
+        }
+
+        /* Dropdown options - inherit theme colors */
+        select option {
+            background: var(--bg-white);
+            color: var(--text-primary);
+        }
+
+        select:focus, input:focus, textarea:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Card sections styling */
+        .card h3 {
+            color: var(--text-primary);
             margin: 0 0 var(--spacing-md) 0;
+            font-size: 1.125rem;
+            font-weight: 600;
         }
 
-        /* Collapsible sections styling - Enhanced */
-        details.tool-section > summary {
+        /* Collapsible details styling */
+        details.card > summary {
             list-style: none;
-            transition: all 0.3s ease;
             cursor: pointer;
             user-select: none;
+            font-weight: 600;
+            color: var(--text-primary);
             padding: var(--spacing-md);
             margin: calc(var(--spacing-md) * -1);
-            border-radius: 8px;
+            margin-bottom: var(--spacing-md);
+            border-radius: var(--radius);
         }
 
-        details.tool-section > summary::-webkit-details-marker {
+        details.card > summary::-webkit-details-marker {
             display: none;
         }
 
-        details.tool-section > summary::before {
+        details.card > summary::before {
             content: '▶';
             display: inline-block;
             margin-right: 8px;
             transition: transform 0.3s ease;
             font-size: 0.8em;
-            color: var(--primary);
         }
 
-        details.tool-section[open] > summary::before {
+        details.card[open] > summary::before {
             transform: rotate(90deg);
         }
 
-        details.tool-section > summary:hover {
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-
-        details.tool-section[open] {
-            border-color: var(--primary);
+        details.card > summary:hover {
+            background: var(--bg-secondary);
         }
 
         .qr-container {
@@ -495,7 +522,7 @@
                 grid-template-columns: 1fr;
             }
 
-            .tool-section {
+            .card {
                 padding: var(--spacing-md);
             }
 
@@ -561,7 +588,7 @@
                 height: 40px;
             }
 
-            .tool-section {
+            .card {
                 padding: var(--spacing-sm);
             }
 
@@ -570,69 +597,6 @@
             }
         }
 
-        /* Page Header Enhancement */
-        .page-header {
-            text-align: center;
-            padding: 48px 32px;
-            background: linear-gradient(135deg,
-                rgba(6, 182, 212, 0.08) 0%,
-                rgba(14, 165, 233, 0.05) 100%);
-            border: 2px solid rgba(6, 182, 212, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .page-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .light-mode .page-header {
-            background: linear-gradient(135deg,
-                rgba(6, 182, 212, 0.03) 0%,
-                rgba(14, 165, 233, 0.02) 100%);
-            border-color: rgba(6, 182, 212, 0.15);
-        }
-
-        .page-header h2 {
-            font-size: 32px;
-            font-weight: 700;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .page-header p {
-            font-size: 16px;
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        @media (max-width: 768px) {
-            .page-header h2 {
-                font-size: 24px;
-            }
-
-            .page-header p {
-                font-size: 14px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -649,12 +613,32 @@
     </header>
 
     <div class="container">
-        <div class="card tool-section page-header" style="margin-bottom: var(--spacing-lg);">
-            <h2>QR Code Generator</h2>
-            <p>Create professional QR codes in seconds. Support for vCard, WiFi, Email, URLs, and more. 100% private - all processing in your browser.</p>
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
+            <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">QR Code Generator</h2>
+            <p style="margin: 0; color: var(--text-secondary);">Create professional QR codes in seconds. Support for vCard, WiFi, Email, URLs, and more. 100% private - all processing in your browser.</p>
         </div>
 
-        <div class="tool-section">
+        <!-- Mode Toggle -->
+        <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-sm); background: var(--bg-secondary); border: 2px solid var(--border);">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-md); flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: var(--spacing-sm);">
+                    <strong style="color: var(--text-primary);">Mode:</strong>
+                    <div style="display: flex; gap: var(--spacing-xs); background: var(--bg-white); border-radius: var(--radius); padding: 4px; border: 1px solid var(--border);">
+                        <button id="simpleModeBtn" class="btn btn-sm" onclick="setMode('simple')" style="padding: 6px 16px; font-size: 0.875rem; min-height: auto;">
+                            ⚡ Simple
+                        </button>
+                        <button id="advancedModeBtn" class="btn btn-sm btn-outline" onclick="setMode('advanced')" style="padding: 6px 16px; font-size: 0.875rem; min-height: auto;">
+                            ⚙️ Advanced
+                        </button>
+                    </div>
+                </div>
+                <small id="modeDescription" style="color: var(--text-secondary); flex: 1; min-width: 200px;">
+                    Simple mode: Just enter content and generate. Advanced mode: Full customization options.
+                </small>
+            </div>
+        </div>
+
+        <div class="card">
             <h3 id="qrTypeHeading" style="margin-bottom: var(--spacing-md); font-size: 20px; font-weight: 700;">QR Code Type</h3>
             <div class="option-group">
                 <label for="qrType">What do you want to encode?</label>
@@ -673,10 +657,23 @@
                 </select>
                 <small id="qrTypeHint" class="sr-only">Choose the type of information you want to encode in your QR code</small>
             </div>
+
+            <!-- Example Buttons -->
+            <div style="margin-top: var(--spacing-md); padding: var(--spacing-sm); background: var(--bg-secondary); border-radius: var(--radius); border: 1px dashed var(--border);">
+                <div style="display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-xs);">
+                    <strong style="color: var(--text-primary); font-size: 0.875rem;">💡 Try Example:</strong>
+                </div>
+                <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
+                    <button class="btn btn-outline btn-sm" onclick="loadExample('url')" style="font-size: 0.875rem;">🔗 URL</button>
+                    <button class="btn btn-outline btn-sm" onclick="loadExample('vcard')" style="font-size: 0.875rem;">👤 vCard</button>
+                    <button class="btn btn-outline btn-sm" onclick="loadExample('wifi')" style="font-size: 0.875rem;">📶 WiFi</button>
+                    <button class="btn btn-outline btn-sm" onclick="loadExample('email')" style="font-size: 0.875rem;">✉️ Email</button>
+                </div>
+            </div>
         </div>
 
         <!-- Text/URL Input -->
-        <div id="textInput" class="tool-section">
+        <div id="textInput" class="card">
             <h3 id="contentHeading" style="margin-bottom: var(--spacing-md);">Content</h3>
             <div class="editor-header">
                 <label for="contentInput">Content</label>
@@ -684,7 +681,6 @@
             <textarea id="contentInput" class="editor"
                       aria-labelledby="contentHeading"
                       aria-describedby="contentHint validationStatus"
-                      style="height: 80px; resize: vertical;"
                       placeholder="Enter text, URL, or data..."
                       oninput="validateInput()">https://codeutils.org</textarea>
             <small id="contentHint" class="sr-only">Enter the text, URL, or data you want to encode in the QR code. Maximum 4,296 characters.</small>
@@ -692,7 +688,7 @@
         </div>
 
         <!-- vCard Input -->
-        <div id="vcardInput" class="tool-section" style="display: none;">
+        <div id="vcardInput" class="card" style="display: none;">
             <h3 style="margin-bottom: var(--spacing-md);">Contact Information</h3>
             <div class="editor-header">Contact Information</div>
             <div class="options-grid">
@@ -724,7 +720,7 @@
         </div>
 
         <!-- WiFi Input -->
-        <div id="wifiInput" class="tool-section" style="display: none;">
+        <div id="wifiInput" class="card" style="display: none;">
             <h3 style="margin-bottom: var(--spacing-md);">WiFi Network</h3>
             <div class="editor-header">WiFi Network</div>
             <div class="options-grid">
@@ -752,7 +748,7 @@
         </div>
 
         <!-- Email Input -->
-        <div id="emailInput" class="tool-section" style="display: none;">
+        <div id="emailInput" class="card" style="display: none;">
             <h3 style="margin-bottom: var(--spacing-md);">Email Details</h3>
             <div class="editor-header">Email</div>
             <div class="options-grid">
@@ -765,11 +761,11 @@
                     <input type="text" id="emailSubject" name="subject" autocomplete="off" placeholder="Subject">
                 </div>
             </div>
-            <textarea id="emailBody" class="editor" style="height: 60px; margin-top: var(--spacing-sm); resize: vertical;" placeholder="Email body (optional)..."></textarea>
+            <textarea id="emailBody" class="editor editor-small" style="margin-top: var(--spacing-sm);" placeholder="Email body (optional)..."></textarea>
         </div>
 
         <!-- SMS Input -->
-        <div id="smsInput" class="tool-section" style="display: none;">
+        <div id="smsInput" class="card" style="display: none;">
             <h3 style="margin-bottom: var(--spacing-md);">SMS Message</h3>
             <div class="editor-header">SMS</div>
             <div class="options-grid">
@@ -778,11 +774,11 @@
                     <input type="tel" id="smsPhone" placeholder="+1234567890">
                 </div>
             </div>
-            <textarea id="smsMessage" class="editor" style="height: 60px; margin-top: var(--spacing-sm); resize: vertical;" placeholder="Message text (optional)..."></textarea>
+            <textarea id="smsMessage" class="editor editor-small" style="margin-top: var(--spacing-sm);" placeholder="Message text (optional)..."></textarea>
         </div>
 
         <!-- Phone Input -->
-        <div id="phoneInput" class="tool-section" style="display: none;">
+        <div id="phoneInput" class="card" style="display: none;">
             <h3 style="margin-bottom: var(--spacing-md);">Phone Number</h3>
             <div class="editor-header">Phone / Call</div>
             <div class="options-grid">
@@ -794,7 +790,7 @@
         </div>
 
         <!-- Event Input -->
-        <div id="eventInput" class="tool-section" style="display: none;">
+        <div id="eventInput" class="card" style="display: none;">
             <h3 style="margin-bottom: var(--spacing-md);">Event Details</h3>
             <div class="editor-header">Event / Calendar</div>
             <div class="options-grid">
@@ -815,11 +811,11 @@
                     <input type="text" id="eventLocation" placeholder="Conference Room A">
                 </div>
             </div>
-            <textarea id="eventDescription" class="editor" style="height: 60px; margin-top: var(--spacing-sm); resize: vertical;" placeholder="Event description (optional)..."></textarea>
+            <textarea id="eventDescription" class="editor editor-small" style="margin-top: var(--spacing-sm);" placeholder="Event description (optional)..."></textarea>
         </div>
 
         <!-- Location Input -->
-        <div id="locationInput" class="tool-section" style="display: none;">
+        <div id="locationInput" class="card" style="display: none;">
             <h3 style="margin-bottom: var(--spacing-md);">Location</h3>
             <div class="editor-header">Location / Maps</div>
             <div class="options-grid">
@@ -839,7 +835,7 @@
             </div>
         </div>
 
-        <details class="tool-section" id="customizationPanel" open>
+        <details class="card" id="customizationPanel">
             <summary style="cursor: pointer; font-weight: bold; font-size: 1.1rem; margin-bottom: var(--spacing-md); padding: var(--spacing-sm); background: var(--bg-secondary); border-radius: var(--radius); user-select: none;">
                 ⚙️ Customize Appearance (Optional - Click to collapse)
             </summary>
@@ -848,42 +844,50 @@
             <div style="margin-bottom: var(--spacing-md); padding: var(--spacing-md); background: var(--bg-secondary); border-radius: var(--radius); border: 2px solid var(--primary);">
                 <label style="font-weight: bold; font-size: 1rem; display: block; margin-bottom: var(--spacing-sm);">🎨 Quick Color Presets</label>
 
-                <!-- Visual Swatches -->
+                <!-- Visual Swatches - Top 8 Most Popular -->
                 <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: var(--spacing-sm);">
                     <button class="preset-swatch" onclick="applyPresetDirect('classic')"
                             style="background: linear-gradient(135deg, #000000 50%, #ffffff 50%);"
-                            title="Classic Black & White">
+                            title="Classic Black & White" aria-label="Apply classic black and white preset">
                     </button>
                     <button class="preset-swatch" onclick="applyPresetDirect('sunset')"
                             style="background: linear-gradient(135deg, #ff6b35, #f7931e);"
-                            title="Sunset Gradient">
+                            title="Sunset Gradient" aria-label="Apply sunset gradient preset">
                     </button>
                     <button class="preset-swatch" onclick="applyPresetDirect('ocean')"
                             style="background: linear-gradient(135deg, #0077be, #00b4d8);"
-                            title="Ocean Blue">
+                            title="Ocean Blue" aria-label="Apply ocean blue preset">
                     </button>
                     <button class="preset-swatch" onclick="applyPresetDirect('berry')"
                             style="background: linear-gradient(135deg, #7209b7, #f72585);"
-                            title="Berry Purple">
+                            title="Berry Purple" aria-label="Apply berry purple preset">
                     </button>
                     <button class="preset-swatch" onclick="applyPresetDirect('forest')"
                             style="background: linear-gradient(135deg, #2d6a4f, #52b788);"
-                            title="Forest Green">
+                            title="Forest Green" aria-label="Apply forest green preset">
                     </button>
                     <button class="preset-swatch" onclick="applyPresetDirect('instagram')"
                             style="background: linear-gradient(135deg, #e4405f, #f77737);"
-                            title="Instagram Gradient">
+                            title="Instagram Gradient" aria-label="Apply Instagram gradient preset">
+                    </button>
+                    <button class="preset-swatch" onclick="applyPresetDirect('facebook')"
+                            style="background: linear-gradient(135deg, #1877f2, #ffffff);"
+                            title="Facebook Blue" aria-label="Apply Facebook blue preset">
+                    </button>
+                    <button class="preset-swatch" onclick="applyPresetDirect('inverse')"
+                            style="background: linear-gradient(135deg, #ffffff 50%, #000000 50%);"
+                            title="White on Black (High Contrast)" aria-label="Apply white on black preset">
                     </button>
                     <button class="preset-swatch preset-more" onclick="showAllPresets()"
                             style="background: var(--bg-primary); border: 2px dashed var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--text-secondary);"
-                            title="View all 29 presets">
-                        +23<br>more
+                            title="View all 29 presets" aria-label="Show all color presets">
+                        +21<br>more
                     </button>
                 </div>
 
                 <!-- All Presets Dropdown (Initially Hidden) -->
                 <div id="allPresetsDropdown" style="display: none; margin-top: var(--spacing-sm);">
-                    <select id="colorPreset" onchange="applyColorPreset()" style="width: 100%; font-size: 0.95rem; padding: var(--spacing-xs);">
+                    <select id="colorPreset" onchange="applyColorPreset()">
                         <option value="">-- Select from All Presets --</option>
                         <optgroup label="Professional">
                             <option value="classic">Classic Black & White</option>
@@ -973,18 +977,22 @@
                 <div class="option-group" style="grid-column: 1 / -1;">
                     <div id="contrastIndicator" style="padding: var(--spacing-xs); border-radius: var(--radius); font-size: 0.875rem;"></div>
                 </div>
-                <div class="option-group">
-                    <label>Module Style</label>
-                    <select id="moduleStyle">
+            </div>
+
+            <!-- Module Style & Logo Upload - Side by Side -->
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: var(--spacing-md); margin-top: var(--spacing-md);">
+                <!-- Module Style -->
+                <div>
+                    <label style="font-weight: bold; display: block; margin-bottom: var(--spacing-sm);">🎨 Module Style</label>
+                    <select id="moduleStyle" style="width: 100%;">
                         <option value="square" selected>Squares</option>
                         <option value="dots">Dots (Circles)</option>
                         <option value="rounded">Rounded Squares</option>
                     </select>
                 </div>
-            </div>
 
-            <!-- Logo Upload with Preview -->
-            <div class="logo-upload-card" style="margin-top: var(--spacing-md);">
+                <!-- Logo Upload with Preview -->
+                <div class="logo-upload-card" style="margin-top: 0;">
                 <label style="font-weight: bold; display: block; margin-bottom: var(--spacing-sm);">📸 Logo Overlay (Optional)</label>
 
                 <div class="logo-preview-container" id="logoPreviewContainer">
@@ -1014,19 +1022,20 @@
                     </div>
                 </div>
             </div>
+            </div>
         </details>
 
-        <div class="tool-section">
+        <div class="card">
             <h3 style="margin-bottom: var(--spacing-md);">Generate QR Code</h3>
 
             <!-- Validation Status Card -->
             <div class="validation-status-card" role="status" aria-live="polite">
                 <div class="validation-row">
-                    <span id="contentLengthIndicator">📏 0 / 4,296 characters</span>
-                    <span id="urlValidationIndicator">⚪ Enter content to begin</span>
+                    <span id="contentLengthIndicator">✅ 0 / 4,296 characters</span>
+                    <span id="urlValidationIndicator">⏸️ Waiting for content...</span>
                 </div>
                 <div class="validation-row">
-                    <span id="scanDifficultyIndicator">📱 Scan difficulty: Not generated</span>
+                    <span id="scanDifficultyIndicator">✅ Scan difficulty: Easy</span>
                     <span id="contrastStatusIndicator">🎨 Contrast: Not set</span>
                 </div>
             </div>
@@ -1049,7 +1058,7 @@
         <!-- Screen reader announcements -->
         <div id="sr-announcements" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
 
-        <div id="resultSection" class="tool-section" role="region" aria-labelledby="resultHeading" style="display: none;">
+        <div id="resultSection" class="card" role="region" aria-labelledby="resultHeading" style="display: none;">
             <h3 id="resultHeading" style="margin-bottom: var(--spacing-md);">Your QR Code</h3>
 
             <div class="qr-container">
@@ -1063,7 +1072,7 @@
             <div class="download-toolbar">
                 <div style="display: flex; align-items: center; gap: var(--spacing-xs); flex: 1; min-width: 200px;">
                     <label style="font-weight: bold; white-space: nowrap;">Filename:</label>
-                    <input type="text" id="qrFilename" placeholder="qrcode" value="qrcode" style="flex: 1; min-width: 100px; padding: var(--spacing-xs); border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-primary); color: var(--text-primary);">
+                    <input type="text" id="qrFilename" placeholder="qrcode" value="qrcode" style="flex: 1; min-width: 100px;">
                 </div>
 
                 <div class="download-actions">
@@ -1086,7 +1095,7 @@
             </div>
         </div>
 
-        <details class="tool-section" id="historySection" style="margin-top: var(--spacing-lg);">
+        <details class="card" id="historySection" style="margin-top: var(--spacing-lg);">
             <summary style="cursor: pointer; font-weight: bold; font-size: 1.1rem; padding: var(--spacing-sm); background: var(--bg-secondary); border-radius: var(--radius); user-select: none; display: flex; justify-content: space-between; align-items: center;"
                      aria-label="Recent QR codes history">
                 <span id="historyHeader">📚 Recent QR Codes (0)</span>
@@ -1121,7 +1130,7 @@
             </div>
         </div>
 
-        <div class="info-section tool-section">
+        <div class="info-section">
             <h2>About QR Code Generator</h2>
             <p>QR (Quick Response) codes are 2D barcodes that encode information in a visual pattern readable by smartphones and barcode scanners. Created in 1994, QR codes have become ubiquitous for marketing, product tracking, event management, and data sharing. This tool generates professional QR codes instantly with customization options and instant download capabilities. Perfect for businesses, marketers, developers, and anyone needing to share data through scannable codes.</p>
 
@@ -1411,29 +1420,56 @@
             }
         }
 
-        // Save/restore customization panel state
-        const CUSTOMIZATION_STATE_KEY = 'qr-customization-panel-open';
+        // Simple/Advanced Mode Toggle
+        const MODE_KEY = 'qr-generator-mode';
 
-        function saveCustomizationState() {
+        function setMode(mode) {
+            localStorage.setItem(MODE_KEY, mode);
             const panel = document.getElementById('customizationPanel');
-            if (panel) {
-                localStorage.setItem(CUSTOMIZATION_STATE_KEY, panel.open ? 'true' : 'false');
+            const simpleModeBtn = document.getElementById('simpleModeBtn');
+            const advancedModeBtn = document.getElementById('advancedModeBtn');
+            const modeDescription = document.getElementById('modeDescription');
+
+            if (mode === 'simple') {
+                // Simple mode: Hide customization panel
+                panel.style.display = 'none';
+                simpleModeBtn.className = 'btn btn-sm';
+                advancedModeBtn.className = 'btn btn-sm btn-outline';
+                modeDescription.textContent = '⚡ Simple mode active: Just enter content and generate!';
+                CodeUtils.Message.success('Simple mode activated - focusing on essentials');
+            } else {
+                // Advanced mode: Show customization panel
+                panel.style.display = 'block';
+                panel.open = true;
+                simpleModeBtn.className = 'btn btn-sm btn-outline';
+                advancedModeBtn.className = 'btn btn-sm';
+                modeDescription.textContent = '⚙️ Advanced mode active: Full customization available!';
+                CodeUtils.Message.success('Advanced mode activated - all options available');
             }
+
+            // Announce to screen readers
+            announceToScreenReader(`${mode === 'simple' ? 'Simple' : 'Advanced'} mode activated`, 'polite');
         }
 
-        function restoreCustomizationState() {
+        function initializeMode() {
+            const savedMode = localStorage.getItem(MODE_KEY) || 'simple';
+            const simpleModeBtn = document.getElementById('simpleModeBtn');
+            const advancedModeBtn = document.getElementById('advancedModeBtn');
             const panel = document.getElementById('customizationPanel');
-            const savedState = localStorage.getItem(CUSTOMIZATION_STATE_KEY);
+            const modeDescription = document.getElementById('modeDescription');
 
-            // Default to open on first visit, then remember user preference
-            if (savedState === null) {
-                panel.open = true; // Default to open
+            if (savedMode === 'simple') {
+                panel.style.display = 'none';
+                simpleModeBtn.className = 'btn btn-sm';
+                advancedModeBtn.className = 'btn btn-sm btn-outline';
+                modeDescription.textContent = '⚡ Simple mode: Just enter content and generate!';
             } else {
-                panel.open = savedState === 'true';
+                panel.style.display = 'block';
+                panel.open = true;
+                simpleModeBtn.className = 'btn btn-sm btn-outline';
+                advancedModeBtn.className = 'btn btn-sm';
+                modeDescription.textContent = '⚙️ Advanced mode: Full customization available!';
             }
-
-            // Save state when toggled
-            panel.addEventListener('toggle', saveCustomizationState);
         }
 
         // Screen reader announcements
@@ -1517,7 +1553,7 @@
             loadHistory();
             validateInput();
             checkContrast();
-            restoreCustomizationState();
+            initializeMode(); // Initialize Simple/Advanced mode
             setupKeyboardShortcuts();
             updateHistoryHeader();
 
@@ -1541,40 +1577,50 @@
 
             if (!lengthIndicator || !urlIndicator || !scanIndicator) return;
 
-            // Length indicator
+            // Length indicator with threshold warnings
             const length = content.length;
             const maxLength = 4296;
             const lengthPercent = (length / maxLength) * 100;
             let lengthColor = 'var(--success)';
-            if (lengthPercent > 80) lengthColor = 'var(--warning)';
-            if (lengthPercent > 95) lengthColor = 'var(--error)';
+            let lengthIcon = '✅';
+            let lengthWarning = '';
 
-            lengthIndicator.innerHTML = `<span style="color: ${lengthColor};">📏 ${length} / ${maxLength} characters</span>`;
+            if (lengthPercent > 80 && lengthPercent <= 95) {
+                lengthColor = 'var(--warning)';
+                lengthIcon = '⚠️';
+                lengthWarning = ' (Approaching limit)';
+            } else if (lengthPercent > 95) {
+                lengthColor = 'var(--error)';
+                lengthIcon = '❌';
+                lengthWarning = ' (Near maximum!)';
+            }
 
-            // URL validation
+            lengthIndicator.innerHTML = `<span style="color: ${lengthColor};">${lengthIcon} ${length} / ${maxLength} characters${lengthWarning}</span>`;
+
+            // URL validation with better status indicators
             if (content.trim()) {
                 try {
                     new URL(content.trim());
-                    urlIndicator.innerHTML = '<span style="color: var(--success);">✓ Valid URL</span>';
+                    urlIndicator.innerHTML = '<span style="color: var(--success);">✅ Valid URL</span>';
                 } catch {
                     if (content.includes('http')) {
-                        urlIndicator.innerHTML = '<span style="color: var(--warning);">⚠ Invalid URL format</span>';
+                        urlIndicator.innerHTML = '<span style="color: var(--warning);">⚠️ Invalid URL format</span>';
                     } else {
-                        urlIndicator.innerHTML = '<span style="color: var(--text-secondary);">ℹ️ Text content</span>';
+                        urlIndicator.innerHTML = '<span style="color: var(--text-secondary);">📝 Text content</span>';
                     }
                 }
             } else {
-                urlIndicator.innerHTML = '<span style="color: var(--text-secondary);">⚪ Enter content to begin</span>';
+                urlIndicator.innerHTML = '<span style="color: var(--text-secondary);">⏸️ Waiting for content...</span>';
             }
 
-            // Scanning difficulty
+            // Scanning difficulty with clearer indicators
             let difficulty = 'Easy';
             let difficultyColor = 'var(--success)';
-            let difficultyIcon = '✓';
+            let difficultyIcon = '✅';
             if (length > 1000) {
                 difficulty = 'Medium';
                 difficultyColor = 'var(--warning)';
-                difficultyIcon = '⚠';
+                difficultyIcon = '⚠️';
             }
             if (length > 2500) {
                 difficulty = 'Hard';
@@ -1672,6 +1718,51 @@
             document.getElementById('phoneInput').style.display = qrType === 'phone' ? 'block' : 'none';
             document.getElementById('eventInput').style.display = qrType === 'event' ? 'block' : 'none';
             document.getElementById('locationInput').style.display = qrType === 'location' ? 'block' : 'none';
+        }
+
+        // Load example data for quick testing
+        function loadExample(type) {
+            const qrTypeSelect = document.getElementById('qrType');
+
+            if (type === 'url') {
+                qrTypeSelect.value = 'text';
+                toggleQRTypeInputs();
+                document.getElementById('contentInput').value = 'https://codeutils.org';
+                validateInput();
+                CodeUtils.Message.success('Example URL loaded! Click "Generate QR Code" to create.');
+            } else if (type === 'vcard') {
+                qrTypeSelect.value = 'vcard';
+                toggleQRTypeInputs();
+                document.getElementById('vcardName').value = 'John Doe';
+                document.getElementById('vcardPhone').value = '+1-555-0123';
+                document.getElementById('vcardEmail').value = 'john.doe@example.com';
+                document.getElementById('vcardOrg').value = 'Code Utils';
+                document.getElementById('vcardTitle').value = 'Developer';
+                document.getElementById('vcardUrl').value = 'https://codeutils.org';
+                CodeUtils.Message.success('Example vCard loaded! Click "Generate QR Code" to create.');
+            } else if (type === 'wifi') {
+                qrTypeSelect.value = 'wifi';
+                toggleQRTypeInputs();
+                document.getElementById('wifiSSID').value = 'MyWiFiNetwork';
+                document.getElementById('wifiPassword').value = 'SecurePassword123';
+                document.getElementById('wifiEncryption').value = 'WPA';
+                CodeUtils.Message.success('Example WiFi loaded! Click "Generate QR Code" to create.');
+            } else if (type === 'email') {
+                qrTypeSelect.value = 'email';
+                toggleQRTypeInputs();
+                document.getElementById('emailAddress').value = 'contact@codeutils.org';
+                document.getElementById('emailSubject').value = 'Hello from Code Utils';
+                document.getElementById('emailBody').value = 'This is an example email generated from a QR code.';
+                CodeUtils.Message.success('Example email loaded! Click "Generate QR Code" to create.');
+            }
+
+            // Scroll smoothly to show the loaded form
+            setTimeout(() => {
+                const visibleSection = document.querySelector('.card[style*="display: block"], .card:not([style*="display: none"])');
+                if (visibleSection && visibleSection.offsetTop) {
+                    window.scrollTo({ top: visibleSection.offsetTop - 100, behavior: 'smooth' });
+                }
+            }, 100);
         }
 
         function buildQRContent() {
@@ -1943,6 +2034,59 @@
             }, 1000);
         }
 
+        // Auto-generate smart filename based on QR type and content
+        function generateSmartFilename() {
+            const qrType = document.getElementById('qrType').value;
+            let filename = 'qrcode';
+
+            try {
+                if (qrType === 'text') {
+                    const content = document.getElementById('contentInput').value.trim();
+                    try {
+                        const url = new URL(content);
+                        // Extract domain from URL
+                        const domain = url.hostname.replace('www.', '').split('.')[0];
+                        filename = `qrcode-url-${domain}`;
+                    } catch {
+                        // Not a URL, use first 20 chars of text
+                        const cleanText = content.substring(0, 20).replace(/[^a-z0-9]/gi, '-').toLowerCase();
+                        filename = cleanText ? `qrcode-text-${cleanText}` : 'qrcode-text';
+                    }
+                } else if (qrType === 'vcard') {
+                    const name = document.getElementById('vcardName').value.trim();
+                    const cleanName = name.replace(/[^a-z0-9]/gi, '-').toLowerCase();
+                    filename = cleanName ? `qrcode-vcard-${cleanName}` : 'qrcode-vcard';
+                } else if (qrType === 'wifi') {
+                    const ssid = document.getElementById('wifiSSID').value.trim();
+                    const cleanSSID = ssid.replace(/[^a-z0-9]/gi, '-').toLowerCase();
+                    filename = cleanSSID ? `qrcode-wifi-${cleanSSID}` : 'qrcode-wifi';
+                } else if (qrType === 'email') {
+                    const email = document.getElementById('emailAddress').value.trim();
+                    const cleanEmail = email.split('@')[0].replace(/[^a-z0-9]/gi, '-').toLowerCase();
+                    filename = cleanEmail ? `qrcode-email-${cleanEmail}` : 'qrcode-email';
+                } else if (qrType === 'sms') {
+                    const phone = document.getElementById('smsNumber').value.trim().replace(/[^0-9]/g, '');
+                    filename = phone ? `qrcode-sms-${phone}` : 'qrcode-sms';
+                } else if (qrType === 'phone') {
+                    const phone = document.getElementById('phoneNumber').value.trim().replace(/[^0-9]/g, '');
+                    filename = phone ? `qrcode-phone-${phone}` : 'qrcode-phone';
+                } else if (qrType === 'event') {
+                    const name = document.getElementById('eventName').value.trim();
+                    const cleanName = name.replace(/[^a-z0-9]/gi, '-').toLowerCase().substring(0, 20);
+                    filename = cleanName ? `qrcode-event-${cleanName}` : 'qrcode-event';
+                } else if (qrType === 'location') {
+                    const lat = document.getElementById('locationLat').value.trim();
+                    const lon = document.getElementById('locationLon').value.trim();
+                    filename = (lat && lon) ? `qrcode-location-${lat}-${lon}` : 'qrcode-location';
+                }
+            } catch (e) {
+                console.warn('Error generating smart filename:', e);
+                filename = `qrcode-${qrType}`;
+            }
+
+            // Update the filename input
+            document.getElementById('qrFilename').value = filename;
+        }
 
         function generateQR() {
             // Force focus/blur to trigger autofill recognition
@@ -2080,6 +2224,9 @@
                 setTimeout(() => {
                     document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }, 100);
+
+                // Auto-generate smart filename
+                generateSmartFilename();
 
                 CodeUtils.Message.success('QR code generated!');
                 announceToScreenReader('QR code generated successfully. You can now download it.', 'assertive');
