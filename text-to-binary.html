@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free text to binary converter. Convert text to binary and binary to text with ASCII and Unicode support. 100% client-side processing.",
       "url": "https://codeutils.org/text-to-binary",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.6",
-        "ratingCount": "920"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 

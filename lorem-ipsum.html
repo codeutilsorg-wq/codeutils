@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free Lorem Ipsum placeholder text generator. Create paragraphs, sentences, or words for designs and mockups. 100% client-side processing.",
       "url": "https://codeutils.org/lorem-ipsum",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.7",
-        "ratingCount": "1150"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -182,16 +189,72 @@
         </div>
 
         <div class="info-section">
-            <h2>About Lorem Ipsum</h2>
-            <p>Lorem Ipsum is dummy text used in the printing and typesetting industry since the 1500s. It helps designers focus on layout without being distracted by readable content.</p>
+            <h2>About Lorem Ipsum Generator</h2>
+            <p>Placeholder text is essential during design and development—it fills layouts, tests typography, and demonstrates content areas before the real copy is ready. Our Lorem Ipsum Generator creates classic Latin placeholder text in any amount you need, from a single sentence to multiple full paragraphs. Unlike standard Lorem Ipsum generators, ours also offers alternative placeholder text types including random words, names, and developer-friendly patterns. Whether you are prototyping a web layout, testing a print design, or demonstrating a content management system, this tool generates the right amount of placeholder text instantly. All generation happens in your browser.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li>Generate paragraphs, sentences, or words</li>
-                <li>Option to start with classic "Lorem ipsum dolor sit amet..."</li>
-                <li>Randomized text from authentic Latin word pool</li>
-                <li>One-click copy to clipboard</li>
+                <li><strong>Paragraph Generation:</strong> Generate any number of Lorem Ipsum paragraphs with a single click</li>
+                <li><strong>Word and Sentence Count:</strong> Generate a precise number of words or sentences instead of full paragraphs</li>
+                <li><strong>Classic Lorem Ipsum:</strong> Starts with the traditional "Lorem ipsum dolor sit amet" opening</li>
+                <li><strong>Random Variation:</strong> Each generated block uses different sentence structures and word combinations for variety</li>
+                <li><strong>HTML Wrapped Output:</strong> Get the text wrapped in &lt;p&gt; tags ready to paste into HTML</li>
+                <li><strong>Plain Text Output:</strong> Get raw text without any HTML tags for non-HTML use cases</li>
+                <li><strong>Instant Copy:</strong> Copy the generated text to clipboard with one click</li>
+                <li><strong>Privacy First:</strong> 100% client-side generation—no network requests required</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Generate by Paragraphs</strong></p>
+            <ol>
+                <li>Select "Paragraphs" as the generation unit</li>
+                <li>Enter the number of paragraphs you need (e.g., 3)</li>
+                <li>Choose between plain text or HTML wrapped output</li>
+                <li>Click "Generate" and the Lorem Ipsum appears instantly</li>
+                <li>Click "Copy" to copy all generated text to your clipboard</li>
+            </ol>
+
+            <p><strong>Method 2: Generate by Word Count</strong></p>
+            <ol>
+                <li>Select "Words" as the generation unit</li>
+                <li>Enter the exact word count you need</li>
+                <li>Click "Generate" to get placeholder text with exactly that many words</li>
+                <li>Copy or use the output directly in your design or mockup</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Web Design and Wireframing</strong></p>
+            <p>During web design, you need realistic-looking text to fill content areas and test typography before the actual content is written. Use Lorem Ipsum to fill blog post bodies, product descriptions, about page sections, and testimonials in your designs. The Latin text has no meaning, which prevents stakeholders from focusing on the words rather than the design—a common issue when real content is used in mockups too early.</p>
+
+            <p><strong>Testing CMS and Content Management Systems</strong></p>
+            <p>When setting up a new CMS installation, demonstrating features to clients, or testing content workflows, you need realistic content to populate the system. Generate multiple paragraphs of Lorem Ipsum to create demo articles, product descriptions, and page content that makes the CMS look populated and realistic without requiring actual content to be written first.</p>
+
+            <p><strong>Typography and Print Design Testing</strong></p>
+            <p>Typographers and print designers use Lorem Ipsum to test how fonts render at different sizes, how line spacing affects readability, and how text flows around images. The random letter distribution in Lorem Ipsum is representative of real text, making it ideal for testing font rendering, kerning, and paragraph formatting without the distraction of meaningful content.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Replace Lorem Ipsum before launch:</strong> Lorem Ipsum is strictly for internal design and development use—always replace all placeholder text with real content before launching any site or publishing any design</li>
+                <li><strong>Match paragraph length to your content:</strong> Generate paragraphs of roughly the same length as your actual planned content—very short placeholder paragraphs in a layout designed for long-form text will mislead stakeholders about how the design will look in production</li>
+                <li><strong>Use HTML-wrapped output for web projects:</strong> Select the HTML output option when using Lorem Ipsum in HTML templates—the &lt;p&gt; tags are already included so you do not need to add them manually</li>
+                <li><strong>Label placeholder content clearly:</strong> In designs shared with clients or stakeholders, add a note indicating which areas contain Lorem Ipsum placeholder text to avoid confusion about what is final content</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What is the origin of Lorem Ipsum?</strong></p>
+            <p>A: Lorem Ipsum comes from "de Finibus Bonorum et Malorum" (On the Ends of Good and Evil), written by Cicero in 45 BC. The standard Lorem Ipsum passage is a scrambled, altered excerpt from sections 1.10.32 and 1.10.33 of this work. It has been used as placeholder text by typesetters since the 1500s and became standard in desktop publishing and web design.</p>
+
+            <p><strong>Q: Why use Latin instead of real English text?</strong></p>
+            <p>A: Latin placeholder text prevents readers from being distracted by the meaning of the words. When real English text is used in mockups, people read and evaluate the content rather than the design. The meaningless Latin text directs attention to layout, typography, and visual design rather than the words themselves.</p>
+
+            <p><strong>Q: Is the generated Lorem Ipsum the same every time?</strong></p>
+            <p>A: The generator uses randomized word and sentence combinations, so each generation produces slightly different text. The first paragraph always begins with the traditional "Lorem ipsum dolor sit amet" opening. Subsequent paragraphs use varied Latin vocabulary for visual variety that better simulates real content variation.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start generating Lorem Ipsum immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

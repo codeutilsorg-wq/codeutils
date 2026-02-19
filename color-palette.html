@@ -35,12 +35,27 @@
     <meta name="twitter:description" content="Generate harmonious color schemes including complementary, triadic, and analogous palettes.">
     <meta name="twitter:image" content="https://codeutils.org/images/og/color-palette.png">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <link rel="stylesheet" href="css/common.css">
@@ -186,17 +201,70 @@
 
         <div class="info-section">
             <h2>About Color Palette Generator</h2>
-            <p>Generate harmonious color palettes using color theory principles.</p>
+            <p>Choosing colors that work together harmoniously is one of the most challenging aspects of design. Our Color Palette Generator applies color theory principles to take the guesswork out of the process—enter any base color and instantly generate a mathematically balanced palette using classic schemes like complementary, analogous, triadic, or monochromatic. The tool also generates a full range of shades and tints from your base color, giving you everything you need to build a complete design system. Export the entire palette as CSS custom properties in one click.</p>
 
-            <h3>Color Schemes</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Complementary:</strong> Colors opposite on the color wheel</li>
-                <li><strong>Analogous:</strong> Colors adjacent on the color wheel</li>
-                <li><strong>Triadic:</strong> Three colors equally spaced (120 apart)</li>
-                <li><strong>Split Complementary:</strong> Base + two colors adjacent to complement</li>
-                <li><strong>Tetradic:</strong> Four colors forming a rectangle</li>
-                <li><strong>Monochromatic:</strong> Different shades of one color</li>
+                <li><strong>Six Color Schemes:</strong> Generate complementary, analogous, triadic, split complementary, tetradic, and monochromatic palettes from any base color</li>
+                <li><strong>Shades and Tints:</strong> Automatically generates a full range of lighter and darker variations of your base color for a complete scale</li>
+                <li><strong>CSS Variable Export:</strong> Export your entire palette as CSS custom properties (--color-1, --color-2...) ready to paste into your stylesheet</li>
+                <li><strong>Copy All Colors:</strong> Copy all palette HEX values at once for use in any design tool</li>
+                <li><strong>Individual Copy:</strong> Click any color swatch to copy its HEX value to the clipboard</li>
+                <li><strong>Color Wheel Based:</strong> All palette generation uses HSL color theory calculations for perceptually accurate harmony</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Generate from a Base Color</strong></p>
+            <ol>
+                <li>Enter your base color as a HEX code in the input field, or use the color picker to select one visually</li>
+                <li>Select a color scheme from the options (Complementary, Analogous, Triadic, etc.)</li>
+                <li>The palette generates instantly and displays as color swatches</li>
+                <li>Click any swatch to copy its HEX value, or use "Copy All Colors" to get the full palette</li>
+                <li>Scroll down to see the Shades &amp; Tints section for lighter and darker variations</li>
+            </ol>
+
+            <p><strong>Method 2: Export as CSS Variables</strong></p>
+            <ol>
+                <li>Generate your palette using Method 1</li>
+                <li>Click "Export as CSS Variables" to generate a block of CSS custom property declarations</li>
+                <li>Paste the output into your :root {} block in your stylesheet</li>
+                <li>Reference the variables throughout your CSS for consistent theming</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Starting a New Design System</strong></p>
+            <p>Every design system needs a core palette—primary, secondary, accent, and neutral colors. Start with your brand's primary color, generate a complementary scheme to find your accent color, then use the monochromatic scheme to generate a full range of shades for backgrounds, borders, and text. Export the entire set as CSS variables and you have a complete, harmonious color foundation for your design system in minutes.</p>
+
+            <p><strong>Choosing UI State Colors</strong></p>
+            <p>Interactive UI elements need multiple color states: default, hover, active, and disabled. The Shades &amp; Tints section generates exactly this—a scale from very light to very dark based on your base color. Use the lightest shades for backgrounds and hover states, the base color for the primary state, and darker shades for active/pressed states and text.</p>
+
+            <p><strong>Marketing and Presentation Design</strong></p>
+            <p>Presentations, social media graphics, and marketing materials need colors that complement each other without clashing. Use the Analogous scheme (adjacent colors on the wheel) for a cohesive, professional look with gentle contrast, or Complementary for high-contrast accent and call-to-action elements. The generated palettes are based on established color theory, so the results are always visually balanced.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Use complementary colors for CTAs:</strong> Complementary colors (opposite on the color wheel) create maximum contrast—use your brand color as the primary and its complement for call-to-action buttons to make them stand out</li>
+                <li><strong>Use analogous colors for backgrounds:</strong> Adjacent colors create a cohesive, calming feel—ideal for section backgrounds, gradients, and illustrations where you want harmony without strong contrast</li>
+                <li><strong>Build your neutral scale from monochromatic:</strong> Use the monochromatic scheme on a slightly warm or cool grey to generate a nuanced neutral scale with personality, rather than relying on pure black-to-white greys</li>
+                <li><strong>Verify accessibility after generating:</strong> Color harmony does not guarantee WCAG contrast compliance—after generating a palette, check that text colors meet the 4.5:1 contrast ratio requirement against their backgrounds</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What is the difference between complementary and split complementary schemes?</strong></p>
+            <p>A: A complementary scheme uses two colors directly opposite each other on the color wheel—maximum contrast, high visual energy. A split complementary scheme uses your base color plus the two colors adjacent to its complement, creating a three-color palette that has strong contrast but is more nuanced and easier to work with for complex designs.</p>
+
+            <p><strong>Q: How are the shades and tints generated?</strong></p>
+            <p>A: Shades are created by progressively decreasing the lightness in HSL while keeping hue and saturation constant. Tints are created by progressively increasing the lightness. This produces a perceptually even scale from very dark to very light, all based on your original base color.</p>
+
+            <p><strong>Q: Is my color data private?</strong></p>
+            <p>A: Yes. All palette generation happens entirely in your browser using JavaScript. No color values or usage data are sent to any server. The tool works completely offline once the page loads.</p>
+
+            <p><strong>Q: Do I need an account to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration or account required. Enter a color and get your palette immediately.</p>
         </div>
     </div>
 

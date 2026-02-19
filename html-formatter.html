@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free HTML formatter and beautifier. Format, beautify, and minify HTML code with proper indentation. 100% client-side processing.",
       "url": "https://codeutils.org/html-formatter",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.7",
-        "ratingCount": "1030"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -195,23 +202,70 @@
         <!-- Info Section -->
         <div class="info-section">
             <h2>About HTML Formatter</h2>
-            <p>This tool helps you format and beautify HTML code with proper indentation, or minify it for production use. All processing happens in your browser - your code is never sent to any server.</p>
+            <p>HTML code from web scraping, CMS exports, and minified production pages often comes as dense, unindented markup that is nearly impossible to read or edit. Our HTML Formatter instantly beautifies any HTML with proper indentation, consistent tag formatting, and clean nesting—transforming complex markup into structured, readable code. Whether you are inspecting page source, editing templates, or debugging HTML structure, this tool provides clean formatting in seconds. All processing happens entirely in your browser, ensuring your content stays private.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Format:</strong> Beautify HTML with proper indentation</li>
-                <li><strong>Minify:</strong> Remove whitespace to reduce file size</li>
-                <li><strong>Customizable Indent:</strong> Choose 2 spaces, 4 spaces, or tabs</li>
-                <li><strong>File Support:</strong> Upload HTML files or drag & drop</li>
-                <li><strong>Download:</strong> Save formatted HTML as a file</li>
+                <li><strong>Beautify HTML:</strong> Transform minified or poorly indented HTML into clean, well-structured markup with proper nesting</li>
+                <li><strong>Minify HTML:</strong> Remove all unnecessary whitespace, comments, and newlines to reduce page size for production</li>
+                <li><strong>Proper Indentation:</strong> Automatically indent nested elements to show hierarchy—child elements indent relative to their parent tags</li>
+                <li><strong>Multiple Indentation Options:</strong> Choose 2 spaces, 4 spaces, or tabs to match your project standards</li>
+                <li><strong>File Upload Support:</strong> Upload .html files directly or drag and drop them into the tool</li>
+                <li><strong>One-Click Copy:</strong> Copy the formatted output to your clipboard instantly</li>
+                <li><strong>Download Output:</strong> Save formatted HTML as a file to your computer</li>
+                <li><strong>Privacy First:</strong> 100% client-side—your HTML content never leaves your browser</li>
             </ul>
 
-            <h3>Keyboard Shortcuts</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste HTML Code</strong></p>
+            <ol>
+                <li>Copy HTML from your text editor, browser source view (Ctrl+U), or CMS</li>
+                <li>Paste it into the input text area on the left side</li>
+                <li>Click "Format" to beautify or "Minify" to compact the HTML</li>
+                <li>The formatted output appears instantly on the right</li>
+                <li>Copy or download the result as needed</li>
+            </ol>
+
+            <p><strong>Method 2: Upload an HTML File</strong></p>
+            <ol>
+                <li>Click the "Upload" button or drag and drop your .html file into the designated area</li>
+                <li>The file content will load automatically into the input area</li>
+                <li>Format or minify as needed, then save the result using "Download"</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Inspecting Page Source Code</strong></p>
+            <p>When analyzing websites or debugging your own site, viewing source code can reveal minified HTML that is difficult to parse. Copy the page source, paste it into this formatter, and instantly see the complete HTML structure with proper indentation. This makes it easy to understand the document hierarchy, identify hidden elements, and analyze page structure for SEO or debugging purposes.</p>
+
+            <p><strong>Cleaning Up CMS Output</strong></p>
+            <p>Content management systems like WordPress, Drupal, and Squarespace often generate HTML with inconsistent indentation and formatting. When you need to copy HTML from a CMS template and edit it in a standalone editor, run it through this formatter first. The clean, properly indented output is much easier to work with and helps you understand the structure before making changes.</p>
+
+            <p><strong>Preparing Email Templates</strong></p>
+            <p>HTML email templates often start as formatted code but need to be minified before sending to reduce email size and improve delivery rates. Use this tool to format email HTML during development for easy editing, then minify the final version before uploading to your email marketing platform. This removes comments and extra whitespace that add unnecessary bytes to every email sent.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li><strong>Ctrl+Enter:</strong> Format HTML</li>
-                <li><strong>Ctrl+M:</strong> Minify HTML</li>
-                <li><strong>Ctrl+K:</strong> Copy output to clipboard</li>
+                <li><strong>Always validate your HTML:</strong> After formatting, check that the output is valid HTML—some browsers forgive malformed HTML but this can cause layout issues and SEO problems</li>
+                <li><strong>Use 4-space indentation for HTML:</strong> While 2 spaces work for most languages, 4-space indentation makes deeply nested HTML elements much clearer, especially in tables and forms</li>
+                <li><strong>Watch for inline scripts and styles:</strong> Minifying HTML may affect inline JavaScript and CSS behavior—test minified pages thoroughly before deploying to production</li>
+                <li><strong>Preserve whitespace in text nodes:</strong> HTML elements like pre and code rely on whitespace—be careful when minifying pages that contain these elements</li>
             </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my HTML content safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All HTML formatting happens entirely in your browser using JavaScript. Your content never leaves your computer and is never sent to any server. This is especially important for HTML containing sensitive user data, internal URLs, or proprietary page structure. You can use this tool offline after the initial page load.</p>
+
+            <p><strong>Q: Can this tool format HTML with embedded CSS and JavaScript?</strong></p>
+            <p>A: Yes! The HTML formatter handles inline &lt;style&gt; and &lt;script&gt; tags within HTML documents. The HTML structure will be properly indented and the content of style and script tags will be preserved. For extensive embedded CSS or JS, consider formatting those sections separately with the dedicated CSS and JavaScript formatters.</p>
+
+            <p><strong>Q: Will formatting break my HTML?</strong></p>
+            <p>A: No—formatting only changes whitespace and indentation, never the actual content or tag structure. The formatted HTML is semantically identical to the original. However, HTML is whitespace-sensitive inside &lt;pre&gt; tags, so always test formatted pages in a browser, especially if you are minifying.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start formatting HTML immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

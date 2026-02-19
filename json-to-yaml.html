@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free JSON to YAML converter. Convert JSON data to YAML format with clean, readable output. 100% client-side processing.",
       "url": "https://codeutils.org/json-to-yaml",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.7",
-        "ratingCount": "940"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -189,29 +196,68 @@
         <!-- Info Section -->
         <div class="info-section">
             <h2>About JSON to YAML Converter</h2>
-            <p>This tool converts JSON (JavaScript Object Notation) data to YAML (YAML Ain't Markup Language) format. YAML is often preferred for configuration files due to its human-readable syntax.</p>
+            <p>YAML has become the dominant format for configuration files—Kubernetes manifests, GitHub Actions workflows, Docker Compose files, Ansible playbooks, and CI/CD pipelines all use YAML. But data and API responses are typically in JSON. When you need to move data from JSON into a YAML-based configuration or generate YAML output from a JSON data source, manual conversion is tedious and error-prone due to YAML's whitespace sensitivity. Our JSON to YAML Converter instantly transforms any JSON document into properly indented, clean YAML. All processing happens in your browser.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Instant Conversion:</strong> Convert JSON to YAML with one click</li>
-                <li><strong>Proper Formatting:</strong> Output is properly indented and readable</li>
-                <li><strong>File Support:</strong> Upload JSON files or drag & drop</li>
-                <li><strong>Download:</strong> Save YAML output as a file</li>
+                <li><strong>Instant Conversion:</strong> Paste JSON and get properly formatted YAML output immediately</li>
+                <li><strong>Correct Indentation:</strong> Output uses consistent 2-space indentation for maximum compatibility</li>
+                <li><strong>Full Type Preservation:</strong> Strings, numbers, booleans, nulls, arrays, and nested objects all convert to their YAML equivalents</li>
+                <li><strong>File Upload:</strong> Upload .json files directly for conversion</li>
+                <li><strong>Download as YAML:</strong> Save the output as a .yaml file with one click</li>
+                <li><strong>Keyboard Shortcuts:</strong> Ctrl+Enter to convert, Ctrl+K to copy output</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
             </ul>
 
-            <h3>YAML vs JSON</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste JSON</strong></p>
+            <ol>
+                <li>Paste your JSON object or array into the input area on the left</li>
+                <li>Click "Convert to YAML" or press Ctrl+Enter</li>
+                <li>The YAML output appears on the right with proper indentation</li>
+                <li>Click "Copy" or "Download YAML" to use the result</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a JSON File</strong></p>
+            <ol>
+                <li>Click "Upload" or drag and drop a .json file</li>
+                <li>The file converts automatically</li>
+                <li>Download the .yaml output file</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Creating Kubernetes and Docker Compose Configurations</strong></p>
+            <p>Infrastructure configuration often starts as JSON from an API response, a cloud provider's export, or a tool's output—but Kubernetes, Docker Compose, and Helm charts all require YAML. Convert your JSON configuration data to YAML here as a starting point, then add comments and refine the structure before deploying. This is much faster than rewriting the configuration from scratch in YAML format.</p>
+
+            <p><strong>Setting Up GitHub Actions and CI/CD Workflows</strong></p>
+            <p>GitHub Actions workflow files and most CI/CD pipeline configurations use YAML. If you have workflow parameters or environment configuration stored as JSON, convert it to YAML to embed in your .github/workflows/ files. The properly formatted output reduces the risk of indentation errors that cause YAML parsing failures in CI systems.</p>
+
+            <p><strong>Migrating API Responses to Configuration Files</strong></p>
+            <p>When building applications that read configuration from YAML files but receive default configuration from an API in JSON format, use this converter to create the initial YAML config file. Fetch the defaults from the API, convert the JSON response to YAML, and save it as your application's configuration file—then customize as needed.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li>YAML uses indentation instead of brackets</li>
-                <li>YAML supports comments (JSON does not)</li>
-                <li>YAML is more human-readable</li>
-                <li>JSON is more widely supported in APIs</li>
+                <li><strong>YAML is whitespace-sensitive:</strong> Indentation defines structure in YAML—never mix tabs and spaces. The converter outputs consistent 2-space indentation which is the most widely compatible format</li>
+                <li><strong>Add comments after converting:</strong> One of YAML's main advantages over JSON is comment support. After converting, add # comments to document the purpose of configuration values before committing to your repository</li>
+                <li><strong>Validate YAML before deploying:</strong> Use a YAML linter or validator after conversion to catch any edge cases before using the output in Kubernetes, CI/CD, or other YAML-consuming systems</li>
+                <li><strong>Strings with special characters may be quoted:</strong> YAML requires quoting for strings that contain special characters like : or #—the converter handles this automatically</li>
             </ul>
 
-            <h3>Keyboard Shortcuts</h3>
-            <ul>
-                <li><strong>Ctrl+Enter:</strong> Convert to YAML</li>
-                <li><strong>Ctrl+K:</strong> Copy output to clipboard</li>
-            </ul>
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What is the difference between JSON and YAML?</strong></p>
+            <p>A: Both are data serialization formats. JSON uses curly braces, square brackets, and explicit quotes for strings—it is compact and universally supported by APIs. YAML uses indentation instead of brackets, does not require quotes for most strings, and supports comments. YAML is preferred for configuration files; JSON is preferred for data interchange and APIs.</p>
+
+            <p><strong>Q: Will my JSON arrays convert correctly to YAML?</strong></p>
+            <p>A: Yes. JSON arrays convert to YAML sequences using the - prefix for each item. Nested arrays and arrays of objects are also converted correctly with proper indentation to represent the hierarchy.</p>
+
+            <p><strong>Q: Is my JSON data private?</strong></p>
+            <p>A: Yes. All conversion happens in your browser. Your data is never uploaded to any server or stored anywhere.</p>
+
+            <p><strong>Q: Do I need an account to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration required.</p>
         </div>
     </div>
 

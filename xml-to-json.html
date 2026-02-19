@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free XML to JSON converter. Transform XML data to JSON with preserved attributes and structure. 100% client-side processing.",
       "url": "https://codeutils.org/xml-to-json",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.7",
-        "ratingCount": "1210"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -151,21 +158,77 @@
 
         <div class="info-section">
             <h2>About XML to JSON Converter</h2>
-            <p>This tool converts XML documents to JSON format while preserving structure and attributes.</p>
+            <p>XML is still widely used in enterprise systems, SOAP APIs, RSS feeds, configuration files, and data exports—but modern web applications and tools work with JSON. Converting XML to JSON manually requires understanding the mapping rules for elements, attributes, and text content, and then carefully restructuring the data. Our XML to JSON Converter handles this automatically, preserving all elements, attributes, and nested structure in a clean JSON representation. Paste your XML or upload a file and get JSON output instantly, entirely in your browser.</p>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Instant Conversion:</strong> Paste XML and get formatted JSON output immediately</li>
+                <li><strong>Attribute Preservation:</strong> XML attributes are converted to JSON properties with @ prefix (e.g., @id, @class)</li>
+                <li><strong>Repeated Element Handling:</strong> Multiple sibling elements with the same name become JSON arrays automatically</li>
+                <li><strong>Nested Structure Support:</strong> Arbitrarily deep XML nesting converts to equivalent JSON object nesting</li>
+                <li><strong>Pretty-Printed Output:</strong> JSON output is formatted with indentation for easy reading</li>
+                <li><strong>File Upload:</strong> Upload .xml files directly for conversion</li>
+                <li><strong>Download as JSON:</strong> Save the output as a .json file with one click</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
+            </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste XML</strong></p>
+            <ol>
+                <li>Paste your XML document into the input area on the left</li>
+                <li>The JSON output appears automatically on the right</li>
+                <li>Click "Copy" to copy the JSON to your clipboard</li>
+                <li>Click "Download JSON" to save as a file</li>
+            </ol>
+
+            <p><strong>Method 2: Upload an XML File</strong></p>
+            <ol>
+                <li>Click "Upload" or drag and drop a .xml file</li>
+                <li>The file converts automatically</li>
+                <li>Download or copy the JSON output</li>
+            </ol>
 
             <h3>Conversion Rules</h3>
             <ul>
                 <li>XML elements become JSON object keys</li>
-                <li>XML attributes are prefixed with @ (e.g., @id)</li>
-                <li>Text content uses #text key when mixed with attributes</li>
-                <li>Repeated elements become arrays</li>
+                <li>XML attributes are prefixed with @ (e.g., @id becomes "@id")</li>
+                <li>Text content uses the #text key when mixed with attributes or child elements</li>
+                <li>Repeated sibling elements with the same tag name become JSON arrays</li>
             </ul>
 
-            <h3>Example</h3>
-            <p><strong>XML:</strong></p>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">&lt;person id="1"&gt;&lt;name&gt;John&lt;/name&gt;&lt;/person&gt;</pre>
-            <p><strong>JSON:</strong></p>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">{"person": {"@id": "1", "name": "John"}}</pre>
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Processing SOAP API and Legacy XML Responses</strong></p>
+            <p>Many enterprise systems, payment gateways, and legacy APIs still return XML. When integrating these systems with modern applications that prefer JSON, convert the XML responses here to understand the structure and design your parsing logic. This is especially useful when working with complex SOAP envelope responses where the nesting is several levels deep.</p>
+
+            <p><strong>Converting RSS and Atom Feeds</strong></p>
+            <p>RSS and Atom feed parsers receive XML data that needs to be processed and displayed in web applications. Convert feed XML to JSON to inspect the item structure, extract titles, descriptions, links, and publication dates, and understand exactly which keys to use when building your feed reader or content aggregation tool.</p>
+
+            <p><strong>Migrating XML Data to JSON Databases</strong></p>
+            <p>When migrating data from XML-based storage (XML files, SQL Server XML columns, Oracle XMLType) to a JSON database like MongoDB or a JSON API, convert each XML document to JSON here to verify the mapping before automating the migration. Understanding how attributes and repeated elements convert helps you design the target JSON schema correctly.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Attributes use @ prefix:</strong> Remember that XML attributes like id="1" appear in JSON as "@id": "1"—account for this when writing code that reads the converted JSON</li>
+                <li><strong>Repeated elements become arrays:</strong> Two &lt;item&gt; elements become an array—but a single &lt;item&gt; element becomes an object. Handle both cases in your code when consuming converted data from sources that may have variable counts</li>
+                <li><strong>Strip namespaces before converting:</strong> XML namespaces (xmlns: prefixes) are included in the output—if you do not need them, remove namespace declarations from the XML before converting for cleaner output</li>
+                <li><strong>Validate the JSON structure:</strong> After converting, paste the JSON into a JSON formatter to verify the structure matches your expectations before writing parsing code</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: How are XML attributes handled in the JSON output?</strong></p>
+            <p>A: XML attributes are converted to JSON properties with an @ prefix. For example, &lt;user id="123" role="admin"&gt; becomes {"user": {"@id": "123", "@role": "admin", ...}}. This convention makes it clear which properties were originally attributes versus child elements.</p>
+
+            <p><strong>Q: What happens when an XML element has both attributes and text content?</strong></p>
+            <p>A: When an element has both attributes and text content, the text is placed in a special #text property. For example, &lt;name lang="en"&gt;John&lt;/name&gt; becomes {"name": {"@lang": "en", "#text": "John"}}.</p>
+
+            <p><strong>Q: Is my XML data private?</strong></p>
+            <p>A: Yes. All conversion happens in your browser using JavaScript. Your XML is never uploaded to any server or stored anywhere.</p>
+
+            <p><strong>Q: Do I need to sign up to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration required.</p>
         </div>
     </div>
 

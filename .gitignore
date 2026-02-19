@@ -15,3 +15,6 @@ project-summary-md.txt
 
 # MCP configuration (contains credentials)
 .mcp.json
+
+# Cloudflare deploy folder (prevents duplicate content indexing)
+cloudflare-deploy/

@@ -35,12 +35,27 @@
     <meta name="twitter:description" content="Create linear and radial gradients visually. Get CSS code instantly.">
     <meta name="twitter:image" content="https://codeutils.org/images/og/gradient-generator.png">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <link rel="stylesheet" href="css/common.css">
@@ -516,24 +531,72 @@
 
         <div class="info-section">
             <h2>About CSS Gradient Generator</h2>
-            <p>Create beautiful CSS gradients with an intuitive visual interface.</p>
+            <p>CSS gradients are one of the most visually impactful design elements you can add to a website—but writing gradient syntax by hand, especially for complex multi-stop gradients, is error-prone and slow. Our CSS Gradient Generator gives you a visual interface to create linear, radial, and conic gradients with unlimited color stops. Drag stops to any position, pick colors from the visual picker, choose from curated presets, and copy the production-ready CSS with one click. All processing happens in your browser with no server required.</p>
 
-            <h3>How to Use</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Add colors:</strong> Click on the gradient bar or use the "+ Add Color" button</li>
-                <li><strong>Move colors:</strong> Drag the circular markers on the gradient bar</li>
-                <li><strong>Edit colors:</strong> Click a marker to select it, then use the color picker or type a HEX code</li>
-                <li><strong>Delete colors:</strong> Select a marker and click "Delete" (minimum 2 colors required)</li>
+                <li><strong>Three Gradient Types:</strong> Create linear (directional), radial (circular), and conic (rotational sweep) gradients</li>
+                <li><strong>Unlimited Color Stops:</strong> Add as many color stops as you need—drag them along the gradient bar to position them precisely</li>
+                <li><strong>Visual Color Picker:</strong> Interactive HSV picker and hue slider for each stop—no need to know the HEX code in advance</li>
+                <li><strong>8 Direction Presets:</strong> Quickly switch linear gradient direction with top, bottom, left, right, and diagonal presets</li>
+                <li><strong>Preset Gradients:</strong> Start from a library of curated beautiful gradient presets for instant inspiration</li>
+                <li><strong>One-Click CSS Export:</strong> Copy the complete CSS gradient declaration ready to paste into your stylesheet</li>
+                <li><strong>Live Preview:</strong> See your gradient update in real time as you adjust colors, positions, and settings</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
             </ul>
 
-            <h3>Features</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Build from Scratch</strong></p>
+            <ol>
+                <li>Select a gradient type: Linear, Radial, or Conic</li>
+                <li>For linear gradients, choose a direction preset or enter a custom angle</li>
+                <li>Click a color stop marker on the gradient bar to select it, then use the color picker to set its color</li>
+                <li>Click anywhere on the gradient bar to add a new color stop at that position</li>
+                <li>Drag stops left or right to reposition them</li>
+                <li>Click "Copy CSS" to copy the gradient declaration to your clipboard</li>
+            </ol>
+
+            <p><strong>Method 2: Start from a Preset</strong></p>
+            <ol>
+                <li>Scroll to the Presets section and click any gradient thumbnail</li>
+                <li>The preset loads into the editor with all its color stops and settings</li>
+                <li>Customize colors, positions, or direction as needed</li>
+                <li>Copy the CSS when you are happy with the result</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Hero Section Backgrounds</strong></p>
+            <p>Gradient backgrounds are a popular choice for website hero sections and landing pages. Use a subtle two-stop linear gradient to add depth to a solid background, or create a bold multi-color gradient for a more energetic design. The direction presets make it easy to test top-to-bottom, diagonal, and radial configurations quickly—pick the one that looks best with your hero content.</p>
+
+            <p><strong>Button and UI Component Styling</strong></p>
+            <p>Linear gradients on buttons give them a polished, three-dimensional appearance compared to flat solid colors. Create a two-stop gradient from a lighter to darker shade of your brand color, copy the CSS, and apply it to your button's background. The same technique works for card headers, nav bars, progress bars, and any other UI element that benefits from visual depth.</p>
+
+            <p><strong>Text Gradient Effects</strong></p>
+            <p>CSS gradients combined with background-clip: text create striking gradient text effects. Generate your gradient here, copy the CSS background value, and apply it to headings using: background: [gradient]; -webkit-background-clip: text; -webkit-text-fill-color: transparent. This works in all modern browsers and creates eye-catching typography for titles and branding.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li>Linear, radial, and conic gradients</li>
-                <li>Visual drag-and-drop color stops</li>
-                <li>8 direction presets for linear gradients</li>
-                <li>Beautiful preset gradients</li>
-                <li>One-click CSS export</li>
+                <li><strong>Keep gradients subtle for backgrounds:</strong> High-contrast multi-color gradients draw attention—use them for accents and CTAs. For full-page backgrounds, use gentle two-stop gradients with similar lightness values so text remains readable</li>
+                <li><strong>Use the conic gradient for charts:</strong> Conic gradients are ideal for creating donut charts and pie chart effects with pure CSS—add stops at specific degree positions to represent data segments</li>
+                <li><strong>Add a radial gradient for spotlight effects:</strong> A radial gradient from white (or a light brand color) to transparent creates a natural spotlight or glow effect when layered over a solid background</li>
+                <li><strong>Check fallbacks for older browsers:</strong> While all modern browsers support CSS gradients, include a solid color fallback in your stylesheet: background: #3498db; background: linear-gradient(...) so older browsers show a sensible color</li>
             </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What CSS gradient types does this tool support?</strong></p>
+            <p>A: The tool generates linear-gradient() (directional), radial-gradient() (circular/elliptical), and conic-gradient() (sweep around a center point) CSS gradients. All are supported in modern browsers including Chrome, Firefox, Safari, and Edge.</p>
+
+            <p><strong>Q: Can I add more than two colors to my gradient?</strong></p>
+            <p>A: Yes. Click anywhere on the gradient bar to add a new color stop at that position. You can add as many stops as you want—each stop can have its own color and position. There is no limit to the number of color stops.</p>
+
+            <p><strong>Q: Is my gradient data saved?</strong></p>
+            <p>A: The gradient editor state is maintained while you are on the page but is not saved between sessions. To preserve a gradient, copy the CSS and save it in your project. The tool does not send any data to a server.</p>
+
+            <p><strong>Q: Do I need to create an account to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration or account required. Open the page and start creating gradients immediately.</p>
         </div>
     </div>
 

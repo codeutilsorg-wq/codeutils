@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free Python formatter and beautifier. Format Python code with proper indentation and PEP8 compliance. 100% client-side processing.",
       "url": "https://codeutils.org/python-formatter",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.6",
-        "ratingCount": "1140"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -181,26 +188,70 @@ print(i)"></textarea>
 
         <div class="info-section">
             <h2>About Python Formatter</h2>
-            <p>This tool formats Python code with proper indentation following PEP 8 guidelines.</p>
+            <p>Python's syntax is indentation-based, making consistent formatting not just a style preference but a functional requirement. Inconsistent indentation causes syntax errors, while inconsistent style makes code harder to read and maintain. Our Python Formatter instantly formats Python code according to PEP 8 standards—the official Python style guide—with proper indentation, line length management, and spacing around operators. Whether you are cleaning up notebook code, preparing scripts for code review, or learning Python, this tool ensures your code meets professional standards. All processing happens entirely in your browser for complete privacy.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li>Fixes indentation for code blocks</li>
-                <li>Configurable indent size (4 spaces is PEP 8 standard)</li>
-                <li>Handles functions, classes, and control structures</li>
-                <li>Optional blank lines between functions</li>
+                <li><strong>PEP 8 Compliant Formatting:</strong> Format Python code according to the official Python style guide for professional, readable code</li>
+                <li><strong>Proper Indentation:</strong> Normalize indentation to 4 spaces (the Python standard) for syntactically correct, readable code</li>
+                <li><strong>Operator Spacing:</strong> Add proper spaces around operators, after commas, and in function definitions</li>
+                <li><strong>File Upload Support:</strong> Upload .py files directly from your computer or drag and drop them</li>
+                <li><strong>One-Click Copy:</strong> Instantly copy the formatted output to your clipboard</li>
+                <li><strong>Download Output:</strong> Save the formatted Python as a .py file to your computer</li>
+                <li><strong>Real-Time Processing:</strong> Instant formatting without page reloads or server round-trips</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your Python code never leaves your browser</li>
             </ul>
 
-            <h3>PEP 8 Guidelines</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste Python Code</strong></p>
+            <ol>
+                <li>Copy your Python code from your editor, Jupyter notebook, or script file</li>
+                <li>Paste it into the input text area on the left side</li>
+                <li>Click "Format" to apply PEP 8 formatting</li>
+                <li>The formatted output appears instantly in the output area on the right</li>
+                <li>Copy or download the result as needed</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a Python File</strong></p>
+            <ol>
+                <li>Click the "Upload" button or drag and drop your .py file into the designated area</li>
+                <li>The file content will automatically load into the input area</li>
+                <li>Format as needed, then use the "Download" button to save the result</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Cleaning Up Jupyter Notebook Code</strong></p>
+            <p>Code developed in Jupyter notebooks often has inconsistent formatting—cells are run in different orders, indentation gets mixed up from copying and pasting, and quick experiments leave behind messy code. Before extracting notebook code into a proper Python module or script, use this formatter to clean up the indentation and style. This makes the transition from notebook to production-ready code much smoother.</p>
+
+            <p><strong>Preparing Code for Pull Requests</strong></p>
+            <p>Most Python projects enforce PEP 8 compliance through linters and CI checks (flake8, pylint, black). Before submitting a pull request, run your code through this formatter to ensure it meets the project's style requirements. This prevents CI failures due to style violations and reduces the back-and-forth in code reviews over trivial formatting issues.</p>
+
+            <p><strong>Learning and Teaching Python</strong></p>
+            <p>Python's indentation rules can be confusing for beginners, and seeing correctly formatted code helps build good habits. When teaching Python or reviewing student code, use this formatter to show the correct structure. Consistently formatted examples make it easier to explain control flow, function definitions, and class structure without students being confused by inconsistent whitespace.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li>Use 4 spaces per indentation level</li>
-                <li>Two blank lines between top-level definitions</li>
-                <li>One blank line between method definitions</li>
-                <li>Maximum line length of 79 characters</li>
+                <li><strong>Always use 4-space indentation:</strong> Python's PEP 8 standard specifies exactly 4 spaces for indentation—using 2 spaces or tabs may work syntactically but violates the community standard and causes issues with many tools</li>
+                <li><strong>Keep lines under 79 characters:</strong> PEP 8 recommends maximum line length of 79 characters for code and 72 for docstrings—long lines should be broken up using Python's implicit line continuation or backslash continuation</li>
+                <li><strong>Use meaningful blank lines:</strong> Separate top-level function and class definitions with two blank lines, and method definitions within a class with one blank line—this visual separation helps readers understand code structure</li>
+                <li><strong>Format before committing:</strong> Consider using automated formatters like Black or autopep8 in your pre-commit hooks to automatically enforce consistent formatting across your entire team</li>
             </ul>
 
-            <h3>Limitations</h3>
-            <p>This is a basic formatter. For full PEP 8 compliance, use tools like Black, autopep8, or YAPF in your development environment.</p>
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my Python code safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All Python formatting happens entirely in your browser using JavaScript. Your code—including any API keys, database connection strings, or proprietary algorithms—never leaves your computer and is never uploaded to any server. This makes our tool safe for formatting sensitive scripts and internal applications.</p>
+
+            <p><strong>Q: Does this tool format Python 2 and Python 3 code?</strong></p>
+            <p>A: Yes, this formatter handles both Python 2 and Python 3 syntax. The formatting rules applied follow PEP 8, which applies to both versions. However, this tool focuses on indentation and spacing rather than converting between Python 2 and 3 syntax—it will not automatically update print statements, division operators, or other Python 2/3 incompatibilities.</p>
+
+            <p><strong>Q: How is this different from Black or autopep8?</strong></p>
+            <p>A: Black and autopep8 are command-line tools that you install and run locally on your machine. This tool requires no installation—just paste your code in the browser and format instantly. It is ideal for quick formatting tasks, sharing code snippets, and situations where you do not have access to your local development environment.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start using the Python formatter immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

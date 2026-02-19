@@ -52,13 +52,27 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -161,38 +175,71 @@
         </div>
 
         <div class="info-section">
-            <h3>About This Tool</h3>
-            <p>Extract specific pages from your PDF files. Split large PDFs into smaller documents by selecting the pages you need.</p>
+            <h2>About PDF Splitter</h2>
+            <p>Large PDF files are difficult to share via email, slow to load, and often contain more content than the recipient needs. Our PDF Splitter lets you extract exactly the pages you want from any PDF file—whether that is a single page, a contiguous range, or a complex mix of individual pages and ranges. The extracted pages are saved as a new PDF file that downloads directly to your device. Unlike most online PDF tools, all processing happens entirely in your browser—your document never touches a server.</p>
 
-            <h4>Features</h4>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Page Selection:</strong> Extract individual pages or page ranges</li>
-                <li><strong>Flexible Input:</strong> Use commas and dashes for complex selections</li>
-                <li><strong>Preserve Quality:</strong> Original PDF quality is maintained</li>
-                <li><strong>100% Private:</strong> All processing happens in your browser - no uploads</li>
-                <li><strong>Free & Unlimited:</strong> No sign-up, no limits, completely free</li>
+                <li><strong>Flexible Page Selection:</strong> Extract individual pages, continuous ranges, or any combination—for example "1-5, 10, 15-20"</li>
+                <li><strong>Preserve Quality:</strong> Extracted pages retain the original PDF quality—text, images, and formatting are unchanged</li>
+                <li><strong>Instant Processing:</strong> No upload time—processing starts immediately in your browser</li>
+                <li><strong>100% Private:</strong> Your PDF never leaves your device—nothing is uploaded to any server</li>
+                <li><strong>Free and Unlimited:</strong> No sign-up, no page limits, no file size caps for free users</li>
+                <li><strong>Auto Download:</strong> The extracted PDF downloads automatically when processing is complete</li>
             </ul>
 
-            <h4>How to Use</h4>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Extracting Pages from a PDF</strong></p>
             <ol>
-                <li>Click "Choose PDF File" and select your PDF</li>
-                <li>Enter the pages you want to extract (e.g., "1-5, 10, 15-20")</li>
-                <li>Click "Split PDF" to extract the pages</li>
-                <li>The new PDF will be automatically downloaded</li>
+                <li>Click "Choose PDF File" and select your PDF document</li>
+                <li>The tool shows the total number of pages in your PDF</li>
+                <li>Enter the pages you want to extract in the page selection field using the format below</li>
+                <li>Click "Split PDF" to extract the selected pages</li>
+                <li>The new PDF containing only your selected pages downloads automatically</li>
             </ol>
 
-            <h4>Page Selection Examples</h4>
+            <p><strong>Page Selection Syntax</strong></p>
             <ul>
-                <li><code>1</code> - Extract page 1 only</li>
-                <li><code>1-5</code> - Extract pages 1 through 5</li>
-                <li><code>1, 3, 5</code> - Extract pages 1, 3, and 5</li>
-                <li><code>1-3, 7-10</code> - Extract pages 1-3 and 7-10</li>
-                <li><code>1-5, 10, 15-20</code> - Mixed selection</li>
+                <li><code>1</code> — Extract page 1 only</li>
+                <li><code>1-5</code> — Extract pages 1 through 5 (inclusive)</li>
+                <li><code>1, 3, 5</code> — Extract pages 1, 3, and 5 individually</li>
+                <li><code>1-3, 7-10</code> — Extract pages 1-3 and pages 7-10</li>
+                <li><code>1-5, 10, 15-20</code> — Mix of ranges and individual pages</li>
             </ul>
 
-            <h4>Privacy & Security</h4>
-            <p>Your PDF file is processed entirely in your browser using JavaScript. Nothing is uploaded to any server.
-                Your file never leaves your computer, making this tool completely safe for confidential documents.</p>
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Extracting a Chapter or Section</strong></p>
+            <p>Long reports, books, and manuals often need to be shared as smaller, focused documents. If a colleague needs only chapters 2-4 of a 200-page report, extract the relevant page range and share a compact file—without them having to download the entire document. Use the page range syntax to specify exactly which pages to include.</p>
+
+            <p><strong>Removing Unwanted Pages Before Sharing</strong></p>
+            <p>Documents often contain cover pages, appendices, or internal notes that should not be shared externally. Instead of editing the PDF in a complex tool, use this splitter to extract only the pages you want to share, omitting the rest. The original file is untouched—the extracted pages go to a new file.</p>
+
+            <p><strong>Creating Handouts from Presentation Slides</strong></p>
+            <p>When a presentation PDF contains 80 slides but a handout only needs the 15 key slides, extract those specific pages by number or range. This is faster than scrolling through a presentation tool and re-exporting, and the extracted PDF retains the original slide formatting and quality.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Check page count first:</strong> After loading your PDF, note the total page count shown by the tool—this helps you reference the correct page numbers, especially for scanned documents where page 1 of the document may not be the same as page 1 of the file</li>
+                <li><strong>Use ranges for contiguous pages:</strong> "3-15" is more efficient to type than "3,4,5,6,7,8,9,10,11,12,13,14,15"—both produce the same result</li>
+                <li><strong>Mix ranges and individual pages:</strong> You can combine ranges and single pages freely—for example "1, 5-10, 25, 30-35" extracts the intro page, a section, and two later sections</li>
+                <li><strong>For very large PDFs:</strong> Processing is done entirely in your browser, so very large files (100MB+) may take a few seconds depending on your device's memory and CPU speed</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Can I extract non-consecutive pages?</strong></p>
+            <p>A: Yes. Use commas to separate individual page numbers and dashes for ranges. For example, "1, 5, 10-15, 20" extracts page 1, page 5, pages 10 through 15, and page 20—all combined into a single output PDF in that order.</p>
+
+            <p><strong>Q: Does splitting affect PDF quality?</strong></p>
+            <p>A: No. The extracted pages are taken directly from the original PDF without re-encoding or compression. Text sharpness, image quality, and formatting are fully preserved in the output file.</p>
+
+            <p><strong>Q: Is my PDF safe to use with this tool?</strong></p>
+            <p>A: Yes. All PDF processing happens entirely in your browser using JavaScript. Your file is never uploaded to any server, stored, or transmitted anywhere. This makes the tool safe for confidential legal documents, financial records, medical files, and any other sensitive content.</p>
+
+            <p><strong>Q: Do I need to create an account or pay?</strong></p>
+            <p>A: No. The tool is completely free with no registration, sign-up, or account required. There are no file size limits or page count restrictions for free users.</p>
         </div>
     </div>
 

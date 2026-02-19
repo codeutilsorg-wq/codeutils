@@ -47,15 +47,27 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -74,12 +86,7 @@
       "description": "Free YAML formatter and validator. Format and beautify YAML files with automatic indentation fixing. 100% client-side processing.",
       "url": "https://codeutils.org/yaml-formatter",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.7",
-        "ratingCount": "1080"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -178,24 +185,70 @@ address:
 
         <div class="info-section">
             <h2>About YAML Formatter</h2>
-            <p>YAML (YAML Ain't Markup Language) is a human-readable data serialization format commonly used for configuration files.</p>
+            <p>YAML is the configuration language of choice for modern DevOps tools—Docker Compose, Kubernetes, GitHub Actions, Ansible, and more—but its whitespace-sensitive syntax makes formatting errors extremely common. Our YAML Formatter instantly beautifies and validates any YAML document with proper indentation, consistent structure, and clear nesting—catching syntax errors before they cause deployment failures. Whether you are writing Kubernetes manifests, CI/CD pipelines, or application configurations, this tool ensures your YAML is correct and readable. All processing happens entirely in your browser for complete privacy.</p>
 
-            <h3>YAML Syntax Rules</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li>Indentation matters - use consistent spaces (not tabs)</li>
-                <li>Key-value pairs use colons: <code>key: value</code></li>
-                <li>Lists use dashes: <code>- item</code></li>
-                <li>Comments start with #</li>
-                <li>Strings don't usually need quotes</li>
+                <li><strong>Format YAML:</strong> Beautify YAML documents with proper indentation and consistent spacing</li>
+                <li><strong>Validate YAML:</strong> Check YAML syntax for errors before using in configuration files or pipelines</li>
+                <li><strong>Error Detection:</strong> Get clear error messages when YAML is malformed, with indicators for where the issue occurs</li>
+                <li><strong>Proper Indentation:</strong> Normalize indentation to 2 spaces (YAML standard) for consistent formatting across all documents</li>
+                <li><strong>File Upload Support:</strong> Upload .yaml or .yml files directly or drag and drop them into the tool</li>
+                <li><strong>One-Click Copy:</strong> Copy the formatted YAML to your clipboard instantly</li>
+                <li><strong>Download Output:</strong> Save formatted YAML as a file to your computer</li>
+                <li><strong>Privacy First:</strong> 100% client-side—your configuration data never leaves your browser</li>
             </ul>
 
-            <h3>Example</h3>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">server:
-  host: localhost
-  port: 8080
-  features:
-    - auth
-    - logging</pre>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste YAML Content</strong></p>
+            <ol>
+                <li>Copy your YAML from your text editor, CI/CD configuration, or infrastructure file</li>
+                <li>Paste it into the input text area on the left side</li>
+                <li>Click "Format" to beautify and validate the YAML</li>
+                <li>The formatted output appears on the right, or an error message shows if the YAML is invalid</li>
+                <li>Copy or download the formatted result</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a YAML File</strong></p>
+            <ol>
+                <li>Click the "Upload" button or drag and drop your .yaml or .yml file into the designated area</li>
+                <li>The file content will load automatically into the input area</li>
+                <li>Format and validate, then save the result using the "Download" button</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Kubernetes Manifest Writing</strong></p>
+            <p>Kubernetes configurations are notoriously sensitive to indentation errors—a single misaligned key can cause deployment failures that are hard to diagnose. Before applying a manifest with kubectl, paste it into this formatter to validate the YAML structure and normalize indentation. This helps catch common mistakes like mixing tabs and spaces, incorrect list formatting with hyphens, and misaligned block mappings that would cause cryptic Kubernetes errors.</p>
+
+            <p><strong>GitHub Actions Workflow Development</strong></p>
+            <p>GitHub Actions workflows use YAML syntax with specific indentation rules for steps, jobs, and triggers. When writing or editing workflow files, use this formatter to validate your YAML before committing. This prevents failed workflow runs due to syntax errors, which can block CI/CD pipelines and delay deployments.</p>
+
+            <p><strong>Docker Compose Configuration</strong></p>
+            <p>Docker Compose files define complex multi-container applications with services, networks, volumes, and environment variables. When inheriting a Compose file or merging configurations from different sources, the indentation can easily become inconsistent. Use this tool to normalize the formatting and validate the structure before running docker-compose up to avoid service startup failures.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Always use 2-space indentation:</strong> The YAML specification recommends 2 spaces, and most tools (Kubernetes, GitHub Actions, Docker Compose) expect consistent 2-space indentation—never mix tabs and spaces</li>
+                <li><strong>Validate before deploying:</strong> Always run your YAML through a validator before using it in any deployment pipeline or production configuration—a syntax error in a Kubernetes manifest can cause pod crashes</li>
+                <li><strong>Quote strings when in doubt:</strong> Values that look like numbers, booleans, or special characters should be quoted—YAML may misinterpret 'yes', 'no', 'true', '1.0', and colons in values</li>
+                <li><strong>Watch for tab characters:</strong> YAML strictly prohibits tabs for indentation—if your YAML fails to parse, check for invisible tab characters that may have been introduced by your editor</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my configuration data safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All YAML formatting and validation happens entirely in your browser using JavaScript. Your configuration files—including any secrets, API keys, database credentials, or infrastructure details they may contain—never leave your computer and are never uploaded to any server. This tool is completely safe to use with sensitive DevOps configurations.</p>
+
+            <p><strong>Q: What's the difference between .yaml and .yml files?</strong></p>
+            <p>A: Both .yaml and .yml are identical file formats—they use the same syntax and are processed identically. The difference is purely conventional. .yml is older and common in tools like Docker Compose and Ruby on Rails. .yaml is the official file extension recommended by the YAML specification. Either works fine, and this tool handles both equally well.</p>
+
+            <p><strong>Q: Why does YAML validation fail when my file looks correct?</strong></p>
+            <p>A: The most common YAML errors are: (1) mixed tabs and spaces for indentation, (2) unquoted strings containing special characters like colons or hash signs, (3) incorrect list item formatting, and (4) duplicate keys at the same level. Paste your YAML into this tool to see the exact error and location, making it easier to fix.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start formatting YAML immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

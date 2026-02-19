@@ -47,12 +47,27 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -71,12 +86,7 @@
       "description": "Free find and replace tool. Bulk find and replace text with regex support and case-sensitive options. 100% client-side processing.",
       "url": "https://codeutils.org/find-replace",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.6",
-        "ratingCount": "930"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -215,26 +225,72 @@
         </div>
 
         <div class="info-section">
-            <h2>About Find and Replace</h2>
-            <p>This tool lets you search for text patterns and replace them with new content.</p>
+            <h2>About Find &amp; Replace</h2>
+            <p>Finding and replacing text across large documents or multiple text blocks is a fundamental editing task that benefits from precision and control. Our Find &amp; Replace tool provides powerful search options including case-sensitive matching, whole word search, and regular expression support—giving you fine-grained control over exactly which occurrences to replace. Whether you are renaming variables in code snippets, updating URLs in content, or fixing repeated typos, this tool makes bulk text replacement fast and reliable. All processing happens entirely in your browser for complete privacy.</p>
 
-            <h3>Options</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Use regex:</strong> Treat the search pattern as a regular expression</li>
-                <li><strong>Case sensitive:</strong> Match exact case (Hello ≠ hello)</li>
-                <li><strong>Whole word only:</strong> Only match complete words, not partial</li>
-                <li><strong>Replace all:</strong> Replace all occurrences vs. just the first</li>
+                <li><strong>Case-Sensitive Search:</strong> Toggle case-sensitive matching to find exact case matches or ignore case differences</li>
+                <li><strong>Whole Word Matching:</strong> Match only complete words—prevents replacing "the" inside "there" or "theater"</li>
+                <li><strong>Regex Support:</strong> Use regular expressions in the find field for powerful pattern-based searching and replacing</li>
+                <li><strong>Replace All or One:</strong> Replace all occurrences at once or step through them one at a time</li>
+                <li><strong>Match Highlighting:</strong> See all matches highlighted in the text before replacing</li>
+                <li><strong>Match Count:</strong> See exactly how many matches were found before committing to replacement</li>
+                <li><strong>Undo Support:</strong> Easily undo replacements if the result is not what you expected</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your content never leaves your browser</li>
             </ul>
 
-            <h3>Regex Tips</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Simple Text Find &amp; Replace</strong></p>
+            <ol>
+                <li>Paste your text into the main text area</li>
+                <li>Enter the text you want to find in the "Find" field</li>
+                <li>Enter the replacement text in the "Replace with" field</li>
+                <li>Click "Replace All" to replace every occurrence, or "Replace Next" to step through one at a time</li>
+                <li>Copy the modified text from the output area</li>
+            </ol>
+
+            <p><strong>Method 2: Regex-Based Find &amp; Replace</strong></p>
+            <ol>
+                <li>Enable "Use Regex" mode by toggling the regex option</li>
+                <li>Enter your regular expression pattern in the "Find" field</li>
+                <li>Enter the replacement with capture group references ($1, $2) if needed</li>
+                <li>Preview matches before clicking "Replace All"</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Renaming Variables and Functions in Code Snippets</strong></p>
+            <p>When adapting code examples from documentation or StackOverflow for your own project, you often need to rename variables, functions, or class names to fit your naming conventions. Use this tool to safely rename with whole-word matching enabled—this ensures you rename "user" without accidentally changing "userAgent" or "username". This is faster and safer than manual search and replace when there are many occurrences.</p>
+
+            <p><strong>Updating URLs and Domain Names in Content</strong></p>
+            <p>When migrating a website, rebranding, or moving content between environments, you often need to update dozens of URLs within text content. Paste your content, find the old domain or URL pattern, and replace it with the new one across the entire document at once. Case-insensitive matching ensures you catch URLs regardless of capitalization, and the match count tells you exactly how many links were updated.</p>
+
+            <p><strong>Fixing Repeated Typos and Terminology</strong></p>
+            <p>After proofreading a long document, you may discover a consistent spelling mistake or the use of an incorrect term throughout. Instead of manually correcting each instance, paste the entire document into this tool, find the incorrect text, and replace all occurrences instantly. This is much faster and more reliable than manually scanning for each instance.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li><code>.</code> - Any character</li>
-                <li><code>\d</code> - Any digit</li>
-                <li><code>\w</code> - Any word character</li>
-                <li><code>*</code> - Zero or more</li>
-                <li><code>+</code> - One or more</li>
-                <li><code>$1, $2</code> - Capture groups in replacement</li>
+                <li><strong>Check match count before replacing:</strong> Always note how many matches were found before clicking "Replace All"—an unexpectedly high or low count often indicates the search pattern needs adjustment</li>
+                <li><strong>Use whole word matching for variable names:</strong> When replacing code identifiers, always enable whole word matching to prevent partial matches that could corrupt variable names and function calls</li>
+                <li><strong>Use regex for complex patterns:</strong> For replacing patterns like dates, URLs, or formatted numbers, enable regex mode for much more precise matching than simple string search</li>
+                <li><strong>Work on copies for important documents:</strong> When doing large-scale replacements on important content, work on a copy first and verify the results before applying to the original</li>
             </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my text safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All find and replace operations happen entirely in your browser using JavaScript. Your text—including code, documents, and configuration content—never leaves your computer and is never uploaded to any server. This makes our tool completely safe for sensitive content like API configurations, internal documents, and proprietary code snippets.</p>
+
+            <p><strong>Q: Can I use regular expressions in the find field?</strong></p>
+            <p>A: Yes! Enable regex mode to use full JavaScript regular expressions in the find field. You can use capture groups in your pattern and reference them in the replace field using $1, $2, etc. For example, finding (\w+)@example.com and replacing with $1@newdomain.com will update all email addresses while preserving the username part.</p>
+
+            <p><strong>Q: What's the difference between Replace All and Replace Next?</strong></p>
+            <p>A: Replace All instantly replaces every occurrence of the search text throughout the entire document. Replace Next highlights the first match, lets you preview it, then replaces it and moves to the next match—giving you control to skip specific occurrences. Use Replace Next when some matches should be replaced and others should not.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start using find and replace immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

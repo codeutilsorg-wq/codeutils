@@ -20,10 +20,12 @@ if ! wrangler whoami &> /dev/null; then
     exit 1
 fi
 
-echo "📦 Building deployment package..."
+echo "📦 Deploying from root directory..."
+echo ""
+echo "Note: Deployment uses .cfpagesignore to exclude dev files"
 echo ""
 
-# Deploy using Wrangler
+# Deploy using Wrangler from root directory
 wrangler pages deploy . \
     --project-name=codeutils \
     --branch=main

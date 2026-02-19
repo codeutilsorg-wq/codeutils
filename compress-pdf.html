@@ -52,13 +52,27 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -150,46 +164,62 @@
         </div>
 
         <div class="info-section">
-            <h3>About This Tool</h3>
-            <p>Compress your PDF files to reduce file size. Perfect for emailing large PDFs, uploading to websites, or saving storage space.</p>
+            <h2>About PDF Compressor</h2>
+            <p>PDF files can grow surprisingly large—especially when they contain scanned images, embedded fonts, or redundant data. Large PDFs hit email attachment limits, slow down web uploads, and consume unnecessary storage. Our PDF Compressor analyzes the internal structure of your PDF and applies multiple optimization techniques to reduce the file size while preserving the document's readability and formatting. Processing happens entirely in your browser—your file never leaves your device.</p>
 
-            <h4>Features</h4>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Smart Compression:</strong> Reduces file size while maintaining readability</li>
-                <li><strong>Quality Preservation:</strong> Balances compression and quality</li>
-                <li><strong>Fast Processing:</strong> Compress PDFs in seconds</li>
-                <li><strong>100% Private:</strong> All processing happens in your browser - no uploads</li>
-                <li><strong>Free & Unlimited:</strong> No sign-up, no limits, completely free</li>
+                <li><strong>Smart Compression:</strong> Applies multiple optimization techniques—removing redundant objects, compressing data streams, and deduplicating font definitions</li>
+                <li><strong>Before/After Size Display:</strong> See the original and compressed file sizes and the percentage reduction achieved</li>
+                <li><strong>Quality Preservation:</strong> Text content, structure, and document formatting are maintained—only redundant or compressible data is removed</li>
+                <li><strong>Fast Processing:</strong> Compression completes in seconds directly in your browser</li>
+                <li><strong>100% Private:</strong> Your PDF never leaves your device—nothing is uploaded to any server</li>
+                <li><strong>Free and Unlimited:</strong> No sign-up, no file size limits, completely free to use</li>
             </ul>
 
-            <h4>How to Use</h4>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Compressing a PDF</strong></p>
             <ol>
-                <li>Click "Choose PDF File" and select your PDF</li>
-                <li>View the original file size and page count</li>
-                <li>Click "Compress PDF" to reduce the file size</li>
-                <li>The compressed PDF will be automatically downloaded</li>
+                <li>Click "Choose PDF File" and select the PDF you want to compress</li>
+                <li>The tool displays the original file size and page count</li>
+                <li>Click "Compress PDF" to start the optimization process</li>
+                <li>When complete, the tool shows the new file size and the size reduction percentage</li>
+                <li>The compressed PDF downloads automatically to your device</li>
             </ol>
 
-            <h4>Compression Methods</h4>
-            <p>This tool uses several techniques to reduce PDF file size:</p>
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Sending PDFs via Email</strong></p>
+            <p>Most email providers have attachment size limits between 10MB and 25MB. Scanned documents, catalogs, and presentation PDFs often exceed these limits. Compress your PDF to bring it within the attachment limit before sending—without switching to a file sharing service or asking the recipient to download from a link.</p>
+
+            <p><strong>Uploading to Web Portals and Forms</strong></p>
+            <p>Many government portals, job application systems, university submission forms, and legal platforms impose strict file size limits for document uploads—often 2MB, 5MB, or 10MB. If your PDF exceeds the portal's limit, compress it here to get under the threshold and complete your submission.</p>
+
+            <p><strong>Reducing Storage and Backup Size</strong></p>
+            <p>Large archives of scanned documents, invoices, contracts, and reports consume significant disk space and cloud storage. Batch-compressing these files over time can meaningfully reduce storage costs and backup times. Compress each PDF individually before archiving to keep your document library lean.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li>Remove duplicate font definitions</li>
-                <li>Optimize object streams</li>
-                <li>Remove unused objects</li>
-                <li>Compress data streams</li>
+                <li><strong>Image-heavy PDFs compress best:</strong> PDFs that consist mostly of scanned images or embedded photos benefit most from compression—reductions of 20-60% are common for this type of content</li>
+                <li><strong>Text-only PDFs may compress less:</strong> PDFs containing primarily vector text and minimal images are already compact—compression gains may be smaller (5-15%), but the optimization still removes redundant internal data</li>
+                <li><strong>For very large PDFs, split first:</strong> If a PDF is very large (50MB+) due to high-resolution images, consider splitting out the pages with the largest images using the PDF Splitter and compressing sections separately</li>
+                <li><strong>Check the output before sharing:</strong> Always open the compressed PDF and verify it looks correct before distributing—check that text is sharp, images are acceptable quality, and all pages are present</li>
             </ul>
 
-            <h4>Privacy & Security</h4>
-            <p>Your PDF file is processed entirely in your browser using JavaScript. Nothing is uploaded to any server.
-                Your file never leaves your computer, making this tool completely safe for confidential documents.</p>
+            <h3>Frequently Asked Questions</h3>
 
-            <h4>Tips</h4>
-            <ul>
-                <li>Compression results vary depending on the PDF content</li>
-                <li>PDFs with many images may benefit more from compression</li>
-                <li>Text-only PDFs may not compress significantly</li>
-                <li>For best results, use this on scanned documents or image-heavy PDFs</li>
-            </ul>
+            <p><strong>Q: How much will my PDF be compressed?</strong></p>
+            <p>A: Compression results vary based on PDF content. Image-heavy and scanned PDFs typically see 20-60% size reduction. PDFs that are mostly text with minimal images may see 5-15% reduction. The tool shows you the exact before and after sizes and percentage saved after compression.</p>
+
+            <p><strong>Q: Will compression reduce the quality of my PDF?</strong></p>
+            <p>A: This tool focuses on structural compression—removing redundant objects, unused fonts, and compressing data streams—rather than re-encoding or downsampling images. Text sharpness is preserved. If your PDF contains high-resolution images, those are compressed with minimal quality impact in most cases.</p>
+
+            <p><strong>Q: Is my PDF safe to upload here?</strong></p>
+            <p>A: Your PDF is not uploaded anywhere. All processing happens entirely in your browser using JavaScript. The file never leaves your device and is never sent to any server. This makes the tool completely safe for confidential contracts, financial documents, medical records, and any sensitive content.</p>
+
+            <p><strong>Q: Do I need an account or subscription?</strong></p>
+            <p>A: No. The tool is completely free with no registration, sign-up, or account required. There are no file size limits or usage caps for free users.</p>
         </div>
     </div>
 

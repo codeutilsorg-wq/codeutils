@@ -47,12 +47,27 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -71,12 +86,7 @@
       "description": "Free duplicate line remover. Remove duplicate lines from text and keep unique lines only with case-sensitive options. 100% client-side processing.",
       "url": "https://codeutils.org/duplicate-remover",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.5",
-        "ratingCount": "810"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -187,23 +197,69 @@
 
         <div class="info-section">
             <h2>About Duplicate Line Remover</h2>
-            <p>This tool removes duplicate lines from your text, leaving only unique entries.</p>
+            <p>Duplicate lines creep into data files, email lists, log exports, and copied text all the time—and removing them manually is tedious and error-prone. Our Duplicate Line Remover instantly scans your text, identifies repeated lines, and outputs only the unique entries. Whether you have a list of 50 emails or 50,000 server log entries, the tool handles it in milliseconds, entirely in your browser. No data is ever sent to a server, making it safe for sensitive or proprietary data.</p>
 
-            <h3>Options</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Case insensitive:</strong> Treat "Hello" and "hello" as duplicates</li>
-                <li><strong>Trim whitespace:</strong> Ignore leading/trailing spaces when comparing</li>
-                <li><strong>Remove empty lines:</strong> Remove blank lines from output</li>
-                <li><strong>Sort output:</strong> Alphabetically sort the result</li>
+                <li><strong>Instant Deduplication:</strong> Remove duplicate lines with a single click—results appear immediately</li>
+                <li><strong>Case-Insensitive Mode:</strong> Treat "Apple" and "apple" as the same entry so no duplicates sneak through due to capitalization differences</li>
+                <li><strong>Whitespace Trimming:</strong> Ignore leading and trailing spaces when comparing, so "  hello  " and "hello" are treated as duplicates</li>
+                <li><strong>Empty Line Removal:</strong> Strip blank lines from the output to produce a clean, compact list</li>
+                <li><strong>Sort Output:</strong> Optionally sort the deduplicated results alphabetically for easy scanning</li>
+                <li><strong>Show Duplicates Only:</strong> Identify which items appeared more than once—useful for auditing data quality</li>
+                <li><strong>Live Statistics:</strong> See how many lines were in the original, how many are unique, and how many duplicates were removed</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
             </ul>
 
-            <h3>Use Cases</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste Text</strong></p>
+            <ol>
+                <li>Paste or type your text into the input box—each item should be on its own line</li>
+                <li>Select your preferred options (case insensitive, trim whitespace, remove empty lines, sort output)</li>
+                <li>Click "Remove Duplicates" to get only unique lines in the output</li>
+                <li>Click "Copy Output" to copy the result to your clipboard</li>
+            </ol>
+
+            <p><strong>Method 2: Find What's Duplicated</strong></p>
+            <ol>
+                <li>Paste your list into the input box</li>
+                <li>Click "Show Duplicates Only" to see which items appear more than once</li>
+                <li>Use this to audit data quality before importing or processing</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Cleaning Email and Subscriber Lists</strong></p>
+            <p>Email lists accumulated over months often contain duplicate addresses from multiple sign-up forms, CSV exports, or manual additions. Before importing into an email marketing platform, paste your list here to remove duplicates and avoid sending the same message twice to the same person. Use case-insensitive mode to catch "User@Example.com" and "user@example.com" as duplicates.</p>
+
+            <p><strong>Deduplicating Data for Import</strong></p>
+            <p>When preparing data for import into databases, CRMs, or spreadsheets, duplicate rows cause primary key violations and dirty data. Export your data as a newline-separated list, run it through this tool, and then import only the unique entries. The statistics panel shows exactly how many duplicates were removed so you can verify the cleanup.</p>
+
+            <p><strong>Cleaning Log Files and Debug Output</strong></p>
+            <p>Server logs and console output often repeat the same error or warning many times. Paste a block of log lines to quickly see the unique messages, making it easier to identify distinct issues rather than wading through hundreds of repeated entries. Combine with the Sort Output option to group similar log messages together.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li>Cleaning up lists of emails, URLs, or IDs</li>
-                <li>Removing duplicate entries from data files</li>
-                <li>Finding unique items in a dataset</li>
-                <li>Preparing data for import</li>
+                <li><strong>Enable case-insensitive for email lists:</strong> Email addresses are case-insensitive by RFC standard, so always use this option when deduplicating email data</li>
+                <li><strong>Enable trim whitespace for CSV exports:</strong> Many spreadsheet apps export values with trailing spaces—trimming ensures these do not prevent duplicates from being caught</li>
+                <li><strong>Use Show Duplicates Only for auditing:</strong> Before removing duplicates, check which items were duplicated to understand data quality issues in your source</li>
+                <li><strong>Combine with Text Sorter:</strong> Sort your list first, then remove duplicates—or use the built-in Sort Output option—for an alphabetically ordered unique list ready to use</li>
             </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is there a limit on how many lines I can process?</strong></p>
+            <p>A: There is no hard limit—the tool runs entirely in your browser using JavaScript and can handle thousands of lines. Very large inputs (hundreds of thousands of lines) may take a second or two depending on your device, but there is no server-side restriction or file size cap.</p>
+
+            <p><strong>Q: What counts as a duplicate?</strong></p>
+            <p>A: By default, two lines are duplicates if they are exactly the same character-for-character, including capitalization and spaces. Enable "Case insensitive" to ignore capitalization differences, and "Trim whitespace" to ignore leading/trailing spaces when comparing. The actual output preserves the original formatting of the first occurrence of each unique line.</p>
+
+            <p><strong>Q: Is my data safe to paste here?</strong></p>
+            <p>A: Yes. All processing happens entirely in your browser using JavaScript. Your text is never uploaded to any server, stored, or transmitted anywhere. This makes the tool safe to use with confidential data, customer information, or proprietary lists.</p>
+
+            <p><strong>Q: Do I need to sign up or create an account?</strong></p>
+            <p>A: No account or registration is required. The tool is completely free and available to anyone without any sign-up. Just paste your text and click Remove Duplicates.</p>
         </div>
     </div>
 

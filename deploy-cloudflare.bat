@@ -15,10 +15,12 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-echo 📦 Building deployment package...
+echo 📦 Deploying from root directory...
+echo.
+echo Note: Deployment uses .cfpagesignore to exclude dev files
 echo.
 
-REM Deploy using Wrangler
+REM Deploy using Wrangler from root directory
 wrangler pages deploy . --project-name=codeutils --branch=main
 
 echo.

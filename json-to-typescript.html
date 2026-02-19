@@ -46,13 +46,27 @@
     <meta name="twitter:description"
         content="Convert JSON to TypeScript interfaces instantly. Free tool with 100% private client-side processing.">
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data -->
@@ -181,19 +195,69 @@
 
         <div class="info-section">
             <h2>About JSON to TypeScript Converter</h2>
-            <p>This tool generates TypeScript interfaces from JSON data, helping you create type-safe code when working
-                with APIs, configuration files, or any JSON data source.</p>
+            <p>Writing TypeScript interfaces manually for JSON data structures from APIs and databases is repetitive, error-prone, and time-consuming—especially for deeply nested objects with many fields. Our JSON to TypeScript Converter automatically generates TypeScript interfaces and types from any JSON object, correctly inferring types for strings, numbers, booleans, arrays, nested objects, and nullable fields. Whether you are integrating a new API, adding TypeScript to an existing JavaScript project, or creating type definitions for your data models, this tool generates the interfaces in seconds. All processing happens in your browser.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Automatic Type Inference:</strong> Detects strings, numbers, booleans, arrays, and nested
-                    objects</li>
-                <li><strong>Nested Interface Generation:</strong> Creates separate interfaces for nested objects</li>
-                <li><strong>Array Type Detection:</strong> Properly types arrays including arrays of objects</li>
-                <li><strong>Customizable Output:</strong> Configure root name, exports, and optional properties</li>
-                <li><strong>Privacy First:</strong> 100% client-side processing - your data never leaves your browser
-                </li>
+                <li><strong>Automatic Type Inference:</strong> Generate TypeScript interfaces with correctly inferred types from JSON values</li>
+                <li><strong>Nested Object Support:</strong> Create interfaces for deeply nested JSON objects with proper sub-interface generation</li>
+                <li><strong>Array Type Handling:</strong> Infer element types from JSON arrays, including arrays of objects and mixed arrays</li>
+                <li><strong>Optional Field Detection:</strong> Mark fields as optional (?) when null or missing values are detected</li>
+                <li><strong>Interface Naming:</strong> Auto-generate meaningful interface names based on property keys</li>
+                <li><strong>Root Interface Name:</strong> Customize the name of the root interface</li>
+                <li><strong>Export Syntax:</strong> Generated interfaces include export keyword for module usage</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your JSON data never leaves your browser</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste JSON and Generate</strong></p>
+            <ol>
+                <li>Paste your JSON object into the input area on the left</li>
+                <li>Enter a name for the root interface in the interface name field (e.g., "ApiResponse", "User", "Product")</li>
+                <li>The TypeScript interface generates automatically in the output panel</li>
+                <li>Copy the generated interfaces to paste into your TypeScript project</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a JSON File</strong></p>
+            <ol>
+                <li>Click "Upload" or drag and drop a .json file into the upload area</li>
+                <li>The JSON loads and TypeScript interfaces generate automatically</li>
+                <li>Customize the root interface name and copy the output</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Typing API Responses</strong></p>
+            <p>When integrating a REST API into a TypeScript application, you need type definitions for every response type. Copy an actual API response JSON, paste it into this tool, and instantly get TypeScript interfaces that exactly match the response structure. This is much faster and more accurate than manually inspecting the API documentation and writing interfaces by hand—especially for large responses with dozens of fields and multiple levels of nesting.</p>
+
+            <p><strong>Adding TypeScript to JavaScript Projects</strong></p>
+            <p>When migrating an existing JavaScript project to TypeScript, one of the first tasks is defining types for your data structures. Export sample data from your database or application, convert it here to TypeScript interfaces, and use the generated definitions to start typing your functions and components. This gives you a solid foundation of type definitions to build on rather than starting from scratch.</p>
+
+            <p><strong>Creating Type Definitions for Configuration Files</strong></p>
+            <p>Application configuration objects loaded from JSON files (like config.json or settings.json) can be typed with interfaces generated from actual config examples. Paste your config JSON here to generate the config interface, then import and use it to type your configuration loading code. This catches config structure errors at compile time rather than runtime.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Use a real API response sample:</strong> For the most accurate interfaces, use an actual API response sample rather than a simplified example—the generator infers types from the actual values, so null fields and arrays with elements are handled correctly</li>
+                <li><strong>Review nullable fields:</strong> When a field might be null or absent in some responses, add '| null' or mark it as optional with '?' after generation—the generator will flag nulls it detects but you may need to review all optional fields</li>
+                <li><strong>Rename generated sub-interfaces:</strong> The generator creates sub-interface names based on property paths—review and rename these to more descriptive domain-specific names that fit your codebase conventions</li>
+                <li><strong>Add JSDoc comments:</strong> After generating interfaces, add JSDoc comments to important fields explaining what they represent—this documentation shows up in your IDE's IntelliSense for all developers on your team</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my JSON data safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All JSON to TypeScript conversion happens entirely in your browser using JavaScript. Your JSON data—including API response samples, database records, and configuration objects—never leaves your computer and is never uploaded to any server.</p>
+
+            <p><strong>Q: How does the tool handle arrays with different object shapes?</strong></p>
+            <p>A: When an array contains objects with different shapes (union types), the generator creates a union interface that includes all fields found across all array items, marking fields that do not appear in all items as optional. For cleaner handling of true union types, review the generated output and manually refine the interface to explicitly define the union type with separate interfaces for each variant.</p>
+
+            <p><strong>Q: Can this tool generate Zod schemas or other validation schemas?</strong></p>
+            <p>A: This tool generates TypeScript interface declarations (static type checking only). For runtime validation schemas like Zod, io-ts, or Yup, you would need to manually convert the generated TypeScript interfaces or use a dedicated schema generation tool.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start generating TypeScript interfaces immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

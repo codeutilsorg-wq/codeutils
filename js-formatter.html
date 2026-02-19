@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free JavaScript formatter and beautifier. Format, beautify, and minify JavaScript code with proper indentation. 100% client-side processing.",
       "url": "https://codeutils.org/js-formatter",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.6",
-        "ratingCount": "1080"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -191,26 +198,70 @@
         <!-- Info Section -->
         <div class="info-section">
             <h2>About JavaScript Formatter</h2>
-            <p>This tool helps you format and beautify JavaScript code with proper indentation, or minify it for production use. All processing happens in your browser - your code is never sent to any server.</p>
+            <p>JavaScript code is often minified, obfuscated, or inconsistently formatted—making it difficult to read, debug, and maintain. Our JavaScript Formatter instantly beautifies any JavaScript code with proper indentation, line breaks, and spacing, transforming compact one-liners into clean, well-structured code. Whether you are inspecting third-party libraries, debugging production JS, or standardizing team code style, this tool handles it all. All processing happens entirely in your browser, ensuring your code remains private and never touches our servers.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Format:</strong> Beautify JavaScript with proper indentation</li>
-                <li><strong>Minify:</strong> Remove whitespace and comments to reduce file size</li>
-                <li><strong>Customizable Indent:</strong> Choose 2 spaces, 4 spaces, or tabs</li>
-                <li><strong>File Support:</strong> Upload JS files or drag & drop</li>
-                <li><strong>Download:</strong> Save formatted JavaScript as a file</li>
+                <li><strong>Beautify JavaScript:</strong> Transform minified or compact JS into readable code with proper indentation and line breaks</li>
+                <li><strong>Minify JavaScript:</strong> Remove all unnecessary whitespace, comments, and newlines to create compact JS for production use</li>
+                <li><strong>Multiple Indentation Options:</strong> Choose between 2 spaces, 4 spaces, or tabs to match your coding style preferences</li>
+                <li><strong>File Upload Support:</strong> Upload .js files directly from your computer or drag and drop them into the tool</li>
+                <li><strong>One-Click Copy:</strong> Instantly copy the formatted output to your clipboard for use in your code editor</li>
+                <li><strong>Download Output:</strong> Save the formatted or minified JavaScript as a .js file to your computer</li>
+                <li><strong>Real-Time Processing:</strong> Instant formatting without page reloads or server round-trips</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your code never leaves your browser</li>
             </ul>
 
-            <h3>Keyboard Shortcuts</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste JavaScript Code</strong></p>
+            <ol>
+                <li>Copy your JavaScript code from your editor, browser DevTools, or API response</li>
+                <li>Paste it into the input text area on the left side</li>
+                <li>Click the "Format" button to beautify or "Minify" to compact the code</li>
+                <li>The formatted output appears instantly in the output area on the right</li>
+                <li>Use the "Copy" button to copy the result to your clipboard</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a JavaScript File</strong></p>
+            <ol>
+                <li>Click the "Upload" button or drag and drop your .js file into the designated area</li>
+                <li>The file content will automatically load into the input area</li>
+                <li>Format or minify as needed, then use the "Download" button to save the result</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Inspecting Minified Libraries</strong></p>
+            <p>When debugging issues with third-party JavaScript libraries included via CDN, you often encounter minified code that is nearly impossible to read. Paste the minified code into this formatter to instantly transform it into readable JavaScript. This allows you to understand the library's behavior and identify where bugs might be occurring without needing access to the original source files.</p>
+
+            <p><strong>Cleaning Up Legacy Code</strong></p>
+            <p>Older codebases often contain inconsistently formatted JavaScript with mixed indentation styles and poor structure. Before doing a code review or refactoring, run the code through the formatter to normalize the style. This makes it much easier to spot logical issues, redundant code, and areas that need improvement without being distracted by formatting inconsistencies.</p>
+
+            <p><strong>Minifying for Production Deployment</strong></p>
+            <p>Before deploying JavaScript files to production, minifying them reduces file size and improves page load times. Remove all comments, extra whitespace, and unnecessary characters to create the smallest possible JS file. This is especially important for improving Google PageSpeed and Core Web Vitals scores.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li><strong>Ctrl+Enter:</strong> Format JavaScript</li>
-                <li><strong>Ctrl+M:</strong> Minify JavaScript</li>
-                <li><strong>Ctrl+K:</strong> Copy output to clipboard</li>
+                <li><strong>Keep formatted versions for development:</strong> Always maintain the readable, formatted version of your code in your repository—only minify for production builds</li>
+                <li><strong>Use consistent indentation:</strong> Pick either 2 spaces or 4 spaces and stick with it across your entire codebase for easier collaboration</li>
+                <li><strong>Review after formatting:</strong> Use the formatted output as an opportunity to spot issues—deeply nested code and overly complex functions are easier to identify in formatted code</li>
+                <li><strong>Check file size for large JS:</strong> Files under 2MB process instantly. Very large JavaScript files over 10MB may cause browser performance issues</li>
             </ul>
 
-            <h3>Note</h3>
-            <p>This is a basic formatter. For complex code with advanced syntax, consider using dedicated tools like Prettier or ESLint.</p>
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my code safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All JavaScript formatting happens entirely in your browser using JavaScript. Your code never leaves your computer and is never uploaded to any server. We don't store, log, or transmit your code in any way. This makes our tool completely safe for proprietary code, API keys, and sensitive business logic. You can even use this tool offline after the initial page load.</p>
+
+            <p><strong>Q: Can this tool format TypeScript or JSX code?</strong></p>
+            <p>A: This formatter is optimized for standard JavaScript (ES5/ES6+). While basic TypeScript and JSX may format correctly, some TypeScript-specific syntax like type annotations and decorators may not format perfectly. For TypeScript files, use our dedicated TypeScript Formatter tool.</p>
+
+            <p><strong>Q: What's the difference between formatting and minifying?</strong></p>
+            <p>A: Formatting (beautifying) adds proper indentation, line breaks, and spacing to make code human-readable. Minifying does the opposite—it removes all unnecessary whitespace and comments to reduce file size for production. Both operations preserve the functional behavior of your JavaScript; only the visual structure changes.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start using the JavaScript formatter immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

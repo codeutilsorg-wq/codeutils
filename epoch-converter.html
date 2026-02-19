@@ -47,12 +47,27 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -71,12 +86,7 @@
       "description": "Free epoch/Unix timestamp converter. Convert between epoch time and human-readable dates with seconds and milliseconds support. 100% client-side processing.",
       "url": "https://codeutils.org/epoch-converter",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.7",
-        "ratingCount": "1090"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -209,26 +219,71 @@
         </div>
 
         <div class="info-section">
-            <h2>About Epoch Time</h2>
-            <p>Epoch time (Unix timestamp) is the number of seconds since January 1, 1970 00:00:00 UTC.</p>
+            <h2>About Epoch Converter</h2>
+            <p>Unix timestamps (epoch time) are the standard way computers store and transmit dates and times—a single integer representing seconds since January 1, 1970 UTC. But these numbers are meaningless to humans without conversion. Our Epoch Converter instantly converts between Unix timestamps and human-readable dates and times in any timezone, with support for millisecond timestamps used by JavaScript and modern APIs. Whether you are debugging API responses, analyzing log timestamps, working with database records, or testing time-based logic, this tool converts epoch time in both directions instantly. All processing happens entirely in your browser.</p>
 
-            <h3>Common Timestamps</h3>
-            <table style="width: 100%; border-collapse: collapse;">
-                <tr style="border-bottom: 1px solid var(--border);">
-                    <th style="text-align: left; padding: 8px;">Epoch</th>
-                    <th style="text-align: left; padding: 8px;">Date</th>
-                </tr>
-                <tr><td style="padding: 8px;">0</td><td style="padding: 8px;">Jan 1, 1970 00:00:00 UTC</td></tr>
-                <tr><td style="padding: 8px;">1000000000</td><td style="padding: 8px;">Sep 9, 2001 01:46:40 UTC</td></tr>
-                <tr><td style="padding: 8px;">1609459200</td><td style="padding: 8px;">Jan 1, 2021 00:00:00 UTC</td></tr>
-                <tr><td style="padding: 8px;">2147483647</td><td style="padding: 8px;">Jan 19, 2038 03:14:07 UTC (Y2K38)</td></tr>
-            </table>
-
-            <h3>Formats</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Seconds:</strong> 10 digits (e.g., 1609459200)</li>
-                <li><strong>Milliseconds:</strong> 13 digits (e.g., 1609459200000)</li>
+                <li><strong>Unix Timestamp to Date:</strong> Convert any Unix timestamp (seconds or milliseconds) to a human-readable date and time</li>
+                <li><strong>Date to Unix Timestamp:</strong> Convert any date and time back to its Unix timestamp equivalent</li>
+                <li><strong>Millisecond Support:</strong> Automatically detect and handle JavaScript-style millisecond timestamps</li>
+                <li><strong>Timezone Conversion:</strong> Display converted times in any timezone with full DST awareness</li>
+                <li><strong>Current Time Display:</strong> See the current Unix timestamp updating in real time</li>
+                <li><strong>Multiple Formats:</strong> View results in ISO 8601, RFC 2822, relative time, and other standard formats</li>
+                <li><strong>Relative Time:</strong> See how long ago or in the future a timestamp is (e.g., "3 days ago")</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—no data leaves your browser</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Convert Timestamp to Date</strong></p>
+            <ol>
+                <li>Paste a Unix timestamp into the "Timestamp" input field (e.g., 1708300800 or 1708300800000)</li>
+                <li>The tool automatically detects whether it is seconds or milliseconds</li>
+                <li>The human-readable date, time, and timezone display immediately</li>
+                <li>Select a different timezone from the dropdown to see the time in any region</li>
+            </ol>
+
+            <p><strong>Method 2: Convert Date to Timestamp</strong></p>
+            <ol>
+                <li>Enter a date and time using the date/time picker</li>
+                <li>Select the source timezone for your date</li>
+                <li>The Unix timestamp (both seconds and milliseconds) appears immediately</li>
+                <li>Copy the timestamp for use in your code or database</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Debugging API Responses and Logs</strong></p>
+            <p>REST APIs, server logs, and database records frequently store dates as Unix timestamps. When debugging an issue and examining a raw API response or log entry containing a timestamp like 1708300800, use this converter to immediately see what date and time that represents. This is much faster than mental math or writing temporary code to convert the value—paste the timestamp and see the human-readable date instantly.</p>
+
+            <p><strong>Working with JavaScript Date Objects</strong></p>
+            <p>JavaScript's Date.now() and new Date().getTime() return millisecond timestamps (13-digit numbers). When debugging time-related JavaScript bugs or inspecting values from Date objects in your browser console, use this converter to verify the timestamp represents the date you expect. The tool automatically handles both second-based Unix timestamps (10-digit) and millisecond timestamps (13-digit).</p>
+
+            <p><strong>Database Record Analysis</strong></p>
+            <p>Many databases store created_at, updated_at, and other temporal fields as Unix timestamps for efficiency. When querying a database directly and reviewing records, the raw timestamp values require conversion to understand the actual dates. Use this converter to check when records were created, verify that time-based queries are returning the expected date ranges, and ensure your application's timestamp handling is correct.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Always specify timezone context:</strong> Unix timestamps represent a specific moment in time regardless of timezone, but when converting to a human-readable date, always specify which timezone you want—the same timestamp shows different hours in different timezones</li>
+                <li><strong>Distinguish seconds vs. milliseconds:</strong> Unix timestamps in seconds are 10 digits (until year 2286). JavaScript timestamps in milliseconds are 13 digits. Dividing by 1000 converts milliseconds to seconds—always verify which format your system uses</li>
+                <li><strong>Be careful around DST transitions:</strong> Daylight saving time transitions create ambiguous or skipped local times—always store and transmit timestamps in UTC and only convert to local time for display purposes</li>
+                <li><strong>Use ISO 8601 for human-readable storage:</strong> When you need human-readable timestamps in databases or files, use ISO 8601 format (2024-02-19T14:30:00Z) which is timezone-unambiguous and sorts lexicographically</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my data safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All timestamp conversion happens entirely in your browser using JavaScript. No timestamps or dates are sent to any server. Your data remains completely private on your device.</p>
+
+            <p><strong>Q: What is the difference between Unix time and epoch time?</strong></p>
+            <p>A: Unix time and epoch time are the same thing—both refer to the number of seconds that have elapsed since 00:00:00 UTC on January 1, 1970 (the "Unix epoch"). The term "epoch time" refers to this reference point, while "Unix timestamp" or "Unix time" refers to the count of seconds since that reference point. Both terms are used interchangeably in practice.</p>
+
+            <p><strong>Q: What happens at the year 2038 problem?</strong></p>
+            <p>A: The Year 2038 problem (Y2K38) affects 32-bit systems that store Unix timestamps as signed 32-bit integers. These systems can only represent times up to January 19, 2038 at 03:14:07 UTC. After that point, the timestamp overflows to a large negative number. Modern 64-bit systems do not have this problem—they can represent timestamps hundreds of billions of years in the future.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start converting timestamps immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

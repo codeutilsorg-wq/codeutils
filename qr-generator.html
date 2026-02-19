@@ -56,12 +56,27 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -80,12 +95,7 @@
       "description": "Professional QR code generator with logo upload, gradients, vector downloads (SVG/PDF/PNG). Create vCard, WiFi, Email, SMS QR codes. Customizable colors, patterns, shapes, and error correction. 100% free client-side processing.",
       "url": "https://codeutils.org/qr-generator",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "2.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.5",
-        "ratingCount": "820"
-      }
+      "softwareVersion": "2.0"
     }
     </script>
 
@@ -594,6 +604,111 @@
 
             h3 {
                 font-size: 1rem;
+            }
+        }
+
+        /* Comparison Table - Theme-Aware */
+        .comparison-table-wrapper {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-secondary);
+            font-size: var(--font-sm);
+        }
+
+        .comparison-table thead {
+            background: var(--primary);
+            color: #ffffff; /* Always white text on primary color for contrast */
+        }
+
+        .comparison-table th {
+            padding: 1rem 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            white-space: nowrap;
+        }
+
+        .comparison-table th:first-child {
+            min-width: 180px;
+        }
+
+        .comparison-table th.highlight-col {
+            background: var(--primary-hover);
+            position: relative;
+        }
+
+        .comparison-table th.highlight-col::after {
+            content: '⭐';
+            margin-left: 0.5rem;
+        }
+
+        .comparison-table td {
+            padding: 0.875rem 0.75rem;
+            border: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 500;
+            background: var(--bg-white);
+            color: var(--text-primary);
+        }
+
+        .comparison-table td.highlight-col {
+            background: var(--bg-white);
+            border-left: 3px solid var(--primary);
+            border-right: 3px solid var(--primary);
+            font-weight: 500;
+        }
+
+        .comparison-table td.success {
+            color: var(--success);
+        }
+
+        .comparison-table td.warning {
+            color: var(--warning);
+        }
+
+        .comparison-table td.error {
+            color: var(--error);
+        }
+
+        .comparison-table small {
+            display: block;
+            margin-top: 0.25rem;
+            font-size: var(--font-xs);
+            color: var(--text-secondary);
+            font-weight: normal;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: var(--bg-white);
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .comparison-table {
+                font-size: var(--font-xs);
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.5rem 0.4rem;
+            }
+
+            .comparison-table th:first-child,
+            .comparison-table td:first-child {
+                position: sticky;
+                left: 0;
+                z-index: 1;
+                background: var(--bg-secondary);
             }
         }
 
@@ -1149,6 +1264,146 @@
                 <li><strong>vCard QR Codes:</strong> Create digital business cards with contact info</li>
                 <li><strong>100% Private:</strong> All processing happens in your browser—no data uploaded</li>
             </ul>
+
+            <h3>How We Compare</h3>
+            <p>Compare our QR code generator with other popular tools available online:</p>
+
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th class="highlight-col">Our Tool</th>
+                            <th>Competitor A</th>
+                            <th>Competitor B</th>
+                            <th>Competitor C</th>
+                            <th>Competitor D</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Privacy & Security</strong></td>
+                            <td class="highlight-col success">✓ 100% client-side<br><small>Never uploads data</small></td>
+                            <td class="success">✓ Client-side</td>
+                            <td class="warning">⚠ Server processing<br><small>Data uploaded</small></td>
+                            <td class="success">✓ Client-side</td>
+                            <td class="warning">⚠ Server-based<br><small>Cloud storage</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Logo Upload</strong></td>
+                            <td class="highlight-col success">✓ Full support<br><small>Adjustable size 10-40%</small></td>
+                            <td class="success">✓ Available<br><small>Paid feature</small></td>
+                            <td class="error">✗ Not available<br><small>Premium only</small></td>
+                            <td class="error">✗ Not supported</td>
+                            <td class="success">✓ Paid plans</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gradient Backgrounds</strong></td>
+                            <td class="highlight-col success">✓ Linear & radial<br><small>Multiple colors</small></td>
+                            <td class="success">✓ Available</td>
+                            <td class="error">✗ Solid only<br><small>No gradients</small></td>
+                            <td class="error">✗ Not supported</td>
+                            <td class="warning">⚠ Limited<br><small>Premium only</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Output Formats</strong></td>
+                            <td class="highlight-col success">✓ SVG, PDF, PNG<br><small>Vector + raster</small></td>
+                            <td class="warning">⚠ PNG, SVG<br><small>PDF costs extra</small></td>
+                            <td class="error">✗ PNG only</td>
+                            <td class="warning">⚠ PNG, SVG<br><small>2 formats</small></td>
+                            <td class="success">✓ Multiple formats<br><small>Paid feature</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Module Patterns</strong></td>
+                            <td class="highlight-col success">✓ 3 patterns<br><small>Square, dots, rounded</small></td>
+                            <td class="success">✓ 5+ patterns</td>
+                            <td class="error">✗ Square only</td>
+                            <td class="error">✗ Basic only</td>
+                            <td class="warning">⚠ Limited<br><small>Premium plans</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Eye Shapes</strong></td>
+                            <td class="highlight-col success">✓ 3 shapes<br><small>Square, rounded, circle</small></td>
+                            <td class="success">✓ Multiple shapes</td>
+                            <td class="error">✗ Default only</td>
+                            <td class="error">✗ Not customizable</td>
+                            <td class="warning">⚠ Paid feature</td>
+                        </tr>
+                        <tr>
+                            <td><strong>vCard QR Codes</strong></td>
+                            <td class="highlight-col success">✓ Full support<br><small>Name, phone, email, etc.</small></td>
+                            <td class="success">✓ Available</td>
+                            <td class="success">✓ Basic vCard</td>
+                            <td class="success">✓ Available</td>
+                            <td class="success">✓ Comprehensive</td>
+                        </tr>
+                        <tr>
+                            <td><strong>WiFi QR Codes</strong></td>
+                            <td class="highlight-col success">✓ WPA/WPA2/WEP<br><small>All security types</small></td>
+                            <td class="success">✓ Available</td>
+                            <td class="warning">⚠ WPA2 only</td>
+                            <td class="success">✓ Full support</td>
+                            <td class="success">✓ All types</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Error Correction Levels</strong></td>
+                            <td class="highlight-col success">✓ 4 levels<br><small>L/M/Q/H adjustable</small></td>
+                            <td class="success">✓ Adjustable</td>
+                            <td class="error">✗ Medium only<br><small>Fixed at M</small></td>
+                            <td class="warning">⚠ 2 levels<br><small>L and H only</small></td>
+                            <td class="success">✓ All levels</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Size Options</strong></td>
+                            <td class="highlight-col success">✓ 128-2048px<br><small>9 preset sizes</small></td>
+                            <td class="warning">⚠ Up to 1000px<br><small>Lower limit</small></td>
+                            <td class="warning">⚠ Up to 500px</td>
+                            <td class="error">✗ 300px max<br><small>Small sizes</small></td>
+                            <td class="success">✓ Custom sizes<br><small>Paid plans</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Transparent Background</strong></td>
+                            <td class="highlight-col success">✓ PNG transparency<br><small>Alpha channel</small></td>
+                            <td class="success">✓ Available</td>
+                            <td class="error">✗ White only</td>
+                            <td class="success">✓ Supported</td>
+                            <td class="warning">⚠ Premium only</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Watermarks</strong></td>
+                            <td class="highlight-col success">✓ No watermarks<br><small>100% clean</small></td>
+                            <td class="warning">⚠ Small branding<br><small>Free version</small></td>
+                            <td class="error">✗ Watermarked<br><small>Unless paid</small></td>
+                            <td class="success">✓ No watermarks</td>
+                            <td class="error">✗ Branded<br><small>Free tier</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Clipboard Copy</strong></td>
+                            <td class="highlight-col success">✓ One-click copy<br><small>Direct to clipboard</small></td>
+                            <td class="error">✗ Not available<br><small>Download only</small></td>
+                            <td class="error">✗ No copy</td>
+                            <td class="error">✗ Download only</td>
+                            <td class="error">✗ Not supported</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Registration Required</strong></td>
+                            <td class="highlight-col success">✓ No registration<br><small>Anonymous use</small></td>
+                            <td class="success">✓ Optional</td>
+                            <td class="warning">⚠ Required for features</td>
+                            <td class="success">✓ No signup</td>
+                            <td class="error">✗ Required<br><small>Email needed</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dark Mode</strong></td>
+                            <td class="highlight-col success">✓ Auto-detect<br><small>System preference</small></td>
+                            <td class="error">✗ Light only</td>
+                            <td class="error">✗ Not available</td>
+                            <td class="error">✗ No dark mode</td>
+                            <td class="error">✗ Light only</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <h3>How to Use This Tool</h3>
 

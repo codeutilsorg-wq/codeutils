@@ -35,12 +35,27 @@
     <meta name="twitter:description" content="Convert HTML content to Markdown format. Preserves formatting and links.">
     <meta name="twitter:image" content="https://codeutils.org/images/og/html-to-markdown.png">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <link rel="stylesheet" href="css/common.css">
@@ -107,19 +122,70 @@
         </div>
 
         <div class="info-section">
-            <h2>Supported Conversions</h2>
+            <h2>About HTML to Markdown Converter</h2>
+            <p>HTML documents from websites, CMSes, and email clients contain verbose markup that is difficult to read and edit as plain text. Converting HTML to Markdown produces clean, portable, human-readable content that can be stored in version control, edited in any text editor, and published to platforms that support Markdown. Our HTML to Markdown Converter handles complex HTML including tables, nested lists, code blocks, links, and images—producing clean Markdown that accurately represents the original content. All conversion happens in your browser for complete privacy.</p>
+
+            <h3>Key Features</h3>
             <ul>
-                <li><code>&lt;h1&gt;-&lt;h6&gt;</code> to # headers</li>
-                <li><code>&lt;strong&gt;/&lt;b&gt;</code> to **bold**</li>
-                <li><code>&lt;em&gt;/&lt;i&gt;</code> to *italic*</li>
-                <li><code>&lt;a&gt;</code> to [text](url)</li>
-                <li><code>&lt;img&gt;</code> to ![alt](src)</li>
-                <li><code>&lt;ul&gt;/&lt;ol&gt;</code> to lists</li>
-                <li><code>&lt;code&gt;</code> to `code`</li>
-                <li><code>&lt;pre&gt;</code> to code blocks</li>
-                <li><code>&lt;blockquote&gt;</code> to > quotes</li>
-                <li><code>&lt;hr&gt;</code> to ---</li>
+                <li><strong>Full HTML Support:</strong> Convert all standard HTML elements to their Markdown equivalents—headings, paragraphs, lists, links, images, tables, code, blockquotes</li>
+                <li><strong>Table Conversion:</strong> HTML tables convert to GitHub-Flavored Markdown table syntax</li>
+                <li><strong>Code Block Preservation:</strong> Code elements (pre/code) convert to fenced code blocks with language detection</li>
+                <li><strong>Clean Output:</strong> Removes HTML-specific artifacts like class names, style attributes, and tracking parameters while preserving content</li>
+                <li><strong>Live Preview:</strong> See the Markdown output update in real time as you paste HTML</li>
+                <li><strong>Copy Markdown:</strong> Copy the converted Markdown to clipboard with one click</li>
+                <li><strong>Download:</strong> Save the converted Markdown as a .md file</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your content never leaves your browser</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste HTML Content</strong></p>
+            <ol>
+                <li>Copy HTML source from your browser (Ctrl+U for page source), text editor, or CMS</li>
+                <li>Paste it into the HTML input area on the left</li>
+                <li>The Markdown output appears instantly in the panel on the right</li>
+                <li>Review the Markdown and copy or download it</li>
+            </ol>
+
+            <p><strong>Method 2: Upload an HTML File</strong></p>
+            <ol>
+                <li>Click "Upload" or drag and drop an .html file into the upload area</li>
+                <li>The file converts automatically and Markdown appears in the output</li>
+                <li>Review the result and download the .md file</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Migrating CMS Content to Markdown</strong></p>
+            <p>When migrating a website from WordPress, Drupal, or another HTML-based CMS to a Markdown-based system like Hugo, Jekyll, or Gatsby, you need to convert existing content from HTML to Markdown. Export your pages as HTML, convert them here to clean Markdown, and use the output as the basis for your Markdown content files. This is far faster and more accurate than manually rewriting content in Markdown.</p>
+
+            <p><strong>Converting Email Content for Documentation</strong></p>
+            <p>Technical instructions and announcements sent via email are often written as formatted HTML. When this content needs to be preserved in a documentation wiki or knowledge base that uses Markdown, convert the email HTML to Markdown here. The converter strips email-specific styles and layout while preserving the actual content structure—headings, lists, links, and formatted text.</p>
+
+            <p><strong>Extracting Article Content for Note-Taking</strong></p>
+            <p>Web articles saved for later reading often contain the actual content surrounded by navigation menus, advertisements, and other page chrome. Copy just the main article HTML, convert it to Markdown here for clean reading-friendly output, and save it in your note-taking app. Most modern note-taking apps (Obsidian, Notion, Bear) support Markdown, making this a convenient way to save article content in a readable format.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Clean up the HTML first if needed:</strong> Very complex HTML with deeply nested divs, inline styles, and class-heavy markup may produce messy Markdown—consider removing wrapper divs and simplifying structure before converting</li>
+                <li><strong>Review table conversions carefully:</strong> HTML tables with merged cells (rowspan/colspan) cannot be perfectly represented in Markdown—review any table conversions to ensure they look correct in the output</li>
+                <li><strong>Check link URLs:</strong> Relative URLs in HTML links (href="/about") will remain relative in the Markdown output—update them to absolute URLs if the Markdown will be used outside the original site context</li>
+                <li><strong>Use for content, not for page structure:</strong> This tool is best for converting content blocks (articles, blog posts, documentation pages)—converting full page HTML with navigation, headers, and footers will produce cluttered Markdown</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my content safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All HTML to Markdown conversion happens entirely in your browser using JavaScript. Your HTML content never leaves your computer and is never uploaded to any server. This makes our tool safe for converting confidential articles, internal documentation, and proprietary content.</p>
+
+            <p><strong>Q: What HTML elements cannot be converted to Markdown?</strong></p>
+            <p>A: Some HTML features have no Markdown equivalent: tables with merged cells (rowspan/colspan), complex CSS styling, colored text, custom fonts, and most HTML form elements. These elements are either simplified, stripped, or preserved as raw HTML in the output. Standard content elements—headings, paragraphs, lists, links, images, code—all convert cleanly.</p>
+
+            <p><strong>Q: Can I convert a full web page including navigation?</strong></p>
+            <p>A: Yes, but the result will include all page elements including menus, footers, and sidebars. For best results, copy only the main content HTML rather than the full page source. Use browser DevTools to copy the HTML of just the article or content area you want to convert.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start converting HTML immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

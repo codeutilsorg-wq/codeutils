@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free line number adder tool. Add or remove line numbers from text with customizable formatting. 100% client-side processing.",
       "url": "https://codeutils.org/line-numbers",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.6",
-        "ratingCount": "820"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -191,23 +198,71 @@
 
         <div class="info-section">
             <h2>About Line Number Adder</h2>
-            <p>This tool adds or removes line numbers from text for easier reference and documentation.</p>
+            <p>Line numbers are essential for code reviews, documentation, academic citations, and any situation where you need to reference specific lines in a block of text. Our Line Number Adder instantly prepends a customizable line number to each line of your text, with options for the starting number, separator character, zero-padding, and blank line handling. The tool also works in reverse—stripping existing line numbers from text that was previously numbered. All processing happens in your browser with no data sent to any server.</p>
 
-            <h3>Options</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Start at:</strong> The starting number (default: 1)</li>
-                <li><strong>Separator:</strong> Character(s) between number and text (default: ": ")</li>
-                <li><strong>Pad numbers:</strong> Add leading zeros for alignment (1 becomes 01)</li>
-                <li><strong>Skip empty lines:</strong> Don't number blank lines</li>
+                <li><strong>Instant Numbering:</strong> Add line numbers to any block of text with a single click</li>
+                <li><strong>Custom Starting Number:</strong> Start numbering from any value—not just 1—for documents that continue from a previous section</li>
+                <li><strong>Custom Separator:</strong> Choose what appears between the number and the text: colon, period, parenthesis, pipe, or any custom string</li>
+                <li><strong>Zero-Padded Numbers:</strong> Automatically pad numbers with leading zeros (01, 02... 10) for consistent column alignment in monospaced fonts</li>
+                <li><strong>Skip Empty Lines:</strong> Leave blank lines unnumbered so the numbering reflects content lines only</li>
+                <li><strong>Remove Line Numbers:</strong> Strip existing line number prefixes from text—supports common formats like "1: ", "01.", "1) ", and "1 "</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
             </ul>
 
-            <h3>Use Cases</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Add Line Numbers</strong></p>
+            <ol>
+                <li>Paste or type your text into the input area</li>
+                <li>Set the Start at number (default is 1—change this if your text continues from a previous page)</li>
+                <li>Set the Separator character(s) that will appear between the number and the text (default is ": ")</li>
+                <li>Check "Pad numbers" if you want zero-padded alignment (e.g., 01, 02, ...10)</li>
+                <li>Check "Skip empty lines" if you want blank lines to remain unnumbered</li>
+                <li>Click "Add Line Numbers" and then "Copy Output" to use the result</li>
+            </ol>
+
+            <p><strong>Method 2: Remove Line Numbers</strong></p>
+            <ol>
+                <li>Paste text that already has line numbers into the input area</li>
+                <li>Click "Remove Line Numbers" to strip the numeric prefixes</li>
+                <li>The tool recognizes common formats: "1: text", "01. text", "1) text", "1 text"</li>
+                <li>Copy the cleaned output for use without line numbers</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Code Review and Bug Reports</strong></p>
+            <p>When discussing code in a bug report, Slack message, or email, line numbers make it unambiguous which line you are referring to. Paste your code snippet, add line numbers, and share the numbered version so reviewers can say "line 14 has an off-by-one error" instead of trying to describe the location in words. Use zero-padding so that columns align neatly in monospaced chat windows.</p>
+
+            <p><strong>Legal and Academic Documents</strong></p>
+            <p>Legal contracts, academic manuscripts, and court transcripts often require line-numbered formatting for citation purposes. Use the custom starting number to number a continuation section (e.g., starting at line 47 where the previous page ended) and the custom separator to match your required format (period, colon, or parenthesis).</p>
+
+            <p><strong>Creating Numbered Instructions and Tutorials</strong></p>
+            <p>When writing step-by-step instructions or tutorial content, auto-generating line numbers ensures consistent numbering even when you add, remove, or reorder steps. Write your steps as plain text, add line numbers, and the output is ready to paste into a document or forum post without manually renumbering after every edit.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li>Referencing specific lines in code reviews</li>
-                <li>Creating numbered lists from plain text</li>
-                <li>Documentation and tutorials</li>
-                <li>Legal or academic citations</li>
+                <li><strong>Use zero-padding for large files:</strong> If your text has more than 9 lines, enable padding so numbers align in a column—"09" and "10" line up correctly where "9" and "10" do not</li>
+                <li><strong>Match separator to your format:</strong> Academic and legal documents often use periods ("1."), while code contexts typically use colons ("1:") or pipes ("1 |")—customize the separator to match the required style</li>
+                <li><strong>Use custom start number for multi-page documents:</strong> If you are numbering page 2 of a document and page 1 ended at line 62, set the start number to 63 so numbering is continuous across pages</li>
+                <li><strong>Use Remove Line Numbers before re-numbering:</strong> If you receive text with existing line numbers and need to re-number from a different starting point, remove the old numbers first, then add new ones with your preferred settings</li>
             </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What line number formats does "Remove Line Numbers" recognize?</strong></p>
+            <p>A: The tool recognizes common patterns including "1: text", "01. text", "1) text", "1> text", "1| text", and "1 text" (number followed by a space). It removes the numeric prefix and separator from the start of each line, leaving the original content intact.</p>
+
+            <p><strong>Q: Can I add line numbers starting from a number other than 1?</strong></p>
+            <p>A: Yes. Set the "Start at" field to any number. This is useful when numbering a continuation of a document, or when your content is an excerpt from a larger file and you want the numbers to reflect the original positions.</p>
+
+            <p><strong>Q: Is my text safe to paste here?</strong></p>
+            <p>A: Yes. All processing is done entirely in your browser using JavaScript. Your text is never uploaded to any server, stored, or transmitted. This makes the tool safe for confidential documents, source code, and sensitive data.</p>
+
+            <p><strong>Q: Do I need to sign up or pay to use this tool?</strong></p>
+            <p>A: No. The tool is completely free with no registration or account required. Just paste your text and add or remove line numbers immediately.</p>
         </div>
     </div>
 

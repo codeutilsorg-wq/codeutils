@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free Markdown to HTML converter. Convert Markdown to clean HTML code with GitHub-flavored syntax support. 100% client-side processing.",
       "url": "https://codeutils.org/markdown-to-html",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.7",
-        "ratingCount": "1090"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -147,16 +154,71 @@ This is a **paragraph** with *emphasis*.
         </div>
 
         <div class="info-section">
-            <h2>Supported Markdown</h2>
+            <h2>About Markdown to HTML Converter</h2>
+            <p>Markdown is the preferred writing format for developers and technical writers—clean, readable, and portable—but many platforms and applications require HTML. Our Markdown to HTML Converter transforms any Markdown document into clean, semantic HTML instantly, with full support for GitHub-Flavored Markdown including tables, code blocks with syntax highlighting, task lists, and footnotes. Whether you are publishing blog content, building a static site, embedding content in a web application, or migrating documentation, this tool produces clean HTML from Markdown in seconds. All processing happens in your browser.</p>
+
+            <h3>Key Features</h3>
             <ul>
-                <li># Headers (h1-h6)</li>
-                <li>**bold** and *italic*</li>
-                <li>[links](url) and ![images](url)</li>
-                <li>- Unordered and 1. ordered lists</li>
-                <li>`inline code` and code blocks</li>
-                <li>> Blockquotes</li>
-                <li>--- Horizontal rules</li>
+                <li><strong>Full GFM Support:</strong> Convert GitHub-Flavored Markdown including tables, task lists, strikethrough, and auto-linking</li>
+                <li><strong>Clean HTML Output:</strong> Produces semantic, well-formatted HTML without inline styles or unnecessary markup</li>
+                <li><strong>Syntax Highlighting:</strong> Code blocks are converted with appropriate language class attributes for CSS highlighting</li>
+                <li><strong>Live Preview:</strong> See both the raw HTML output and the rendered preview simultaneously</li>
+                <li><strong>Copy HTML:</strong> Copy just the HTML fragment or the complete HTML document wrapper</li>
+                <li><strong>Download as HTML:</strong> Save the converted HTML as a .html file to your computer</li>
+                <li><strong>File Upload:</strong> Upload .md files to convert them directly</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your content never leaves your browser</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste Markdown and Convert</strong></p>
+            <ol>
+                <li>Paste your Markdown content into the input area on the left</li>
+                <li>The HTML output appears instantly in the output area on the right</li>
+                <li>Switch between "HTML Code" and "Rendered Preview" tabs to review the output</li>
+                <li>Click "Copy HTML" to copy the output, or "Download" to save as a file</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a Markdown File</strong></p>
+            <ol>
+                <li>Click "Upload" or drag and drop a .md or .markdown file</li>
+                <li>The file converts automatically and HTML appears in the output</li>
+                <li>Review the rendered preview to verify the conversion is correct</li>
+                <li>Download the HTML file or copy the content</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Publishing Blog Posts from Markdown</strong></p>
+            <p>Many developers write blog posts in Markdown for portability but need HTML for their CMS or static site generator. Write your post in Markdown using any editor, then convert it here to get clean HTML for copy-pasting into WordPress, Ghost, or your custom blog platform. The clean semantic HTML output integrates seamlessly with most CMS editors without introducing unwanted formatting artifacts.</p>
+
+            <p><strong>Embedding Documentation in Web Applications</strong></p>
+            <p>Application help documentation, onboarding guides, and feature documentation written in Markdown need to be displayed as HTML within web UIs. Convert your Markdown documentation to HTML here, then embed it in your application's help modal, sidebar, or documentation page. The conversion produces standard HTML tags (h1-h6, p, ul, ol, code, pre, blockquote) that work with any CSS framework.</p>
+
+            <p><strong>Email Newsletter Content Preparation</strong></p>
+            <p>Writing email content in Markdown and converting to HTML is much more productive than writing HTML email directly. Draft your newsletter content in clean, readable Markdown, convert it to HTML, then adapt the output for your email template. Start with the converted HTML as your base content, then add your email template's header, footer, and inline styles around it.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Review the rendered preview before using:</strong> Always check the rendered HTML preview to catch formatting issues—nested lists, tables, and code blocks sometimes need adjustments in the source Markdown</li>
+                <li><strong>Add CSS for complete rendering:</strong> The HTML output uses standard semantic tags without any CSS—you will need to add your own stylesheet or link to a Markdown CSS theme for proper styling in your application</li>
+                <li><strong>Specify code language for syntax highlighting:</strong> Code blocks converted with a language name (```javascript) include a class="language-javascript" attribute that CSS-based syntax highlighters like Prism.js can use</li>
+                <li><strong>Use the fragment option for embedding:</strong> Use "HTML Fragment" (without html/head/body wrapper) when embedding converted content into an existing page, and "Complete Document" when creating standalone HTML files</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my content safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All Markdown to HTML conversion happens entirely in your browser using JavaScript. Your content—drafts, documentation, and any sensitive information—never leaves your computer and is never uploaded to any server.</p>
+
+            <p><strong>Q: Is the HTML output safe from XSS attacks?</strong></p>
+            <p>A: The converter sanitizes the HTML output to prevent cross-site scripting (XSS) vulnerabilities. Raw HTML embedded in Markdown is handled safely. However, if you are displaying user-provided Markdown in a web application, always apply server-side sanitization as well—never trust client-side sanitization alone for security-critical applications.</p>
+
+            <p><strong>Q: Can I convert HTML back to Markdown?</strong></p>
+            <p>A: Yes! For the reverse conversion, use our HTML to Markdown tool which converts HTML documents back to clean Markdown syntax. This is useful for migrating content from HTML-based CMSes to Markdown-based documentation systems.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start converting Markdown immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

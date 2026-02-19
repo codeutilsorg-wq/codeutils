@@ -1,20 +1,21 @@
-# Cloudflare Pages ignore file
-# Files/folders to exclude from deployment
-
 node_modules/
 .git/
 .github/
 tests/
 test-results/
 playwright-report/
+analysis/
+docs/
+cloudflare-deploy/
+*.md
+*.sh
+*.bat
 package.json
 package-lock.json
 playwright.config.js
 test-tool.js
 netlify.toml
-*.sh
-*.md
-analysis/
-docs/
+wrangler.toml
 .gitignore
 .cfpagesignore
+GSC-RECOVERY-PLAN.md

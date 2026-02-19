@@ -46,13 +46,27 @@
     <meta name="twitter:description"
         content="Convert JSON to TOON format and reduce LLM tokens by 30-60%. Free tool with 100% private client-side processing.">
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data -->
@@ -188,27 +202,77 @@
         </div>
 
         <div class="info-section">
-            <h2>About TOON Format</h2>
-            <p>TOON (Token-Optimized Object Notation) is a compact serialization format designed to reduce token usage
-                when sending data to LLMs like GPT-4 and Claude. It can reduce token costs by 30-60% compared to JSON.
-            </p>
+            <h2>About JSON to TOON Converter</h2>
+            <p>TOON (Token-Optimized Object Notation) is a compact serialization format designed specifically to reduce the number of tokens consumed when sending structured data to large language models like GPT-4, Claude, and Gemini. When working with LLM APIs, every token costs money—and JSON arrays of objects are extremely token-inefficient because every row repeats all the key names. TOON eliminates this redundancy by converting to a columnar format: keys are listed once in a header, and values follow row by row. This tool converts JSON to TOON and back, with real-time token count comparison so you can see exactly how much you save.</p>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>JSON to TOON Conversion:</strong> Convert arrays of JSON objects to compact columnar TOON format instantly</li>
+                <li><strong>TOON to JSON:</strong> Convert TOON format back to standard JSON for processing or inspection</li>
+                <li><strong>Token Count Comparison:</strong> See the exact token count before and after conversion with percentage saved</li>
+                <li><strong>30-60% Token Reduction:</strong> Typical savings for arrays of objects with repeated key structures</li>
+                <li><strong>LLM Compatible:</strong> GPT-4, Claude, Gemini, and other LLMs can parse TOON format with a short system prompt instruction</li>
+                <li><strong>Nested Object Support:</strong> Handles JSON with nested structures</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your JSON data never leaves your browser</li>
+            </ul>
 
             <h3>How TOON Works</h3>
             <p>TOON converts arrays of objects into a columnar format, eliminating repeated keys:</p>
-            <pre
-                style="background: var(--bg-secondary); padding: var(--spacing-md); border-radius: var(--radius); overflow-x: auto;">
-JSON: [{"id": 1, "name": "Alice"}, {"id": 2, "name": "Bob"}]
+            <pre style="background: var(--bg-secondary); padding: var(--spacing-md); border-radius: var(--radius); overflow-x: auto;">JSON: [{"id": 1, "name": "Alice"}, {"id": 2, "name": "Bob"}]
 TOON: [2]{id,name}:
         1,Alice
         2,Bob</pre>
+            <p>The TOON format header [2]{id,name} tells the LLM: "2 rows follow, with fields 'id' and 'name'." Each subsequent line contains the values in the same order—no keys repeated. For large datasets with many fields, this dramatically reduces token count.</p>
 
-            <h3>Benefits</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Converting JSON to TOON</strong></p>
+            <ol>
+                <li>Paste your JSON array of objects into the input area on the left</li>
+                <li>Click "Convert to TOON" to generate the compact TOON output</li>
+                <li>Review the token count comparison to see your savings</li>
+                <li>Copy the TOON output to use in your LLM prompt</li>
+            </ol>
+
+            <p><strong>Converting TOON back to JSON</strong></p>
+            <ol>
+                <li>Paste TOON-formatted output into the input area</li>
+                <li>Click "Convert to JSON" to get standard JSON back</li>
+                <li>Use this to parse LLM responses that reference TOON data</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Reducing LLM API Costs for Data Analysis</strong></p>
+            <p>When building applications that send database records, CSV exports, or API results to LLMs for analysis, classification, or summarization, the input tokens dominate your API costs. Convert your data to TOON before including it in the prompt to reduce input token usage by 30-60%. On high-volume applications processing thousands of records per day, this can translate to significant monthly cost savings.</p>
+
+            <p><strong>Fitting More Data into the Context Window</strong></p>
+            <p>LLMs have context window limits (measured in tokens). When your data is too large to fit in a single prompt, TOON compression lets you include more records in the same number of tokens—potentially doubling the number of rows you can analyze per request. This is especially valuable for models with smaller context windows or when combining data with long system prompts.</p>
+
+            <p><strong>Building Token-Efficient RAG Pipelines</strong></p>
+            <p>Retrieval-Augmented Generation (RAG) systems retrieve relevant context from a database and include it in the LLM prompt. If the retrieved context is structured tabular data (customer records, product specs, log entries), converting it to TOON format before injection reduces the token overhead and leaves more of the context window for the actual query and model reasoning.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li><strong>30-60% Token Reduction:</strong> Significant cost savings on LLM API calls</li>
-                <li><strong>LLM Compatible:</strong> GPT-4, Claude, and other models can parse TOON format</li>
-                <li><strong>Bidirectional:</strong> Convert JSON ↔ TOON seamlessly</li>
-                <li><strong>Privacy First:</strong> 100% client-side processing</li>
+                <li><strong>TOON works best on arrays of objects:</strong> The greatest token savings come from large arrays where many objects share the same keys—the more rows and the more repeated keys, the bigger the reduction</li>
+                <li><strong>Include a brief format explanation in your system prompt:</strong> Tell the LLM "Data is in TOON format: [rows]{key1,key2,...}: values per row" so it can parse the format correctly without examples</li>
+                <li><strong>Verify the token count:</strong> Use the tool's token count comparison to measure the exact savings for your specific dataset before committing to TOON in production</li>
+                <li><strong>Test LLM comprehension:</strong> After converting, include the TOON data in a test prompt and ask the model to confirm it can parse the format correctly before building production pipelines around it</li>
             </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What JSON structures benefit most from TOON conversion?</strong></p>
+            <p>A: Arrays of objects where all (or most) objects share the same set of keys benefit most. The savings are proportional to the number of rows times the number of keys—a 100-row array with 10 keys saves the repetition of those 10 key names 100 times. Deeply nested single objects with unique structure save less.</p>
+
+            <p><strong>Q: Can modern LLMs reliably parse TOON format?</strong></p>
+            <p>A: Yes. Models like GPT-4, Claude 3+, and Gemini Pro can parse TOON correctly when given a brief format description. The columnar format is similar to CSV which these models understand well. Always include a short format description in your system prompt and test with a sample before deploying.</p>
+
+            <p><strong>Q: Is my JSON data safe to use with this tool?</strong></p>
+            <p>A: Yes. All conversion happens entirely in your browser. Your JSON data is never uploaded to any server, stored, or transmitted. The tool is safe to use with sensitive or proprietary data.</p>
+
+            <p><strong>Q: Do I need an account to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration required.</p>
         </div>
     </div>
 

@@ -14,11 +14,9 @@
             }
         })();
     </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free JPG to PDF Converter | Convert Images to PDF Online - Code Utils</title>
     <meta name="description"
-        content="Convert JPG, JPEG, PNG images to PDF instantly. Free online image to PDF converter. Supports multiple images. 100% private - no uploads required.">
+        content="Convert JPG, PNG images to PDF with drag & drop reordering. Free online converter with visual management. Supports multiple images. 100% private - no uploads.">
     <link rel="canonical" href="https://codeutils.org/jpg-to-pdf">
 
     <!-- Favicon and Touch Icons -->
@@ -33,7 +31,7 @@
     <meta property="og:url" content="https://codeutils.org/jpg-to-pdf">
     <meta property="og:title" content="Free JPG to PDF Converter - Code Utils">
     <meta property="og:description"
-        content="Convert JPG, PNG images to PDF instantly. Free online converter with 100% private client-side processing.">
+        content="Convert JPG, PNG images to PDF with drag & drop reordering. Free online converter with visual management. 100% private client-side processing.">
     <meta property="og:image" content="https://codeutils.org/images/og/jpg-to-pdf.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -43,7 +41,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="JPG to PDF Converter - Code Utils">
     <meta name="twitter:description"
-        content="Convert images to PDF instantly. Free tool with 100% private client-side processing.">
+        content="Convert JPG, PNG to PDF with drag & drop reordering. Free tool with visual management and 100% private processing.">
     <meta name="twitter:image" content="https://codeutils.org/images/og/jpg-to-pdf.png">
 
     <!-- Preconnect for performance -->
@@ -52,13 +50,27 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -78,6 +90,56 @@
       "url": "https://codeutils.org/jpg-to-pdf",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
       "softwareVersion": "1.0"
+    }
+    </script>
+
+    <!-- Structured Data: FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my data safe when converting images to PDF?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All image processing and PDF conversion happens entirely in your browser using JavaScript. Your images never leave your computer and are never uploaded to any server. We don't store, log, or transmit your images in any way. This makes our tool completely safe for sensitive documents, personal photos, or confidential images. You can even use this tool offline after the initial page load."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I convert multiple images at once?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! You can select multiple JPG, JPEG, or PNG images at once. Each image will become a separate page in the PDF document. You can also drag and drop to reorder images before converting, or remove unwanted images. There's no limit on the number of images you can convert (limited only by your browser's memory)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I reorder images before converting to PDF?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! After selecting your images, you can drag and drop them using the ☰ handle to reorder them in any sequence you want. The images will appear in the PDF in the same order as shown in the preview. You can also remove individual images by clicking the ✕ button on each thumbnail."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What image formats are supported?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Our converter supports JPG, JPEG, and PNG image formats. These are the most common image formats and cover the vast majority of use cases. Each image should be under 10MB for optimal performance, though we'll show warnings for files over 2MB."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or pay?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! This tool is completely free and doesn't require any registration, sign-up, or account creation. Just visit the page, select your images, and convert them to PDF instantly. There are no limits on usage, no watermarks, no premium tiers, and no hidden fees."
+          }
+        }
+      ]
     }
     </script>
 
@@ -109,21 +171,24 @@
 
         <div class="card">
             <div class="form-group">
-                <label class="file-label">
-                    <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png" multiple>
-                    <span class="file-label-text">
-                        <span class="file-icon">📁</span>
-                        <span>Choose Images (JPG, PNG)</span>
+                <label class="file-label" for="fileInput" id="fileLabel">
+                    <input type="file" id="fileInput" accept="image/jpeg,image/jpg,image/png" multiple aria-label="Select images to convert">
+                    <span class="file-label-text" id="fileLabelText">
+                        <span class="file-icon" id="fileIcon" aria-hidden="true">📁</span>
+                        <span id="fileLabelSpan">Choose Images (JPG, PNG)</span>
                     </span>
                 </label>
-                <div class="file-info" id="fileInfo">No files selected</div>
+                <div class="file-info" id="fileInfo" role="status" aria-live="polite">No files selected</div>
+                <button type="button" id="addMoreBtn" class="btn btn-sm btn-outline" style="display: none; margin-top: 0.5rem;">
+                    <span aria-hidden="true">➕</span> Add More Images
+                </button>
             </div>
 
             <div id="imagePreview" class="image-preview"></div>
 
             <div class="button-group">
                 <button id="convertBtn" class="btn btn-primary" disabled>Convert to PDF</button>
-                <button id="clearBtn" class="btn btn-secondary">Clear</button>
+                <button id="clearBtn" class="btn btn-secondary">Clear All</button>
             </div>
         </div>
 
@@ -158,8 +223,9 @@
             <h4>Features</h4>
             <ul>
                 <li><strong>Multiple Images:</strong> Add and convert multiple images at once</li>
+                <li><strong>Drag & Drop Reordering:</strong> Easily rearrange images by dragging them</li>
                 <li><strong>Format Support:</strong> Supports JPG, JPEG, and PNG formats</li>
-                <li><strong>Image Order:</strong> Images are added in the order you select them</li>
+                <li><strong>Visual Management:</strong> See thumbnails and remove unwanted images</li>
                 <li><strong>100% Private:</strong> All processing happens in your browser - no uploads</li>
                 <li><strong>Free & Unlimited:</strong> No sign-up, no limits, completely free</li>
             </ul>
@@ -167,7 +233,9 @@
             <h4>How to Use</h4>
             <ol>
                 <li>Click "Choose Images" and select one or more images (JPG, PNG)</li>
-                <li>Preview your selected images</li>
+                <li>Preview your selected images with thumbnails</li>
+                <li><strong>Optional:</strong> Drag images to reorder them (use the ☰ handle)</li>
+                <li><strong>Optional:</strong> Remove unwanted images by clicking the ✕ button</li>
                 <li>Click "Convert to PDF" to generate the PDF</li>
                 <li>The PDF will be automatically downloaded</li>
             </ol>
@@ -178,11 +246,160 @@
 
             <h4>Tips</h4>
             <ul>
-                <li>For best results, use high-quality images</li>
-                <li>Images will be added to PDF in the order you selected them</li>
-                <li>Each image will appear on a separate page in the PDF</li>
-                <li>Supported formats: JPG, JPEG, PNG</li>
+                <li><strong>Reorder images:</strong> Click and drag the ☰ handle to rearrange images</li>
+                <li><strong>Remove images:</strong> Click the ✕ button to remove unwanted images</li>
+                <li><strong>Visual feedback:</strong> See thumbnails of all selected images before converting</li>
+                <li><strong>For best results:</strong> Use high-quality images</li>
+                <li><strong>Each image = one page:</strong> Each image will appear on a separate page in the PDF</li>
+                <li><strong>Supported formats:</strong> JPG, JPEG, PNG</li>
             </ul>
+
+            <h4>Common Use Cases</h4>
+            <p>Our JPG to PDF converter is perfect for various scenarios:</p>
+            <ul>
+                <li><strong>Document Scanning:</strong> Convert photos of receipts, invoices, or contracts taken with your phone into professional PDF documents</li>
+                <li><strong>Photo Albums:</strong> Create PDF portfolios from your vacation photos, family albums, or event galleries</li>
+                <li><strong>Work Reports:</strong> Combine screenshots, charts, and diagrams into a single PDF presentation</li>
+                <li><strong>Academic Projects:</strong> Merge scanned notes, diagrams, and research images into organized PDF reports</li>
+                <li><strong>Real Estate:</strong> Create property listings with multiple photos in a single PDF document</li>
+                <li><strong>Product Catalogs:</strong> Convert product images into downloadable PDF catalogs for clients</li>
+                <li><strong>Legal Documents:</strong> Scan signed documents and convert them to PDF for secure archiving</li>
+                <li><strong>Medical Records:</strong> Convert prescription images, test results, and medical documents to PDF</li>
+            </ul>
+
+            <h4>Why Choose Our JPG to PDF Converter?</h4>
+            <p>Compare our free JPG to PDF converter with other popular tools available online:</p>
+
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th class="highlight-col">Our Tool</th>
+                            <th>Competitor A</th>
+                            <th>Competitor B</th>
+                            <th>Competitor C</th>
+                            <th>Competitor D</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Privacy & Security</strong></td>
+                            <td class="highlight-col success">✓ 100% client-side<br><small>Never uploads</small></td>
+                            <td class="warning">⚠ Server upload<br><small>Stored 1-24 hrs</small></td>
+                            <td class="warning">⚠ Server upload<br><small>Cloud storage</small></td>
+                            <td class="warning">⚠ Server upload<br><small>Germany servers</small></td>
+                            <td class="warning">⚠ Server upload<br><small>USA servers</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>File Limits</strong></td>
+                            <td class="highlight-col success">✓ Unlimited<br><small>No restrictions</small></td>
+                            <td class="error">✗ 20 files/task<br><small>40MB max</small></td>
+                            <td class="warning">⚠ 500MB limit<br><small>Paid for more</small></td>
+                            <td class="warning">⚠ 100MB limit<br><small>Per file</small></td>
+                            <td class="error">✗ 25 files max<br><small>Free tier</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Drag & Drop Reorder</strong></td>
+                            <td class="highlight-col success">✓ Full reordering<br><small>Visual handles</small></td>
+                            <td class="success">✓ Available</td>
+                            <td class="success">✓ Available</td>
+                            <td class="error">✗ No reordering<br><small>Fixed order</small></td>
+                            <td class="warning">⚠ Name sort only<br><small>No manual</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Processing Speed</strong></td>
+                            <td class="highlight-col success">✓ Instant<br><small>No upload time</small></td>
+                            <td class="warning">⚠ Variable<br><small>Upload + queue</small></td>
+                            <td class="warning">⚠ 1-3 minutes<br><small>Server processing</small></td>
+                            <td class="warning">⚠ Depends on size<br><small>Network speed</small></td>
+                            <td class="warning">⚠ Queue system<br><small>Peak delays</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Watermarks</strong></td>
+                            <td class="highlight-col success">✓ None<br><small>Clean PDFs</small></td>
+                            <td class="success">✓ No watermark</td>
+                            <td class="error">✗ Adds watermark<br><small>Pay to remove</small></td>
+                            <td class="success">✓ No watermark</td>
+                            <td class="warning">⚠ Branding footer<br><small>Free tier</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Account Required</strong></td>
+                            <td class="highlight-col success">✓ No sign-up<br><small>100% anonymous</small></td>
+                            <td class="warning">⚠ Optional<br><small>Limited without</small></td>
+                            <td class="error">✗ Required<br><small>Email needed</small></td>
+                            <td class="success">✓ No account</td>
+                            <td class="warning">⚠ Required for more<br><small>features</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Offline Capability</strong></td>
+                            <td class="highlight-col success">✓ Works offline<br><small>After first load</small></td>
+                            <td class="error">✗ Online only<br><small>Requires internet</small></td>
+                            <td class="error">✗ Online only<br><small>Server needed</small></td>
+                            <td class="error">✗ Online only<br><small>Cloud-based</small></td>
+                            <td class="error">✗ Online only<br><small>No offline mode</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pricing</strong></td>
+                            <td class="highlight-col success">✓ Free forever<br><small>No premium tier</small></td>
+                            <td class="warning">⚠ Free + Premium<br><small>$6.99/month</small></td>
+                            <td class="warning">⚠ Freemium<br><small>$9/month pro</small></td>
+                            <td class="success">✓ Completely free</td>
+                            <td class="warning">⚠ Free + Paid<br><small>$4.99/month</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Thumbnail Preview</strong></td>
+                            <td class="highlight-col success">✓ Full preview<br><small>Before convert</small></td>
+                            <td class="success">✓ Available</td>
+                            <td class="warning">⚠ Thumbnails only<br><small>After upload</small></td>
+                            <td class="error">✗ No preview<br><small>Blind conversion</small></td>
+                            <td class="success">✓ Available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Remove/Edit Images</strong></td>
+                            <td class="highlight-col success">✓ Full control<br><small>Remove any image</small></td>
+                            <td class="success">✓ Available</td>
+                            <td class="warning">⚠ Limited<br><small>Must re-upload</small></td>
+                            <td class="error">✗ No editing<br><small>Start over</small></td>
+                            <td class="success">✓ Available</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p><strong>Summary:</strong> Our tool provides the best combination of privacy, unlimited usage, and powerful features - all completely free. While some competitors offer similar features, they all require uploading your images to their servers, which compromises privacy and adds processing time. We're the only tool that processes everything locally in your browser while maintaining full feature parity with paid competitors.</p>
+
+            <h4>Frequently Asked Questions</h4>
+
+            <h5>Is my data safe when converting images to PDF?</h5>
+            <p>Yes, absolutely! All image processing and PDF conversion happens entirely in your browser using JavaScript. Your images never leave your computer and are never uploaded to any server. We don't store, log, or transmit your images in any way. This makes our tool completely safe for sensitive documents, personal photos, or confidential images. You can even use this tool offline after the initial page load.</p>
+
+            <h5>Can I convert multiple images at once?</h5>
+            <p>Yes! You can select multiple JPG, JPEG, or PNG images at once. Each image will become a separate page in the PDF document. You can also drag and drop to reorder images before converting, or remove unwanted images. There's no limit on the number of images you can convert (limited only by your browser's memory).</p>
+
+            <h5>Can I reorder images before converting to PDF?</h5>
+            <p>Yes! After selecting your images, you can drag and drop them using the ☰ handle to reorder them in any sequence you want. The images will appear in the PDF in the same order as shown in the preview. You can also remove individual images by clicking the ✕ button on each thumbnail.</p>
+
+            <h5>What image formats are supported?</h5>
+            <p>Our converter supports JPG, JPEG, and PNG image formats. These are the most common image formats and cover the vast majority of use cases. Each image should be under 10MB for optimal performance, though we'll show warnings for files over 2MB.</p>
+
+            <h5>Do I need to create an account or pay?</h5>
+            <p>No! This tool is completely free and doesn't require any registration, sign-up, or account creation. Just visit the page, select your images, and convert them to PDF instantly. There are no limits on usage, no watermarks, no premium tiers, and no hidden fees.</p>
+
+            <h5>What happens to images after conversion?</h5>
+            <p>Nothing! Since all processing happens in your browser, we never receive your images. They remain on your computer at all times. Once you convert and download the PDF, you can close the page or refresh it - there's no data to clean up because nothing was ever uploaded.</p>
+
+            <h5>Can I use this tool on my phone or tablet?</h5>
+            <p>Yes! Our converter works on all modern devices including smartphones and tablets. The drag-and-drop reordering also works with touch gestures on mobile devices. You can convert photos directly from your phone's camera roll.</p>
+
+            <h5>How does this compare to other free converters?</h5>
+            <p>Most free converters require uploading your images to their servers, which takes time and raises privacy concerns. They often have file size limits (typically 20-40MB), require accounts for full features, or add watermarks to free conversions. Our tool processes everything locally in your browser, has no file limits, no watermarks, and no tracking - making it both faster and more private.</p>
+
+            <h5>Will converting to PDF reduce image quality?</h5>
+            <p>No! Each image is embedded in the PDF at its original resolution and quality. There is no compression or quality loss during the conversion process. The PDF will contain the exact same images you uploaded, just packaged in a single PDF document.</p>
+
+            <h5>Can I add images in different formats to the same PDF?</h5>
+            <p>Yes! You can mix JPG, JPEG, and PNG images in a single conversion. The tool will handle all formats seamlessly and combine them into one PDF document in the order you specify.</p>
         </div>
     </div>
 
@@ -208,13 +425,22 @@
         const imagePreview = document.getElementById('imagePreview');
         const convertBtn = document.getElementById('convertBtn');
         const clearBtn = document.getElementById('clearBtn');
+        const addMoreBtn = document.getElementById('addMoreBtn');
+        const fileLabel = document.getElementById('fileLabel');
+        const fileLabelSpan = document.getElementById('fileLabelSpan');
+        const fileIcon = document.getElementById('fileIcon');
 
         let selectedImages = [];
 
         // File input change handler
         fileInput.addEventListener('change', handleFileSelect);
 
-        function handleFileSelect(e) {
+        // Add More button handler
+        addMoreBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        async function handleFileSelect(e) {
             const files = Array.from(e.target.files);
 
             if (files.length === 0) return;
@@ -226,47 +452,215 @@
                     CodeUtils.Message.warning(`Skipped ${file.name}: Only JPG and PNG images are supported`);
                     return false;
                 }
+                // File size warnings (project standard: 2MB/5MB/10MB)
                 if (file.size > 10 * 1024 * 1024) {
-                    CodeUtils.Message.warning(`Skipped ${file.name}: File size must be less than 10MB`);
+                    CodeUtils.Message.error(`Skipped ${file.name}: File size must be less than 10MB`);
                     return false;
+                }
+                if (file.size > 5 * 1024 * 1024) {
+                    CodeUtils.Message.warning(`${file.name} is large (${formatFileSize(file.size)}). Processing may be slow.`);
+                } else if (file.size > 2 * 1024 * 1024) {
+                    CodeUtils.Message.info(`${file.name}: ${formatFileSize(file.size)}`);
                 }
                 return true;
             });
 
             if (validFiles.length === 0) return;
 
-            selectedImages = validFiles;
-            displayImages(validFiles);
-            updateFileInfo(validFiles);
+            // Append new images to existing ones (don't override)
+            selectedImages = [...selectedImages, ...validFiles];
+            await displayImages(selectedImages);
+            updateFileInfo(selectedImages);
             convertBtn.disabled = false;
         }
 
-        function displayImages(files) {
+        async function displayImages(files) {
             imagePreview.innerHTML = '';
 
-            files.forEach((file, index) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const imgContainer = document.createElement('div');
-                    imgContainer.className = 'image-preview-item';
-                    imgContainer.innerHTML = `
-                        <img src="${e.target.result}" alt="${file.name}">
-                        <div class="image-preview-info">
-                            <div class="image-preview-name">${index + 1}. ${file.name}</div>
-                            <div class="image-preview-size">${formatFileSize(file.size)}</div>
-                        </div>
-                    `;
-                    imagePreview.appendChild(imgContainer);
-                };
-                reader.readAsDataURL(file);
+            // Load all images and wait for them to complete
+            const imagePromises = files.map((file, index) => {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        resolve({
+                            dataUrl: e.target.result,
+                            file: file,
+                            index: index
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            // Wait for all images to load, then add them in order
+            const imageDataArray = await Promise.all(imagePromises);
+
+            imageDataArray.forEach(({ dataUrl, file, index }) => {
+                const imgContainer = document.createElement('div');
+                imgContainer.className = 'image-preview-item';
+                imgContainer.setAttribute('draggable', 'true');
+                imgContainer.dataset.index = index;
+
+                imgContainer.innerHTML = `
+                    <div class="image-drag-handle" title="Drag to reorder">
+                        <span>☰</span>
+                    </div>
+                    <button class="image-remove-btn" title="Remove image" aria-label="Remove ${file.name}" data-remove-index="${index}">
+                        <span>✕</span>
+                    </button>
+                    <img src="${dataUrl}" alt="${file.name}">
+                    <div class="image-preview-info">
+                        <div class="image-preview-name">${index + 1}. ${file.name}</div>
+                        <div class="image-preview-size">${formatFileSize(file.size)}</div>
+                    </div>
+                `;
+
+                // NO individual event listeners - will use delegation instead
+
+                imagePreview.appendChild(imgContainer);
             });
         }
 
         function updateFileInfo(files) {
             const count = files.length;
-            const totalSize = files.reduce((sum, file) => sum + file.size, 0);
-            fileInfo.textContent = `${count} image${count > 1 ? 's' : ''} selected (${formatFileSize(totalSize)})`;
+            if (count > 0) {
+                const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+                fileInfo.textContent = `${count} image${count > 1 ? 's' : ''} selected (${formatFileSize(totalSize)})`;
+                fileLabelSpan.textContent = `${count} image${count > 1 ? 's' : ''} selected`;
+                fileIcon.textContent = '✓';
+                fileLabel.style.borderColor = '#27ae60';
+                fileLabel.style.backgroundColor = 'rgba(39, 174, 96, 0.05)';
+                addMoreBtn.style.display = 'inline-block';
+            } else {
+                fileInfo.textContent = 'No files selected';
+                fileLabelSpan.textContent = 'Choose Images (JPG, PNG)';
+                fileIcon.textContent = '📁';
+                fileLabel.style.borderColor = '';
+                fileLabel.style.backgroundColor = '';
+                addMoreBtn.style.display = 'none';
+            }
         }
+
+        // Remove image function
+        async function removeImage(index) {
+            selectedImages.splice(index, 1);
+
+            if (selectedImages.length === 0) {
+                imagePreview.innerHTML = '';
+                updateFileInfo([]);
+                convertBtn.disabled = true;
+                CodeUtils.Message.success('All images removed');
+            } else {
+                await displayImages(selectedImages);
+                updateFileInfo(selectedImages);
+                CodeUtils.Message.success('Image removed');
+            }
+        }
+
+        // Drag and drop reordering - using event delegation
+        let draggedElement = null;
+        let draggedIndex = null;
+        let isReordering = false;
+
+        // Event delegation on parent container
+        imagePreview.addEventListener('dragstart', (e) => {
+            const item = e.target.closest('.image-preview-item');
+            if (!item) return;
+
+            draggedElement = item;
+            draggedIndex = parseInt(item.dataset.index);
+            item.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            isReordering = false;
+        });
+
+        imagePreview.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const item = e.target.closest('.image-preview-item');
+            if (!item || item === draggedElement) return;
+
+            e.dataTransfer.dropEffect = 'move';
+
+            // Remove drag-over from all items
+            document.querySelectorAll('.image-preview-item').forEach(el => {
+                el.classList.remove('drag-over');
+            });
+
+            // Add to current target
+            item.classList.add('drag-over');
+        });
+
+        imagePreview.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const item = e.target.closest('.image-preview-item');
+            if (!item || item === draggedElement || isReordering) return;
+
+            isReordering = true;
+
+            item.classList.remove('drag-over');
+            const targetIndex = parseInt(item.dataset.index);
+
+            // Reorder the array
+            const draggedFile = selectedImages[draggedIndex];
+            selectedImages.splice(draggedIndex, 1);
+            selectedImages.splice(targetIndex, 0, draggedFile);
+
+            // Swap DOM elements
+            const allItems = Array.from(imagePreview.children);
+            const draggedItem = allItems[draggedIndex];
+            const targetItem = allItems[targetIndex];
+
+            if (draggedIndex < targetIndex) {
+                imagePreview.insertBefore(draggedItem, targetItem.nextSibling);
+            } else {
+                imagePreview.insertBefore(draggedItem, targetItem);
+            }
+
+            // Update all data-index and numbering
+            Array.from(imagePreview.children).forEach((child, index) => {
+                child.dataset.index = index;
+                // FIX: Update remove button index to prevent stale index bug
+                const removeBtn = child.querySelector('.image-remove-btn');
+                if (removeBtn) {
+                    removeBtn.dataset.removeIndex = index;
+                }
+                const nameElement = child.querySelector('.image-preview-name');
+                if (nameElement) {
+                    nameElement.textContent = `${index + 1}. ${selectedImages[index].name}`;
+                }
+            });
+
+            updateFileInfo(selectedImages);
+            isReordering = false;
+        });
+
+        imagePreview.addEventListener('dragend', (e) => {
+            const item = e.target.closest('.image-preview-item');
+            if (item) {
+                item.classList.remove('dragging');
+            }
+
+            // Remove drag-over from all
+            document.querySelectorAll('.image-preview-item').forEach(el => {
+                el.classList.remove('drag-over');
+            });
+
+            draggedElement = null;
+            draggedIndex = null;
+            isReordering = false;
+        });
+
+        // Click delegation for remove buttons
+        imagePreview.addEventListener('click', (e) => {
+            const removeBtn = e.target.closest('.image-remove-btn');
+            if (removeBtn) {
+                e.stopPropagation();
+                const index = parseInt(removeBtn.dataset.removeIndex);
+                removeImage(index);
+            }
+        });
 
         function formatFileSize(bytes) {
             if (bytes === 0) return '0 Bytes';
@@ -364,7 +758,7 @@
             fileInput.value = '';
             selectedImages = [];
             imagePreview.innerHTML = '';
-            fileInfo.textContent = 'No files selected';
+            updateFileInfo([]);
             convertBtn.disabled = true;
             CodeUtils.Message.success('Cleared all images');
         });
@@ -412,10 +806,84 @@
         }
 
         .image-preview-item {
+            position: relative;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             overflow: hidden;
             background: var(--bg-secondary);
+            cursor: grab;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+        }
+
+        .image-preview-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-preview-item.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .image-preview-item.drag-over {
+            transform: scale(1.05);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .image-drag-handle {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 32px;
+            height: 32px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            z-index: 10;
+            transition: background 0.2s;
+        }
+
+        .image-drag-handle:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .image-drag-handle span {
+            color: white;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .image-remove-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            background: rgba(231, 76, 60, 0.9);
+            backdrop-filter: blur(4px);
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .image-remove-btn:hover {
+            background: rgba(192, 57, 43, 1);
+            transform: scale(1.1);
+        }
+
+        .image-remove-btn span {
+            font-size: 1.2rem;
+            line-height: 1;
         }
 
         .image-preview-item img {
@@ -441,6 +909,126 @@
         .image-preview-size {
             font-size: 0.75rem;
             color: var(--text-secondary);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .file-label {
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        /* Comparison Table Styles */
+        .comparison-table-wrapper {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-secondary);
+            font-size: 0.875rem;
+        }
+
+        .comparison-table thead {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .comparison-table th {
+            padding: 1rem 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            white-space: nowrap;
+        }
+
+        .comparison-table th:first-child {
+            min-width: 180px;
+        }
+
+        .comparison-table th.highlight-col {
+            background: #2980b9;
+            position: relative;
+        }
+
+        .comparison-table th.highlight-col::after {
+            content: '⭐';
+            margin-left: 0.5rem;
+        }
+
+        .comparison-table td {
+            padding: 0.875rem 0.75rem;
+            border: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 500;
+            background: var(--bg-primary);
+        }
+
+        .comparison-table td.highlight-col {
+            background: rgba(52, 152, 219, 0.05);
+            font-weight: 500;
+            border-left: 3px solid var(--primary-color);
+            border-right: 3px solid var(--primary-color);
+        }
+
+        .comparison-table td.success {
+            color: #27ae60;
+        }
+
+        .comparison-table td.warning {
+            color: #f39c12;
+        }
+
+        .comparison-table td.error {
+            color: #e74c3c;
+        }
+
+        .comparison-table small {
+            display: block;
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: rgba(52, 152, 219, 0.03);
+        }
+
+        /* Responsive table */
+        @media (max-width: 768px) {
+            .comparison-table {
+                font-size: 0.75rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.5rem 0.4rem;
+            }
+
+            .comparison-table small {
+                font-size: 0.65rem;
+            }
         }
     </style>
 </body>

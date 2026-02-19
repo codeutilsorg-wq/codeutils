@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free regex tester with live matching and highlighting. Test regular expressions with instant feedback. 100% client-side processing.",
       "url": "https://codeutils.org/regex-tester",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "ratingCount": "1480"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -314,33 +321,71 @@
         <!-- Info Section -->
         <div class="info-section">
             <h2>About Regex Tester</h2>
-            <p>This tool helps you test and debug regular expressions with live matching and highlighting. See matches instantly as you type.</p>
+            <p>Regular expressions are among the most powerful tools in a developer's toolkit—but writing and debugging them is notoriously difficult without immediate visual feedback. Our Regex Tester lets you write, test, and debug regular expressions in real time with instant match highlighting, group capture display, and detailed match information. Whether you are validating email addresses, parsing log files, extracting data, or cleaning text, this tool helps you build the perfect regex quickly and confidently. All processing happens entirely in your browser for complete privacy.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Live Matching:</strong> See matches highlighted in real-time</li>
-                <li><strong>Capture Groups:</strong> View captured groups for each match</li>
-                <li><strong>Flags Support:</strong> Toggle global, case-insensitive, multiline, and more</li>
-                <li><strong>Error Detection:</strong> Get instant feedback on invalid patterns</li>
+                <li><strong>Real-Time Match Highlighting:</strong> See all regex matches highlighted instantly in your test string as you type the pattern</li>
+                <li><strong>Flag Support:</strong> Toggle common flags including global (g), case-insensitive (i), multiline (m), and dotAll (s) with one click</li>
+                <li><strong>Capture Group Display:</strong> See the content of each capture group for complex patterns with parentheses</li>
+                <li><strong>Match Details:</strong> View the position, length, and content of each match in your test string</li>
+                <li><strong>Replace Mode:</strong> Test replacement strings with $1, $2 group references to preview substitution results</li>
+                <li><strong>Common Patterns Library:</strong> Access pre-built patterns for email, URL, phone number, IP address, date, and other common validation tasks</li>
+                <li><strong>Error Detection:</strong> Get instant feedback when your regex has a syntax error, with a clear error message</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your patterns and test data never leave your browser</li>
             </ul>
 
-            <h3>Regex Flags</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Write a New Pattern</strong></p>
+            <ol>
+                <li>Enter your test string in the "Test String" text area</li>
+                <li>Type your regular expression pattern in the "Pattern" input field</li>
+                <li>Toggle flags (g, i, m, s) as needed using the flag buttons</li>
+                <li>Matches will highlight in real time in the test string area</li>
+                <li>Review the match details panel to see captured groups and match positions</li>
+            </ol>
+
+            <p><strong>Method 2: Use a Pattern from the Library</strong></p>
+            <ol>
+                <li>Click the "Common Patterns" button to open the pattern library</li>
+                <li>Select a pre-built pattern for email, URL, phone number, or other common use cases</li>
+                <li>The pattern loads automatically into the pattern field</li>
+                <li>Paste your test data to see matches immediately</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Form Validation Patterns</strong></p>
+            <p>Web applications require validation for email addresses, phone numbers, postal codes, credit card numbers, and many other input formats. Use this tool to write and test validation regex patterns before adding them to your code. You can test the pattern against valid inputs, invalid inputs, and edge cases to ensure it accepts everything it should and rejects everything it should not—all without writing a single line of code first.</p>
+
+            <p><strong>Log File Parsing and Analysis</strong></p>
+            <p>Server logs, application logs, and access logs contain structured data in unstructured text. Writing regex to extract IP addresses, timestamps, error messages, and request paths from logs is a common developer task. Use this tool to develop and test your log parsing patterns against real log samples. The match highlighting makes it immediately clear whether your pattern is capturing the right data or has unintended matches.</p>
+
+            <p><strong>Text Search and Replace Operations</strong></p>
+            <p>When you need to find and replace complex patterns across files—like renaming variables, updating API endpoints, or reformatting dates—regex is far more powerful than simple string search. Use this tester to develop and validate your search pattern and replacement string before running find-and-replace in your editor or script. This prevents accidentally replacing unintended matches in your codebase.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li><strong>g (global):</strong> Find all matches, not just the first</li>
-                <li><strong>i (ignore case):</strong> Case-insensitive matching</li>
-                <li><strong>m (multiline):</strong> ^ and $ match line start/end</li>
-                <li><strong>s (dotAll):</strong> . matches newline characters</li>
-                <li><strong>u (unicode):</strong> Enable Unicode support</li>
+                <li><strong>Always use the global flag for multiple matches:</strong> Without the 'g' flag, regex matches only the first occurrence—enable global matching when you need to find all instances in a text</li>
+                <li><strong>Use non-capturing groups for structure:</strong> When you need grouping for alternation or quantifiers but do not need to capture the content, use (?:...) instead of (...) to improve performance and clarity</li>
+                <li><strong>Test edge cases thoroughly:</strong> Always test your regex against empty strings, very long inputs, special characters, and known invalid examples—regex bugs often appear only at the edges</li>
+                <li><strong>Comment complex patterns:</strong> For complex regex used in production code, add comments explaining each part—future maintainers (including yourself) will thank you</li>
             </ul>
 
-            <h3>Common Patterns</h3>
-            <ul>
-                <li><code>\d+</code> - One or more digits</li>
-                <li><code>\w+</code> - One or more word characters</li>
-                <li><code>[a-z]+</code> - One or more lowercase letters</li>
-                <li><code>^.+$</code> - Entire line (with m flag)</li>
-                <li><code>\b\w+\b</code> - Whole words</li>
-            </ul>
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my regex and test data safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All regex processing happens entirely in your browser using JavaScript's built-in RegExp engine. Your patterns and test data never leave your computer and are never uploaded to any server. This makes our tool safe for testing patterns against sensitive log data, user information, and proprietary content.</p>
+
+            <p><strong>Q: Does this tool use JavaScript regex syntax?</strong></p>
+            <p>A: Yes, this tool uses JavaScript's built-in regular expression engine. JavaScript regex syntax is compatible with many other environments but has some differences from PCRE (used in PHP, Python) and POSIX regex (used in grep). Key differences include: JavaScript does not support lookbehind in older browsers, uses different syntax for named groups, and has a different set of supported flags.</p>
+
+            <p><strong>Q: Why does my pattern work here but not in my code?</strong></p>
+            <p>A: This is usually a flag issue—check that you are using the same flags in both places. It can also be a string escaping issue—when writing regex as a string literal in code, backslashes need to be doubled (\\d instead of \d). If using a regex literal (/pattern/), no extra escaping is needed. This tool uses regex literal syntax, so patterns entered here can be used directly in code as regex literals.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start testing regex immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

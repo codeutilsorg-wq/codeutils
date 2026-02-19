@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free Markdown preview editor with live HTML rendering. Supports GitHub-flavored Markdown. 100% client-side processing.",
       "url": "https://codeutils.org/markdown-preview",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "ratingCount": "1320"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -217,31 +224,70 @@ const greeting = 'Hello!';
         </div>
 
         <div class="info-section">
-            <h2>Markdown Syntax</h2>
+            <h2>About Markdown Preview</h2>
+            <p>Markdown is the universal writing format for developers—used in GitHub READMEs, documentation sites, blog posts, and note-taking apps—but writing Markdown without instant preview means constantly switching between editor and browser to check formatting. Our Markdown Preview renders your Markdown in real time with full support for GitHub-Flavored Markdown (GFM) including tables, task lists, strikethrough, syntax highlighting, and more. Whether you are writing documentation, creating a README, drafting a blog post, or learning Markdown syntax, this tool lets you write and preview simultaneously. All processing happens in your browser.</p>
 
-            <h3>Headers</h3>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);"># H1
-## H2
-### H3</pre>
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Real-Time Preview:</strong> See rendered Markdown update instantly as you type—no button clicks required</li>
+                <li><strong>GitHub-Flavored Markdown:</strong> Full GFM support including tables, task lists, strikethrough, and auto-linking</li>
+                <li><strong>Syntax Highlighting:</strong> Code blocks with language-specific syntax highlighting for 100+ programming languages</li>
+                <li><strong>Split-Screen View:</strong> Side-by-side editor and preview for efficient writing workflow</li>
+                <li><strong>Copy HTML Output:</strong> Get the rendered HTML output to embed in any web project</li>
+                <li><strong>Export Options:</strong> Copy as HTML or download as an HTML file</li>
+                <li><strong>Markdown Cheatsheet:</strong> Quick reference for common Markdown syntax</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your content never leaves your browser</li>
+            </ul>
 
-            <h3>Emphasis</h3>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">**bold** or __bold__
-*italic* or _italic_
-~~strikethrough~~</pre>
+            <h3>How to Use This Tool</h3>
 
-            <h3>Lists</h3>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">- Unordered item
-1. Ordered item</pre>
+            <p><strong>Method 1: Write and Preview</strong></p>
+            <ol>
+                <li>Type or paste your Markdown content into the editor on the left</li>
+                <li>The rendered preview updates in real time in the panel on the right</li>
+                <li>Use the split-screen view to write and preview simultaneously</li>
+                <li>Toggle to full-screen preview to see the final result without distractions</li>
+            </ol>
 
-            <h3>Links & Images</h3>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">[Link text](URL)
-![Alt text](image-url)</pre>
+            <p><strong>Method 2: Upload a Markdown File</strong></p>
+            <ol>
+                <li>Click "Upload" or drag and drop a .md or .markdown file into the editor</li>
+                <li>The file content loads into the editor and renders in the preview immediately</li>
+                <li>Edit as needed, then copy the HTML output or download the rendered version</li>
+            </ol>
 
-            <h3>Code</h3>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">`inline code`
-```language
-code block
-```</pre>
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Writing GitHub README Files</strong></p>
+            <p>GitHub READMEs are written in Markdown and rendered by GitHub's GFM parser. Use this tool to write and preview your README before pushing to GitHub—see exactly how tables, code blocks, badges, and task lists will look in the final rendered view. This prevents the frustrating cycle of push-check-fix-push that is common when writing READMEs without a local preview.</p>
+
+            <p><strong>Creating Documentation</strong></p>
+            <p>Documentation sites built with tools like MkDocs, Docusaurus, and Jekyll use Markdown for all content. Write and preview your documentation pages here to ensure correct formatting, working links structure, and proper heading hierarchy before publishing. The real-time preview helps you catch formatting errors in tables, code blocks, and nested lists that are easy to get wrong in raw Markdown.</p>
+
+            <p><strong>Learning Markdown Syntax</strong></p>
+            <p>Markdown syntax is simple but has some subtleties—blank lines between elements, spacing in lists, nested indentation. Use this tool to experiment with Markdown syntax and immediately see the rendered output. Try different heading levels, test table formatting, experiment with nested lists, and see how code blocks work with different language identifiers for syntax highlighting.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Use blank lines to separate block elements:</strong> Paragraphs, headings, lists, and code blocks all need blank lines before and after them—missing blank lines often cause elements to run together or render unexpectedly</li>
+                <li><strong>Use fenced code blocks with language names:</strong> Triple backticks with a language name (```javascript or ```python) enable syntax highlighting—always specify the language for better readability</li>
+                <li><strong>Be consistent with list indentation:</strong> Nested lists require exactly 4 spaces (or 2 spaces in some parsers) for each level—inconsistent indentation is the most common cause of list rendering problems</li>
+                <li><strong>Check table alignment:</strong> Markdown tables require consistent pipe (|) characters and at least one dash (-) in the separator row—use this previewer to verify table formatting before publishing</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my content safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All Markdown rendering happens entirely in your browser using JavaScript. Your content—including drafts, documentation, and any sensitive information in your notes—never leaves your computer and is never uploaded to any server.</p>
+
+            <p><strong>Q: Which Markdown flavor does this tool support?</strong></p>
+            <p>A: This tool uses GitHub-Flavored Markdown (GFM), which is the most widely used Markdown specification. GFM extends the original Markdown spec with tables, task lists, strikethrough, auto-linking of URLs, and fenced code blocks. This makes it compatible with GitHub, GitLab, many documentation platforms, and most modern Markdown processors.</p>
+
+            <p><strong>Q: Can I use this to convert Markdown to HTML for my website?</strong></p>
+            <p>A: Yes! The "Copy HTML" button exports the complete rendered HTML from your Markdown, which you can embed directly in web pages. This is useful for converting Markdown content to HTML for static websites, email newsletters, and any platform that accepts HTML input. For our dedicated Markdown to HTML converter with more export options, see the Markdown to HTML tool.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start previewing Markdown immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

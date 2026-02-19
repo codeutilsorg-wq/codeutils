@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free PHP formatter and beautifier. Format PHP code with proper indentation and syntax. 100% client-side processing.",
       "url": "https://codeutils.org/php-formatter",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.5",
-        "ratingCount": "870"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -182,22 +189,70 @@ foreach($arr as $k=>$v){echo $k.$v;}
 
         <div class="info-section">
             <h2>About PHP Formatter</h2>
-            <p>This tool formats and beautifies PHP code with proper indentation and structure.</p>
+            <p>PHP code in legacy applications, open-source projects, and production servers is often minified, concatenated, or simply poorly indented—making maintenance and debugging incredibly frustrating. Our PHP Formatter instantly beautifies any PHP code with proper indentation, consistent spacing around operators, and clean structure for functions, classes, and control flow. Whether you are working on a WordPress plugin, a Laravel application, or a standalone PHP script, this tool transforms messy code into clean, professional PHP. All processing happens entirely in your browser, so your code remains completely private.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li>Proper indentation for code blocks</li>
-                <li>Configurable indent size (spaces or tabs)</li>
-                <li>Optional braces on new line style</li>
-                <li>Handles PHP tags, functions, classes, and control structures</li>
+                <li><strong>Beautify PHP:</strong> Transform minified or poorly formatted PHP into readable, well-indented code</li>
+                <li><strong>Minify PHP:</strong> Remove comments, extra whitespace, and newlines to reduce file size for production use</li>
+                <li><strong>Handle Mixed Content:</strong> Correctly format PHP files that mix PHP code with HTML markup</li>
+                <li><strong>Multiple Indentation Options:</strong> Choose between 2 spaces, 4 spaces (PSR-2 standard), or tabs</li>
+                <li><strong>File Upload Support:</strong> Upload .php files directly from your computer or drag and drop them</li>
+                <li><strong>One-Click Copy:</strong> Instantly copy the formatted output to your clipboard</li>
+                <li><strong>Download Output:</strong> Save the formatted PHP as a .php file to your computer</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your PHP code never leaves your browser</li>
             </ul>
 
-            <h3>Tips</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste PHP Code</strong></p>
+            <ol>
+                <li>Copy your PHP code from your editor, FTP client, or server file</li>
+                <li>Paste it into the input text area on the left side</li>
+                <li>Click "Format" to beautify or "Minify" to compact the code</li>
+                <li>The formatted output appears instantly in the output area on the right</li>
+                <li>Copy or download the result as needed</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a PHP File</strong></p>
+            <ol>
+                <li>Click the "Upload" button or drag and drop your .php file into the designated area</li>
+                <li>The file content will automatically load into the input area</li>
+                <li>Format as needed, then use the "Download" button to save the result</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>WordPress Plugin and Theme Development</strong></p>
+            <p>WordPress plugins and themes often contain PHP code that mixes business logic with HTML templating, resulting in complex files that are hard to read without proper formatting. Before modifying a plugin or debugging a theme issue, run the PHP through this formatter to see the clean structure. This helps you understand the code flow, identify hook and filter placements, and modify the code safely without accidentally breaking the logic.</p>
+
+            <p><strong>Reading Open-Source PHP Projects</strong></p>
+            <p>Many PHP projects on GitHub contain inconsistently formatted code from multiple contributors using different coding styles. When studying an open-source project or preparing to contribute, use this formatter to normalize the code to a consistent style. This makes it much easier to understand the codebase architecture, identify patterns, and write contributions that fit the project's style.</p>
+
+            <p><strong>Legacy Code Modernization</strong></p>
+            <p>Legacy PHP applications written before PSR standards often have mixed indentation, no consistent spacing, and complex nested control structures. Before beginning a refactoring project, format all PHP files to normalize indentation and structure. Clean formatting makes it easier to identify code smells, extract methods, and systematically improve the codebase one function at a time.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li>For complex PHP files, consider using a dedicated IDE</li>
-                <li>This formatter handles basic formatting - syntax must be valid</li>
-                <li>Works with <?php and ?> tags</li>
+                <li><strong>Follow PSR-12 standards:</strong> Use 4-space indentation (the PSR-2/PSR-12 standard) for PHP code to ensure compatibility with popular PHP tools, IDEs, and frameworks like Laravel and Symfony</li>
+                <li><strong>Keep logic and presentation separate:</strong> Well-formatted PHP should help reveal whether business logic is mixed with HTML output—if you see this after formatting, consider refactoring to separate concerns</li>
+                <li><strong>Always backup before bulk formatting:</strong> When formatting entire legacy codebases, always backup files first—while formatting should not change behavior, testing after formatting is essential</li>
+                <li><strong>Check syntax after formatting:</strong> Run php -l filename.php after formatting to verify syntax validity, especially if the formatter had to handle unusual code patterns</li>
             </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my PHP code safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All PHP formatting happens entirely in your browser using JavaScript. Your code—including any database credentials, API keys, or business logic it contains—never leaves your computer and is never uploaded to any server. This makes our tool completely safe for proprietary applications and code containing sensitive configuration values.</p>
+
+            <p><strong>Q: Can this tool format PHP mixed with HTML?</strong></p>
+            <p>A: Yes! The formatter handles PHP files that mix PHP code blocks with HTML markup, which is common in WordPress themes and older PHP applications. Both the PHP logic sections and the HTML template portions will be properly indented according to their context.</p>
+
+            <p><strong>Q: Does formatting change the behavior of my PHP code?</strong></p>
+            <p>A: No—formatting only adds or removes whitespace and adjusts indentation, never changing the actual code logic, variable names, or functionality. The formatted PHP is syntactically and functionally identical to the original. However, always test your application after formatting to verify everything works as expected, especially for complex heredoc strings and formatted output strings.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start using the PHP formatter immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

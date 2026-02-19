@@ -6,14 +6,26 @@
     "build": "node build.js",
     "build:og": "node generate-og-images.js",
     "dev": "echo 'Use unminified files for development'",
-    "prebuild:og": "npm run build"
+    "prebuild:og": "npm run build",
+    "test": "node test-tool.js",
+    "test:merge-pdf": "node test-tool.js merge-pdf",
+    "test:browser": "playwright test",
+    "test:browser:headed": "playwright test --headed",
+    "test:browser:ui": "playwright test --ui",
+    "test:browser:report": "playwright show-report",
+    "workflow": "bash dev-workflow.sh",
+    "workflow:merge-pdf": "bash dev-workflow.sh merge-pdf",
+    "review": "coderabbit review --plain",
+    "review:uncommitted": "coderabbit review --plain -t uncommitted"
   },
   "dependencies": {
     "puppeteer": "^24.36.0",
     "sharp": "^0.34.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "clean-css-cli": "^5.6.3",
+    "http-server": "^14.1.1",
     "terser": "^5.46.0"
   }
 }

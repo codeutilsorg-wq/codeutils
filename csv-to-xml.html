@@ -47,12 +47,27 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -71,12 +86,7 @@
       "description": "Free CSV to XML converter. Convert CSV spreadsheet data to XML format with customizable element names. 100% client-side processing.",
       "url": "https://codeutils.org/csv-to-xml",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.5",
-        "ratingCount": "750"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -188,19 +198,69 @@ Jane,25,LA"></textarea>
 
         <div class="info-section">
             <h2>About CSV to XML Converter</h2>
-            <p>Convert CSV (Comma-Separated Values) data to XML format.</p>
+            <p>CSV is a common export format for databases, spreadsheets, and reporting tools—but many enterprise systems, data pipelines, and configuration tools require XML. Converting CSV to XML by hand means creating element wrappers for every row and every column value, which is impractical for any dataset larger than a few rows. Our CSV to XML Converter automates this transformation instantly: column headers become element names, and each CSV row becomes a nested XML element. All processing happens in your browser with complete privacy.</p>
 
-            <h3>Example</h3>
-            <p><strong>CSV:</strong></p>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">name,age
-John,30</pre>
-            <p><strong>XML:</strong></p>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">&lt;data&gt;
-  &lt;row&gt;
-    &lt;name&gt;John&lt;/name&gt;
-    &lt;age&gt;30&lt;/age&gt;
-  &lt;/row&gt;
-&lt;/data&gt;</pre>
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Instant Conversion:</strong> Paste CSV and get properly formatted XML output immediately</li>
+                <li><strong>Automatic Element Naming:</strong> CSV column headers become XML element names for each row's child elements</li>
+                <li><strong>Configurable Root and Row Elements:</strong> Customize the root element name (default: &lt;data&gt;) and row element name (default: &lt;row&gt;)</li>
+                <li><strong>Multiple Delimiter Support:</strong> Works with comma, semicolon, tab, and pipe delimiters</li>
+                <li><strong>Pretty-Printed Output:</strong> XML output is properly indented for easy reading</li>
+                <li><strong>File Upload:</strong> Upload .csv files directly for conversion</li>
+                <li><strong>Download as XML:</strong> Save the output as a .xml file with one click</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
+            </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste CSV Data</strong></p>
+            <ol>
+                <li>Paste your CSV data (with headers in the first row) into the input area</li>
+                <li>The XML output appears automatically on the right</li>
+                <li>Customize root and row element names if needed</li>
+                <li>Click "Copy" or "Download XML" to use the result</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a CSV File</strong></p>
+            <ol>
+                <li>Click "Upload" or drag and drop a .csv file</li>
+                <li>The file converts automatically</li>
+                <li>Download the .xml output file</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Preparing Data for XML-Based Import Systems</strong></p>
+            <p>Many ERP systems, CRM platforms, and data warehouses accept XML as their bulk import format. When your source data is in CSV (from a database export or spreadsheet), convert it to XML here to prepare the import file. This is particularly useful for one-time data migrations where writing a custom ETL script would take longer than the conversion itself.</p>
+
+            <p><strong>Generating XML for SOAP Services</strong></p>
+            <p>When a SOAP API expects multiple records as repeated XML elements, converting a CSV dataset to XML gives you the correctly structured request body. Paste your CSV data, convert to XML, and use the output to construct or test your SOAP request payload.</p>
+
+            <p><strong>Creating Test Data in XML Format</strong></p>
+            <p>Testing XML-consuming applications requires XML test data. Generate test records in a spreadsheet (easier to create and edit than XML), export as CSV, and convert to XML here for use in your test suite. This workflow is faster than writing XML test fixtures by hand and makes it easy to add or modify test cases.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Ensure column headers are valid XML names:</strong> XML element names cannot contain spaces, start with numbers, or include special characters—use underscores instead of spaces in your CSV headers (first_name instead of "first name")</li>
+                <li><strong>Choose meaningful root and row names:</strong> Instead of the defaults (&lt;data&gt; and &lt;row&gt;), use domain-specific names like &lt;employees&gt; and &lt;employee&gt;—this makes the XML self-documenting</li>
+                <li><strong>Handle values with special XML characters:</strong> Values containing &lt;, &gt;, &amp;, or quotes are automatically escaped in the output—verify the escaping is correct for your target system</li>
+                <li><strong>Validate the output:</strong> Paste the generated XML into an XML validator before using it in production to confirm it is well-formed</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What structure does the XML output use?</strong></p>
+            <p>A: The output wraps all rows in a root element (default: &lt;data&gt;). Each CSV row becomes a child element (default: &lt;row&gt;). Each cell value becomes a child element of the row, named after the column header. For example, a row with name="John", age="30" produces: &lt;row&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/row&gt;.</p>
+
+            <p><strong>Q: What if my CSV has no header row?</strong></p>
+            <p>A: The first row is used as column names for XML element names. If your CSV has no headers, add a header row first, or the data values will be used as element names—which may not produce valid XML if the values contain spaces or special characters.</p>
+
+            <p><strong>Q: Is my CSV data private?</strong></p>
+            <p>A: Yes. All conversion happens in your browser using JavaScript. Your data is never uploaded to any server or stored anywhere.</p>
+
+            <p><strong>Q: Do I need to sign up to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration required.</p>
         </div>
     </div>
 

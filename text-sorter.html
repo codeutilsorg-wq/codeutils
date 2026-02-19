@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free text sorter. Sort lines alphabetically, numerically, by length, or randomly with multiple options. 100% client-side processing.",
       "url": "https://codeutils.org/text-sorter",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.6",
-        "ratingCount": "1050"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -197,22 +204,71 @@
 
         <div class="info-section">
             <h2>About Text Sorter</h2>
-            <p>This tool sorts lines of text using various sorting methods.</p>
+            <p>Sorting a long list manually is one of those tasks that feels simple but takes forever once you have more than a few dozen items. Our Text Sorter handles it instantly—paste your list, choose your sorting method, and get the ordered result in one click. Whether you need to sort names alphabetically for a report, arrange version numbers numerically, organize items by length, or randomize a quiz question list, this tool has you covered. All processing is done locally in your browser for complete privacy.</p>
 
-            <h3>Sort Types</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Alphabetical:</strong> Sort A-Z or Z-A</li>
-                <li><strong>Numeric:</strong> Sort by number (extracts first number in each line)</li>
-                <li><strong>Length:</strong> Sort by line length (shortest to longest or vice versa)</li>
-                <li><strong>Random:</strong> Shuffle lines randomly</li>
+                <li><strong>Alphabetical Sort:</strong> Sort lines A-Z or Z-A using natural language ordering that handles accented characters correctly</li>
+                <li><strong>Numeric Sort:</strong> Sort lines by their numeric value—extracts the first number from each line so version numbers, prices, and ranked lists sort correctly</li>
+                <li><strong>Length Sort:</strong> Arrange lines from shortest to longest (or longest to shortest)—useful for formatting and analysis</li>
+                <li><strong>Random Shuffle:</strong> Randomize the order of lines using a Fisher-Yates shuffle for unbiased randomization</li>
+                <li><strong>Case-Insensitive Mode:</strong> Treat uppercase and lowercase letters as equal so "Banana" and "apple" sort correctly relative to each other</li>
+                <li><strong>Remove Duplicates:</strong> Deduplicate lines before sorting to produce a clean, unique sorted list in one step</li>
+                <li><strong>Whitespace Trimming:</strong> Strip leading and trailing spaces from each line before sorting for consistent results</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
             </ul>
 
-            <h3>Options</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Sort a List</strong></p>
+            <ol>
+                <li>Type or paste your list into the input area—one item per line</li>
+                <li>Choose your Sort by option: Alphabetical, Numeric, Length, or Random</li>
+                <li>Choose the Order: Ascending (A-Z, 1-9, shortest first) or Descending (Z-A, 9-1, longest first)</li>
+                <li>Enable optional settings like Case insensitive, Remove duplicates, or Trim whitespace as needed</li>
+                <li>Click Sort to see the sorted result in the output panel</li>
+                <li>Click Copy Output to copy the sorted list to your clipboard</li>
+            </ol>
+
+            <p><strong>Method 2: Sort and Deduplicate in One Step</strong></p>
+            <ol>
+                <li>Paste your list (which may contain duplicates) into the input area</li>
+                <li>Check the "Remove duplicates" option before clicking Sort</li>
+                <li>The result will be sorted and deduplicated in a single operation</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Organizing Name and Contact Lists</strong></p>
+            <p>When preparing attendee lists, author credits, or any alphabetical roster, paste the names one per line and sort alphabetically. Enable case-insensitive sorting to ensure "smith" and "Smith" end up in the right position relative to each other. For large lists, also enable Remove duplicates to catch any repeated entries before the final output.</p>
+
+            <p><strong>Sorting Version Numbers and Priority Lists</strong></p>
+            <p>Version strings like "2.10.0", "2.9.0", and "2.1.0" sort incorrectly with alphabetical comparison because "2.9" comes after "2.10" lexicographically. Use Numeric sort to extract the leading number and sort by actual numeric value. This is also useful for TODO lists, bug trackers, or any ranked list where the first token is a number.</p>
+
+            <p><strong>Randomizing Quiz Questions or Survey Items</strong></p>
+            <p>When creating quizzes, flashcards, or survey randomization, use the Random shuffle option to mix up a list of items. Each click of Sort generates a new random order using an unbiased Fisher-Yates algorithm, so the distribution is truly random rather than pseudo-random.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li><strong>Case insensitive:</strong> Treat uppercase and lowercase as equal</li>
-                <li><strong>Remove duplicates:</strong> Remove duplicate lines before sorting</li>
-                <li><strong>Trim whitespace:</strong> Remove leading/trailing spaces from each line</li>
+                <li><strong>Use case-insensitive for most text sorting:</strong> Without it, all uppercase words sort before lowercase ones, which is usually not the intended behavior for human-readable lists</li>
+                <li><strong>Use numeric sort for version numbers and rankings:</strong> Alphabetical sort would put "10" before "9", so always use Numeric sort when your lines start with numbers you want compared as quantities</li>
+                <li><strong>Trim whitespace before sorting imported data:</strong> Copy-pasted or CSV-exported data often has invisible leading spaces that cause items to sort incorrectly—trim first for consistent results</li>
+                <li><strong>Combine sort and deduplicate for clean lists:</strong> Enable Remove duplicates along with sorting to produce a deduplicated, sorted list in one step instead of running two separate tools</li>
             </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: How does the Numeric sort work?</strong></p>
+            <p>A: Numeric sort extracts the first number it finds in each line (including negative numbers and decimals) and sorts by that value. If no number is found in a line, it defaults to 0. This means "Item 10" and "Item 9" will sort correctly as 9 then 10, rather than the alphabetical "Item 10" before "Item 9".</p>
+
+            <p><strong>Q: Can I sort very large lists?</strong></p>
+            <p>A: Yes. The tool runs entirely in your browser using JavaScript's built-in sort algorithms, which are highly optimized. Lists with thousands of lines sort in milliseconds. For very large inputs (tens of thousands of lines), there may be a brief delay, but there is no hard limit imposed by the tool.</p>
+
+            <p><strong>Q: Is my data safe to paste here?</strong></p>
+            <p>A: Yes, completely. All sorting happens entirely in your browser. Your text is never uploaded to any server, stored in a database, or transmitted anywhere. This makes the tool safe to use with confidential lists, customer data, or any sensitive information.</p>
+
+            <p><strong>Q: Do I need to create an account to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration, sign-up, or account required. Paste your list and sort immediately—no limits on usage.</p>
         </div>
     </div>
 

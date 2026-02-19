@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free meta tag generator for SEO, Open Graph, and Twitter Cards. Generate HTML meta tags for better search rankings. 100% client-side processing.",
       "url": "https://codeutils.org/meta-generator",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.6",
-        "ratingCount": "950"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -233,16 +240,63 @@
         </div>
 
         <div class="info-section">
-            <h2>About Meta Tags</h2>
-            <p>Meta tags provide information about your webpage to search engines and social media platforms.</p>
+            <h2>About Meta Tag Generator</h2>
+            <p>Meta tags are invisible HTML elements that communicate critical information about your webpage to search engines, social media platforms, and browsers. A missing or poorly written meta description can result in Google auto-generating a snippet that misrepresents your page. Missing Open Graph tags mean your links share as plain text with no image on Facebook or Slack. Our Meta Tag Generator creates a complete, correctly formatted set of meta tags for any page—just fill in the fields and copy the generated HTML directly into your document head.</p>
 
-            <h3>Important Meta Tags</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Title:</strong> Displayed in search results and browser tabs</li>
-                <li><strong>Description:</strong> Summary shown in search results</li>
-                <li><strong>Open Graph:</strong> Controls how links appear on Facebook/LinkedIn</li>
-                <li><strong>Twitter Card:</strong> Controls how links appear on Twitter</li>
+                <li><strong>Complete Meta Set:</strong> Generates all essential meta tags—title, description, canonical URL, Open Graph, Twitter Card, and viewport</li>
+                <li><strong>Character Counters:</strong> Real-time character count for title (60 chars) and description (160 chars) fields so you stay within recommended limits</li>
+                <li><strong>Open Graph Tags:</strong> Generates og:title, og:description, og:image, og:url, og:type for rich link previews on Facebook, LinkedIn, and Slack</li>
+                <li><strong>Twitter Card Tags:</strong> Generates twitter:card, twitter:title, twitter:description, twitter:image for rich Twitter link cards</li>
+                <li><strong>One-Click Copy:</strong> Copy the complete generated meta tag block to your clipboard for immediate use</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your page data never leaves your browser</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Generating Meta Tags for a Page</strong></p>
+            <ol>
+                <li>Enter your page title in the Title field—keep it under 60 characters for full display in search results</li>
+                <li>Enter a description in 150-160 characters that clearly summarizes the page content and includes your target keyword</li>
+                <li>Enter the canonical URL (full URL including https://) for this page</li>
+                <li>Fill in the Open Graph and Twitter Card fields with your social sharing image URL and any different social-specific copy</li>
+                <li>Click "Generate Meta Tags" to produce the complete HTML</li>
+                <li>Click "Copy to Clipboard" and paste the block into the &lt;head&gt; section of your HTML document</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>SEO Optimization for New Pages</strong></p>
+            <p>Every new page you publish needs a complete set of meta tags for proper SEO indexing and social sharing. Use this generator to create a consistent, well-formatted meta block for each new page—ensuring the title stays under 60 characters, the description is within 150-160 characters, and all required Open Graph tags are present. Consistent meta tags across your site improve how search engines understand and represent your content.</p>
+
+            <p><strong>Fixing Missing Social Preview Tags</strong></p>
+            <p>When a URL shared on Slack, Twitter, or LinkedIn shows only plain text with no image or rich card, it almost always means the page is missing Open Graph or Twitter Card meta tags. Generate the missing tags here, add them to the page's &lt;head&gt;, and the next time the URL is shared it will display a rich preview with image, title, and description.</p>
+
+            <p><strong>CMS and Template Setup</strong></p>
+            <p>When configuring a new CMS template or website theme, use this generator to produce a reference meta tag block. Identify which tags to make dynamic (pulling from page fields) versus static (site-wide defaults), and use the generated HTML as the template for your layout file's head section.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Title tag: 50-60 characters:</strong> Titles longer than 60 characters are typically truncated in search result display—include your primary keyword near the start of the title</li>
+                <li><strong>Meta description: 150-160 characters:</strong> Write the description as a compelling summary that includes your target keyword naturally—it does not directly affect ranking but significantly affects click-through rate from search results</li>
+                <li><strong>OG image: 1200x630 pixels:</strong> This is the recommended size for Open Graph images—it displays correctly on Facebook, LinkedIn, Twitter, and Slack previews without cropping</li>
+                <li><strong>Always include canonical URL:</strong> The canonical tag tells search engines which URL is the "official" version of a page when the same content is accessible at multiple URLs, preventing duplicate content issues</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What meta tags does this generator create?</strong></p>
+            <p>A: The generator creates: title, meta description, canonical link, viewport, Open Graph tags (og:title, og:description, og:image, og:url, og:type), and Twitter Card tags (twitter:card, twitter:title, twitter:description, twitter:image). These cover all the essential meta tags for SEO and social sharing.</p>
+
+            <p><strong>Q: Does the meta description affect my Google ranking?</strong></p>
+            <p>A: Google has confirmed that the meta description is not a direct ranking signal. However, a well-written description that matches search intent increases click-through rate from search results—and CTR does influence how Google perceives the relevance and quality of your page, indirectly affecting rankings over time.</p>
+
+            <p><strong>Q: Is my page information safe to enter here?</strong></p>
+            <p>A: Yes. All meta tag generation happens in your browser. Your page title, description, and URLs are never sent to any server or stored anywhere.</p>
+
+            <p><strong>Q: Do I need to create an account to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration required.</p>
         </div>
     </div>
 

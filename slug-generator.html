@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free URL slug generator. Create SEO-friendly permalinks from text with automatic character handling. 100% client-side processing.",
       "url": "https://codeutils.org/slug-generator",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.6",
-        "ratingCount": "910"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -206,19 +213,62 @@
 
         <div class="info-section">
             <h2>About URL Slug Generator</h2>
-            <p>This tool converts text into URL-friendly slugs, perfect for blog posts, product pages, and SEO-optimized URLs.</p>
+            <p>A URL slug is the human-readable part of a web address that identifies a specific page—the "my-blog-post-title" in https://example.com/blog/my-blog-post-title. Well-formed slugs are lowercase, hyphenated, free of special characters, and include relevant keywords for SEO. Converting a title or article name into a proper slug manually requires removing punctuation, replacing spaces with hyphens, lowercasing everything, and handling accented characters—all error-prone when done by hand. Our Slug Generator does all of this instantly, with support for international characters and multiple separator options. All processing happens in your browser.</p>
 
-            <h3>What is a Slug?</h3>
-            <p>A slug is the part of a URL that identifies a page in a human-readable form. For example, in <code>https://example.com/my-blog-post</code>, "my-blog-post" is the slug.</p>
-
-            <h3>Best Practices</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li>Keep slugs short and descriptive</li>
-                <li>Use hyphens instead of underscores (Google preference)</li>
-                <li>Use lowercase letters only</li>
-                <li>Include relevant keywords for SEO</li>
-                <li>Avoid special characters and spaces</li>
+                <li><strong>Instant Conversion:</strong> Type or paste any text and get a clean URL slug immediately</li>
+                <li><strong>Accented Character Support:</strong> Automatically converts accented characters (é→e, ñ→n, ü→u) for URL-safe output</li>
+                <li><strong>Special Character Removal:</strong> Strips punctuation, symbols, and non-alphanumeric characters that would break URLs</li>
+                <li><strong>Separator Options:</strong> Choose between hyphens (recommended), underscores, or custom separators</li>
+                <li><strong>Lowercase Output:</strong> Always produces lowercase slugs following web standards and Google recommendations</li>
+                <li><strong>One-Click Copy:</strong> Copy the generated slug to your clipboard instantly</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your text never leaves your browser</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Generating a URL Slug</strong></p>
+            <ol>
+                <li>Type or paste your page title, article heading, or product name into the input field</li>
+                <li>The slug generates automatically as you type</li>
+                <li>Select your preferred separator (hyphen is recommended for SEO)</li>
+                <li>Click "Copy" to copy the slug to your clipboard</li>
+                <li>Paste the slug into your CMS, URL configuration, or file name</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Creating SEO-Friendly Blog Post URLs</strong></p>
+            <p>When publishing a blog post titled "10 Best JavaScript Frameworks for 2026: A Complete Guide", you need a clean URL slug like "10-best-javascript-frameworks-2026-complete-guide". This tool converts the title instantly, removing the colon and articles, lowercasing everything, and joining words with hyphens. Use the generated slug in your WordPress, Ghost, or static site generator permalink settings for an SEO-optimized URL.</p>
+
+            <p><strong>Generating Product Page and Category URLs</strong></p>
+            <p>E-commerce platforms need URL slugs for every product and category. When adding products with names that include brand names, model numbers, colors, and special characters—for example "Acme® Pro X-100 (Blue/Silver)"—the slug generator produces a clean "acme-pro-x-100-blue-silver" ready to use in your product URL structure. Consistent slug generation across your catalog improves URL predictability and SEO.</p>
+
+            <p><strong>Creating File and Folder Names</strong></p>
+            <p>Slug-style names are also excellent for file and folder naming in code repositories—no spaces, no special characters, lowercase, hyphenated. Convert any descriptive name into a slug and use it as a filename for Markdown documents, HTML pages, or asset directories. This keeps your file system clean and avoids encoding issues when referencing files in code.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Use hyphens, not underscores:</strong> Google officially treats hyphens as word separators in URLs, making "my-page-title" more SEO-friendly than "my_page_title". This is the most common slug convention and the tool's default</li>
+                <li><strong>Keep slugs concise:</strong> Remove stop words (a, an, the, and, or, in, of) if the slug becomes too long—shorter URLs are easier to share and read. For "The Best Guide to JavaScript Frameworks", consider "best-guide-javascript-frameworks"</li>
+                <li><strong>Include your primary keyword:</strong> The slug should include the main keyword of the page—this is a direct SEO ranking signal. "javascript-array-methods" is better than "post-123" or "blog-2026-02-19"</li>
+                <li><strong>Avoid changing published slugs:</strong> Once a URL is indexed by Google and has backlinks, changing the slug creates a broken link and loses any accumulated SEO value—use 301 redirects if you must change a slug</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What happens to accented characters like é, ñ, or ü?</strong></p>
+            <p>A: The tool converts accented characters to their ASCII equivalents—é becomes e, ñ becomes n, ü becomes u, and so on. This produces URL-safe slugs that work in all web contexts without percent-encoding. For example, "café résumé" becomes "cafe-resume".</p>
+
+            <p><strong>Q: Should I use hyphens or underscores in URL slugs?</strong></p>
+            <p>A: Google recommends hyphens. Their documentation explicitly states that word separators in URLs should be hyphens, not underscores, because Googlebot treats hyphens as word separators (so "my-blog-post" is read as three words) but treats underscores as word joiners (so "my_blog_post" is read as one word "myblogpost"). Always use hyphens for SEO-optimized slugs.</p>
+
+            <p><strong>Q: Is my text safe to enter here?</strong></p>
+            <p>A: Yes. All slug generation happens in your browser with no data sent to any server.</p>
+
+            <p><strong>Q: Do I need an account to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration required.</p>
         </div>
     </div>
 

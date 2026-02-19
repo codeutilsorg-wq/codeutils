@@ -47,12 +47,27 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -71,12 +86,7 @@
       "description": "Free online text diff checker. Compare two texts and highlight differences with side-by-side or inline view. 100% client-side processing.",
       "url": "https://codeutils.org/diff-checker",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.6",
-        "ratingCount": "970"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -219,23 +229,71 @@
         </div>
 
         <div class="info-section">
-            <h2>About Text Diff Checker</h2>
-            <p>This tool compares two texts line by line and highlights the differences.</p>
+            <h2>About Diff Checker</h2>
+            <p>Comparing two versions of text, code, or configuration files by eye is time-consuming and error-prone—it is easy to miss small changes like a single character difference or a moved line. Our Diff Checker instantly compares two pieces of text and highlights exactly what was added, removed, or changed using color-coded visual diffing. Whether you are reviewing code changes, comparing document versions, or verifying configuration updates, this tool shows you exactly what changed in seconds. All processing happens entirely in your browser for complete privacy.</p>
 
-            <h3>How to Read the Output</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><span style="background: #d4edda; padding: 2px 6px;">Green lines</span> - Added in the modified text</li>
-                <li><span style="background: #f8d7da; padding: 2px 6px;">Red lines</span> - Removed from the original text</li>
-                <li>Unmarked lines - Unchanged between both texts</li>
+                <li><strong>Side-by-Side Comparison:</strong> View original and modified text side by side with differences highlighted in color</li>
+                <li><strong>Color-Coded Changes:</strong> Green highlights show additions, red highlights show deletions, making changes instantly visible</li>
+                <li><strong>Line-by-Line Diff:</strong> See exactly which lines were added, removed, or modified</li>
+                <li><strong>Inline Character Diff:</strong> For modified lines, see the exact characters that changed within each line</li>
+                <li><strong>Change Summary:</strong> Get a quick count of lines added, removed, and modified</li>
+                <li><strong>File Upload Support:</strong> Upload two text files to compare them directly without copying and pasting</li>
+                <li><strong>One-Click Copy:</strong> Copy the diff output for sharing with teammates</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your content never leaves your browser</li>
             </ul>
 
-            <h3>Use Cases</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste Text Directly</strong></p>
+            <ol>
+                <li>Paste your original (old) text into the left text area labeled "Original"</li>
+                <li>Paste your modified (new) text into the right text area labeled "Modified"</li>
+                <li>Click the "Compare" button to generate the diff</li>
+                <li>Review the highlighted differences—green for additions, red for deletions</li>
+            </ol>
+
+            <p><strong>Method 2: Upload Files to Compare</strong></p>
+            <ol>
+                <li>Click "Upload Original" and select your original file</li>
+                <li>Click "Upload Modified" and select your modified file</li>
+                <li>The files load automatically and the diff generates instantly</li>
+                <li>Review the highlighted changes between the two versions</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Code Review Without Git</strong></p>
+            <p>Not every code change goes through a proper pull request workflow. When a colleague sends you a modified file via email, Slack, or a shared folder, use this diff checker to see exactly what changed. Paste the original file content in the left panel and the modified content in the right panel to get a clear, color-coded view of every addition and deletion—just like GitHub's pull request diff view.</p>
+
+            <p><strong>Comparing Configuration File Versions</strong></p>
+            <p>When deploying application updates, database schema changes, or infrastructure modifications, comparing old and new configuration files is essential for understanding the impact of changes. Use this tool to compare nginx configs, docker-compose files, environment variable files, and other configurations to verify that only the intended changes were made and no unintended modifications crept in.</p>
+
+            <p><strong>Document Version Comparison</strong></p>
+            <p>When collaborating on documents, contracts, or specifications, tracking changes between versions is critical. Copy the text from both versions and use the diff checker to instantly see what was added, removed, or reworded. This is especially useful when working with plain text or markdown documents where track changes features are not available.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li>Comparing code versions</li>
-                <li>Reviewing document changes</li>
-                <li>Checking configuration file differences</li>
-                <li>Verifying data transformations</li>
+                <li><strong>Trim whitespace before comparing:</strong> If you see many false positives (lines highlighted as changed when they look identical), the difference is likely trailing whitespace or different line endings—enable the "Ignore whitespace" option if available</li>
+                <li><strong>Compare at the right granularity:</strong> For code, compare at the line level to spot structural changes. For prose, compare at the word or character level to catch small wording changes</li>
+                <li><strong>Use for config file audits:</strong> Periodically compare your production configuration files with your version-controlled baseline to detect unauthorized or accidental changes</li>
+                <li><strong>Copy diff output for documentation:</strong> Save or share the diff output when documenting what changed in a release or migration for audit trails and deployment records</li>
             </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my content safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All text comparison happens entirely in your browser using JavaScript. Your content—including code, confidential documents, and configuration files with credentials—never leaves your computer and is never uploaded to any server. This makes our tool safe for comparing sensitive files that should not be shared with third-party services.</p>
+
+            <p><strong>Q: What algorithm does this tool use for diffing?</strong></p>
+            <p>A: This tool uses a line-based diff algorithm similar to the Unix diff command and Git's diff output. It identifies the longest common subsequence between the two texts and highlights the minimal set of additions and deletions needed to transform the original into the modified version.</p>
+
+            <p><strong>Q: Can I compare binary files or images?</strong></p>
+            <p>A: This tool is designed for text comparison—it compares plain text, code, JSON, XML, CSV, and any other text-based format. Binary files like images, PDFs, and executables cannot be meaningfully compared as text. For image comparison, consider using dedicated image diff tools.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start comparing text immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

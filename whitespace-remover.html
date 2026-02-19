@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free whitespace remover. Remove extra spaces, tabs, and line breaks from text with multiple cleaning options. 100% client-side processing.",
       "url": "https://codeutils.org/whitespace-remover",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.5",
-        "ratingCount": "790"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -170,18 +177,70 @@
 
         <div class="info-section">
             <h2>About Whitespace Remover</h2>
-            <p>This tool helps clean up messy text by removing or normalizing whitespace characters.</p>
+            <p>Extra whitespace is invisible but causes real problems—mismatched string comparisons, broken CSV imports, inconsistent formatting, and failed validations. Our Whitespace Remover gives you precise control over exactly which whitespace to clean: trim line edges, collapse multiple spaces, remove empty lines, convert tabs to spaces, or strip all whitespace at once. Each option can be toggled independently so you get exactly the cleanup you need without changing anything else. All processing happens locally in your browser with no data sent to any server.</p>
 
-            <h3>Options Explained</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Trim lines:</strong> Remove spaces/tabs from start and end of each line</li>
-                <li><strong>Collapse multiple spaces:</strong> Replace multiple spaces with single space</li>
-                <li><strong>Collapse multiple tabs:</strong> Replace multiple tabs with single tab</li>
-                <li><strong>Convert tabs to spaces:</strong> Replace tabs with spaces</li>
-                <li><strong>Remove empty lines:</strong> Delete lines that are empty or only whitespace</li>
-                <li><strong>Collapse multiple newlines:</strong> Replace multiple blank lines with one</li>
-                <li><strong>Remove ALL whitespace:</strong> Remove every whitespace character</li>
+                <li><strong>Trim Line Edges:</strong> Remove leading and trailing spaces and tabs from each line for consistent indentation</li>
+                <li><strong>Collapse Multiple Spaces:</strong> Replace runs of two or more spaces with a single space—cleans up copy-pasted content from PDFs and web pages</li>
+                <li><strong>Collapse Multiple Tabs:</strong> Replace consecutive tab characters with a single tab for consistent tab-based formatting</li>
+                <li><strong>Convert Tabs to Spaces:</strong> Replace tab characters with four spaces for editors and environments that require spaces</li>
+                <li><strong>Remove Empty Lines:</strong> Delete lines that are blank or contain only whitespace—compacts text for processing</li>
+                <li><strong>Collapse Multiple Newlines:</strong> Replace three or more consecutive line breaks with two (one blank line) to maintain paragraph structure while removing excessive spacing</li>
+                <li><strong>Remove ALL Whitespace:</strong> Strip every space, tab, and newline character—useful for extracting pure data strings</li>
+                <li><strong>Trim Document:</strong> Remove whitespace from the very start and end of the entire text block</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Targeted Cleanup</strong></p>
+            <ol>
+                <li>Paste your text into the input area</li>
+                <li>Select the specific whitespace options you want to apply—each checkbox controls one type of cleanup</li>
+                <li>Click "Clean Whitespace" to process the text</li>
+                <li>Review the output, then click "Copy Output" to use the cleaned text</li>
+            </ol>
+
+            <p><strong>Method 2: Strip All Whitespace</strong></p>
+            <ol>
+                <li>Paste your text into the input area</li>
+                <li>Check the "Remove ALL whitespace" option (this disables the other options)</li>
+                <li>Click "Clean Whitespace" to strip every space, tab, and line break</li>
+                <li>Use this for extracting pure alphanumeric data from formatted text</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Cleaning Up PDF and Web Copy-Paste</strong></p>
+            <p>Text copied from PDFs, web pages, or Word documents often contains extra spaces, double spaces between words, and irregular line breaks. Paste the text into this tool and enable "Trim lines" and "Collapse multiple spaces" to normalize the spacing. This produces clean, consistently spaced text ready for further processing or publication.</p>
+
+            <p><strong>Preparing Data for Database Import</strong></p>
+            <p>When importing data from CSV files or user input into databases, trailing spaces in string fields cause value mismatches and failed lookups. For example, "John Smith " (with trailing space) will not match "John Smith" in a WHERE clause. Use this tool to trim all lines before import, or combine with the Duplicate Remover to clean and deduplicate data in one workflow.</p>
+
+            <p><strong>Normalizing Code and Configuration Files</strong></p>
+            <p>Mixed indentation (tabs and spaces) causes syntax errors in Python and inconsistent diffs in version control. Use the "Convert tabs to spaces" option to standardize indentation before committing code to a repository. Similarly, "Collapse multiple newlines" can normalize the spacing between functions or sections in any text document.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Use trim lines for CSV data:</strong> Spreadsheet exports often include trailing spaces in cell values—trim all lines before using the data in code or databases to avoid hard-to-debug string comparison failures</li>
+                <li><strong>Use collapse spaces for PDF text:</strong> PDFs frequently insert extra spaces in the middle of words or between words when copied—collapsing multiple spaces fixes this automatically</li>
+                <li><strong>Use remove empty lines for data processing:</strong> Many text processing tools and parsers treat empty lines as record separators—removing them ensures your data is treated as a single continuous block</li>
+                <li><strong>Do not use Remove ALL whitespace on prose:</strong> This option is designed for data strings like hex hashes, encoded values, or digit sequences—using it on sentences will remove all spaces and produce unreadable text</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What is the difference between "Trim lines" and "Trim document"?</strong></p>
+            <p>A: "Trim lines" removes spaces and tabs from the start and end of every individual line in the text. "Trim document" removes whitespace from the very beginning and very end of the entire text block. Both options can be enabled together to trim both individual lines and the document as a whole.</p>
+
+            <p><strong>Q: Will "Collapse multiple newlines" remove all blank lines?</strong></p>
+            <p>A: No. "Collapse multiple newlines" reduces three or more consecutive newlines to two (one blank line), preserving paragraph breaks. To remove all blank lines completely, use the "Remove empty lines" option instead, which deletes any line that is blank or contains only whitespace.</p>
+
+            <p><strong>Q: Is my text safe to paste here?</strong></p>
+            <p>A: Yes. All whitespace cleaning happens entirely in your browser using JavaScript. Your text is never uploaded to any server, stored, or transmitted anywhere. The tool is safe to use with confidential documents, source code, and sensitive data.</p>
+
+            <p><strong>Q: Do I need an account to use this tool?</strong></p>
+            <p>A: No. This tool is completely free with no registration or sign-up required. Paste your text and start cleaning immediately—no limits on usage.</p>
         </div>
     </div>
 

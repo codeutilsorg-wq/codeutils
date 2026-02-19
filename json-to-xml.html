@@ -47,12 +47,27 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -71,12 +86,7 @@
       "description": "Free JSON to XML converter. Transform JSON data to XML format with customizable root elements. 100% client-side processing.",
       "url": "https://codeutils.org/json-to-xml",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.6",
-        "ratingCount": "860"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -182,21 +192,76 @@
 
         <div class="info-section">
             <h2>About JSON to XML Converter</h2>
-            <p>This tool converts JSON data to XML format.</p>
+            <p>JSON is the dominant format for modern APIs and data exchange, but many enterprise systems, SOAP services, configuration tools, and data processing pipelines require XML. Converting JSON to XML by hand requires translating every key to an element, every array to repeated elements, and every nested object to child elements—a tedious and error-prone process for complex data. Our JSON to XML Converter handles this mapping automatically, producing valid, well-formed XML from any JSON input. All processing happens in your browser with no data sent to any server.</p>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Instant Conversion:</strong> Paste JSON and get properly formatted XML output immediately</li>
+                <li><strong>Attribute Support:</strong> JSON keys starting with @ are converted to XML attributes rather than child elements</li>
+                <li><strong>Array Handling:</strong> JSON arrays become repeated XML elements with the parent key as the element name</li>
+                <li><strong>Pretty-Printed Output:</strong> XML output is indented and formatted for easy reading and validation</li>
+                <li><strong>File Upload:</strong> Upload .json files directly for conversion</li>
+                <li><strong>Download as XML:</strong> Save the output as a .xml file with one click</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
+            </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste JSON</strong></p>
+            <ol>
+                <li>Paste your JSON object into the input area on the left</li>
+                <li>The XML output appears automatically on the right</li>
+                <li>Click "Copy" to copy the XML to your clipboard</li>
+                <li>Click "Download XML" to save as a file</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a JSON File</strong></p>
+            <ol>
+                <li>Click "Upload" or drag and drop a .json file</li>
+                <li>The file converts automatically</li>
+                <li>Download or copy the XML output</li>
+            </ol>
 
             <h3>Conversion Rules</h3>
             <ul>
                 <li>JSON object keys become XML element names</li>
-                <li>Arrays create repeated elements with "item" wrapper or key name</li>
-                <li>Primitive values become text content</li>
-                <li>Keys starting with @ are treated as attributes</li>
+                <li>JSON arrays create repeated elements using the parent key as the element name</li>
+                <li>Primitive values (strings, numbers, booleans) become XML text content</li>
+                <li>JSON keys starting with @ are converted to XML attributes</li>
             </ul>
 
-            <h3>Example</h3>
-            <p><strong>JSON:</strong></p>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">{"person": {"name": "John", "age": 30}}</pre>
-            <p><strong>XML:</strong></p>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">&lt;person&gt;&lt;name&gt;John&lt;/name&gt;&lt;age&gt;30&lt;/age&gt;&lt;/person&gt;</pre>
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Integrating with SOAP and Enterprise Services</strong></p>
+            <p>Many legacy enterprise systems, banking APIs, and government services use SOAP which requires XML request bodies. When your application works with JSON internally, use this converter to transform your data into the XML format required by the SOAP service. This helps you prototype and test the XML structure before implementing the conversion in your application code.</p>
+
+            <p><strong>Generating XML Configuration Files</strong></p>
+            <p>Many tools and frameworks (Spring, Maven, ant, .NET) use XML configuration files. If you manage configuration as JSON in your workflow (from a CMS, API, or database), convert it to XML here to create the configuration files required by these tools. This is useful for generating test configuration files or understanding the required XML structure.</p>
+
+            <p><strong>Data Export for XML-Based Systems</strong></p>
+            <p>Data warehouses, BI tools, and some CRM systems accept XML as an import format. When exporting data from a JSON API for import into these systems, convert the JSON to XML here to prepare the import file. Verify the XML structure matches the target system's schema before importing.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>XML element names cannot start with numbers:</strong> If your JSON has numeric keys (like "1", "2"), prefix them with a letter before converting—XML element names must start with a letter or underscore</li>
+                <li><strong>Use @ prefix for attributes:</strong> To convert a JSON property to an XML attribute rather than a child element, prefix the key with @—for example "@id" becomes id="value" in the XML output</li>
+                <li><strong>Validate the output:</strong> Paste the generated XML into an XML validator to confirm it is well-formed before using it in production systems</li>
+                <li><strong>Add XML declaration if needed:</strong> Some systems require the &lt;?xml version="1.0" encoding="UTF-8"?&gt; declaration at the top—add it manually to the output if required by your target system</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: How are JSON arrays converted to XML?</strong></p>
+            <p>A: JSON arrays become repeated XML elements. For example, {"items": ["a", "b", "c"]} becomes &lt;items&gt;a&lt;/items&gt;&lt;items&gt;b&lt;/items&gt;&lt;items&gt;c&lt;/items&gt;. Arrays of objects produce repeated elements where each element contains the object's properties as child elements.</p>
+
+            <p><strong>Q: Can I control the root element name?</strong></p>
+            <p>A: The root element name is determined by the top-level key in your JSON object. To set a specific root element name, wrap your JSON in an object with the desired name as the key: {"myRootElement": {your data}}.</p>
+
+            <p><strong>Q: Is my JSON data private?</strong></p>
+            <p>A: Yes. All conversion happens in your browser using JavaScript. Your JSON data is never uploaded to any server or stored anywhere.</p>
+
+            <p><strong>Q: Do I need to sign up to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration required.</p>
         </div>
     </div>
 

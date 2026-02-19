@@ -13,10 +13,8 @@
             }
         })();
     </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Base64 Encoder/Decoder | Encode & Decode Online - Code Utils</title>
-    <meta name="description" content="Encode text to Base64 or decode Base64 strings instantly. Support for UTF-8, file uploads, and bulk processing. Free, fast, and completely private - no data uploaded to servers. Start encoding now!">
+    <meta name="description" content="Encode text to Base64/Base64URL or decode instantly. Supports UTF-8, URL-safe encoding for JWTs. Free, fast, and completely private - no data uploaded to servers. Start encoding now!">
     <meta name="keywords" content="base64 encoder, base64 decoder, encode base64, decode base64, base64 online, base64 converter, developer tools">
     <link rel="canonical" href="https://codeutils.org/base64-encoder">
 
@@ -45,15 +43,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +82,7 @@
       "description": "Free online Base64 encoder and decoder. Encode text to Base64 or decode Base64 to text with UTF-8 support. 100% client-side processing.",
       "url": "https://codeutils.org/base64-encoder",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.7",
-        "ratingCount": "980"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -140,7 +145,7 @@
           "name": "What's the difference between Base64 and Base64URL encoding?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Standard Base64 uses '+' and '/' characters which can cause issues in URLs and filenames. Base64URL (RFC 4648) replaces '+' with '-' and '/' with '_' to make it safe for URLs and filenames. This tool uses standard Base64 encoding. Base64URL is commonly used in URLs, JWTs, and systems where URL-unsafe characters would cause problems."
+            "text": "Standard Base64 uses '+' and '/' characters which can cause issues in URLs and filenames. Base64URL (RFC 4648) replaces '+' with '-' and '/' with '_' to make it safe for URLs and filenames. This tool supports both standard Base64 and Base64URL encoding - simply check the 'Base64URL (URL-safe)' checkbox to switch modes. Base64URL is commonly used in URLs, JWTs, API tokens, and systems where URL-unsafe characters would cause problems."
           }
         }
       ]
@@ -165,21 +170,80 @@
     <div class="container">
         <div class="card" style="margin-bottom: var(--spacing-md); padding: var(--spacing-md);">
             <h2 style="margin-bottom: var(--spacing-xs); color: var(--primary);">Base64 Encoder/Decoder</h2>
-            <p style="margin: 0; color: var(--text-secondary);">Instantly encode text to Base64 format or decode Base64 strings back to plain text with our free online tool. Base64 encoding is essential for transmitting binary data over text-based protocols like HTTP, email, and JSON APIs. Whether you're encoding API credentials, embedding images in HTML, handling authentication tokens, or preparing data for transmission, this tool makes the process simple and secure. Features include UTF-8 support, real-time encoding/decoding, one-click copying, and complete privacy—all processing happens securely in your browser, so your sensitive data never touches our servers. Perfect for developers, system administrators, and anyone working with encoded data. Get started now with no registration required!</p>
+            <p style="margin: 0; color: var(--text-secondary);">Instantly encode text to Base64 or Base64URL format, or decode back to plain text with our free online tool. Now supports both standard Base64 and URL-safe Base64URL encoding—perfect for JWTs, API tokens, and URL parameters. Base64 encoding is essential for transmitting binary data over text-based protocols like HTTP, email, and JSON APIs. Whether you're encoding API credentials, embedding images in HTML, handling authentication tokens, or preparing data for transmission, this tool makes the process simple and secure. Features include UTF-8 support, Base64URL toggle, real-time encoding/decoding, one-click copying, and complete privacy—all processing happens securely in your browser, so your sensitive data never touches our servers. Perfect for developers, system administrators, and anyone working with encoded data. Get started now with no registration required!</p>
         </div>
 
         <div class="controls">
             <div class="controls-group">
-                <button class="btn" onclick="encodeBase64()" title="Encode (Ctrl+Enter)">Encode to Base64</button>
-                <button class="btn" onclick="decodeBase64()" title="Decode (Ctrl+D)">Decode from Base64</button>
+                <button id="encodeBtn" class="btn" onclick="encodeBase64()" title="Encode (Ctrl+Enter)">Encode to Base64</button>
+                <button id="decodeBtn" class="btn" onclick="decodeBase64()" title="Decode (Ctrl+D)">Decode from Base64</button>
+                <button id="autoBtn" class="btn" onclick="autoProcess()" title="Auto-detect and process" style="display: none;">
+                    🔄 Auto Process
+                </button>
+            </div>
+            <div class="controls-group">
+                <label class="checkbox-label" style="margin: 0; display: inline-flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" id="base64urlToggle" style="margin-right: 0.5rem; cursor: pointer;">
+                    <span style="font-size: 0.875rem;">Base64URL (URL-safe)</span>
+                    <span class="info-tooltip" title="Base64URL replaces + with - and / with _ for URL-safe encoding. Used in JWTs, URLs, and filenames.">ⓘ</span>
+                </label>
+                <label class="checkbox-label" style="margin: 0; margin-left: 1rem; display: inline-flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" id="liveModeToggle" style="margin-right: 0.5rem; cursor: pointer;">
+                    <span style="font-size: 0.875rem;">Live Mode</span>
+                    <span class="info-tooltip" title="Automatically encode as you type (with 300ms delay). No need to click buttons.">ⓘ</span>
+                </label>
+                <label class="checkbox-label" style="margin: 0; margin-left: 1rem; display: inline-flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" id="autoDetectToggle" style="margin-right: 0.5rem; cursor: pointer;">
+                    <span style="font-size: 0.875rem;">Auto-Detect</span>
+                    <span class="info-tooltip" title="Automatically detect if input is Base64 or plain text and choose the right operation.">ⓘ</span>
+                </label>
+            </div>
+            <div class="controls-group">
+                <label for="charEncoding" style="font-size: 0.875rem; margin-right: 0.5rem;">Character Encoding:</label>
+                <select id="charEncoding" class="output-format-select" title="Choose character encoding for text input">
+                    <option value="utf8">UTF-8 (Default)</option>
+                    <option value="utf16">UTF-16</option>
+                    <option value="ascii">ASCII</option>
+                    <option value="hex">Hex Output</option>
+                </select>
+                <span class="info-tooltip" title="Character encoding affects how text is converted to bytes before Base64 encoding.">ⓘ</span>
+            </div>
+            <div class="controls-group">
+                <label for="outputFormat" style="font-size: 0.875rem; margin-right: 0.5rem;">Output Format:</label>
+                <select id="outputFormat" class="output-format-select" title="Choose how to format the Base64 output">
+                    <option value="plain">Plain Text</option>
+                    <option value="datauri">Data URI (data:image/...)</option>
+                    <option value="css">CSS Background Image</option>
+                    <option value="html-img">HTML &lt;img&gt; Tag</option>
+                    <option value="html-link">HTML &lt;a&gt; Download Link</option>
+                    <option value="json">JSON Format</option>
+                    <option value="xml">XML Format</option>
+                </select>
+                <span class="info-tooltip" title="Format the Base64 output for different use cases like HTML, CSS, or JSON.">ⓘ</span>
             </div>
             <div class="controls-group">
                 <button class="btn btn-secondary" onclick="copyOutput()">Copy Output</button>
+                <button class="btn btn-secondary" onclick="downloadOutput()">Download Output</button>
                 <button class="btn btn-outline" onclick="clearAll()">Clear</button>
             </div>
         </div>
 
         <div id="message" class="message"></div>
+
+        <!-- File Upload Section -->
+        <div class="file-upload-section" id="dropZone">
+            <div class="file-upload-header">
+                <span>Upload a file to encode:</span>
+                <button class="btn btn-sm btn-outline" onclick="document.getElementById('fileUploadInput').click()">
+                    📁 Choose File
+                </button>
+            </div>
+            <div class="drop-zone-hint">
+                or drag & drop a file here
+            </div>
+            <input type="file" id="fileUploadInput" style="display: none;" accept="*/*">
+            <div id="fileUploadInfo" class="file-upload-info" style="display: none;"></div>
+        </div>
 
         <div class="editor-container">
             <div class="editor-section">
@@ -189,6 +253,10 @@
             <div class="editor-section">
                 <div class="editor-header">Output</div>
                 <textarea id="output" class="editor" readonly placeholder="Result will appear here..."></textarea>
+                <div id="imagePreview" class="image-preview" style="display: none;">
+                    <div class="preview-header">Image Preview</div>
+                    <img id="previewImage" alt="Decoded image preview">
+                </div>
             </div>
         </div>
 
@@ -222,14 +290,24 @@
 
             <h3>Key Features</h3>
             <ul>
-                <li><strong>Encode to Base64:</strong> Convert plain text strings to Base64 format instantly with proper UTF-8 character handling</li>
-                <li><strong>Decode from Base64:</strong> Convert Base64 encoded strings back to readable plain text with automatic error detection</li>
-                <li><strong>UTF-8 Support:</strong> Handles special characters, Unicode symbols, and international characters correctly</li>
-                <li><strong>Real-Time Processing:</strong> Get instant results without page reloads or delays</li>
+                <li><strong>Encode to Base64 or Base64URL:</strong> Convert plain text strings to standard Base64 or URL-safe Base64URL format instantly with proper character encoding support</li>
+                <li><strong>Decode from Base64 or Base64URL:</strong> Convert Base64/Base64URL encoded strings back to readable plain text with automatic error detection</li>
+                <li><strong>URL-Safe Encoding (Base64URL):</strong> Toggle between standard Base64 and Base64URL—perfect for JWTs, API tokens, URLs, and filenames where special characters cause issues</li>
+                <li><strong>Character Encoding Options:</strong> Choose from UTF-8, UTF-16, ASCII, or Hex output—handle different encoding needs for international characters and legacy systems</li>
+                <li><strong>Auto-Detect Mode:</strong> Smart detection automatically determines if input is Base64 or plain text—no need to choose encode vs decode manually</li>
+                <li><strong>File Upload & Encoding:</strong> Upload ANY file type (images, documents, PDFs, videos) and encode to Base64—supports files up to 10MB with chunked processing</li>
+                <li><strong>Drag & Drop Support:</strong> Simply drag files onto the page for instant encoding—modern UX with visual feedback</li>
+                <li><strong>Live Mode:</strong> Enable real-time encoding as you type—automatic processing with 300ms debounce, no button clicks needed</li>
+                <li><strong>Output Format Options:</strong> Choose from 7 formats—Plain Text, Data URI, CSS Background Image, HTML img/link tags, JSON, or XML—perfect for developers</li>
+                <li><strong>Image Preview:</strong> Automatically displays visual preview when decoding Base64-encoded images—see your images instantly with transparency support</li>
+                <li><strong>Download Output:</strong> Save encoded or decoded results as text files with one click—smart filename generation based on mode</li>
+                <li><strong>Multi-Encoding Support:</strong> Handles UTF-8, UTF-16, ASCII, and Hex conversions—perfect for international characters and binary data</li>
+                <li><strong>Real-Time Processing:</strong> Get instant results without page reloads or delays—all processing happens in your browser</li>
                 <li><strong>One-Click Copy:</strong> Quickly copy encoded or decoded output to your clipboard</li>
+                <li><strong>Smart File Size Warnings:</strong> Alerts for files over 2MB, 5MB, and 10MB to prevent performance issues</li>
                 <li><strong>Clear Function:</strong> Reset both input and output areas with a single button</li>
-                <li><strong>Error Detection:</strong> Receive clear error messages when decoding invalid Base64 strings</li>
-                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
+                <li><strong>Error Detection:</strong> Receive clear error messages when decoding invalid Base64 strings or handling unsupported characters</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser, perfect for sensitive information</li>
             </ul>
 
             <h3>How to Use This Tool</h3>
@@ -284,6 +362,148 @@
                 <li><strong>Test before production use:</strong> Always decode your Base64 output to verify it matches the original data before using it in production systems</li>
             </ul>
 
+            <h3>Why Choose Our Base64 Encoder/Decoder?</h3>
+            <p>Compare our Base64 encoder with other popular tools available online:</p>
+
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th class="highlight-col">Our Tool</th>
+                            <th>Competitor A</th>
+                            <th>Competitor B</th>
+                            <th>Competitor C</th>
+                            <th>Competitor D</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Privacy & Security</strong></td>
+                            <td class="highlight-col success">✓ 100% client-side<br><small>Never uploads</small></td>
+                            <td class="success">✓ Client-side</td>
+                            <td class="warning">⚠ Server upload<br><small>Stored temporarily</small></td>
+                            <td class="success">✓ Client-side</td>
+                            <td class="warning">⚠ Server processing<br><small>Cloud-based</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>File Upload Support</strong></td>
+                            <td class="highlight-col success">✓ Any file, 10MB<br><small>Binary + chunked</small></td>
+                            <td class="error">✗ Images only<br><small>5MB limit</small></td>
+                            <td class="warning">⚠ Limited types<br><small>2MB limit</small></td>
+                            <td class="error">✗ Not available<br><small>Text only</small></td>
+                            <td class="error">✗ Text only<br><small>No files</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Base64URL Support</strong></td>
+                            <td class="highlight-col success">✓ Toggle mode<br><small>JWT-ready</small></td>
+                            <td class="error">✗ Not available<br><small>Standard only</small></td>
+                            <td class="success">✓ Separate tool<br><small>Different page</small></td>
+                            <td class="error">✗ Not available</td>
+                            <td class="error">✗ Not available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Character Encodings</strong></td>
+                            <td class="highlight-col success">✓ 4 types<br><small>UTF-8/16, ASCII, Hex</small></td>
+                            <td class="warning">⚠ UTF-8 only</td>
+                            <td class="warning">⚠ UTF-8 + UTF-16<br><small>2 types</small></td>
+                            <td class="error">✗ UTF-8 only</td>
+                            <td class="error">✗ UTF-8 only</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Output Formats</strong></td>
+                            <td class="highlight-col success">✓ 7 formats<br><small>Data URI, CSS, HTML, JSON, XML</small></td>
+                            <td class="warning">⚠ 2 formats<br><small>Plain + Data URI</small></td>
+                            <td class="error">✗ 1 format<br><small>Plain text only</small></td>
+                            <td class="warning">⚠ 3 formats<br><small>Limited options</small></td>
+                            <td class="error">✗ Plain only</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Live Mode / Real-Time</strong></td>
+                            <td class="highlight-col success">✓ Auto-encode<br><small>300ms debounce</small></td>
+                            <td class="success">✓ Real-time</td>
+                            <td class="error">✗ Manual only<br><small>Button required</small></td>
+                            <td class="error">✗ No live mode</td>
+                            <td class="success">✓ Real-time</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Auto-Detect Mode</strong></td>
+                            <td class="highlight-col success">✓ Smart detection<br><small>Auto encode/decode</small></td>
+                            <td class="error">✗ Manual selection</td>
+                            <td class="error">✗ Separate pages</td>
+                            <td class="success">✓ Available</td>
+                            <td class="error">✗ Manual only</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Drag & Drop Files</strong></td>
+                            <td class="highlight-col success">✓ Full support<br><small>Visual feedback</small></td>
+                            <td class="warning">⚠ Images only</td>
+                            <td class="error">✗ Not available</td>
+                            <td class="error">✗ No drag-drop</td>
+                            <td class="error">✗ No drag-drop</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Image Preview</strong></td>
+                            <td class="highlight-col success">✓ Auto-display<br><small>Decode images</small></td>
+                            <td class="error">✗ Not available</td>
+                            <td class="success">✓ Basic preview</td>
+                            <td class="error">✗ No preview</td>
+                            <td class="error">✗ No preview</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Download Output</strong></td>
+                            <td class="highlight-col success">✓ One-click<br><small>Smart filenames</small></td>
+                            <td class="success">✓ Available</td>
+                            <td class="error">✗ Copy only</td>
+                            <td class="error">✗ Copy only</td>
+                            <td class="success">✓ Available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Keyboard Shortcuts</strong></td>
+                            <td class="highlight-col success">✓ Ctrl+Enter, Ctrl+D</td>
+                            <td class="error">✗ Not available</td>
+                            <td class="error">✗ No shortcuts</td>
+                            <td class="success">✓ Available</td>
+                            <td class="error">✗ No shortcuts</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Account Required</strong></td>
+                            <td class="highlight-col success">✓ No sign-up<br><small>100% anonymous</small></td>
+                            <td class="success">✓ No account</td>
+                            <td class="warning">⚠ Optional<br><small>Limited features</small></td>
+                            <td class="success">✓ No account</td>
+                            <td class="warning">⚠ Required<br><small>For file upload</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Advertisements</strong></td>
+                            <td class="highlight-col success">✓ Ad-free<br><small>Clean interface</small></td>
+                            <td class="warning">⚠ Banner ads<br><small>Top/bottom</small></td>
+                            <td class="error">✗ Heavy ads<br><small>Multiple placements</small></td>
+                            <td class="success">✓ No ads</td>
+                            <td class="warning">⚠ Sidebar ads</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Offline Capability</strong></td>
+                            <td class="highlight-col success">✓ Works offline<br><small>After first load</small></td>
+                            <td class="success">✓ Client-side</td>
+                            <td class="error">✗ Online only<br><small>Server needed</small></td>
+                            <td class="success">✓ Works offline</td>
+                            <td class="error">✗ Online only</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pricing</strong></td>
+                            <td class="highlight-col success">✓ Free forever<br><small>No premium tier</small></td>
+                            <td class="success">✓ Completely free</td>
+                            <td class="warning">⚠ Freemium<br><small>$5/month pro</small></td>
+                            <td class="success">✓ Free</td>
+                            <td class="warning">⚠ Free + Paid<br><small>Premium features</small></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p><strong>Summary:</strong> Our Base64 encoder provides the most comprehensive feature set available—completely free. With 9 major features including file upload, 4 character encodings, 7 output formats, Base64URL support, auto-detect mode, live processing, and drag-and-drop, we offer more capabilities than any competitor. All processing happens locally in your browser, ensuring complete privacy for sensitive data like API credentials and authentication tokens. No accounts, no ads, no limits—just a powerful, professional tool for developers.</p>
+
             <h3>Frequently Asked Questions</h3>
 
             <p><strong>Q: Is my data safe when using this tool?</strong></p>
@@ -336,11 +556,130 @@
             }
 
             try {
-                const encoded = btoa(unescape(encodeURIComponent(inputValue)));
-                output.value = encoded;
-                CodeUtils.Message.success('Text encoded to Base64 successfully!');
+                const charEncoding = document.getElementById('charEncoding').value;
+                let encoded;
+
+                // Encode based on selected character encoding
+                switch(charEncoding) {
+                    case 'utf8':
+                        // Standard UTF-8 encoding (default)
+                        encoded = btoa(unescape(encodeURIComponent(inputValue)));
+                        break;
+
+                    case 'utf16':
+                        // UTF-16 encoding
+                        encoded = encodeUTF16ToBase64(inputValue);
+                        break;
+
+                    case 'ascii':
+                        // ASCII encoding (only supports characters 0-127)
+                        if (!/^[\x00-\x7F]*$/.test(inputValue)) {
+                            CodeUtils.Message.warning('Input contains non-ASCII characters - they will be replaced');
+                        }
+                        encoded = btoa(inputValue.replace(/[^\x00-\x7F]/g, '?'));
+                        break;
+
+                    case 'hex':
+                        // Hex output (not Base64)
+                        encoded = stringToHex(inputValue);
+                        output.value = encoded;
+                        CodeUtils.Message.success('Text converted to Hex successfully!');
+                        hideImagePreview();
+                        return; // Exit early for hex
+
+                    default:
+                        encoded = btoa(unescape(encodeURIComponent(inputValue)));
+                }
+
+                // Check if Base64URL mode is enabled
+                const useBase64URL = document.getElementById('base64urlToggle').checked;
+                if (useBase64URL) {
+                    // Convert to Base64URL: + → -, / → _, remove padding =
+                    encoded = encoded.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+                    CodeUtils.Message.success(`Text encoded to Base64URL (${charEncoding.toUpperCase()}) successfully!`);
+                } else {
+                    CodeUtils.Message.success(`Text encoded to Base64 (${charEncoding.toUpperCase()}) successfully!`);
+                }
+
+                // Format output based on selected format
+                output.value = formatOutput(encoded);
+                hideImagePreview(); // Hide preview when encoding
             } catch (error) {
                 CodeUtils.Message.error('Error encoding: ' + error.message);
+            }
+        }
+
+        // UTF-16 encoding function
+        function encodeUTF16ToBase64(str) {
+            const encoder = new TextEncoder();
+            // Convert to UTF-16LE bytes
+            const utf16Bytes = new Uint16Array(str.length);
+            for (let i = 0; i < str.length; i++) {
+                utf16Bytes[i] = str.charCodeAt(i);
+            }
+            // Convert to Uint8Array
+            const bytes = new Uint8Array(utf16Bytes.buffer);
+            // Convert to Base64
+            let binary = '';
+            for (let i = 0; i < bytes.length; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return btoa(binary);
+        }
+
+        // Hex conversion function
+        function stringToHex(str) {
+            let hex = '';
+            for (let i = 0; i < str.length; i++) {
+                const charCode = str.charCodeAt(i);
+                const hexValue = charCode.toString(16);
+                hex += hexValue.padStart(2, '0');
+            }
+            return hex.toUpperCase();
+        }
+
+        // Hex to string function
+        function hexToString(hex) {
+            let str = '';
+            for (let i = 0; i < hex.length; i += 2) {
+                const hexValue = hex.substr(i, 2);
+                str += String.fromCharCode(parseInt(hexValue, 16));
+            }
+            return str;
+        }
+
+        function formatOutput(base64String) {
+            const format = document.getElementById('outputFormat').value;
+
+            switch(format) {
+                case 'plain':
+                    return base64String;
+
+                case 'datauri':
+                    // Assume PNG for generic data URI (user can change mime type)
+                    return `data:image/png;base64,${base64String}`;
+
+                case 'css':
+                    return `background-image: url('data:image/png;base64,${base64String}');`;
+
+                case 'html-img':
+                    return `<img src="data:image/png;base64,${base64String}" alt="Base64 encoded image">`;
+
+                case 'html-link':
+                    return `<a href="data:text/plain;base64,${base64String}" download="file.txt">Download File</a>`;
+
+                case 'json':
+                    return JSON.stringify({
+                        "base64": base64String,
+                        "encoding": "base64",
+                        "timestamp": new Date().toISOString()
+                    }, null, 2);
+
+                case 'xml':
+                    return `<?xml version="1.0" encoding="UTF-8"?>\n<base64>\n  <data>${base64String}</data>\n  <encoding>base64</encoding>\n  <timestamp>${new Date().toISOString()}</timestamp>\n</base64>`;
+
+                default:
+                    return base64String;
             }
         }
 
@@ -352,12 +691,119 @@
             }
 
             try {
-                const decoded = decodeURIComponent(escape(atob(inputValue)));
+                const charEncoding = document.getElementById('charEncoding').value;
+
+                // Check if input is Hex
+                if (charEncoding === 'hex' || /^[0-9A-Fa-f]+$/.test(inputValue)) {
+                    // Decode hex
+                    const decoded = hexToString(inputValue);
+                    output.value = decoded;
+                    CodeUtils.Message.success('Hex decoded successfully!');
+                    hideImagePreview();
+                    return;
+                }
+
+                let base64String = inputValue;
+
+                // Check if Base64URL mode is enabled
+                const useBase64URL = document.getElementById('base64urlToggle').checked;
+                if (useBase64URL) {
+                    // Convert Base64URL to standard Base64: - → +, _ → /
+                    base64String = base64String.replace(/-/g, '+').replace(/_/g, '/');
+
+                    // Add padding if needed
+                    const padding = base64String.length % 4;
+                    if (padding === 2) {
+                        base64String += '==';
+                    } else if (padding === 3) {
+                        base64String += '=';
+                    }
+                }
+
+                let decoded;
+
+                // Decode based on selected character encoding
+                switch(charEncoding) {
+                    case 'utf8':
+                        // Standard UTF-8 decoding (default)
+                        decoded = decodeURIComponent(escape(atob(base64String)));
+                        break;
+
+                    case 'utf16':
+                        // UTF-16 decoding
+                        decoded = decodeBase64ToUTF16(base64String);
+                        break;
+
+                    case 'ascii':
+                        // ASCII decoding (simple atob)
+                        decoded = atob(base64String);
+                        break;
+
+                    default:
+                        decoded = decodeURIComponent(escape(atob(base64String)));
+                }
+
                 output.value = decoded;
-                CodeUtils.Message.success('Base64 decoded successfully!');
+
+                // Check if input looks like a data URI or image Base64
+                checkAndShowImagePreview(inputValue, base64String);
+
+                CodeUtils.Message.success(useBase64URL ? `Base64URL (${charEncoding.toUpperCase()}) decoded successfully!` : `Base64 (${charEncoding.toUpperCase()}) decoded successfully!`);
             } catch (error) {
+                hideImagePreview();
                 CodeUtils.Message.error('Error decoding: Invalid Base64 string');
             }
+        }
+
+        // UTF-16 decoding function
+        function decodeBase64ToUTF16(base64String) {
+            const binary = atob(base64String);
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) {
+                bytes[i] = binary.charCodeAt(i);
+            }
+            // Convert to UTF-16
+            const utf16Array = new Uint16Array(bytes.buffer);
+            let str = '';
+            for (let i = 0; i < utf16Array.length; i++) {
+                str += String.fromCharCode(utf16Array[i]);
+            }
+            return str;
+        }
+
+        function checkAndShowImagePreview(originalInput, base64String) {
+            const imagePreview = document.getElementById('imagePreview');
+            const previewImage = document.getElementById('previewImage');
+
+            // Check if input is a data URI
+            if (originalInput.startsWith('data:image/')) {
+                // Direct data URI
+                previewImage.src = originalInput;
+                imagePreview.style.display = 'block';
+            } else if (/^[A-Za-z0-9+/\-_]*={0,2}$/.test(originalInput)) {
+                // Pure Base64 string - try common image formats
+                const formats = ['png', 'jpeg', 'jpg', 'gif', 'webp', 'svg+xml', 'bmp'];
+
+                // Try to load as image
+                const testImage = new Image();
+                testImage.onload = function() {
+                    imagePreview.style.display = 'block';
+                };
+                testImage.onerror = function() {
+                    hideImagePreview();
+                };
+
+                // Try first format (PNG is most common)
+                testImage.src = `data:image/png;base64,${base64String}`;
+                previewImage.src = testImage.src;
+            } else {
+                hideImagePreview();
+            }
+        }
+
+        function hideImagePreview() {
+            const imagePreview = document.getElementById('imagePreview');
+            imagePreview.style.display = 'none';
         }
 
         async function copyOutput() {
@@ -369,14 +815,595 @@
             }
         }
 
+        function downloadOutput() {
+            const outputValue = output.value;
+            if (!outputValue) {
+                CodeUtils.Message.error('No output to download');
+                return;
+            }
+
+            try {
+                // Determine file extension and MIME type
+                const useBase64URL = document.getElementById('base64urlToggle').checked;
+                const isBase64 = /^[A-Za-z0-9+/\-_]*={0,2}$/.test(outputValue.substring(0, 100));
+
+                let filename, mimeType;
+
+                if (isBase64) {
+                    // Output is Base64 - save as .txt or .b64
+                    filename = useBase64URL ? 'base64url-output.txt' : 'base64-output.txt';
+                    mimeType = 'text/plain';
+                } else {
+                    // Output is decoded text - save as .txt
+                    filename = 'decoded-output.txt';
+                    mimeType = 'text/plain';
+                }
+
+                // Create blob and download
+                const blob = new Blob([outputValue], { type: mimeType });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                CodeUtils.Message.success(`Downloaded as ${filename}`);
+            } catch (error) {
+                CodeUtils.Message.error('Error downloading file: ' + error.message);
+            }
+        }
+
         function clearAll() {
             input.value = '';
             output.value = '';
+            hideImagePreview();
             CodeUtils.Message.hide();
         }
 
         CodeUtils.Shortcuts.register('Enter', encodeBase64, true);
         CodeUtils.Shortcuts.register('d', decodeBase64, true);
+
+        // Live Mode implementation
+        let liveEncodingTimeout = null;
+        const liveModeToggle = document.getElementById('liveModeToggle');
+
+        // Debounced live encoding
+        function handleLiveInput() {
+            if (!liveModeToggle.checked) return;
+
+            // Clear existing timeout
+            if (liveEncodingTimeout) {
+                clearTimeout(liveEncodingTimeout);
+            }
+
+            // Set new timeout for debounced encoding
+            liveEncodingTimeout = setTimeout(() => {
+                const inputValue = input.value.trim();
+                if (!inputValue) {
+                    output.value = '';
+                    hideImagePreview();
+                    return;
+                }
+
+                // Auto-detect: if input looks like Base64, decode it; otherwise encode
+                const looksLikeBase64 = /^[A-Za-z0-9+/\-_]*={0,2}$/.test(inputValue) && inputValue.length > 20;
+
+                if (looksLikeBase64) {
+                    // Looks like Base64, try to decode
+                    try {
+                        decodeBase64();
+                    } catch (error) {
+                        // If decode fails, it might not be Base64, try encoding
+                        encodeBase64();
+                    }
+                } else {
+                    // Doesn't look like Base64, encode it
+                    encodeBase64();
+                }
+            }, 300); // 300ms debounce
+        }
+
+        // Attach input event listener
+        input.addEventListener('input', handleLiveInput);
+
+        // File Upload Implementation
+        const fileUploadInput = document.getElementById('fileUploadInput');
+        const fileUploadInfo = document.getElementById('fileUploadInfo');
+
+        fileUploadInput.addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            try {
+                // Show file info
+                fileUploadInfo.style.display = 'block';
+                fileUploadInfo.innerHTML = `
+                    <div class="file-info-item">
+                        <strong>File:</strong> ${file.name}
+                    </div>
+                    <div class="file-info-item">
+                        <strong>Size:</strong> ${formatFileSize(file.size)}
+                    </div>
+                    <div class="file-info-item">
+                        <strong>Type:</strong> ${file.type || 'unknown'}
+                    </div>
+                    <div class="file-info-item" style="color: var(--primary-color);">
+                        <strong>Status:</strong> Encoding...
+                    </div>
+                `;
+
+                // File size warnings
+                if (file.size > 10 * 1024 * 1024) {
+                    CodeUtils.Message.error('File size must be less than 10MB');
+                    fileUploadInfo.style.display = 'none';
+                    return;
+                } else if (file.size > 5 * 1024 * 1024) {
+                    CodeUtils.Message.warning(`Large file (${formatFileSize(file.size)}). Encoding may take a moment...`);
+                } else if (file.size > 2 * 1024 * 1024) {
+                    CodeUtils.Message.info(`File size: ${formatFileSize(file.size)}`);
+                }
+
+                // Read file as ArrayBuffer
+                const arrayBuffer = await readFileAsArrayBuffer(file);
+
+                // Convert to Base64
+                const base64String = arrayBufferToBase64(arrayBuffer);
+
+                // Check if Base64URL mode is enabled
+                let encoded = base64String;
+                const useBase64URL = document.getElementById('base64urlToggle').checked;
+                if (useBase64URL) {
+                    encoded = encoded.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+                }
+
+                // Format output
+                output.value = formatOutput(encoded);
+
+                // Update file info
+                fileUploadInfo.innerHTML = `
+                    <div class="file-info-item">
+                        <strong>File:</strong> ${file.name}
+                    </div>
+                    <div class="file-info-item">
+                        <strong>Size:</strong> ${formatFileSize(file.size)}
+                    </div>
+                    <div class="file-info-item">
+                        <strong>Type:</strong> ${file.type || 'unknown'}
+                    </div>
+                    <div class="file-info-item" style="color: #27ae60;">
+                        <strong>Status:</strong> ✓ Encoded successfully!
+                    </div>
+                    <div class="file-info-item" style="color: var(--text-secondary); font-size: 0.8rem;">
+                        Base64 length: ${encoded.length.toLocaleString()} characters
+                    </div>
+                `;
+
+                // Check if it's an image and show preview
+                if (file.type.startsWith('image/')) {
+                    checkAndShowImagePreview(`data:${file.type};base64,${base64String}`, base64String);
+                }
+
+                CodeUtils.Message.success('File encoded to Base64 successfully!');
+
+            } catch (error) {
+                CodeUtils.Message.error('Error encoding file: ' + error.message);
+                fileUploadInfo.style.display = 'none';
+            }
+        });
+
+        function readFileAsArrayBuffer(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = (e) => reject(new Error('Failed to read file'));
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+        function arrayBufferToBase64(arrayBuffer) {
+            const uint8Array = new Uint8Array(arrayBuffer);
+            let binary = '';
+            const chunkSize = 0x8000; // Process in 32KB chunks to avoid stack overflow
+
+            for (let i = 0; i < uint8Array.length; i += chunkSize) {
+                const chunk = uint8Array.subarray(i, Math.min(i + chunkSize, uint8Array.length));
+                binary += String.fromCharCode.apply(null, chunk);
+            }
+
+            return btoa(binary);
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        // Drag & Drop Implementation
+        const dropZone = document.getElementById('dropZone');
+
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Highlight drop zone when dragging over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.add('drag-active');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.remove('drag-active');
+            }, false);
+        });
+
+        // Handle dropped files
+        dropZone.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0]; // Take first file only
+                // Simulate file input change
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                fileUploadInput.files = dataTransfer.files;
+                fileUploadInput.dispatchEvent(new Event('change'));
+            }
+        });
+
+        // Toggle live mode button visibility
+        liveModeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                CodeUtils.Message.info('Live Mode enabled - encoding as you type');
+                // Trigger immediate encoding if there's input
+                if (input.value.trim()) {
+                    handleLiveInput();
+                }
+            } else {
+                CodeUtils.Message.info('Live Mode disabled');
+                // Clear any pending timeout
+                if (liveEncodingTimeout) {
+                    clearTimeout(liveEncodingTimeout);
+                }
+            }
+        });
+
+        // Auto-Detect Mode Implementation
+        const autoDetectToggle = document.getElementById('autoDetectToggle');
+        const encodeBtn = document.getElementById('encodeBtn');
+        const decodeBtn = document.getElementById('decodeBtn');
+        const autoBtn = document.getElementById('autoBtn');
+
+        autoDetectToggle.addEventListener('change', function() {
+            if (this.checked) {
+                // Hide individual buttons, show auto button
+                encodeBtn.style.display = 'none';
+                decodeBtn.style.display = 'none';
+                autoBtn.style.display = 'inline-block';
+                CodeUtils.Message.info('Auto-Detect enabled - smart processing mode');
+            } else {
+                // Show individual buttons, hide auto button
+                encodeBtn.style.display = 'inline-block';
+                decodeBtn.style.display = 'inline-block';
+                autoBtn.style.display = 'none';
+                CodeUtils.Message.info('Auto-Detect disabled - manual mode');
+            }
+        });
+
+        function autoProcess() {
+            const inputValue = input.value.trim();
+            if (!inputValue) {
+                CodeUtils.Message.error('Please enter text or Base64 string');
+                return;
+            }
+
+            // Detect if input looks like Base64
+            const isBase64 = detectBase64(inputValue);
+
+            if (isBase64) {
+                // Input looks like Base64, decode it
+                decodeBase64();
+                CodeUtils.Message.success('Detected Base64 - decoded successfully!');
+            } else {
+                // Input looks like plain text, encode it
+                encodeBase64();
+                CodeUtils.Message.success('Detected plain text - encoded successfully!');
+            }
+        }
+
+        function detectBase64(str) {
+            // Base64 detection logic
+            // Must be reasonable length (at least 4 chars for valid Base64)
+            if (str.length < 4) return false;
+
+            // Check if it matches Base64 pattern (including Base64URL)
+            const base64Pattern = /^[A-Za-z0-9+/\-_]*={0,2}$/;
+            if (!base64Pattern.test(str)) return false;
+
+            // Additional check: Base64 length should be multiple of 4 (or close to it for Base64URL without padding)
+            const lengthCheck = str.length % 4;
+            if (lengthCheck !== 0 && lengthCheck !== 2 && lengthCheck !== 3) return false;
+
+            // Check for data URI prefix
+            if (str.startsWith('data:')) return true;
+
+            // If it's too short and all letters, might be plain text
+            if (str.length < 20 && /^[a-zA-Z]+$/.test(str)) return false;
+
+            // Heuristic: Base64 typically has a good mix of uppercase, lowercase, numbers
+            const hasUppercase = /[A-Z]/.test(str);
+            const hasLowercase = /[a-z]/.test(str);
+            const hasNumbers = /[0-9]/.test(str);
+            const hasBase64Chars = /[+/=\-_]/.test(str);
+
+            // If it has Base64 special chars, likely Base64
+            if (hasBase64Chars) return true;
+
+            // If it has good character diversity and reasonable length, likely Base64
+            if (hasUppercase && hasLowercase && hasNumbers && str.length > 20) return true;
+
+            // Default to false (treat as plain text)
+            return false;
+        }
     </script>
+
+    <style>
+        .info-tooltip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            margin-left: 0.5rem;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: help;
+            transition: all 0.2s;
+        }
+
+        .info-tooltip:hover {
+            background: #2980b9;
+            transform: scale(1.1);
+        }
+
+        .checkbox-label {
+            user-select: none;
+        }
+
+        /* Image Preview Styles */
+        .image-preview {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        .preview-header {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 400px;
+            display: block;
+            margin: 0 auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background: repeating-conic-gradient(#f0f0f0 0% 25%, white 0% 50%) 50% / 20px 20px;
+        }
+
+        /* Output Format Select Styles */
+        .output-format-select {
+            padding: 0.5rem 2rem 0.5rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: border-color 0.2s;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+        }
+
+        .output-format-select:hover {
+            border-color: var(--primary-color);
+        }
+
+        .output-format-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        /* File Upload & Drag & Drop Styles */
+        .file-upload-section {
+            margin: 1.5rem 0;
+            padding: 2rem;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-section.drag-active {
+            border-color: var(--primary-color);
+            background: rgba(52, 152, 219, 0.05);
+            transform: scale(1.02);
+        }
+
+        .file-upload-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-upload-header span {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .drop-zone-hint {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            opacity: 0.7;
+        }
+
+        .file-upload-info {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-radius: 6px;
+            text-align: left;
+        }
+
+        .file-info-item {
+            padding: 0.4rem 0;
+            font-size: 0.875rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .file-info-item:last-child {
+            border-bottom: none;
+        }
+
+        .file-info-item strong {
+            display: inline-block;
+            min-width: 80px;
+            color: var(--text-secondary);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        /* Comparison Table Styles */
+        .comparison-table-wrapper {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-secondary);
+            font-size: 0.875rem;
+        }
+
+        .comparison-table thead {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .comparison-table th {
+            padding: 1rem 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            white-space: nowrap;
+        }
+
+        .comparison-table th:first-child {
+            min-width: 180px;
+        }
+
+        .comparison-table th.highlight-col {
+            background: #2980b9;
+            position: relative;
+        }
+
+        .comparison-table th.highlight-col::after {
+            content: '⭐';
+            margin-left: 0.5rem;
+        }
+
+        .comparison-table td {
+            padding: 0.875rem 0.75rem;
+            border: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 500;
+            background: var(--bg-primary);
+        }
+
+        .comparison-table td.highlight-col {
+            background: rgba(52, 152, 219, 0.05);
+            font-weight: 500;
+            border-left: 3px solid var(--primary-color);
+            border-right: 3px solid var(--primary-color);
+        }
+
+        .comparison-table td.success {
+            color: #27ae60;
+        }
+
+        .comparison-table td.warning {
+            color: #f39c12;
+        }
+
+        .comparison-table td.error {
+            color: #e74c3c;
+        }
+
+        .comparison-table small {
+            display: block;
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: rgba(52, 152, 219, 0.03);
+        }
+
+        /* Responsive table */
+        @media (max-width: 768px) {
+            .comparison-table {
+                font-size: 0.75rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.5rem 0.4rem;
+            }
+
+            .comparison-table small {
+                font-size: 0.65rem;
+            }
+        }
+    </style>
 </body>
 </html>

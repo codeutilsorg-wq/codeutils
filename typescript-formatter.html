@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free TypeScript formatter and beautifier. Format TypeScript code with proper indentation and syntax. 100% client-side processing.",
       "url": "https://codeutils.org/typescript-formatter",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.7",
-        "ratingCount": "1180"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -184,27 +191,70 @@ const users:User[]=[{name:'John',age:30}]"></textarea>
 
         <div class="info-section">
             <h2>About TypeScript Formatter</h2>
-            <p>This tool formats TypeScript code with proper indentation and consistent style.</p>
+            <p>TypeScript adds powerful type annotations and modern JavaScript features to help developers write safer, more maintainable code—but TypeScript files can quickly become difficult to read without consistent formatting. Our TypeScript Formatter instantly beautifies TypeScript code with proper indentation, consistent spacing, and clean organization of types, interfaces, and decorators. Whether you are formatting generated TypeScript, cleaning up type definitions, or standardizing code before a pull request, this tool handles all TypeScript syntax correctly. All processing happens entirely in your browser for complete privacy.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li>Proper indentation for code blocks</li>
-                <li>Configurable indent size</li>
-                <li>Optional semicolons</li>
-                <li>Single or double quotes</li>
-                <li>Handles interfaces, types, functions, and classes</li>
+                <li><strong>Full TypeScript Support:</strong> Correctly format TypeScript-specific syntax including interfaces, type aliases, enums, decorators, and generics</li>
+                <li><strong>Beautify TypeScript:</strong> Transform minified or poorly formatted TypeScript into clean, readable code with proper indentation</li>
+                <li><strong>Minify TypeScript:</strong> Remove unnecessary whitespace and comments to compact TypeScript files</li>
+                <li><strong>Multiple Indentation Options:</strong> Choose 2 spaces, 4 spaces, or tabs to match your tsconfig and team standards</li>
+                <li><strong>File Upload Support:</strong> Upload .ts or .tsx files directly or drag and drop them into the tool</li>
+                <li><strong>One-Click Copy:</strong> Instantly copy the formatted output to your clipboard</li>
+                <li><strong>Download Output:</strong> Save the formatted TypeScript as a .ts file to your computer</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your TypeScript code never leaves your browser</li>
             </ul>
 
-            <h3>TypeScript Style Guidelines</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste TypeScript Code</strong></p>
+            <ol>
+                <li>Copy your TypeScript code from your editor, generated type definitions, or API client</li>
+                <li>Paste it into the input text area on the left side</li>
+                <li>Click "Format" to beautify or "Minify" to compact the code</li>
+                <li>The formatted output appears instantly in the output area on the right</li>
+                <li>Copy or download the result as needed</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a TypeScript File</strong></p>
+            <ol>
+                <li>Click the "Upload" button or drag and drop your .ts or .tsx file into the designated area</li>
+                <li>The file content will automatically load into the input area</li>
+                <li>Format as needed, then use the "Download" button to save the result</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Formatting Auto-Generated Type Definitions</strong></p>
+            <p>Tools like OpenAPI generators, GraphQL code generators, and Prisma schema generators often produce TypeScript type definitions that are correctly structured but poorly formatted with inconsistent spacing and indentation. Before adding generated types to your codebase, run them through this formatter to normalize the style to match your project's conventions. This makes generated code indistinguishable from hand-written code in your repository.</p>
+
+            <p><strong>Cleaning Up TypeScript from External Sources</strong></p>
+            <p>Code examples from StackOverflow, blog posts, and documentation often use different indentation styles and formatting conventions than your project. Before incorporating TypeScript snippets into your codebase, format them to match your project's style. This prevents style inconsistencies from spreading through your codebase and makes code reviews cleaner.</p>
+
+            <p><strong>Preparing TypeScript for Code Review</strong></p>
+            <p>Many TypeScript projects use Prettier or ESLint with formatting rules that are checked during CI. Before submitting a pull request, ensure your TypeScript code is properly formatted to avoid CI failures and formatting-related review comments. Use this tool as a quick check when you do not have your development environment available.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li>Use 2 spaces for indentation (common convention)</li>
-                <li>Use semicolons consistently</li>
-                <li>Use PascalCase for types and interfaces</li>
-                <li>Use camelCase for variables and functions</li>
+                <li><strong>Use 2-space indentation for TypeScript:</strong> Most TypeScript projects (Angular, React, Vue with TypeScript) use 2-space indentation as configured by Prettier—check your project's .prettierrc to confirm the standard</li>
+                <li><strong>Keep interface names descriptive:</strong> After formatting, review that interface and type names clearly describe what they represent—good naming combined with clean formatting makes TypeScript much more self-documenting</li>
+                <li><strong>Separate type imports:</strong> TypeScript 3.8+ supports 'import type' for type-only imports, which can improve build performance—properly formatted code makes it easier to identify and organize these imports</li>
+                <li><strong>Format .tsx files carefully:</strong> React TSX files mix TypeScript with JSX—formatting works correctly, but ensure your team has agreed on self-closing tag style and attribute formatting conventions</li>
             </ul>
 
-            <h3>Tips</h3>
-            <p>For full TypeScript formatting, consider using Prettier or ESLint with TypeScript plugin in your development environment.</p>
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my TypeScript code safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All TypeScript formatting happens entirely in your browser using JavaScript. Your code—including proprietary business logic, API client configurations, and type definitions—never leaves your computer and is never uploaded to any server. You can safely format sensitive TypeScript code without any privacy concerns.</p>
+
+            <p><strong>Q: Does this tool support TSX (TypeScript + JSX) files?</strong></p>
+            <p>A: Yes! This formatter correctly handles TSX files that combine TypeScript with JSX syntax for React components. Both the TypeScript type annotations and the JSX markup will be properly formatted and indented.</p>
+
+            <p><strong>Q: How does this differ from running Prettier or ESLint?</strong></p>
+            <p>A: Prettier and ESLint are command-line tools you install and configure per project. This tool requires zero installation or configuration—paste your TypeScript and format instantly in the browser. It is ideal for quick formatting tasks, formatting snippets from other sources, and situations where you do not have your local toolchain available.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start using the TypeScript formatter immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

@@ -47,12 +47,27 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -71,12 +86,7 @@
       "description": "Free online case converter. Convert text between UPPERCASE, lowercase, Title Case, camelCase, snake_case, kebab-case, and more. 100% client-side processing.",
       "url": "https://codeutils.org/case-converter",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.6",
-        "ratingCount": "920"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -181,21 +191,73 @@
 
         <div class="info-section">
             <h2>About Case Converter</h2>
-            <p>Convert text between various programming and writing cases.</p>
+            <p>Text case conventions differ across writing styles and programming languages—what is standard in one context is wrong in another. Blog titles use Title Case, Python variables use snake_case, JavaScript functions use camelCase, CSS class names use kebab-case, and constants use CONSTANT_CASE. Manually converting between these formats is tedious and error-prone, especially for multi-word identifiers. Our Case Converter instantly converts any text into any of 10 different case formats with a single click. All processing happens in your browser with no data sent to any server.</p>
 
-            <h3>Available Cases</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>UPPERCASE:</strong> ALL LETTERS CAPITALIZED</li>
-                <li><strong>lowercase:</strong> all letters in lowercase</li>
-                <li><strong>Title Case:</strong> First Letter Of Each Word Capitalized</li>
-                <li><strong>Sentence case:</strong> First letter of each sentence capitalized</li>
-                <li><strong>camelCase:</strong> firstWordLowerRestCapitalized</li>
-                <li><strong>PascalCase:</strong> AllWordsCapitalized</li>
-                <li><strong>snake_case:</strong> words_separated_by_underscores</li>
-                <li><strong>kebab-case:</strong> words-separated-by-hyphens</li>
-                <li><strong>CONSTANT_CASE:</strong> UPPERCASE_WITH_UNDERSCORES</li>
-                <li><strong>dot.case:</strong> words.separated.by.dots</li>
+                <li><strong>10 Case Formats:</strong> Convert to UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, and dot.case</li>
+                <li><strong>Instant Conversion:</strong> Click any case button and see the converted result immediately</li>
+                <li><strong>Smart Word Splitting:</strong> Correctly splits text on spaces, underscores, hyphens, and dots before converting—works on any existing casing format</li>
+                <li><strong>One-Click Copy:</strong> Copy the converted text to your clipboard with a single click</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your text never leaves your browser</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Converting Text Case</strong></p>
+            <ol>
+                <li>Type or paste your text into the input area</li>
+                <li>Click any of the case conversion buttons (e.g., "camelCase", "snake_case", "Title Case")</li>
+                <li>The converted text appears in the output area instantly</li>
+                <li>Click "Copy" to copy the result to your clipboard</li>
+            </ol>
+
+            <h3>Case Formats Reference</h3>
+            <ul>
+                <li><strong>UPPERCASE:</strong> ALL LETTERS CAPITALIZED — for headings that require all caps, constants in some languages</li>
+                <li><strong>lowercase:</strong> all letters lowercase — for email addresses, normalized database values</li>
+                <li><strong>Title Case:</strong> First Letter Of Each Word Capitalized — for article titles, book titles, UI headings</li>
+                <li><strong>Sentence case:</strong> First letter of first word capitalized — for body text, descriptions, labels</li>
+                <li><strong>camelCase:</strong> firstWordLowerRestCapitalized — JavaScript variables, JSON keys, TypeScript functions</li>
+                <li><strong>PascalCase:</strong> AllWordsCapitalized — JavaScript/TypeScript classes, React components, C# types</li>
+                <li><strong>snake_case:</strong> words_separated_by_underscores — Python variables, database column names, file names</li>
+                <li><strong>kebab-case:</strong> words-separated-by-hyphens — URL slugs, CSS class names, HTML attributes</li>
+                <li><strong>CONSTANT_CASE:</strong> UPPERCASE_WITH_UNDERSCORES — environment variables, constants in Python, Java, C</li>
+                <li><strong>dot.case:</strong> words.separated.by.dots — configuration keys, package names, property paths</li>
+            </ul>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Renaming Variables and Functions</strong></p>
+            <p>When refactoring code that uses inconsistent naming conventions, or when converting a project from JavaScript to Python, you frequently need to rename identifiers from camelCase to snake_case or vice versa. Paste the identifier, click the target case, and copy the correctly formatted name. This is much faster than manually editing each word boundary, especially for long multi-word names.</p>
+
+            <p><strong>Creating URL Slugs and CSS Class Names</strong></p>
+            <p>Web development requires text in kebab-case for URL paths and CSS class names. Convert blog post titles, product names, or category labels to kebab-case to create clean, web-safe strings ready to use in URLs, HTML attributes, or CSS selectors. The converter handles accented characters and punctuation gracefully, producing clean output.</p>
+
+            <p><strong>Formatting Headings and Titles</strong></p>
+            <p>Writers and content creators frequently need to convert text between sentence case (for most body copy), title case (for headings and article titles), and all-caps (for labels, buttons, and decorative headings). Click the appropriate case button to instantly reformat a heading without manually capitalizing each word.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Prefer kebab-case for URLs and CSS:</strong> Google recommends hyphens over underscores in URLs for better SEO, and CSS class names conventionally use kebab-case by most style guides</li>
+                <li><strong>Use snake_case for Python and databases:</strong> PEP 8 requires snake_case for variable and function names, and most database naming conventions also prefer snake_case for column names</li>
+                <li><strong>Use camelCase for JavaScript/TypeScript:</strong> The dominant convention in JavaScript is camelCase for variables and functions, PascalCase for classes and components—mix them appropriately</li>
+                <li><strong>Use CONSTANT_CASE for environment variables:</strong> All environment variables (in .env files, Docker configs, CI/CD settings) follow the convention of SCREAMING_SNAKE_CASE for easy identification</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Can the converter handle text that is already in a specific case format?</strong></p>
+            <p>A: Yes. The converter first splits the input text into individual words by detecting boundaries at spaces, underscores, hyphens, and dots—regardless of the current casing. It then reassembles the words in the target format. So "myVariableName", "my-variable-name", and "my_variable_name" all split into the same words before conversion.</p>
+
+            <p><strong>Q: Does Title Case capitalize every word including articles?</strong></p>
+            <p>A: Yes, the Title Case conversion capitalizes the first letter of every word, including small words like "a", "an", "the", "and", "or". For strict AP Style or Chicago Style title case (which lowercases certain prepositions and conjunctions), you would need to manually adjust a few words after conversion.</p>
+
+            <p><strong>Q: Is my text private?</strong></p>
+            <p>A: Yes. All conversion happens in your browser using JavaScript. Your text is never sent to any server, stored, or transmitted anywhere.</p>
+
+            <p><strong>Q: Do I need to create an account to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration required.</p>
         </div>
     </div>
 

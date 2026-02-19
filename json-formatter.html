@@ -50,13 +50,27 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -131,6 +145,46 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Formatting (also called beautifying) adds whitespace, newlines, and indentation to make JSON human-readable. It's ideal for development, debugging, and documentation. Minifying removes all unnecessary whitespace, newlines, and indentation to reduce file size. Minified JSON is harder to read but loads faster and uses less bandwidth, making it ideal for production environments, API responses, and storage optimization. Both versions contain identical data - only the formatting differs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I export JSON to CSV format?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Click the Export CSV button to convert your JSON array into CSV format for use in Excel, Google Sheets, or data analysis tools. The JSON must be an array - if you have a single object, wrap it in square brackets first. The CSV export automatically detects all property names as column headers and handles nested objects by stringifying them. Arrays of primitive values are exported as a single value column. CSV files are universally compatible with spreadsheet applications and database import tools."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I convert JSON to XML or YAML?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! Use the Export XML button to convert your JSON to XML format, or Export YAML button to convert to YAML format. XML export wraps your data in a root element and formats it with proper indentation - perfect for SOAP APIs and legacy systems. YAML export creates clean, readable configuration files ideal for Docker Compose, Kubernetes, Ansible, and other DevOps tools. Both exports happen instantly in your browser and download the converted file automatically."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I validate JSON against a schema?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Paste your JSON Schema (Draft 7) into the Schema Validation text area and click Validate Schema. The tool uses the AJV library to check if your JSON data conforms to the schema structure. If validation fails, you will see detailed error messages showing exactly which fields do not match the schema requirements. This is essential for API development, ensuring data contracts, and catching validation errors before they reach production."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do the editors have line numbers?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Both the input and output editors display line numbers to help you navigate large JSON files more easily. The line numbers automatically update as you type or when the JSON is formatted, and they scroll synchronously with the text content. This is especially useful when debugging errors which show line and column numbers, comparing different JSON files, or working with large datasets where you need to reference specific lines. The line numbers stay aligned with the text even when you scroll horizontally or vertically."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I try the tool with sample data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! Use the Sample Data dropdown in the toolbar to instantly load preset JSON examples. We provide 7 different templates including simple objects, arrays, nested data structures, user profiles, product catalogs, configuration files, and API responses. This is perfect for testing the tool features, learning JSON structure, or demonstrating the formatter to others. Just select an example from the dropdown and it will be automatically loaded and formatted."
           }
         },
         {
@@ -372,7 +426,146 @@
             white-space: pre-wrap;
             word-wrap: break-word;
         }
+
+        /* Comparison Table Styles */
+        .comparison-table-wrapper {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-secondary);
+            font-size: 0.875rem;
+        }
+
+        .comparison-table thead {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .comparison-table th {
+            padding: 1rem 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            white-space: nowrap;
+        }
+
+        .comparison-table th:first-child {
+            min-width: 180px;
+        }
+
+        .comparison-table th.highlight-col {
+            background: #2980b9;
+            position: relative;
+        }
+
+        .comparison-table th.highlight-col::after {
+            content: '⭐';
+            margin-left: 0.5rem;
+        }
+
+        .comparison-table td {
+            padding: 0.875rem 0.75rem;
+            border: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 500;
+            background: var(--bg-primary);
+        }
+
+        .comparison-table td.highlight-col {
+            background: rgba(52, 152, 219, 0.05);
+            font-weight: 500;
+            border-left: 3px solid var(--primary-color);
+            border-right: 3px solid var(--primary-color);
+        }
+
+        .comparison-table td.success {
+            color: #27ae60;
+        }
+
+        .comparison-table td.warning {
+            color: #f39c12;
+        }
+
+        .comparison-table td.error {
+            color: #e74c3c;
+        }
+
+        .comparison-table small {
+            display: block;
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: rgba(52, 152, 219, 0.03);
+        }
+
+        /* Responsive table */
+        @media (max-width: 768px) {
+            .comparison-table {
+                font-size: 0.75rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.5rem 0.4rem;
+            }
+
+            .comparison-table small {
+                font-size: 0.65rem;
+            }
+        }
+
+        /* Line Numbers Styles */
+        .editor-with-lines {
+            position: relative;
+            display: flex;
+            height: 100%;
+        }
+
+        .line-numbers {
+            position: sticky;
+            left: 0;
+            top: 0;
+            width: 50px;
+            padding: 8px 4px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            text-align: right;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            user-select: none;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .editor-with-numbers {
+            padding-left: 8px !important;
+            flex: 1;
+        }
+
+        .line-numbers div {
+            line-height: 1.5;
+            height: 19.5px;
+        }
     </style>
+
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xml-js@1.6.11/dist/xml-js.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ajv@8.12.0/dist/ajv7.min.js"></script>
 </head>
 
 <body>
@@ -426,12 +619,30 @@
                         <option value="tab">Tab</option>
                     </select>
                 </label>
+                <label
+                    style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-secondary);">
+                    Sample Data:
+                    <select id="sampleData" onchange="loadSampleData()"
+                        style="padding: 6px 10px; border: 1px solid var(--border); border-radius: 3px; background: var(--bg-white); color: var(--text-primary); font-size: 14px; cursor: pointer;">
+                        <option value="">Choose example...</option>
+                        <option value="simple">Simple Object</option>
+                        <option value="array">Array of Objects</option>
+                        <option value="nested">Nested Objects</option>
+                        <option value="user">User Profile API</option>
+                        <option value="products">Product Catalog</option>
+                        <option value="config">Configuration File</option>
+                        <option value="api">API Response</option>
+                    </select>
+                </label>
             </div>
             <div class="controls-group">
                 <button class="btn btn-secondary" onclick="copyOutput()" title="Copy Output (Ctrl+K)">Copy</button>
                 <label for="fileUpload" class="btn btn-secondary" style="margin: 0;">Upload</label>
                 <input type="file" id="fileUpload" class="file-upload" accept=".json,application/json,text/plain">
-                <button class="btn btn-secondary" onclick="downloadJSON()">Download</button>
+                <button class="btn btn-secondary" onclick="downloadJSON()">Download JSON</button>
+                <button class="btn btn-secondary" onclick="exportToCSV()" title="Export JSON array to CSV">Export CSV</button>
+                <button class="btn btn-secondary" onclick="exportToXML()" title="Export JSON to XML">Export XML</button>
+                <button class="btn btn-secondary" onclick="exportToYAML()" title="Export JSON to YAML">Export YAML</button>
             </div>
             <button class="btn btn-outline" onclick="clearAll()">Clear</button>
         </div>
@@ -451,12 +662,24 @@
             <button class="btn btn-secondary" onclick="toggleDiffMode()" id="diffModeBtn">Compare</button>
         </div>
 
+        <!-- Schema Validation Row -->
+        <div class="controls" style="margin-top: 8px;">
+            <div class="controls-group" style="flex: 1;">
+                <textarea id="schemaInput" placeholder="Paste JSON Schema here for validation (optional)..."
+                    style="flex: 1; padding: 8px 12px; border: 1px solid var(--border); border-radius: 3px; font-size: 14px; font-family: var(--font-mono); background: var(--bg-white); color: var(--text-primary); min-width: 200px; min-height: 60px; max-height: 150px; resize: vertical;"></textarea>
+                <button class="btn btn-secondary" onclick="validateSchema()" title="Validate JSON against schema">Validate Schema</button>
+            </div>
+        </div>
+
         <div id="message" class="message"></div>
 
         <div class="editor-container">
             <div class="editor-section">
                 <div class="editor-header">Input JSON</div>
-                <textarea id="inputJSON" class="editor" placeholder="Paste your JSON here..."></textarea>
+                <div class="editor-with-lines">
+                    <div class="line-numbers" id="inputLineNumbers"></div>
+                    <textarea id="inputJSON" class="editor editor-with-numbers" placeholder="Paste your JSON here..."></textarea>
+                </div>
             </div>
             <div class="editor-section">
                 <div class="editor-header" style="display: flex; justify-content: space-between; align-items: center;">
@@ -476,8 +699,11 @@
                     </div>
                 </div>
                 <div id="outputContainer" style="flex: 1; min-height: 400px; position: relative;">
-                    <textarea id="outputJSON" class="editor" readonly placeholder="Formatted JSON will appear here..."
-                        style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></textarea>
+                    <div class="editor-with-lines" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
+                        <div class="line-numbers" id="outputLineNumbers"></div>
+                        <textarea id="outputJSON" class="editor editor-with-numbers" readonly placeholder="Formatted JSON will appear here..."
+                            style="width: 100%; height: 100%;"></textarea>
+                    </div>
                     <div id="treeView" class="json-tree"
                         style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: auto; padding: 16px; background: var(--bg-white);">
                     </div>
@@ -535,12 +761,18 @@
                     perfect for consistent formatting and easier comparisons</li>
                 <li><strong>Customizable Indentation:</strong> Choose between 2 spaces, 4 spaces, or tabs - your
                     preference is saved automatically</li>
+                <li><strong>Line Numbers:</strong> Both input and output editors display line numbers with synchronized scrolling - makes it easy to track specific lines and debug large JSON files</li>
+                <li><strong>Sample Data Templates:</strong> Quickly load preset JSON examples to test the tool or learn JSON structure - includes simple objects, arrays, nested data, API responses, and more</li>
                 <li><strong>Detailed Error Messages:</strong> Get precise error locations with line and column numbers
                     for quick debugging</li>
                 <li><strong>File Support:</strong> Upload JSON files directly or drag and drop files into the browser
                 </li>
                 <li><strong>Download Output:</strong> Save formatted or minified JSON as a .json file to your computer
                 </li>
+                <li><strong>Export to CSV:</strong> Convert JSON arrays to CSV format for Excel, Google Sheets, and data analysis - works with arrays of objects or primitive values</li>
+                <li><strong>Export to XML:</strong> Convert JSON to XML format with proper structure and formatting - perfect for legacy systems and SOAP APIs</li>
+                <li><strong>Export to YAML:</strong> Convert JSON to YAML format for configuration files, Docker Compose, and Kubernetes - cleaner and more readable</li>
+                <li><strong>Schema Validation:</strong> Validate your JSON against JSON Schema (Draft 7) to ensure data contracts and API compliance - shows detailed validation errors</li>
                 <li><strong>One-Click Copy:</strong> Quickly copy formatted output to clipboard for use in your code
                     editor</li>
                 <li><strong>Real-Time Processing:</strong> Instant formatting without page reloads or delays</li>
@@ -625,6 +857,212 @@
                     backup of the original before making changes</li>
             </ul>
 
+            <h3>Why Choose Our JSON Formatter?</h3>
+            <p>Compare our JSON formatter with other popular tools available online:</p>
+
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th class="highlight-col">Our Tool</th>
+                            <th>Competitor A</th>
+                            <th>Competitor B</th>
+                            <th>Competitor C</th>
+                            <th>Competitor D</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Privacy & Security</strong></td>
+                            <td class="highlight-col success">✓ 100% client-side<br><small>Never uploads</small></td>
+                            <td class="warning">⚠ Cloud storage option<br><small>Requires subscription</small></td>
+                            <td class="success">✓ Client-side</td>
+                            <td class="success">✓ Client-side</td>
+                            <td class="success">✓ Client-side</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Format & Beautify</strong></td>
+                            <td class="highlight-col success">✓ Custom indent<br><small>2/4 spaces, tabs</small></td>
+                            <td class="success">✓ Available</td>
+                            <td class="success">✓ Available</td>
+                            <td class="success">✓ Available</td>
+                            <td class="success">✓ Available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Minify JSON</strong></td>
+                            <td class="highlight-col success">✓ One-click<br><small>Ctrl+M shortcut</small></td>
+                            <td class="success">✓ Available</td>
+                            <td class="success">✓ Available</td>
+                            <td class="success">✓ Available</td>
+                            <td class="error">✗ Not available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Validate JSON</strong></td>
+                            <td class="highlight-col success">✓ Detailed errors<br><small>Line & column numbers</small></td>
+                            <td class="success">✓ Validation</td>
+                            <td class="success">✓ Validation</td>
+                            <td class="success">✓ Validation</td>
+                            <td class="success">✓ Validation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Auto-Repair JSON</strong></td>
+                            <td class="highlight-col success">✓ Smart repair<br><small>Comments, quotes, commas</small></td>
+                            <td class="error">✗ Not available</td>
+                            <td class="error">✗ Not available</td>
+                            <td class="error">✗ Not available</td>
+                            <td class="error">✗ Not available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sort Keys</strong></td>
+                            <td class="highlight-col success">✓ Recursive<br><small>All nested objects</small></td>
+                            <td class="success">✓ Available</td>
+                            <td class="error">✗ Not available</td>
+                            <td class="success">✓ Available</td>
+                            <td class="error">✗ Not available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tree View</strong></td>
+                            <td class="highlight-col success">✓ Collapsible<br><small>Expand/collapse nodes</small></td>
+                            <td class="success">✓ Advanced tree</td>
+                            <td class="error">✗ Text only</td>
+                            <td class="success">✓ Tree view</td>
+                            <td class="error">✗ Not available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Search Functionality</strong></td>
+                            <td class="highlight-col success">✓ Match navigation<br><small>Enter/Shift+Enter</small></td>
+                            <td class="success">✓ Search</td>
+                            <td class="error">✗ Not available</td>
+                            <td class="success">✓ Search</td>
+                            <td class="error">✗ Not available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JSONPath Queries</strong></td>
+                            <td class="highlight-col success">✓ JSONPath support<br><small>$.path.to.value</small></td>
+                            <td class="success">✓ 3 query types<br><small>JSONPath, JMESPath</small></td>
+                            <td class="error">✗ Not available</td>
+                            <td class="error">✗ Not available</td>
+                            <td class="error">✗ Not available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Compare/Diff Mode</strong></td>
+                            <td class="highlight-col success">✓ Side-by-side<br><small>Text comparison</small></td>
+                            <td class="success">✓ Visual diff<br><small>Color highlighting</small></td>
+                            <td class="error">✗ Not available</td>
+                            <td class="error">✗ Not available</td>
+                            <td class="success">✓ Semantic diff</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Load from URL</strong></td>
+                            <td class="highlight-col success">✓ Remote API<br><small>Fetch JSON URLs</small></td>
+                            <td class="success">✓ URL loading</td>
+                            <td class="success">✓ URL loading</td>
+                            <td class="success">✓ URL loading</td>
+                            <td class="error">✗ Not available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>File Upload</strong></td>
+                            <td class="highlight-col success">✓ Drag & drop<br><small>10MB limit</small></td>
+                            <td class="success">✓ File upload<br><small>512MB limit</small></td>
+                            <td class="error">✗ Paste only</td>
+                            <td class="success">✓ File upload</td>
+                            <td class="error">✗ Paste only</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CSV Export</strong></td>
+                            <td class="highlight-col success">✓ Array to CSV<br><small>Excel compatible</small></td>
+                            <td class="success">✓ CSV export<br><small>Preview modal</small></td>
+                            <td class="success">✓ CSV conversion</td>
+                            <td class="success">✓ CSV export</td>
+                            <td class="error">✗ Not available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>XML/YAML Export</strong></td>
+                            <td class="highlight-col success">✓ XML & YAML<br><small>One-click export</small></td>
+                            <td class="error">✗ Not available</td>
+                            <td class="success">✓ XML & YAML</td>
+                            <td class="success">✓ XML & YAML</td>
+                            <td class="error">✗ Not available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Schema Validation</strong></td>
+                            <td class="highlight-col success">✓ JSON Schema<br><small>AJV validator</small></td>
+                            <td class="success">✓ JSON Schema</td>
+                            <td class="success">✓ Schema support</td>
+                            <td class="error">✗ Not available</td>
+                            <td class="error">✗ Not available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Line Numbers</strong></td>
+                            <td class="highlight-col success">✓ Both editors<br><small>Synchronized scroll</small></td>
+                            <td class="success">✓ Line numbers</td>
+                            <td class="success">✓ Line numbers</td>
+                            <td class="error">✗ Not available</td>
+                            <td class="error">✗ Not available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sample Data Templates</strong></td>
+                            <td class="highlight-col success">✓ 7 templates<br><small>Quick start examples</small></td>
+                            <td class="success">✓ Sample data</td>
+                            <td class="error">✗ Not available</td>
+                            <td class="error">✗ Not available</td>
+                            <td class="success">✓ Examples</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Keyboard Shortcuts</strong></td>
+                            <td class="highlight-col success">✓ 4 shortcuts<br><small>Format, Minify, Copy, Sort</small></td>
+                            <td class="error">✗ Limited</td>
+                            <td class="error">✗ Not available</td>
+                            <td class="error">✗ Not available</td>
+                            <td class="error">✗ Not available</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dark Mode</strong></td>
+                            <td class="highlight-col success">✓ Full support<br><small>System preference</small></td>
+                            <td class="error">✗ Light only</td>
+                            <td class="error">✗ Light only</td>
+                            <td class="error">✗ Light only</td>
+                            <td class="success">✓ Dark mode</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Account Required</strong></td>
+                            <td class="highlight-col success">✓ No sign-up<br><small>100% anonymous</small></td>
+                            <td class="warning">⚠ Optional<br><small>For cloud features</small></td>
+                            <td class="success">✓ No account</td>
+                            <td class="success">✓ No account</td>
+                            <td class="success">✓ No account</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Advertisements</strong></td>
+                            <td class="highlight-col success">✓ Ad-free<br><small>Clean interface</small></td>
+                            <td class="success">✓ No ads</td>
+                            <td class="warning">⚠ Banner ads</td>
+                            <td class="error">✗ Multiple ads</td>
+                            <td class="success">✓ No ads</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Offline Capability</strong></td>
+                            <td class="highlight-col success">✓ Works offline<br><small>After first load</small></td>
+                            <td class="success">✓ Service worker</td>
+                            <td class="success">✓ Works offline</td>
+                            <td class="success">✓ Works offline</td>
+                            <td class="success">✓ Works offline</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pricing</strong></td>
+                            <td class="highlight-col success">✓ Free forever<br><small>No premium tier</small></td>
+                            <td class="warning">⚠ Freemium<br><small>Subscription for cloud</small></td>
+                            <td class="success">✓ Completely free</td>
+                            <td class="success">✓ Free</td>
+                            <td class="success">✓ Free</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p><strong>Summary:</strong> Our JSON Formatter provides a comprehensive feature set with 21+ major features—completely free. With unique capabilities like auto-repair JSON (fix comments, single quotes, trailing commas automatically), extensive keyboard shortcuts, and full dark mode support, we offer features that most competitors lack. Complete format conversion support includes CSV, XML, and YAML exports, plus JSON Schema validation for ensuring data contracts. All processing happens locally in your browser, ensuring complete privacy for sensitive data like API keys and configuration files. No accounts, no ads, no limits—just a powerful, professional tool for developers.</p>
+
             <h3>Frequently Asked Questions</h3>
 
             <p><strong>Q: Is my data safe when using this tool?</strong></p>
@@ -663,6 +1101,21 @@
                 unnecessary whitespace, newlines, and indentation to reduce file size. Minified JSON is harder to read
                 but loads faster and uses less bandwidth, making it ideal for production environments, API responses,
                 and storage optimization. Both versions contain identical data - only the formatting differs.</p>
+
+            <p><strong>Q: How do I export JSON to CSV format?</strong></p>
+            <p>A: Click the "Export CSV" button to convert your JSON array into CSV format for use in Excel, Google Sheets, or data analysis tools. The JSON must be an array (e.g., <code>[{...}, {...}]</code>) - if you have a single object, wrap it in square brackets first. The CSV export automatically detects all property names as column headers and handles nested objects by stringifying them. Arrays of primitive values (strings, numbers) are exported as a single "value" column. CSV files are universally compatible with spreadsheet applications and database import tools.</p>
+
+            <p><strong>Q: Can I convert JSON to XML or YAML?</strong></p>
+            <p>A: Yes! Use the "Export XML" button to convert your JSON to XML format, or "Export YAML" button to convert to YAML format. XML export wraps your data in a root element and formats it with proper indentation - perfect for SOAP APIs and legacy systems. YAML export creates clean, readable configuration files ideal for Docker Compose, Kubernetes, Ansible, and other DevOps tools. Both exports happen instantly in your browser and download the converted file automatically.</p>
+
+            <p><strong>Q: How do I validate JSON against a schema?</strong></p>
+            <p>A: Paste your JSON Schema (Draft 7) into the "Schema Validation" text area and click "Validate Schema". The tool uses the AJV (Another JSON Validator) library to check if your JSON data conforms to the schema structure. If validation fails, you'll see detailed error messages showing exactly which fields don't match the schema requirements. This is essential for API development, ensuring data contracts, and catching validation errors before they reach production.</p>
+
+            <p><strong>Q: Why do the editors have line numbers?</strong></p>
+            <p>A: Both the input and output editors display line numbers to help you navigate large JSON files more easily. The line numbers automatically update as you type or when the JSON is formatted, and they scroll synchronously with the text content. This is especially useful when debugging errors (which show line and column numbers), comparing different JSON files, or working with large datasets where you need to reference specific lines. The line numbers stay aligned with the text even when you scroll horizontally or vertically.</p>
+
+            <p><strong>Q: Can I try the tool with sample data?</strong></p>
+            <p>A: Yes! Use the "Sample Data" dropdown in the toolbar to instantly load preset JSON examples. We provide 7 different templates including simple objects, arrays, nested data structures, user profiles, product catalogs, configuration files, and API responses. This is perfect for testing the tool's features, learning JSON structure, or demonstrating the formatter to others. Just select an example from the dropdown and it will be automatically loaded and formatted.</p>
 
             <h3>Understanding JSON Syntax Rules</h3>
             <p>JSON has strict syntax requirements that differ from JavaScript objects. Valid JSON must follow these
@@ -704,6 +1157,200 @@
 
         // Initialize message handler
         CodeUtils.Message.init('message');
+
+        // Line Numbers Functionality
+        function updateLineNumbers(textarea, lineNumbersId) {
+            const lineNumbersDiv = document.getElementById(lineNumbersId);
+            const text = textarea.value || textarea.placeholder;
+            const lines = text.split('\n').length;
+
+            // Generate line numbers
+            let lineNumbersHTML = '';
+            for (let i = 1; i <= lines; i++) {
+                lineNumbersHTML += `<div>${i}</div>`;
+            }
+            lineNumbersDiv.innerHTML = lineNumbersHTML;
+        }
+
+        // Sync line numbers scroll with textarea
+        function syncScroll(textarea, lineNumbersId) {
+            const lineNumbersDiv = document.getElementById(lineNumbersId);
+            lineNumbersDiv.scrollTop = textarea.scrollTop;
+        }
+
+        // Initialize line numbers for input
+        updateLineNumbers(inputJSON, 'inputLineNumbers');
+        inputJSON.addEventListener('input', () => updateLineNumbers(inputJSON, 'inputLineNumbers'));
+        inputJSON.addEventListener('scroll', () => syncScroll(inputJSON, 'inputLineNumbers'));
+
+        // Initialize line numbers for output
+        updateLineNumbers(outputJSON, 'outputLineNumbers');
+        outputJSON.addEventListener('scroll', () => syncScroll(outputJSON, 'outputLineNumbers'));
+
+        // Sample Data Templates
+        const sampleDataTemplates = {
+            simple: {
+                name: "John Doe",
+                age: 30,
+                email: "john.doe@example.com",
+                isActive: true
+            },
+            array: [
+                { id: 1, name: "Alice", role: "Developer" },
+                { id: 2, name: "Bob", role: "Designer" },
+                { id: 3, name: "Charlie", role: "Manager" }
+            ],
+            nested: {
+                company: "Tech Corp",
+                location: {
+                    city: "San Francisco",
+                    state: "CA",
+                    country: "USA",
+                    coordinates: {
+                        latitude: 37.7749,
+                        longitude: -122.4194
+                    }
+                },
+                employees: [
+                    { name: "Alice", department: "Engineering" },
+                    { name: "Bob", department: "Design" }
+                ]
+            },
+            user: {
+                id: "usr_12345",
+                username: "john_doe",
+                email: "john.doe@example.com",
+                profile: {
+                    firstName: "John",
+                    lastName: "Doe",
+                    avatar: "https://example.com/avatar.jpg",
+                    bio: "Software developer and open source enthusiast"
+                },
+                settings: {
+                    notifications: true,
+                    theme: "dark",
+                    language: "en"
+                },
+                createdAt: "2024-01-15T10:30:00Z",
+                lastLogin: "2024-02-16T08:45:00Z"
+            },
+            products: {
+                products: [
+                    {
+                        id: "prod_001",
+                        name: "Wireless Headphones",
+                        price: 79.99,
+                        currency: "USD",
+                        inStock: true,
+                        categories: ["Electronics", "Audio"],
+                        specs: {
+                            battery: "30 hours",
+                            bluetooth: "5.0",
+                            noiseCancellation: true
+                        }
+                    },
+                    {
+                        id: "prod_002",
+                        name: "Smart Watch",
+                        price: 249.99,
+                        currency: "USD",
+                        inStock: false,
+                        categories: ["Electronics", "Wearables"],
+                        specs: {
+                            display: "1.4 inch OLED",
+                            waterResistant: "5ATM",
+                            gps: true
+                        }
+                    }
+                ],
+                totalCount: 2,
+                page: 1,
+                pageSize: 10
+            },
+            config: {
+                appName: "My Application",
+                version: "1.0.0",
+                environment: "production",
+                server: {
+                    host: "api.example.com",
+                    port: 443,
+                    ssl: true,
+                    timeout: 30000
+                },
+                database: {
+                    host: "db.example.com",
+                    port: 5432,
+                    name: "myapp_db",
+                    poolSize: 10
+                },
+                features: {
+                    authentication: true,
+                    caching: true,
+                    logging: {
+                        level: "info",
+                        destination: "file"
+                    }
+                },
+                apiKeys: ["key1", "key2", "key3"]
+            },
+            api: {
+                success: true,
+                statusCode: 200,
+                message: "Data retrieved successfully",
+                data: {
+                    users: [
+                        {
+                            id: 1,
+                            name: "Alice Johnson",
+                            email: "alice@example.com",
+                            role: "admin"
+                        },
+                        {
+                            id: 2,
+                            name: "Bob Smith",
+                            email: "bob@example.com",
+                            role: "user"
+                        }
+                    ],
+                    pagination: {
+                        currentPage: 1,
+                        totalPages: 5,
+                        totalRecords: 47,
+                        hasNext: true,
+                        hasPrevious: false
+                    }
+                },
+                metadata: {
+                    requestId: "req_abc123",
+                    timestamp: "2024-02-16T12:00:00Z",
+                    apiVersion: "v1"
+                }
+            }
+        };
+
+        // Load sample data into input
+        function loadSampleData() {
+            const select = document.getElementById('sampleData');
+            const template = select.value;
+
+            if (!template) {
+                return;
+            }
+
+            const sampleData = sampleDataTemplates[template];
+            if (sampleData) {
+                inputJSON.value = JSON.stringify(sampleData, null, getIndent());
+                updateLineNumbers(inputJSON, 'inputLineNumbers');
+
+                // Automatically format the sample data
+                formatJSON();
+
+                // Reset the dropdown
+                select.value = '';
+
+                CodeUtils.Message.success('Sample data loaded! Click Format to see it beautified.');
+            }
+        }
 
         // Initialize drag and drop
         CodeUtils.DragDrop.init('dropZone', async (file) => {
@@ -814,11 +1461,13 @@
                     parsed = sortObjectKeys(parsed);
                 }
                 outputJSON.value = JSON.stringify(parsed, null, getIndent());
+                updateLineNumbers(outputJSON, 'outputLineNumbers');
                 const sortText = shouldSort ? ' and sorted' : '';
                 CodeUtils.Message.success(`JSON formatted${sortText} successfully!`);
             } catch (error) {
                 CodeUtils.Message.error(parseJSONError(error, inputJSON.value));
                 outputJSON.value = '';
+                updateLineNumbers(outputJSON, 'outputLineNumbers');
             }
         }
 
@@ -837,10 +1486,12 @@
                 }
                 const parsed = JSON.parse(input);
                 outputJSON.value = JSON.stringify(parsed);
+                updateLineNumbers(outputJSON, 'outputLineNumbers');
                 CodeUtils.Message.success('JSON minified successfully!');
             } catch (error) {
                 CodeUtils.Message.error(parseJSONError(error, inputJSON.value));
                 outputJSON.value = '';
+                updateLineNumbers(outputJSON, 'outputLineNumbers');
             }
         }
 
@@ -879,10 +1530,226 @@
             CodeUtils.Message.success('File downloaded!');
         }
 
+        // Export to CSV
+        function exportToCSV() {
+            if (!outputJSON.value) {
+                CodeUtils.Message.error('Nothing to export');
+                return;
+            }
+
+            try {
+                // Parse the JSON
+                const data = JSON.parse(outputJSON.value);
+
+                // Validate that it's an array
+                if (!Array.isArray(data)) {
+                    CodeUtils.Message.error('CSV export requires JSON to be an array. Wrap your object in [] or use an array of objects.');
+                    return;
+                }
+
+                // Check if array is empty
+                if (data.length === 0) {
+                    CodeUtils.Message.error('Cannot export empty array to CSV');
+                    return;
+                }
+
+                // Convert to CSV
+                const csv = jsonToCSV(data);
+
+                // Download the CSV file
+                CodeUtils.FileHandler.download(csv, 'export.csv', 'text/csv');
+                CodeUtils.Message.success(`CSV file downloaded! (${data.length} rows)`);
+
+            } catch (error) {
+                CodeUtils.Message.error('Error exporting CSV: ' + error.message);
+            }
+        }
+
+        // Helper function to convert JSON array to CSV
+        function jsonToCSV(jsonArray) {
+            if (jsonArray.length === 0) return '';
+
+            // Get all unique headers from all objects
+            const headersSet = new Set();
+            jsonArray.forEach(obj => {
+                if (typeof obj === 'object' && obj !== null) {
+                    Object.keys(obj).forEach(key => headersSet.add(key));
+                }
+            });
+            const headers = Array.from(headersSet);
+
+            // Handle array of primitives (strings, numbers, etc.)
+            if (headers.length === 0) {
+                // Array of primitives - use "value" as header
+                const csvRows = [];
+                csvRows.push('"value"'); // Header
+                jsonArray.forEach(value => {
+                    csvRows.push(escapeCSVValue(value));
+                });
+                return csvRows.join('\n');
+            }
+
+            // Build CSV rows
+            const csvRows = [];
+
+            // Add header row
+            csvRows.push(headers.map(h => escapeCSVValue(h)).join(','));
+
+            // Add data rows
+            jsonArray.forEach(obj => {
+                const row = headers.map(header => {
+                    if (typeof obj === 'object' && obj !== null) {
+                        const value = obj[header];
+                        // Handle nested objects/arrays by stringifying them
+                        if (typeof value === 'object' && value !== null) {
+                            return escapeCSVValue(JSON.stringify(value));
+                        }
+                        return escapeCSVValue(value);
+                    }
+                    return '';
+                });
+                csvRows.push(row.join(','));
+            });
+
+            return csvRows.join('\n');
+        }
+
+        // Helper function to escape CSV values
+        function escapeCSVValue(value) {
+            // Handle null, undefined
+            if (value === null || value === undefined) {
+                return '';
+            }
+
+            // Convert to string
+            const str = String(value);
+
+            // If contains comma, newline, or double quote, wrap in quotes and escape quotes
+            if (str.includes(',') || str.includes('\n') || str.includes('"') || str.includes('\r')) {
+                return '"' + str.replace(/"/g, '""') + '"';
+            }
+
+            return str;
+        }
+
+        // Export to XML
+        function exportToXML() {
+            if (!outputJSON.value) {
+                CodeUtils.Message.error('Nothing to export');
+                return;
+            }
+
+            try {
+                // Parse the JSON
+                const data = JSON.parse(outputJSON.value);
+
+                // Convert JSON to XML using xml-js library
+                const options = {
+                    compact: true,
+                    ignoreComment: true,
+                    spaces: 2,
+                    indentAttributes: false
+                };
+
+                // Wrap data in root element if it's not already an object with single root
+                const wrappedData = { root: data };
+                const xml = xmlJs.js2xml(wrappedData, options);
+
+                // Add XML declaration
+                const xmlWithDeclaration = '<?xml version="1.0" encoding="UTF-8"?>\n' + xml;
+
+                // Download the XML file
+                CodeUtils.FileHandler.download(xmlWithDeclaration, 'export.xml', 'application/xml');
+                CodeUtils.Message.success('XML file downloaded successfully!');
+
+            } catch (error) {
+                CodeUtils.Message.error('Error exporting XML: ' + error.message);
+            }
+        }
+
+        // Export to YAML
+        function exportToYAML() {
+            if (!outputJSON.value) {
+                CodeUtils.Message.error('Nothing to export');
+                return;
+            }
+
+            try {
+                // Parse the JSON
+                const data = JSON.parse(outputJSON.value);
+
+                // Convert JSON to YAML using js-yaml library
+                const yaml = jsyaml.dump(data, {
+                    indent: 2,
+                    lineWidth: 80,
+                    noRefs: true,
+                    sortKeys: false
+                });
+
+                // Download the YAML file
+                CodeUtils.FileHandler.download(yaml, 'export.yaml', 'application/x-yaml');
+                CodeUtils.Message.success('YAML file downloaded successfully!');
+
+            } catch (error) {
+                CodeUtils.Message.error('Error exporting YAML: ' + error.message);
+            }
+        }
+
+        // Validate JSON against Schema
+        function validateSchema() {
+            const schemaInput = document.getElementById('schemaInput');
+
+            if (!outputJSON.value) {
+                CodeUtils.Message.error('No JSON to validate');
+                return;
+            }
+
+            if (!schemaInput.value.trim()) {
+                CodeUtils.Message.error('Please paste a JSON Schema to validate against');
+                return;
+            }
+
+            try {
+                // Parse the JSON data
+                const data = JSON.parse(outputJSON.value);
+
+                // Parse the schema
+                const schema = JSON.parse(schemaInput.value);
+
+                // Create AJV instance
+                const ajv = new Ajv7({ allErrors: true });
+
+                // Compile and validate
+                const validate = ajv.compile(schema);
+                const valid = validate(data);
+
+                if (valid) {
+                    CodeUtils.Message.success('✓ JSON is valid according to the schema!');
+                } else {
+                    // Format validation errors
+                    const errors = validate.errors.map(err => {
+                        const path = err.instancePath || 'root';
+                        return `${path}: ${err.message}`;
+                    }).join('\n• ');
+
+                    CodeUtils.Message.error(`Schema validation failed:\n• ${errors}`);
+                }
+
+            } catch (error) {
+                if (error.message.includes('schema')) {
+                    CodeUtils.Message.error('Invalid JSON Schema: ' + error.message);
+                } else {
+                    CodeUtils.Message.error('Validation error: ' + error.message);
+                }
+            }
+        }
+
         // Clear all
         function clearAll() {
             inputJSON.value = '';
             outputJSON.value = '';
+            updateLineNumbers(inputJSON, 'inputLineNumbers');
+            updateLineNumbers(outputJSON, 'outputLineNumbers');
             treeView.innerHTML = '';
             searchInput.value = '';
             searchCount.textContent = '';
@@ -1138,6 +2005,7 @@
                 }
                 currentParsedJSON = parsed;
                 outputJSON.value = JSON.stringify(parsed, null, getIndent());
+                updateLineNumbers(outputJSON, 'outputLineNumbers');
 
                 // Update tree view if visible
                 if (currentViewMode === 'tree') {
@@ -1149,6 +2017,7 @@
             } catch (error) {
                 CodeUtils.Message.error(parseJSONError(error, inputJSON.value));
                 outputJSON.value = '';
+                updateLineNumbers(outputJSON, 'outputLineNumbers');
                 treeView.innerHTML = '';
                 currentParsedJSON = null;
             }
@@ -1206,6 +2075,8 @@
                 inputJSON.value = repaired;
                 currentParsedJSON = parsed;
                 outputJSON.value = JSON.stringify(parsed, null, getIndent());
+                updateLineNumbers(inputJSON, 'inputLineNumbers');
+                updateLineNumbers(outputJSON, 'outputLineNumbers');
 
                 if (currentViewMode === 'tree') {
                     renderTree(parsed);
@@ -1267,6 +2138,8 @@
                 inputJSON.value = JSON.stringify(parsed, null, getIndent());
                 currentParsedJSON = parsed;
                 outputJSON.value = JSON.stringify(parsed, null, getIndent());
+                updateLineNumbers(inputJSON, 'inputLineNumbers');
+                updateLineNumbers(outputJSON, 'outputLineNumbers');
 
                 if (currentViewMode === 'tree') {
                     renderTree(parsed);
@@ -1410,12 +2283,14 @@
                 if (results.length === 0) {
                     CodeUtils.Message.warning('No matches found');
                     outputJSON.value = '[]';
+                    updateLineNumbers(outputJSON, 'outputLineNumbers');
                 } else {
                     outputJSON.value = JSON.stringify(
                         results.length === 1 ? results[0] : results,
                         null,
                         getIndent()
                     );
+                    updateLineNumbers(outputJSON, 'outputLineNumbers');
                     currentParsedJSON = results.length === 1 ? results[0] : results;
 
                     if (currentViewMode === 'tree') {
@@ -1531,10 +2406,12 @@
 
                 if (diff.length === 0) {
                     outputJSON.value = '✓ Both JSON documents are identical!';
+                    updateLineNumbers(outputJSON, 'outputLineNumbers');
                     CodeUtils.Message.success('No differences found!');
                 } else {
                     outputJSON.value = '=== Differences Found ===\n\n' +
                         diff.map(d => `${d.path}:\n  Left:  ${JSON.stringify(d.left)}\n  Right: ${JSON.stringify(d.right)}`).join('\n\n');
+                    updateLineNumbers(outputJSON, 'outputLineNumbers');
                     CodeUtils.Message.info(`Found ${diff.length} difference(s)`);
                 }
             } catch (error) {

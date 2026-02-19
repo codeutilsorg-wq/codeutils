@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free CSS formatter and beautifier. Format, beautify, and minify CSS stylesheets with proper indentation. 100% client-side processing.",
       "url": "https://codeutils.org/css-formatter",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.6",
-        "ratingCount": "950"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -191,23 +198,70 @@
         <!-- Info Section -->
         <div class="info-section">
             <h2>About CSS Formatter</h2>
-            <p>This tool helps you format and beautify CSS code with proper indentation, or minify it for production use. All processing happens in your browser - your code is never sent to any server.</p>
+            <p>CSS code from production sites, minified stylesheets, and CSS frameworks is often compressed into unreadable single-line formats that make editing and debugging extremely difficult. Our CSS Formatter instantly beautifies any CSS with proper indentation, rule spacing, and property alignment—making stylesheets easy to read, edit, and maintain. Whether you are working with third-party CSS, debugging styles, or preparing stylesheets for production, this tool provides everything you need. All processing happens entirely in your browser, ensuring your code stays private.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Format:</strong> Beautify CSS with proper indentation</li>
-                <li><strong>Minify:</strong> Remove whitespace and comments to reduce file size</li>
-                <li><strong>Customizable Indent:</strong> Choose 2 spaces, 4 spaces, or tabs</li>
-                <li><strong>File Support:</strong> Upload CSS files or drag & drop</li>
-                <li><strong>Download:</strong> Save formatted CSS as a file</li>
+                <li><strong>Beautify CSS:</strong> Transform minified or poorly formatted CSS into clean, readable stylesheets with proper indentation</li>
+                <li><strong>Minify CSS:</strong> Remove all unnecessary whitespace, comments, and line breaks to create compact CSS for production use</li>
+                <li><strong>Multiple Indentation Options:</strong> Choose 2 spaces, 4 spaces, or tabs to match your project's coding standards</li>
+                <li><strong>File Upload Support:</strong> Upload .css files directly from your computer or drag and drop them into the tool</li>
+                <li><strong>One-Click Copy:</strong> Instantly copy the formatted output to your clipboard for immediate use</li>
+                <li><strong>Download Output:</strong> Save the formatted or minified CSS as a .css file to your computer</li>
+                <li><strong>Real-Time Processing:</strong> Instant formatting without server round-trips or page reloads</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your stylesheets never leave your browser</li>
             </ul>
 
-            <h3>Keyboard Shortcuts</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste CSS Code</strong></p>
+            <ol>
+                <li>Copy your CSS from your text editor, browser DevTools, or CDN source</li>
+                <li>Paste it into the input text area on the left side</li>
+                <li>Click the "Format" button to beautify or "Minify" to compact the CSS</li>
+                <li>The formatted output appears instantly in the output area on the right</li>
+                <li>Use the "Copy" button to copy the result or "Download" to save it</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a CSS File</strong></p>
+            <ol>
+                <li>Click the "Upload" button or drag and drop your .css file into the designated area</li>
+                <li>The file content will automatically load into the input area</li>
+                <li>Format or minify as needed, then download the result using the "Download" button</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Debugging Production Stylesheets</strong></p>
+            <p>When your website has styling issues in production, the problem is often in your minified CSS. Copy the minified stylesheet from your browser's DevTools Network tab, paste it into this formatter, and instantly see all your CSS rules clearly structured. This makes it much easier to spot overrides, conflicting selectors, and missing properties that cause layout problems.</p>
+
+            <p><strong>Working with CSS Frameworks</strong></p>
+            <p>Popular CSS frameworks like Bootstrap, Tailwind, and Bulma distribute minified CSS files that are difficult to customize. When you need to understand how a framework styles specific components, paste the relevant CSS into this formatter to see the exact selectors, properties, and values used—helping you write more specific override rules.</p>
+
+            <p><strong>Optimizing Stylesheets for Production</strong></p>
+            <p>Before deploying your website, minifying CSS files reduces their size and improves page load performance. Remove all comments, extra whitespace, and unnecessary characters to create the smallest possible stylesheet. This directly impacts your Google PageSpeed scores and Core Web Vitals, which affect both user experience and SEO rankings.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li><strong>Ctrl+Enter:</strong> Format CSS</li>
-                <li><strong>Ctrl+M:</strong> Minify CSS</li>
-                <li><strong>Ctrl+K:</strong> Copy output to clipboard</li>
+                <li><strong>Maintain both versions:</strong> Keep a formatted source CSS file in your repository and generate the minified version during your build process—never minify your working source files directly</li>
+                <li><strong>Use consistent property ordering:</strong> Consider organizing properties in a consistent order (layout → box model → typography → visual) for better long-term maintainability</li>
+                <li><strong>Check vendor prefixes:</strong> After formatting, review that vendor prefixes (-webkit-, -moz-, -ms-) are correctly grouped with their standard property counterparts</li>
+                <li><strong>Validate after formatting:</strong> Use browser DevTools to verify your formatted CSS still renders correctly—some malformed CSS is forgiven by browsers but may fail after reformatting</li>
             </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my CSS code safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All CSS formatting happens entirely in your browser using JavaScript. Your stylesheets never leave your computer and are never uploaded to any server. This makes our tool completely safe for proprietary CSS, internal design systems, and stylesheets containing business-sensitive class names. You can even use this tool offline after the initial page load.</p>
+
+            <p><strong>Q: Can I format SCSS or LESS files with this tool?</strong></p>
+            <p>A: This tool is optimized for standard CSS. Basic SCSS syntax may partially format, but SCSS-specific features like nesting and variables are not fully supported. For standard CSS output compiled from SCSS/LESS, this tool works perfectly.</p>
+
+            <p><strong>Q: How much can minifying CSS reduce file size?</strong></p>
+            <p>A: CSS minification typically reduces file size by 20-50%, depending on how many comments and whitespace characters are in the original. Stylesheets with extensive comments can see reductions of 60% or more. When combined with gzip compression on your server, the savings are even greater.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start using the CSS formatter immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

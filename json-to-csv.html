@@ -47,12 +47,27 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -71,12 +86,7 @@
       "description": "Free JSON to CSV converter. Convert JSON arrays to CSV format for Excel and spreadsheets with nested object support. 100% client-side processing.",
       "url": "https://codeutils.org/json-to-csv",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.7",
-        "ratingCount": "990"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -186,21 +196,70 @@
 
         <div class="info-section">
             <h2>About JSON to CSV Converter</h2>
-            <p>This tool converts JSON arrays of objects into CSV (Comma-Separated Values) format.</p>
+            <p>JSON is the standard format for API responses and data interchange, but spreadsheet tools, data analysis pipelines, and database imports typically require CSV. Converting JSON to CSV manually—mapping keys to columns and formatting values correctly—is tedious and error-prone, especially for large datasets. Our JSON to CSV Converter instantly transforms any JSON array of objects into a clean, properly formatted CSV file. Choose your delimiter, control header output, and optionally flatten nested objects—all in your browser with no data sent to any server.</p>
 
-            <h3>Input Format</h3>
-            <p>The input must be a JSON array of objects. Each object becomes a row in the CSV.</p>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius); overflow-x: auto;">[
-  {"name": "John", "age": 30, "city": "NYC"},
-  {"name": "Jane", "age": 25, "city": "LA"}
-]</pre>
-
-            <h3>Options</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Delimiter:</strong> Character to separate values (comma, semicolon, tab, pipe)</li>
-                <li><strong>Include headers:</strong> Add column names as the first row</li>
-                <li><strong>Flatten nested:</strong> Convert nested objects to dot notation (e.g., address.city)</li>
+                <li><strong>Instant Conversion:</strong> Paste JSON and get CSV output immediately—no button clicks required</li>
+                <li><strong>Multiple Delimiters:</strong> Choose comma, semicolon, tab, or pipe as the column separator to match your target system</li>
+                <li><strong>Header Row Control:</strong> Include or exclude column headers in the first row of output</li>
+                <li><strong>Nested Object Flattening:</strong> Convert nested objects to dot notation (address.city, address.zip) so every value fits in a flat CSV column</li>
+                <li><strong>File Upload:</strong> Upload JSON files directly instead of pasting</li>
+                <li><strong>Download as CSV:</strong> Save the output as a .csv file with one click</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste JSON</strong></p>
+            <ol>
+                <li>Paste your JSON array of objects into the input area (each object becomes one CSV row)</li>
+                <li>Select your preferred delimiter (comma is standard; use semicolon for European locales)</li>
+                <li>Choose whether to include a header row and whether to flatten nested objects</li>
+                <li>Click "Convert" to generate the CSV output</li>
+                <li>Click "Copy" or "Download CSV" to use the result</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a JSON File</strong></p>
+            <ol>
+                <li>Click "Upload" or drag and drop a .json file into the upload area</li>
+                <li>Configure delimiter and options as needed</li>
+                <li>The CSV output generates automatically</li>
+                <li>Download the .csv file to your device</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Exporting API Data to Spreadsheets</strong></p>
+            <p>REST APIs return data as JSON, but business users need data in Excel or Google Sheets. Fetch your API response, paste the JSON array here, and download the CSV to open directly in any spreadsheet application. All keys become column headers automatically, and every object becomes a row—ready for filtering, sorting, and analysis without any manual formatting.</p>
+
+            <p><strong>Preparing Data for Database Import</strong></p>
+            <p>Many databases and ETL tools accept CSV as a bulk import format. When your source data is in JSON (from a NoSQL database, a log file, or an API export), convert it to CSV here before importing into MySQL, PostgreSQL, Airtable, or any other system that supports CSV uploads. The flattening option handles nested structures that would otherwise require custom preprocessing code.</p>
+
+            <p><strong>Data Analysis and Reporting</strong></p>
+            <p>Data analysis tools like Python pandas, R, and Tableau work naturally with CSV files. Convert your JSON dataset to CSV for easy loading with pd.read_csv() or read.csv()—no custom JSON parsing code required. This is especially useful for one-off analysis tasks where writing a full ETL script would take longer than the analysis itself.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Use semicolon delimiter for European Excel:</strong> European versions of Excel use semicolons as the CSV delimiter by default—if your CSV opens incorrectly in Excel, try switching from comma to semicolon</li>
+                <li><strong>Enable flatten nested for complex JSON:</strong> If your JSON has nested objects (like address: {city: "NYC", zip: "10001"}), enable flattening to get separate columns (address.city, address.zip) instead of a JSON string in a single cell</li>
+                <li><strong>Ensure consistent object keys:</strong> The converter uses the first object's keys as column headers—if different objects have different keys, some values may be missing in the output. Normalize your JSON before converting</li>
+                <li><strong>Use tab delimiter for TSV:</strong> Tab-separated files copy cleanly from Excel and work better when field values contain commas—use tab as delimiter when your data includes addresses, descriptions, or other comma-containing text</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What JSON structure does this converter accept?</strong></p>
+            <p>A: The converter expects a JSON array of objects—for example [{...}, {...}, {...}]. Each object in the array becomes one row in the CSV. If your JSON is a single object, wrap it in an array first: [{your object}].</p>
+
+            <p><strong>Q: What happens with nested objects and arrays?</strong></p>
+            <p>A: By default, nested objects are serialized as JSON strings in a single cell. Enable the "Flatten nested" option to convert nested objects to dot-notation columns (e.g., user.name, user.address.city). Nested arrays are always serialized as JSON strings since CSV does not support array values natively.</p>
+
+            <p><strong>Q: Is my JSON data private?</strong></p>
+            <p>A: Yes. All conversion happens in your browser using JavaScript. Your JSON data is never uploaded to any server, stored, or transmitted anywhere.</p>
+
+            <p><strong>Q: Do I need to sign up to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration required.</p>
         </div>
     </div>
 

@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free XPath tester. Test XPath expressions against XML documents with live results and element extraction. 100% client-side processing.",
       "url": "https://codeutils.org/xpath-tester",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.6",
-        "ratingCount": "940"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -197,20 +204,77 @@
         </div>
 
         <div class="info-section">
-            <h2>XPath Syntax</h2>
+            <h2>About XPath Tester</h2>
+            <p>XPath (XML Path Language) is the standard query language for selecting nodes in XML documents—and it works equally well for querying HTML. It is used in web scraping, XML data processing, XSLT transformations, Selenium test automation, and document processing pipelines. Our XPath Tester lets you paste any XML or HTML document and test XPath expressions against it instantly, displaying all matching nodes as formatted output. Get immediate feedback on your expressions without writing or running any code.</p>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Instant Evaluation:</strong> Test XPath expressions against XML or HTML and see all matching nodes immediately</li>
+                <li><strong>Works with HTML:</strong> Use XPath on HTML documents—useful for Selenium, Playwright, and web scraping expressions</li>
+                <li><strong>Multiple Result Types:</strong> Returns node sets, strings, numbers, or booleans depending on the expression</li>
+                <li><strong>Syntax Reference:</strong> Built-in reference for XPath axes, functions, and predicates</li>
+                <li><strong>Common Examples:</strong> Clickable example expressions to learn XPath interactively</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your XML data never leaves your browser</li>
+            </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Testing an XPath Expression</strong></p>
+            <ol>
+                <li>Paste your XML or HTML document into the input area</li>
+                <li>Enter your XPath expression in the expression field</li>
+                <li>Click "Test XPath" to evaluate the expression</li>
+                <li>Matching nodes or values appear in the Results panel</li>
+            </ol>
+
+            <h3>XPath Syntax Reference</h3>
             <table style="width: 100%; border-collapse: collapse;">
                 <tr style="border-bottom: 1px solid var(--border);">
                     <th style="text-align: left; padding: 8px;">Expression</th>
                     <th style="text-align: left; padding: 8px;">Description</th>
                 </tr>
-                <tr><td style="padding: 8px;"><code>/</code></td><td style="padding: 8px;">Root node / child</td></tr>
-                <tr><td style="padding: 8px;"><code>//</code></td><td style="padding: 8px;">Descendant (any level)</td></tr>
-                <tr><td style="padding: 8px;"><code>@</code></td><td style="padding: 8px;">Attribute</td></tr>
-                <tr><td style="padding: 8px;"><code>[n]</code></td><td style="padding: 8px;">Index (1-based)</td></tr>
+                <tr><td style="padding: 8px;"><code>/</code></td><td style="padding: 8px;">Root node or child separator</td></tr>
+                <tr><td style="padding: 8px;"><code>//</code></td><td style="padding: 8px;">Descendant at any level</td></tr>
+                <tr><td style="padding: 8px;"><code>@</code></td><td style="padding: 8px;">Attribute selector</td></tr>
+                <tr><td style="padding: 8px;"><code>[n]</code></td><td style="padding: 8px;">Index predicate (1-based)</td></tr>
                 <tr><td style="padding: 8px;"><code>[@attr]</code></td><td style="padding: 8px;">Has attribute</td></tr>
-                <tr><td style="padding: 8px;"><code>[condition]</code></td><td style="padding: 8px;">Filter predicate</td></tr>
-                <tr><td style="padding: 8px;"><code>text()</code></td><td style="padding: 8px;">Text content</td></tr>
+                <tr><td style="padding: 8px;"><code>[@attr='value']</code></td><td style="padding: 8px;">Attribute equals value</td></tr>
+                <tr><td style="padding: 8px;"><code>text()</code></td><td style="padding: 8px;">Text content of node</td></tr>
+                <tr><td style="padding: 8px;"><code>contains(@class, 'x')</code></td><td style="padding: 8px;">Attribute contains substring</td></tr>
             </table>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Selenium and Playwright Test Automation</strong></p>
+            <p>XPath locators are widely used in Selenium WebDriver and Playwright tests to find elements in the page DOM when CSS selectors are insufficient. Test your XPath expression against the page's HTML before adding it to your test suite to confirm it selects the correct element(s). Use the attribute-based predicates (//button[@type='submit']) to write robust locators that do not depend on element position.</p>
+
+            <p><strong>Processing XML Data Files</strong></p>
+            <p>Configuration files, SOAP API responses, RSS feeds, and data exports often use XML. XPath lets you query these files programmatically—extracting specific fields, filtering by attribute values, or counting elements. Test your XPath expressions here against a sample XML document before using them in your XSLT, Python (lxml), Java (javax.xml), or C# (XDocument) code.</p>
+
+            <p><strong>Web Scraping Locators</strong></p>
+            <p>Web scraping tools like Scrapy, BeautifulSoup with lxml, and browser automation frameworks use XPath to locate elements in scraped HTML. Test locators against the HTML source of the target page to verify they match exactly the elements you need—and that they will remain stable when the page content changes but the structure does not.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Prefer attribute-based XPath for test automation:</strong> //button[@data-testid='submit'] is more stable than //div[3]/form/button[2]—position-based paths break when the page layout changes</li>
+                <li><strong>Use // for flexible descendant search:</strong> //p selects all paragraph elements anywhere in the document—use /html/body/div/p only when you need to match a specific structural path</li>
+                <li><strong>XPath indexes are 1-based:</strong> Unlike JSONPath and JavaScript arrays, XPath predicates use 1-based indexing—so [1] selects the first element, not [0]</li>
+                <li><strong>Use contains() for partial attribute matching:</strong> //a[contains(@href, 'example.com')] finds all links to a domain without needing the exact full URL</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Does this tool work with HTML as well as XML?</strong></p>
+            <p>A: Yes. The tool parses HTML input using the browser's built-in DOMParser and evaluates XPath against it. This makes it useful for testing Selenium/Playwright locators and web scraping expressions directly against page HTML.</p>
+
+            <p><strong>Q: What is the difference between XPath and CSS selectors?</strong></p>
+            <p>A: Both select elements in an HTML/XML document. CSS selectors are simpler and widely supported in browsers and scraping tools, but XPath is more powerful—it can select by text content, navigate up to parent elements, and work with any XML document, not just HTML. Use XPath when CSS selectors cannot express the selection you need.</p>
+
+            <p><strong>Q: Is my XML/HTML data safe to paste here?</strong></p>
+            <p>A: Yes. All XPath evaluation happens entirely in your browser. Your document is never uploaded to any server, stored, or transmitted. This makes the tool safe to use with proprietary data, internal HTML, and sensitive XML documents.</p>
+
+            <p><strong>Q: Do I need an account to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration required.</p>
         </div>
     </div>
 

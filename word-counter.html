@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free word counter. Count words, characters, sentences, paragraphs, and reading time with real-time updates. 100% client-side processing.",
       "url": "https://codeutils.org/word-counter",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "ratingCount": "1420"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -198,19 +205,69 @@
 
         <div class="info-section">
             <h2>About Word Counter</h2>
-            <p>This tool counts various text statistics in real-time as you type or paste text.</p>
+            <p>Counting words manually is tedious and error-prone, whether you are checking an essay length, verifying a content brief, or analyzing your writing. Our Word Counter instantly calculates word count, character count (with and without spaces), sentence count, paragraph count, and estimated reading time as you type. Perfect for writers, students, content marketers, and developers working with text content—get accurate statistics in real time without any page reloads. All processing happens entirely in your browser for complete privacy.</p>
 
-            <h3>Statistics Explained</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Words:</strong> Number of words separated by spaces</li>
-                <li><strong>Characters:</strong> Total character count including spaces</li>
-                <li><strong>Characters (no spaces):</strong> Character count excluding spaces</li>
-                <li><strong>Sentences:</strong> Counted by sentence-ending punctuation (. ! ?)</li>
-                <li><strong>Paragraphs:</strong> Blocks of text separated by blank lines</li>
-                <li><strong>Lines:</strong> Number of line breaks + 1</li>
-                <li><strong>Reading Time:</strong> Based on average reading speed of 200 words/min</li>
-                <li><strong>Speaking Time:</strong> Based on average speaking speed of 150 words/min</li>
+                <li><strong>Real-Time Word Count:</strong> See the exact word count update instantly as you type or paste text</li>
+                <li><strong>Character Count:</strong> Track both total characters and characters without spaces—essential for platforms with character limits</li>
+                <li><strong>Sentence and Paragraph Count:</strong> Understand the structure of your text with sentence and paragraph statistics</li>
+                <li><strong>Reading Time Estimate:</strong> Instantly see how long it will take an average reader to read your text (based on 200 words per minute)</li>
+                <li><strong>Speaking Time Estimate:</strong> See the estimated speaking time for presentations and speeches</li>
+                <li><strong>Keyword Density:</strong> See the most frequently used words to check keyword density for SEO content</li>
+                <li><strong>File Upload Support:</strong> Upload .txt files to count words in existing documents</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your text never leaves your browser</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Type or Paste Text</strong></p>
+            <ol>
+                <li>Click in the text input area on the page</li>
+                <li>Type your text or paste it from your clipboard (Ctrl+V or Cmd+V)</li>
+                <li>All statistics update instantly as you type—no button click required</li>
+                <li>Review word count, character count, sentences, paragraphs, and reading time</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a Text File</strong></p>
+            <ol>
+                <li>Click the "Upload" button or drag and drop a .txt file into the designated area</li>
+                <li>The file content will load automatically into the text area</li>
+                <li>All statistics will calculate immediately for the uploaded content</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Meeting Content Length Requirements</strong></p>
+            <p>Academic essays, blog posts, and job applications often have specific word count requirements. Instead of guessing or manually counting, paste your text into this tool to see exactly how many words you have written. The real-time counter lets you write towards a target and stop exactly at the required length—whether that is a 500-word essay, a 1,500-word article, or a 280-character tweet.</p>
+
+            <p><strong>SEO Content Optimization</strong></p>
+            <p>Search engines favor comprehensive content, and most SEO guides recommend minimum word counts for different content types (600+ words for blog posts, 1,500+ for pillar content, 300+ for product descriptions). Use this word counter to verify your content meets SEO length targets before publishing. The keyword density feature also helps you check that your target keywords appear at the right frequency without over-stuffing.</p>
+
+            <p><strong>Preparing Presentations and Speeches</strong></p>
+            <p>When preparing a speech or presentation with a strict time limit, knowing the speaking time estimate is invaluable. Average speaking speed is around 130 words per minute—paste your script into this tool to instantly see if it fits within your allocated time. Adjust the length up or down based on the estimate to ensure you do not go over time or leave awkward silence.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Check character limits for social media:</strong> Twitter allows 280 characters, LinkedIn updates allow 3,000 characters, and Instagram captions allow 2,200—use the character count to stay within platform limits</li>
+                <li><strong>Use reading time for content planning:</strong> An average blog post that takes 5-7 minutes to read (1,000-1,400 words) tends to perform well in SEO—use reading time estimates to calibrate your content length</li>
+                <li><strong>Check paragraph length:</strong> Online readers prefer shorter paragraphs of 3-5 sentences—if your paragraph count seems low relative to word count, consider breaking up long blocks of text</li>
+                <li><strong>Review keyword density:</strong> For SEO, your target keyword should appear 1-2% of the time—use the keyword frequency list to ensure you are not over-optimizing or under-mentioning important terms</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my text safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All word counting and text analysis happens entirely in your browser using JavaScript. Your text never leaves your computer and is never uploaded to any server. We don't store, log, or transmit your content in any way. This makes our tool safe for confidential documents, unpublished writing, and sensitive business content.</p>
+
+            <p><strong>Q: How does this tool count words?</strong></p>
+            <p>A: Words are counted by splitting text on whitespace and punctuation. Hyphenated words like "well-being" count as one word. Contractions like "don't" count as one word. Numbers count as words. Empty lines and extra spaces are ignored. This matches how most academic institutions and content platforms count words.</p>
+
+            <p><strong>Q: What is the reading time calculation based on?</strong></p>
+            <p>A: The reading time estimate is based on an average adult silent reading speed of approximately 200 words per minute, which is the widely cited average for non-fiction content. The speaking time estimate uses approximately 130 words per minute, the typical conversational speaking pace. These are averages—actual times will vary based on content complexity and individual speed.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start counting words immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

@@ -34,15 +34,27 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="YAML to JSON Converter - Code Utils">
     <meta name="twitter:description" content="Free YAML to JSON converter. 100% client-side processing.">
-    <meta name="twitter:image" content="https://codeutils.org/images/og/yaml-to-json.png">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <meta name="twitter:image" content="https://codeutils.org/images/og/yaml-to-json.png">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <link rel="stylesheet" href="css/common.css">
@@ -150,30 +162,70 @@
         <!-- Info Section -->
         <div class="info-section">
             <h2>About YAML to JSON Converter</h2>
-            <p>This tool converts YAML (YAML Ain't Markup Language) data to JSON (JavaScript Object Notation) format. JSON is widely used in APIs and web applications.</p>
+            <p>YAML is the standard format for configuration files—Kubernetes manifests, Docker Compose, GitHub Actions, Ansible, and countless other tools use YAML. But when you need to process, validate, or programmatically work with that configuration data, JSON is far more universally supported. Our YAML to JSON Converter instantly parses any YAML document and outputs clean, properly formatted JSON. Whether you are debugging a Kubernetes config, extracting data from a YAML file for use in an API, or migrating configuration formats, this tool handles the conversion accurately in your browser.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Instant Conversion:</strong> Convert YAML to JSON with one click</li>
-                <li><strong>Proper Formatting:</strong> Output is properly formatted or minified</li>
-                <li><strong>File Support:</strong> Upload YAML files or drag & drop</li>
-                <li><strong>Download:</strong> Save JSON output as a file</li>
+                <li><strong>Instant Conversion:</strong> Paste YAML and get formatted JSON output immediately</li>
+                <li><strong>Full YAML Support:</strong> Handles key-value pairs, nested objects, arrays, multi-line strings, anchors, and aliases</li>
+                <li><strong>Type Preservation:</strong> Numbers, booleans, nulls, and strings are correctly typed in the JSON output</li>
+                <li><strong>Comment Stripping:</strong> YAML comments (# lines) are ignored during conversion as JSON has no comment syntax</li>
+                <li><strong>Pretty or Minified Output:</strong> Choose formatted JSON with indentation or compact minified output</li>
+                <li><strong>File Upload:</strong> Upload .yaml or .yml files directly for conversion</li>
+                <li><strong>Keyboard Shortcuts:</strong> Ctrl+Enter to convert, Ctrl+K to copy output</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
             </ul>
 
-            <h3>Supported YAML Features</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste YAML</strong></p>
+            <ol>
+                <li>Paste your YAML content into the input area on the left</li>
+                <li>Click "Convert to JSON" or press Ctrl+Enter</li>
+                <li>The JSON output appears on the right, properly formatted</li>
+                <li>Click "Copy" or press Ctrl+K to copy to clipboard</li>
+                <li>Click "Download JSON" to save as a file</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a YAML File</strong></p>
+            <ol>
+                <li>Click "Upload" or drag and drop a .yaml or .yml file</li>
+                <li>The file converts automatically</li>
+                <li>Download the .json output or copy it to clipboard</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Debugging Kubernetes and Docker Configurations</strong></p>
+            <p>When diagnosing issues with Kubernetes manifests or Docker Compose files, converting the YAML to JSON makes it easier to inspect the structure programmatically, use JSON validators, or process with tools like jq. Paste your manifest's YAML here to see the exact parsed structure as JSON—revealing any type coercion issues or unexpected value formats that might cause runtime errors.</p>
+
+            <p><strong>Extracting Configuration Values for APIs</strong></p>
+            <p>When your application reads configuration from YAML files but needs to pass that configuration to a REST API or store it in a JSON-based database, convert the YAML here to get the JSON representation. This is useful for migrating configuration from file-based storage to a configuration management service or API-driven system.</p>
+
+            <p><strong>Validating YAML Structure</strong></p>
+            <p>YAML parsing errors from whitespace and indentation issues are common and hard to debug. Attempting to convert YAML to JSON here immediately reveals whether the YAML is syntactically valid—if the conversion fails with an error, the YAML has a parsing problem. This is faster than running a deployment to discover the issue.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li>Key-value pairs</li>
-                <li>Nested objects and arrays</li>
-                <li>Quoted and unquoted strings</li>
-                <li>Numbers, booleans, and null values</li>
-                <li>Comments (ignored during conversion)</li>
+                <li><strong>Check for YAML anchors and aliases:</strong> YAML supports reusing values with &amp; anchors and * aliases—the converter resolves these into their full values in the JSON output</li>
+                <li><strong>Boolean values differ between YAML versions:</strong> YAML 1.1 treats "yes", "no", "on", "off" as booleans; YAML 1.2 does not. If your YAML uses these values as strings, verify the JSON output has the correct types</li>
+                <li><strong>Multi-line strings convert to single-line JSON strings:</strong> YAML block scalars (using | or &gt;) become single JSON strings with \n characters—this is correct behavior</li>
+                <li><strong>Use minified output for API payloads:</strong> When using the converted JSON in an API request, choose the minified output option to reduce payload size</li>
             </ul>
 
-            <h3>Keyboard Shortcuts</h3>
-            <ul>
-                <li><strong>Ctrl+Enter:</strong> Convert to JSON</li>
-                <li><strong>Ctrl+K:</strong> Copy output to clipboard</li>
-            </ul>
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Does the converter handle YAML anchors and aliases?</strong></p>
+            <p>A: Yes. YAML anchors (&amp;name) and aliases (*name) are fully resolved during conversion—the referenced values are inlined in the JSON output.</p>
+
+            <p><strong>Q: What happens to YAML comments in the JSON output?</strong></p>
+            <p>A: Comments are stripped from the output because JSON does not support comments. The comment content is not preserved in the JSON.</p>
+
+            <p><strong>Q: Is my YAML data private?</strong></p>
+            <p>A: Yes. All conversion happens in your browser using JavaScript. Your YAML data is never uploaded to any server or stored anywhere.</p>
+
+            <p><strong>Q: Do I need an account to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration required.</p>
         </div>
     </div>
 

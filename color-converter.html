@@ -35,12 +35,27 @@
     <meta name="twitter:description" content="Convert colors between HEX, RGB, HSL, and CMYK formats.">
     <meta name="twitter:image" content="https://codeutils.org/images/og/color-converter.png">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <link rel="stylesheet" href="css/common.css">
@@ -318,15 +333,69 @@
 
         <div class="info-section">
             <h2>About Color Converter</h2>
-            <p>This tool converts colors between different color models used in web design and print.</p>
+            <p>Every digital design platform uses a different color format: CSS uses HEX and RGB, design tools like Figma and Sketch display HSL, and print workflows require CMYK. Converting between them by hand—or hunting for a conversion formula—wastes time and introduces errors. Our Color Converter lets you enter a color in any format and instantly see the equivalent values in all other formats. A built-in visual picker lets you choose colors interactively, and each value can be copied to the clipboard with one click. All conversions happen entirely in your browser with no data sent to any server.</p>
 
-            <h3>Color Formats</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>HEX:</strong> Hexadecimal format used in CSS (#RRGGBB)</li>
-                <li><strong>RGB:</strong> Red, Green, Blue (0-255 each)</li>
-                <li><strong>HSL:</strong> Hue, Saturation, Lightness</li>
-                <li><strong>CMYK:</strong> Cyan, Magenta, Yellow, Key (Black) - for print</li>
+                <li><strong>Multi-Format Conversion:</strong> Enter a color in HEX, RGB, HSL, or CMYK and get all other formats simultaneously</li>
+                <li><strong>Visual Color Picker:</strong> Interactive saturation/brightness canvas and hue slider for intuitive color selection</li>
+                <li><strong>One-Click Copy:</strong> Copy any color value (HEX, RGB, HSL, CMYK) to your clipboard instantly</li>
+                <li><strong>Live Preview:</strong> See the selected color rendered in real time as you adjust values</li>
+                <li><strong>Precise Input:</strong> Type exact values in any format field and all other fields update instantly</li>
+                <li><strong>CSS-Ready Output:</strong> Values are formatted for direct use in CSS (e.g., rgb(255, 87, 34), hsl(14, 100%, 57%))</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Enter a Known Color Value</strong></p>
+            <ol>
+                <li>Click on any input field (HEX, RGB, HSL, or CMYK)</li>
+                <li>Type your color value in that format</li>
+                <li>All other format fields update automatically with the equivalent values</li>
+                <li>Click the "Copy" button next to any field to copy that value to your clipboard</li>
+            </ol>
+
+            <p><strong>Method 2: Use the Visual Picker</strong></p>
+            <ol>
+                <li>Drag the circular cursor in the color area to select saturation and brightness</li>
+                <li>Drag the hue slider to change the base hue</li>
+                <li>All color format values update live as you move the picker</li>
+                <li>Copy whichever format you need for your project</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Web Development Color Workflow</strong></p>
+            <p>Frontend developers frequently need to translate colors between formats—a designer sends a Figma file with HSL values, but the CSS codebase uses HEX. Paste the HSL value, get the HEX equivalent instantly, and keep your stylesheet consistent. When working with CSS custom properties and color functions, having RGB components available lets you build rgba() values with custom opacity levels.</p>
+
+            <p><strong>Print Design Preparation</strong></p>
+            <p>Digital colors (RGB) and print colors (CMYK) work on fundamentally different color models. When preparing artwork for professional printing, you need CMYK values that match your intended screen color as closely as possible. Enter your HEX or RGB value, read the CMYK equivalent, and provide those values to your print vendor for accurate color matching.</p>
+
+            <p><strong>Brand Color Documentation</strong></p>
+            <p>Brand style guides typically require a color to be documented in multiple formats: HEX for web, RGB for digital media, and CMYK for print. Enter the primary brand color once, and this tool gives you all four representations simultaneously—ready to paste into your brand guidelines document without manual conversion.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Use HSL for programmatic color manipulation:</strong> HSL is the most human-readable format—adjusting lightness or saturation is intuitive, making it ideal for generating color scales and states (hover, active, disabled) from a base color</li>
+                <li><strong>Use HEX for CSS:</strong> HEX is the most universally supported format across all browsers and CSS preprocessors—use it as your default for web stylesheets</li>
+                <li><strong>CMYK conversion is approximate:</strong> The CMYK values this tool provides are a mathematical conversion from RGB—print-accurate CMYK values for specific paper stocks require a professional color management workflow with ICC profiles</li>
+                <li><strong>Check contrast ratios separately:</strong> After selecting a color, verify it meets WCAG accessibility contrast ratios against your background color using a dedicated contrast checker tool</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What color formats does this tool support?</strong></p>
+            <p>A: The tool supports HEX (#RRGGBB), RGB (0-255 per channel), HSL (Hue 0-360, Saturation 0-100%, Lightness 0-100%), and CMYK (0-100% per channel). Entering a value in any format instantly converts to all others.</p>
+
+            <p><strong>Q: Are the CMYK values accurate for print production?</strong></p>
+            <p>A: The CMYK values are mathematically converted from RGB. They provide a good approximation, but professional print production requires ICC profile-based color management for precise results. Use these values as a starting point, then work with your printer to match the final output.</p>
+
+            <p><strong>Q: Is my color data private?</strong></p>
+            <p>A: Yes. All color conversions happen entirely in your browser using JavaScript. No color values or usage data are sent to any server. This tool works completely offline once the page is loaded.</p>
+
+            <p><strong>Q: Do I need to sign up to use this?</strong></p>
+            <p>A: No. This tool is completely free with no registration or account required. Visit the page and start converting colors immediately.</p>
         </div>
     </div>
 

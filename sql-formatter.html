@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free SQL formatter and beautifier. Format SQL queries with proper indentation and readability. 100% client-side processing.",
       "url": "https://codeutils.org/sql-formatter",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.7",
-        "ratingCount": "1280"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -178,24 +185,70 @@
 
         <div class="info-section">
             <h2>About SQL Formatter</h2>
-            <p>Format SQL queries for improved readability and maintainability.</p>
+            <p>SQL queries written for performance are often compact and hard to read, while queries written quickly by developers frequently have inconsistent formatting and style. Our SQL Formatter instantly beautifies any SQL query with proper keyword capitalization, logical line breaks, and consistent indentation—making complex queries with multiple JOINs, subqueries, and CTEs easy to understand and review. Whether you are debugging slow queries, writing documentation, or doing code reviews, this tool transforms messy SQL into clean, professional code. All processing happens entirely in your browser with complete privacy.</p>
 
-            <h3>Features</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li>Proper indentation for nested queries</li>
-                <li>Keyword uppercase/lowercase options</li>
-                <li>Line breaks after major clauses</li>
-                <li>Minify SQL for compact storage</li>
+                <li><strong>Format SQL Queries:</strong> Beautify any SQL query with proper indentation, line breaks, and keyword formatting</li>
+                <li><strong>Keyword Capitalization:</strong> Automatically uppercase SQL keywords (SELECT, FROM, WHERE, JOIN) for standard SQL style</li>
+                <li><strong>Multiple Dialects:</strong> Support for standard SQL, MySQL, PostgreSQL, SQLite, and T-SQL formatting conventions</li>
+                <li><strong>Handle Complex Queries:</strong> Properly format JOINs, subqueries, CTEs (WITH clauses), UNION statements, and nested queries</li>
+                <li><strong>File Upload Support:</strong> Upload .sql files directly or drag and drop them into the tool</li>
+                <li><strong>One-Click Copy:</strong> Copy the formatted SQL to your clipboard instantly</li>
+                <li><strong>Download Output:</strong> Save formatted SQL as a .sql file to your computer</li>
+                <li><strong>Privacy First:</strong> 100% client-side—your queries and data never leave your browser</li>
             </ul>
 
-            <h3>Supported Clauses</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste SQL Query</strong></p>
+            <ol>
+                <li>Copy your SQL query from your database client, ORM output, or code editor</li>
+                <li>Paste it into the input text area on the left side</li>
+                <li>Click "Format" to beautify the SQL</li>
+                <li>The formatted query appears instantly in the output area on the right</li>
+                <li>Copy the result to use in your database client, documentation, or code review</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a SQL File</strong></p>
+            <ol>
+                <li>Click the "Upload" button or drag and drop your .sql file into the designated area</li>
+                <li>The file content will load automatically into the input area</li>
+                <li>Format as needed, then save the result using the "Download" button</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Code Review and Documentation</strong></p>
+            <p>When reviewing pull requests containing SQL queries, or when writing database documentation, poorly formatted SQL is difficult for team members to review and understand. Format all SQL before committing to version control or adding to documentation. Well-formatted SQL with consistent keyword capitalization and proper indentation communicates intent clearly, makes logical errors more obvious, and reduces the time needed for peer reviews.</p>
+
+            <p><strong>Debugging Complex Queries</strong></p>
+            <p>ORM frameworks and query builders often generate SQL that is compacted into a single line. When a query is slow or producing incorrect results, format it first to understand its structure. Seeing each JOIN, WHERE clause, and subquery on its own line makes it much easier to identify logical errors, missing join conditions, and opportunities for optimization with indexes or query restructuring.</p>
+
+            <p><strong>Migrating Between Database Systems</strong></p>
+            <p>When migrating queries from MySQL to PostgreSQL, or from SQL Server to standard SQL, formatting the source queries helps you clearly see all the database-specific syntax that needs to change. Clean, formatted SQL makes the migration process more systematic and reduces the risk of missing dialect-specific functions, date formats, and join syntax differences.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li>SELECT, FROM, WHERE, AND, OR</li>
-                <li>JOIN, LEFT JOIN, RIGHT JOIN, INNER JOIN</li>
-                <li>GROUP BY, ORDER BY, HAVING</li>
-                <li>INSERT, UPDATE, DELETE</li>
-                <li>CREATE, ALTER, DROP</li>
+                <li><strong>Always capitalize SQL keywords:</strong> Industry standard is to capitalize reserved words (SELECT, FROM, WHERE, JOIN, GROUP BY) and use lowercase for table and column names—this makes queries easier to scan visually</li>
+                <li><strong>Add comments to complex queries:</strong> After formatting, add inline comments to explain complex logic, business rules, and the purpose of subqueries—your future self and teammates will thank you</li>
+                <li><strong>Format before committing:</strong> Add SQL formatting to your code review checklist—consistently formatted SQL in version control makes git diffs much easier to understand</li>
+                <li><strong>Test formatted queries:</strong> While formatting never changes query logic, always run formatted queries to verify they execute correctly, especially when the formatter adjusts SQL dialect differences</li>
             </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Is my SQL and database data safe when using this tool?</strong></p>
+            <p>A: Yes, absolutely! All SQL formatting happens entirely in your browser using JavaScript. Your queries—and any data or credentials they may contain—never leave your computer and are never uploaded to any server. This is particularly important when working with queries containing sensitive table names, column names, or example data from production databases.</p>
+
+            <p><strong>Q: What SQL dialects does this tool support?</strong></p>
+            <p>A: Our SQL formatter supports standard SQL syntax and handles common conventions from major database systems including MySQL, PostgreSQL, SQLite, and T-SQL (SQL Server). It correctly formats SELECT, INSERT, UPDATE, DELETE, CREATE TABLE, ALTER TABLE, JOINs, CTEs, window functions, and subqueries. Some database-specific functions may format as generic SQL.</p>
+
+            <p><strong>Q: Will formatting change my SQL logic or results?</strong></p>
+            <p>A: No! SQL formatting only adds whitespace, line breaks, and changes keyword capitalization—it never modifies the actual query logic, table/column names, or values. The formatted SQL is semantically identical to the original and will produce exactly the same results when executed. SQL is not whitespace-sensitive, so formatting is always safe.</p>
+
+            <p><strong>Q: Do I need to create an account or sign up?</strong></p>
+            <p>A: No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start formatting SQL immediately. There are no limits on usage, no premium tiers, and no hidden fees.</p>
         </div>
     </div>
 

@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free JSONPath tester and query tool. Test JSONPath expressions against JSON data with live results. 100% client-side processing.",
       "url": "https://codeutils.org/jsonpath-tester",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.7",
-        "ratingCount": "890"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -190,19 +197,76 @@
         </div>
 
         <div class="info-section">
-            <h2>JSONPath Syntax</h2>
+            <h2>About JSONPath Tester</h2>
+            <p>JSONPath is the query language for JSON data—the equivalent of XPath for XML. It lets you extract specific values from deeply nested JSON without writing custom traversal code. Our JSONPath Tester lets you paste any JSON document and test JSONPath expressions against it instantly, showing the matching results as formatted output. Whether you are debugging an API response, building a data pipeline, or learning JSONPath syntax, this tool gives you immediate feedback with no setup required.</p>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Instant Results:</strong> Test JSONPath expressions against your JSON data and see matching values immediately</li>
+                <li><strong>Syntax Reference:</strong> Built-in reference table for all JSONPath operators and expressions</li>
+                <li><strong>JSON Validation:</strong> Automatically validates your JSON input and highlights syntax errors</li>
+                <li><strong>Formatted Output:</strong> Results are displayed as pretty-printed JSON for easy reading</li>
+                <li><strong>Common Patterns:</strong> Clickable example expressions to learn JSONPath syntax quickly</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your JSON data never leaves your browser</li>
+            </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Testing a JSONPath Expression</strong></p>
+            <ol>
+                <li>Paste your JSON document into the JSON input area on the left</li>
+                <li>Enter a JSONPath expression in the expression field (e.g., $.store.book[*].author)</li>
+                <li>Click "Test" or press the shortcut to evaluate the expression</li>
+                <li>The matching values appear in the Results panel on the right</li>
+            </ol>
+
+            <h3>JSONPath Syntax Reference</h3>
             <table style="width: 100%; border-collapse: collapse;">
                 <tr style="border-bottom: 1px solid var(--border);">
                     <th style="text-align: left; padding: 8px;">Expression</th>
                     <th style="text-align: left; padding: 8px;">Description</th>
                 </tr>
-                <tr><td style="padding: 8px;"><code>$</code></td><td style="padding: 8px;">Root object</td></tr>
-                <tr><td style="padding: 8px;"><code>.key</code></td><td style="padding: 8px;">Child property</td></tr>
-                <tr><td style="padding: 8px;"><code>[n]</code></td><td style="padding: 8px;">Array index</td></tr>
+                <tr><td style="padding: 8px;"><code>$</code></td><td style="padding: 8px;">Root object/element</td></tr>
+                <tr><td style="padding: 8px;"><code>.key</code></td><td style="padding: 8px;">Child property access</td></tr>
+                <tr><td style="padding: 8px;"><code>['key']</code></td><td style="padding: 8px;">Child property (bracket notation)</td></tr>
+                <tr><td style="padding: 8px;"><code>[n]</code></td><td style="padding: 8px;">Array element at index n (0-based)</td></tr>
                 <tr><td style="padding: 8px;"><code>[*]</code></td><td style="padding: 8px;">All array elements</td></tr>
-                <tr><td style="padding: 8px;"><code>..</code></td><td style="padding: 8px;">Recursive descent</td></tr>
-                <tr><td style="padding: 8px;"><code>[?()]</code></td><td style="padding: 8px;">Filter expression</td></tr>
+                <tr><td style="padding: 8px;"><code>..</code></td><td style="padding: 8px;">Recursive descent (search all levels)</td></tr>
+                <tr><td style="padding: 8px;"><code>[?(@.price &lt; 10)]</code></td><td style="padding: 8px;">Filter expression</td></tr>
             </table>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Extracting Values from API Responses</strong></p>
+            <p>REST APIs return JSON that often contains deeply nested data. Before writing code to traverse it, paste the response here and test your JSONPath expression to verify it selects exactly the fields you need. This is faster than writing and running code, and helps you understand the JSON structure visually before building a parser.</p>
+
+            <p><strong>Building and Debugging Data Pipelines</strong></p>
+            <p>Data transformation pipelines (AWS Step Functions, Apache NiFi, Jinja templates, jq scripts) frequently use JSONPath expressions to select and transform fields. Test your expressions against real sample data before deploying to ensure they match the expected structure—especially important when working with optional fields or variable-length arrays.</p>
+
+            <p><strong>Learning JSONPath Syntax</strong></p>
+            <p>JSONPath syntax is compact but has subtleties—the difference between $.a.b and $..b, or how filter expressions work, is easier to grasp by experimenting than by reading documentation. Use the clickable example expressions to explore each operator against sample data and build your understanding interactively.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Always start with $:</strong> Every valid JSONPath expression starts with $ which represents the root of the document—omitting it will cause a parse error</li>
+                <li><strong>Use .. for flexible matching:</strong> The recursive descent operator (..) searches at all levels of nesting, so $..name matches every "name" field anywhere in the document—useful for inconsistently structured data</li>
+                <li><strong>Use [*] for all array elements:</strong> $.items[*].id extracts the "id" field from every element in the "items" array—equivalent to a map/select operation</li>
+                <li><strong>Filter with [?()]:</strong> Use filter expressions to select elements conditionally—for example $.books[?(@.price &lt; 20)] selects all books with a price below 20</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What JSONPath specification does this tool implement?</strong></p>
+            <p>A: This tool implements a widely-used subset of JSONPath including dot notation, bracket notation, recursive descent, array slicing, and basic filter expressions. This covers the vast majority of practical use cases.</p>
+
+            <p><strong>Q: Can I test multiple expressions at once?</strong></p>
+            <p>A: The tool evaluates one expression at a time. To test multiple expressions, update the expression field between tests—the JSON input stays in place so you do not need to re-paste it.</p>
+
+            <p><strong>Q: Is my JSON data safe to paste here?</strong></p>
+            <p>A: Yes. All processing happens entirely in your browser using JavaScript. Your JSON data is never uploaded to any server, stored, or transmitted anywhere. This makes the tool safe for API responses containing sensitive or proprietary data.</p>
+
+            <p><strong>Q: Do I need to sign up to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration or account required.</p>
         </div>
     </div>
 

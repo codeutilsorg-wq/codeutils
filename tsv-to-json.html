@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free TSV to JSON converter. Convert tab-separated values to JSON with flexible parsing options. 100% client-side processing.",
       "url": "https://codeutils.org/tsv-to-json",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.5",
-        "ratingCount": "810"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -172,22 +179,70 @@ Jane	25	LA"></textarea>
         </div>
 
         <div class="info-section">
-            <h2>About TSV to JSON</h2>
-            <p>TSV (Tab-Separated Values) is similar to CSV but uses tabs instead of commas as delimiters.</p>
+            <h2>About TSV to JSON Converter</h2>
+            <p>TSV (Tab-Separated Values) is the format you get when you copy cells directly from Excel or Google Sheets—each column is separated by a tab character instead of a comma. This makes TSV ideal for data that contains commas within values, like addresses or descriptions. Our TSV to JSON Converter transforms tab-separated data into a properly structured JSON array, with options for type parsing and header handling. Paste your copied spreadsheet data or upload a .tsv file and get JSON output instantly, entirely in your browser.</p>
 
-            <h3>Example</h3>
-            <p><strong>TSV:</strong></p>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">name	age
-John	30</pre>
-            <p><strong>JSON:</strong></p>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius);">[{"name": "John", "age": 30}]</pre>
-
-            <h3>Tips</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li>TSV is often used when data contains commas</li>
-                <li>Copy data directly from Excel/Sheets (it's usually tab-separated)</li>
-                <li>Tabs are represented by the Tab key between columns</li>
+                <li><strong>Excel and Google Sheets Compatible:</strong> Copy cells directly from any spreadsheet and paste—the tab delimiter is auto-detected</li>
+                <li><strong>Header Row Support:</strong> Use the first row as JSON object keys automatically</li>
+                <li><strong>Type Parsing:</strong> Optionally convert numeric strings to numbers and "true"/"false" to booleans for proper JSON typing</li>
+                <li><strong>Pretty-Printed Output:</strong> JSON output is formatted with indentation for easy reading</li>
+                <li><strong>File Upload:</strong> Upload .tsv or .txt files directly for conversion</li>
+                <li><strong>Download as JSON:</strong> Save the output as a .json file with one click</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste from Excel or Google Sheets</strong></p>
+            <ol>
+                <li>Select the cells in Excel or Google Sheets that you want to convert</li>
+                <li>Copy them with Ctrl+C (the data is automatically tab-separated)</li>
+                <li>Paste into the input area of this tool</li>
+                <li>The JSON output appears automatically</li>
+                <li>Copy or download the JSON result</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a TSV File</strong></p>
+            <ol>
+                <li>Click "Upload" or drag and drop a .tsv or .txt file</li>
+                <li>The file converts automatically</li>
+                <li>Download the .json output or copy it to clipboard</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Exporting Spreadsheet Data for Web Applications</strong></p>
+            <p>When you copy data from Excel or Google Sheets, it is automatically formatted as TSV. This makes TSV the fastest way to get spreadsheet data into JSON format without saving as a CSV file first. Copy your table data, paste it here, and get structured JSON ready for use in a web application, API test, or data processing script—no file export step needed.</p>
+
+            <p><strong>Converting Data That Contains Commas</strong></p>
+            <p>TSV is preferable to CSV when your data contains commas within values—addresses, product descriptions, financial figures with comma-formatted numbers, and notes often contain commas that would break CSV parsing. TSV sidesteps this problem entirely since tabs are rarely used within data values. Convert comma-heavy datasets via TSV for clean, unambiguous parsing.</p>
+
+            <p><strong>Processing Database Query Results</strong></p>
+            <p>Many database clients (MySQL Workbench, pgAdmin, DBeaver) export or copy query results as tab-separated text. Paste the copied result directly into this tool to get a JSON array of objects with column names as keys—perfect for quickly converting database output for API mocking, test fixtures, or data exploration.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Copy directly from spreadsheets:</strong> When copying from Excel or Google Sheets, you do not need to save as a file—the clipboard data is already tab-separated and can be pasted directly into this tool</li>
+                <li><strong>Enable type parsing for numeric data:</strong> Without type parsing, all values are strings—enable "Parse numbers" to convert "30" to 30 for proper numeric handling in your code</li>
+                <li><strong>Include the header row:</strong> Ensure you copy the column header row along with the data—it becomes the JSON object key names and makes the output self-documenting</li>
+                <li><strong>Check for trailing tabs:</strong> Some spreadsheet exports add a trailing tab at the end of each row, creating an extra empty column in the output—trim your data if you see unexpected empty keys in the JSON</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What is the difference between TSV and CSV?</strong></p>
+            <p>A: Both are plain-text tabular data formats. CSV uses commas to separate columns; TSV uses tab characters. TSV is simpler to parse (tabs are almost never used in data values) but less common in file exports. The most practical advantage of TSV is that it handles data containing commas without needing to quote the values.</p>
+
+            <p><strong>Q: Why does copying from Excel produce TSV instead of CSV?</strong></p>
+            <p>A: Excel uses tab as the clipboard delimiter when you copy cells because it avoids ambiguity—data values often contain commas, but almost never contain tab characters. When you paste copied Excel cells into a text editor, you see tab characters between columns. This tool accepts that clipboard format directly.</p>
+
+            <p><strong>Q: Is my TSV data private?</strong></p>
+            <p>A: Yes. All conversion happens in your browser using JavaScript. Your data is never uploaded to any server or stored anywhere.</p>
+
+            <p><strong>Q: Do I need an account to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration required.</p>
         </div>
     </div>
 

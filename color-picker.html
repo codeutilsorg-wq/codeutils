@@ -35,12 +35,27 @@
     <meta name="twitter:description" content="Pick colors visually and get HEX, RGB, and HSL codes instantly.">
     <meta name="twitter:image" content="https://codeutils.org/images/og/color-picker.png">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <link rel="stylesheet" href="css/common.css">
@@ -324,24 +339,70 @@
 
         <div class="info-section">
             <h2>About Color Picker</h2>
-            <p>This tool lets you pick colors visually and get the color codes in various formats.</p>
+            <p>Finding the right color for a design project often involves a lot of back-and-forth between design tools, color pickers, and CSS files. Our Color Picker gives you a fast, browser-based way to select any color visually and immediately get the HEX, RGB, and HSL values you need—without opening Photoshop, Figma, or any other application. Save frequently used colors directly in the tool, type HEX codes directly, or use your operating system's native picker. All values are ready to copy with one click.</p>
 
-            <h3>How to Use</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Color Area:</strong> Click and drag to select saturation and brightness</li>
-                <li><strong>Hue Slider:</strong> Click or drag to change the base hue</li>
-                <li><strong>System Picker:</strong> Click to use your OS native color picker</li>
-                <li><strong>HEX Input:</strong> Type a hex code directly (e.g., #FF5500)</li>
+                <li><strong>Visual Color Canvas:</strong> Interactive saturation/brightness canvas—click or drag the cursor to select the exact color you need</li>
+                <li><strong>Hue Spectrum Slider:</strong> Slide across the full hue spectrum (0-360°) to pick any base color</li>
+                <li><strong>OS Native Picker:</strong> Open your operating system's built-in color picker to sample colors from anywhere on your screen</li>
+                <li><strong>Direct HEX Input:</strong> Type a HEX code directly (e.g., #FF5500) and the picker jumps to that color</li>
+                <li><strong>One-Click Copy:</strong> Copy HEX, RGB, or HSL values to your clipboard instantly</li>
+                <li><strong>Save Colors:</strong> Save up to 20 frequently used colors as swatches for quick access across sessions</li>
+                <li><strong>Random Color:</strong> Generate a random color for inspiration or when you need a starting point</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
             </ul>
 
-            <h3>Features</h3>
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Visual Selection</strong></p>
+            <ol>
+                <li>Drag the hue slider to select the base color family (red, blue, green, etc.)</li>
+                <li>Click or drag inside the color canvas to select the specific shade—left/right controls saturation, up/down controls brightness</li>
+                <li>The HEX, RGB, and HSL values update in real time as you move the picker</li>
+                <li>Click any "Copy" button to copy that format's value to your clipboard</li>
+            </ol>
+
+            <p><strong>Method 2: Enter a HEX Code</strong></p>
+            <ol>
+                <li>Type a HEX code into the HEX input field (e.g., #3498db)</li>
+                <li>The visual picker moves to that exact color position</li>
+                <li>RGB and HSL values update automatically</li>
+                <li>Copy any format you need or save the color to your swatches</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Picking Colors for CSS and Tailwind</strong></p>
+            <p>Frontend developers use this tool to quickly find the right shade for buttons, backgrounds, borders, and text—then copy the HEX value directly into their CSS or Tailwind config. The HSL output is especially useful for Tailwind CSS custom colors and for defining CSS custom properties, since HSL makes it easy to create light/dark variants by adjusting the lightness value.</p>
+
+            <p><strong>Sampling Brand Colors</strong></p>
+            <p>When you need to match a color from a logo, screenshot, or reference image, open your operating system's native eyedropper (via the OS Picker button) to sample the color directly from anywhere on your screen. The tool then shows you the exact HEX, RGB, and HSL values so you can document or use the color in your project.</p>
+
+            <p><strong>Building Color Palettes</strong></p>
+            <p>Use the Save Colors feature to collect candidate colors as you explore the picker, then compare your saved swatches side by side. Click any saved swatch to return to that color and copy its values. This workflow is ideal for building a color palette for a new design system or comparing multiple color options before making a final decision.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
             <ul>
-                <li>Visual saturation/brightness picker</li>
-                <li>Hue slider for full color spectrum</li>
-                <li>Copy HEX, RGB, or HSL values with one click</li>
-                <li>Save colors for later reference</li>
-                <li>Generate random colors for inspiration</li>
+                <li><strong>Use HSL for design systems:</strong> HSL is the most intuitive format for creating color variations—keep the same hue and saturation while adjusting lightness to generate hover states, disabled states, and background tints</li>
+                <li><strong>Save your primary palette:</strong> Use the Save Colors feature to keep your core brand or project colors always accessible, reducing the time spent re-entering the same values</li>
+                <li><strong>Use the OS picker for screen sampling:</strong> The native OS picker (eyedropper) lets you sample any pixel on your screen—useful for matching colors from design mockups, websites, or reference images</li>
+                <li><strong>Check accessibility after picking:</strong> After choosing a color, verify it meets WCAG contrast requirements against your background color—aim for at least 4.5:1 ratio for body text</li>
             </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: What color formats does the picker output?</strong></p>
+            <p>A: The picker shows HEX (#RRGGBB), RGB (rgb(r, g, b)), and HSL (hsl(h, s%, l%)) values simultaneously. Click any "Copy" button to copy that format directly to your clipboard, ready to paste into CSS, a design tool, or a document.</p>
+
+            <p><strong>Q: How do saved colors work?</strong></p>
+            <p>A: Clicking "Save Color" adds the current color to a row of swatches below the picker. Saved colors are stored in your browser's local storage and persist between visits. Click any swatch to load that color back into the picker. You can save up to 20 colors.</p>
+
+            <p><strong>Q: Is my data private when using this tool?</strong></p>
+            <p>A: Yes. The color picker runs entirely in your browser. No color values, saved swatches, or usage data are sent to any server. Saved colors are stored only in your browser's local storage on your own device.</p>
+
+            <p><strong>Q: Do I need to create an account to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration required. Open the page and start picking colors immediately.</p>
         </div>
     </div>
 

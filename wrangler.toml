@@ -1,30 +1,4 @@
 # Wrangler configuration for Cloudflare Pages
-# Used for CLI deployments
-
 name = "codeutils"
 compatibility_date = "2024-01-01"
-
-[site]
-bucket = "."
-
-# Files to exclude from deployment
-[site.excludes]
-"node_modules/**"
-".git/**"
-".github/**"
-"tests/**"
-"test-results/**"
-"playwright-report/**"
-"analysis/**"
-"docs/**"
-"*.md"
-"*.sh"
-"*.bat"
-"package.json"
-"package-lock.json"
-"playwright.config.js"
-"test-tool.js"
-"netlify.toml"
-"wrangler.toml"
-".gitignore"
-".cfpagesignore"
+pages_build_output_dir = "."

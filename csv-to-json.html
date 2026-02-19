@@ -47,12 +47,27 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -71,12 +86,7 @@
       "description": "Free CSV to JSON converter. Convert CSV data to JSON format with custom delimiters and header options. 100% client-side processing.",
       "url": "https://codeutils.org/csv-to-json",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.6",
-        "ratingCount": "880"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -193,26 +203,71 @@ Jane,25,LA"></textarea>
 
         <div class="info-section">
             <h2>About CSV to JSON Converter</h2>
-            <p>This tool converts CSV (Comma-Separated Values) data into JSON format.</p>
+            <p>CSV is the universal format for spreadsheet exports, database dumps, and data pipelines—but modern web applications and APIs work with JSON. Manually converting CSV rows to JSON objects is repetitive and error-prone for anything beyond a few rows. Our CSV to JSON Converter instantly transforms any CSV data into a properly structured JSON array, with options to auto-detect delimiters, control type parsing, and handle headers. Paste your CSV or upload a file and get clean JSON output in seconds, entirely in your browser.</p>
 
-            <h3>Input Format</h3>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius); overflow-x: auto;">name,age,city
-John,30,NYC
-Jane,25,LA</pre>
-
-            <h3>Output Format</h3>
-            <pre style="background: var(--bg-secondary); padding: var(--spacing-sm); border-radius: var(--radius); overflow-x: auto;">[
-  {"name": "John", "age": 30, "city": "NYC"},
-  {"name": "Jane", "age": 25, "city": "LA"}
-]</pre>
-
-            <h3>Options</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Delimiter:</strong> Character separating values (auto-detect supported)</li>
-                <li><strong>First row is headers:</strong> Use first row as object keys</li>
-                <li><strong>Parse numbers:</strong> Convert numeric strings to numbers</li>
-                <li><strong>Parse booleans:</strong> Convert "true"/"false" to booleans</li>
+                <li><strong>Auto-Detect Delimiter:</strong> Automatically identifies comma, semicolon, tab, or pipe delimiters—no manual configuration needed</li>
+                <li><strong>Header Row Support:</strong> Use the first row as JSON object keys, or generate automatic numeric keys</li>
+                <li><strong>Type Parsing:</strong> Optionally convert numeric strings to numbers and "true"/"false" strings to booleans for proper JSON typing</li>
+                <li><strong>Pretty-Printed Output:</strong> JSON output is formatted with indentation for easy reading and validation</li>
+                <li><strong>File Upload:</strong> Upload .csv files directly instead of copy-pasting</li>
+                <li><strong>Download as JSON:</strong> Save the output as a .json file with one click</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your data never leaves your browser</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Paste CSV Data</strong></p>
+            <ol>
+                <li>Copy your CSV data from Excel, Google Sheets, or any text editor</li>
+                <li>Paste it into the input area</li>
+                <li>The delimiter is auto-detected, or you can select it manually</li>
+                <li>Enable "Parse numbers" and "Parse booleans" if you want proper JSON types</li>
+                <li>Click "Convert" to generate JSON output</li>
+                <li>Copy the JSON or download it as a .json file</li>
+            </ol>
+
+            <p><strong>Method 2: Upload a CSV File</strong></p>
+            <ol>
+                <li>Click "Upload" or drag and drop a .csv file</li>
+                <li>Configure options as needed</li>
+                <li>JSON output generates automatically</li>
+                <li>Download or copy the result</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Importing Spreadsheet Data into Web Applications</strong></p>
+            <p>When users export data from Excel or Google Sheets as CSV to upload to a web application, the application often needs JSON for its API. Convert the exported CSV to JSON here for quick testing and prototyping, or use this as a reference for implementing the conversion in your application's backend. The type-parsing options ensure that numeric values like prices and quantities are proper numbers rather than strings in the output.</p>
+
+            <p><strong>Database Export to API Format</strong></p>
+            <p>Relational databases export query results as CSV. When you need to seed a NoSQL database, mock an API response, or share structured data with a frontend developer, convert the CSV export to JSON here. Each CSV row becomes a JSON object with column headers as keys—exactly the format most APIs return and consume.</p>
+
+            <p><strong>Data Transformation for Analysis</strong></p>
+            <p>Python and JavaScript data processing scripts often work more naturally with JSON than CSV. Convert your CSV dataset to JSON to use with JavaScript's built-in JSON.parse(), or to create test fixtures for unit tests. The pretty-printed output makes it easy to inspect the structure and verify the conversion before using the data in your code.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Enable type parsing for numeric data:</strong> Without it, every value is a string—"30" instead of 30—which causes issues when doing arithmetic or comparisons in code. Always enable "Parse numbers" when your data contains numeric values</li>
+                <li><strong>Check for quoted fields with commas:</strong> Well-formed CSV wraps values containing commas in double quotes—the converter handles this correctly. If your CSV uses a different quoting convention, verify the output carefully</li>
+                <li><strong>Use tab delimiter for Excel copy-paste:</strong> Copying cells from Excel and pasting into text produces tab-separated data. If auto-detect fails, manually select "Tab" as the delimiter</li>
+                <li><strong>Validate the JSON output:</strong> For large or complex CSVs, paste the output into a JSON formatter or validator to confirm the structure is correct before using it in production</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Does the converter handle CSV files with quoted fields containing commas?</strong></p>
+            <p>A: Yes. The converter correctly parses RFC 4180-compliant CSV where fields containing commas, newlines, or double quotes are enclosed in double quotes. For example, "Smith, John" is treated as a single field, not split at the comma.</p>
+
+            <p><strong>Q: What if my CSV has no header row?</strong></p>
+            <p>A: Uncheck the "First row is headers" option. The converter will generate numeric keys (0, 1, 2...) for each column instead of using the first row as keys.</p>
+
+            <p><strong>Q: Is my CSV data private?</strong></p>
+            <p>A: Yes. All conversion happens in your browser using JavaScript. Your data is never uploaded to any server, stored, or transmitted anywhere.</p>
+
+            <p><strong>Q: Do I need to sign up to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration required.</p>
         </div>
     </div>
 

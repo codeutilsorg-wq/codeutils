@@ -45,15 +45,27 @@
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291"></script>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">        <!-- Google Analytics (only load in production) -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-RPHPBJ4291');
+        // Only load Google Analytics if NOT on localhost
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            // Load gtag.js
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-RPHPBJ4291';
+            document.head.appendChild(script);
+
+            // Initialize GA
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-RPHPBJ4291');
+        } else {
+            // Mock gtag function for localhost (prevents errors)
+            window.gtag = function() {
+                console.log('GA (localhost - not tracked):', arguments);
+            };
+        }
     </script>
 
     <!-- Structured Data: WebApplication Schema -->
@@ -72,12 +84,7 @@
       "description": "Free user agent parser. Detect browser, OS, and device from user agent strings with detailed analysis. 100% client-side processing.",
       "url": "https://codeutils.org/user-agent-parser",
       "browserRequirements": "Requires JavaScript. Requires HTML5.",
-      "softwareVersion": "1.0",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.7",
-        "ratingCount": "1060"
-      }
+      "softwareVersion": "1.0"
     }
     </script>
 
@@ -192,15 +199,66 @@
         </div>
 
         <div class="info-section">
-            <h2>About User Agent Strings</h2>
-            <p>User agent strings identify the browser, operating system, and device accessing a website.</p>
+            <h2>About User Agent Parser</h2>
+            <p>A user agent string is a compact text identifier that every browser sends with every HTTP request—identifying the browser, rendering engine, operating system, and device type to the server. These strings are dense and cryptic to read manually. Our User Agent Parser decodes any user agent string into clearly labeled components: browser name and version, operating system and version, device type, and rendering engine. Use it to understand your own browser's user agent, decode strings from server logs, or test how your application will identify different clients.</p>
 
-            <h3>Example User Agents</h3>
+            <h3>Key Features</h3>
             <ul>
-                <li><strong>Chrome:</strong> Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36</li>
-                <li><strong>Firefox:</strong> Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0</li>
-                <li><strong>Safari:</strong> Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15</li>
+                <li><strong>Current Browser Detection:</strong> Click "Use My User Agent" to instantly parse your own browser's user agent string</li>
+                <li><strong>Full Component Breakdown:</strong> Extracts browser name, browser version, operating system, OS version, device type, and rendering engine</li>
+                <li><strong>Wide Compatibility:</strong> Recognizes user agents from Chrome, Firefox, Safari, Edge, Opera, Samsung Internet, and dozens of other browsers</li>
+                <li><strong>Mobile and Bot Detection:</strong> Identifies mobile browsers, tablets, and web crawlers/bots</li>
+                <li><strong>Privacy First:</strong> 100% client-side processing—your user agent data never leaves your browser</li>
             </ul>
+
+            <h3>How to Use This Tool</h3>
+
+            <p><strong>Method 1: Parse Your Current Browser</strong></p>
+            <ol>
+                <li>Click "Use My User Agent" to automatically load your browser's current user agent string</li>
+                <li>The tool immediately parses and displays all detected components</li>
+                <li>Use this to verify what information your browser is sending to websites</li>
+            </ol>
+
+            <p><strong>Method 2: Parse a Custom User Agent</strong></p>
+            <ol>
+                <li>Paste any user agent string into the input field</li>
+                <li>Click "Parse User Agent" to analyze it</li>
+                <li>Review the extracted browser, OS, device type, and engine information</li>
+            </ol>
+
+            <h3>Common Use Cases</h3>
+
+            <p><strong>Debugging Server Log Analytics</strong></p>
+            <p>Web server access logs include user agent strings for every request. When analyzing logs to understand your traffic—or when investigating an unusual spike from a specific user agent—paste the string here to identify whether it is a legitimate browser, a specific crawler, or a scraper. This helps distinguish real user traffic from bot traffic in your analytics pipeline.</p>
+
+            <p><strong>Testing Browser-Specific Code</strong></p>
+            <p>If your application serves different content or behavior based on the user agent (e.g., different layouts for mobile, or feature flags for specific browsers), use this tool to parse test user agent strings and verify they will be correctly identified. Copy user agent strings from real devices or browser documentation and check they parse to the expected browser and OS combination.</p>
+
+            <p><strong>Understanding Device and Browser Distribution</strong></p>
+            <p>When reviewing analytics data or customer support reports that include user agent information, use this tool to quickly decode unfamiliar strings into human-readable format. Identify whether a reported issue came from a mobile device, a specific browser version, or a particular operating system to help reproduce and debug the problem.</p>
+
+            <h3>Tips &amp; Best Practices</h3>
+            <ul>
+                <li><strong>Do not rely on user agents for critical features:</strong> User agent strings can be spoofed—use feature detection (checking if window.IntersectionObserver exists) rather than user agent sniffing for critical functionality decisions</li>
+                <li><strong>User agents are not stable:</strong> Browser vendors frequently change their user agent strings—Chrome has been gradually removing version details, and browsers may "freeze" parts of the string in the future</li>
+                <li><strong>Check for bots in server logs:</strong> Strings containing "Googlebot", "Bingbot", "AhrefsBot", or similar names are search engine crawlers—these should typically not be counted in user-facing analytics</li>
+                <li><strong>Mobile user agents include device info:</strong> Mobile user agent strings often include the device model—useful for identifying which devices your users are accessing your service from</li>
+            </ul>
+
+            <h3>Frequently Asked Questions</h3>
+
+            <p><strong>Q: Why do so many user agents start with "Mozilla/5.0"?</strong></p>
+            <p>A: This is a historical artifact. In the early web, websites served different content to different browsers. To receive the best content, browsers pretended to be compatible with Mozilla (Netscape) by including "Mozilla/5.0" in their user agent. This convention stuck—even modern Chrome, Edge, and Safari include "Mozilla/5.0" at the start of their user agent strings for compatibility.</p>
+
+            <p><strong>Q: Can I use this to identify mobile vs desktop visitors?</strong></p>
+            <p>A: Yes. The parser identifies device type (Desktop, Mobile, Tablet) from the user agent string. Mobile browsers include tokens like "Mobile" and device identifiers, while desktop browsers do not. This is the most common use case for server-side user agent parsing.</p>
+
+            <p><strong>Q: Is my user agent string private?</strong></p>
+            <p>A: Your user agent string is parsed entirely in your browser with no data sent to any server. However, note that your browser automatically sends your user agent to every website you visit as part of the HTTP request—it is public information, not a privacy concern.</p>
+
+            <p><strong>Q: Do I need an account to use this?</strong></p>
+            <p>A: No. The tool is completely free with no registration required.</p>
         </div>
     </div>
 
