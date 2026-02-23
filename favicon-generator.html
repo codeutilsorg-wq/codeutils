@@ -109,6 +109,47 @@
       ]
     }
     </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Create a Favicon Online",
+      "description": "Generate multi-size favicons from text, emoji, or images using the free online Favicon Generator at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Choose your icon type: upload a custom image, pick an emo...",
+          "text": "Choose your icon type: upload a custom image, pick an emoji, type text initials, or draw a custom design"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Customize with colors, gradients, backgrounds, and paddin...",
+          "text": "Customize with colors, gradients, backgrounds, and padding to match your brand"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Preview your favicon in the live preview panel at all sta...",
+          "text": "Preview your favicon in the live preview panel at all standard sizes"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Click Download ZIP to get all sizes (16x16 through 512x51...",
+          "text": "Click Download ZIP to get all sizes (16x16 through 512x512) plus the HTML code"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Copy the HTML snippet and paste it into your website head...",
+          "text": "Copy the HTML snippet and paste it into your website head section"
+        }
+      ]
+    }
+    </script>
 
     <!-- Structured Data: FAQ Schema -->
     <script type="application/ld+json">
@@ -210,7 +251,7 @@
         .upload-zone:hover,
         .upload-zone.drag-over {
             border-color: var(--primary);
-            background: var(--bg-primary);
+            background: var(--bg-white);
         }
 
         .upload-zone input[type="file"] {
@@ -276,7 +317,12 @@
             padding: var(--spacing-xs);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            background: var(--bg-primary);
+            background: var(--bg-white);
+            color: var(--text-primary);
+        }
+
+        .option-group select option {
+            background: var(--bg-white);
             color: var(--text-primary);
         }
 
@@ -288,7 +334,7 @@
             max-height: 200px;
             overflow-y: auto;
             padding: var(--spacing-xs);
-            background: var(--bg-primary);
+            background: var(--bg-white);
             border: 1px solid var(--border);
             border-radius: var(--radius);
         }
@@ -314,7 +360,7 @@
             margin-bottom: var(--spacing-xs);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            background: var(--bg-primary);
+            background: var(--bg-white);
             color: var(--text-primary);
         }
 
@@ -325,7 +371,7 @@
             gap: 8px;
             margin-bottom: 8px;
             padding: 8px;
-            background: var(--bg-primary);
+            background: var(--bg-white);
             border: 1px solid var(--border);
             border-radius: var(--radius);
         }
@@ -397,7 +443,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: var(--bg-primary);
+            background: var(--bg-white);
             border: 1px solid var(--border);
             border-radius: 8px 8px 0 0;
             padding: 8px 12px;
@@ -1652,7 +1698,7 @@
                 document.documentElement.classList.add('light-mode');
             }
         })();
-    </script>
+    <\/script>
 
 ${htmlCode}
 

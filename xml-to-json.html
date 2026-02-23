@@ -87,6 +87,82 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How are XML attributes handled in the JSON output?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "XML attributes are converted to JSON properties with an @ prefix. For example, <user id=\"123\" role=\"admin\"> becomes {\"user\": {\"@id\": \"123\", \"@role\": \"admin\", ...}}. This convention makes it clear which properties were originally attributes versus child elements."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens when an XML element has both attributes and text content?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "When an element has both attributes and text content, the text is placed in a special #text property. For example, <name lang=\"en\">John</name> becomes {\"name\": {\"@lang\": \"en\", \"#text\": \"John\"}}."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my XML data private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All conversion happens in your browser using JavaScript. Your XML is never uploaded to any server or stored anywhere."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to sign up to use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration required."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free XML to JSON Converter | Preserve Attributes & Structure Online",
+      "description": "Step-by-step guide to using the free online Free XML to JSON Converter | Preserve Attributes & Structure tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste your XML document into the input area on the left",
+          "text": "Paste your XML document into the input area on the left"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "The JSON output appears automatically on the right",
+          "text": "The JSON output appears automatically on the right"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click \"Copy\" to copy the JSON to your clipboard",
+          "text": "Click \"Copy\" to copy the JSON to your clipboard"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Click \"Download JSON\" to save as a file",
+          "text": "Click \"Download JSON\" to save as a file"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
 </head>

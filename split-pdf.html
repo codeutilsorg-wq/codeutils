@@ -94,6 +94,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can I extract non-consecutive pages?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Use commas to separate individual page numbers and dashes for ranges. For example, \"1, 5, 10-15, 20\" extracts page 1, page 5, pages 10 through 15, and page 20—all combined into a single output PDF in that order."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does splitting affect PDF quality?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The extracted pages are taken directly from the original PDF without re-encoding or compression. Text sharpness, image quality, and formatting are fully preserved in the output file."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my PDF safe to use with this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All PDF processing happens entirely in your browser using JavaScript. Your file is never uploaded to any server, stored, or transmitted anywhere. This makes the tool safe for confidential legal documents, financial records, medical files, and any other sensitive content."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or pay?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration, sign-up, or account required. There are no file size limits or page count restrictions for free users."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free PDF Splitter | Extract Pages from PDF Online Online",
+      "description": "Step-by-step guide to using the free online Free PDF Splitter | Extract Pages from PDF Online tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Click \"Choose PDF File\" and select your PDF document",
+          "text": "Click \"Choose PDF File\" and select your PDF document"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "The tool shows the total number of pages in your PDF",
+          "text": "The tool shows the total number of pages in your PDF"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Enter the pages you want to extract in the page selection...",
+          "text": "Enter the pages you want to extract in the page selection field using the format below"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Click \"Split PDF\" to extract the selected pages",
+          "text": "Click \"Split PDF\" to extract the selected pages"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "The new PDF containing only your selected pages downloads...",
+          "text": "The new PDF containing only your selected pages downloads automatically"
+        }
+      ]
+    }
+    </script>
 
     <!-- pdf-lib Library -->
     <script defer src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>

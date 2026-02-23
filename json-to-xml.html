@@ -89,6 +89,82 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How are JSON arrays converted to XML?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "JSON arrays become repeated XML elements. For example, {\"items\": [\"a\", \"b\", \"c\"]} becomes <items>a</items><items>b</items><items>c</items>. Arrays of objects produce repeated elements where each element contains the object's properties as child elements."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I control the root element name?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The root element name is determined by the top-level key in your JSON object. To set a specific root element name, wrap your JSON in an object with the desired name as the key: {\"myRootElement\": {your data}}."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my JSON data private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All conversion happens in your browser using JavaScript. Your JSON data is never uploaded to any server or stored anywhere."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to sign up to use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration required."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use JSON to XML Converter | Transform JSON to XML Online",
+      "description": "Step-by-step guide to using the free online JSON to XML Converter | Transform JSON to XML tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste your JSON object into the input area on the left",
+          "text": "Paste your JSON object into the input area on the left"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "The XML output appears automatically on the right",
+          "text": "The XML output appears automatically on the right"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click \"Copy\" to copy the XML to your clipboard",
+          "text": "Click \"Copy\" to copy the XML to your clipboard"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Click \"Download XML\" to save as a file",
+          "text": "Click \"Download XML\" to save as a file"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

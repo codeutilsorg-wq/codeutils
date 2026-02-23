@@ -87,6 +87,82 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What characters can be translated to Morse code?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The translator supports all 26 English letters (A-Z), digits 0-9, and common punctuation. Letters are separated by spaces in Morse code, and words are separated by forward slashes or double spaces."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the standard Morse code separator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In this tool, dots (.) and dashes (-) represent dit and dah signals. A single space separates letters within a word, and a forward slash (/) or triple space separates words."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All translation happens entirely in your browser. No text is sent to any server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an account?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration required."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Morse Code Translator Online",
+      "description": "Step-by-step guide to the free online Morse Code Translator tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Type your text in the input field to convert it to Morse ...",
+          "text": "Type your text in the input field to convert it to Morse code"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Or paste Morse code (dots and dashes) to convert back to ...",
+          "text": "Or paste Morse code (dots and dashes) to convert back to text"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click \"Text to Morse\" or \"Morse to Text\" to perform the c...",
+          "text": "Click \"Text to Morse\" or \"Morse to Text\" to perform the conversion"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Copy the result using the Copy button",
+          "text": "Copy the result using the Copy button"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

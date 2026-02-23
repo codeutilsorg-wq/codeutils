@@ -58,6 +58,103 @@
         }
     </script>
 
+    
+    <!-- Structured Data: WebApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "HTML to Markdown Converter - Code Utils",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Free HTML to Markdown converter. Convert HTML content to Markdown format. Preserves formatting and links.",
+      "url": "https://codeutils.org/html-to-markdown",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "softwareVersion": "1.0"
+    }
+    </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my content safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All HTML to Markdown conversion happens entirely in your browser using JavaScript. Your HTML content never leaves your computer and is never uploaded to any server. This makes our tool safe for converting confidential articles, internal documentation, and proprietary content."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What HTML elements cannot be converted to Markdown?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Some HTML features have no Markdown equivalent: tables with merged cells (rowspan/colspan), complex CSS styling, colored text, custom fonts, and most HTML form elements. These elements are either simplified, stripped, or preserved as raw HTML in the output. Standard content elements—headings, paragraphs, lists, links, images, code—all convert cleanly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I convert a full web page including navigation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, but the result will include all page elements including menus, footers, and sidebars. For best results, copy only the main content HTML rather than the full page source. Use browser DevTools to copy the HTML of just the article or content area you want to convert."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start converting HTML immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use HTML to Markdown Converter Online",
+      "description": "Step-by-step guide to the free online HTML to Markdown Converter tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Copy HTML source from your browser (Ctrl+U for page sourc...",
+          "text": "Copy HTML source from your browser (Ctrl+U for page source), text editor, or CMS"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Paste it into the HTML input area on the left",
+          "text": "Paste it into the HTML input area on the left"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "The Markdown output appears instantly in the panel on the...",
+          "text": "The Markdown output appears instantly in the panel on the right"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Review the Markdown and copy or download it",
+          "text": "Review the Markdown and copy or download it"
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="css/common.css">
 </head>
 <body>

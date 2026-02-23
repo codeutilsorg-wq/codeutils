@@ -89,6 +89,82 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What structure does the XML output use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The output wraps all rows in a root element (default: <data>). Each CSV row becomes a child element (default: <row>). Each cell value becomes a child element of the row, named after the column header. For example, a row with name=\"John\", age=\"30\" produces: <row><name>John</name><age>30</age></row>."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if my CSV has no header row?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The first row is used as column names for XML element names. If your CSV has no headers, add a header row first, or the data values will be used as element names—which may not produce valid XML if the values contain spaces or special characters."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my CSV data private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All conversion happens in your browser using JavaScript. Your data is never uploaded to any server or stored anywhere."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to sign up to use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration required."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use CSV to XML Converter | Convert Spreadsheets Online",
+      "description": "Step-by-step guide to using the free online CSV to XML Converter | Convert Spreadsheets tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste your CSV data (with headers in the first row) into ...",
+          "text": "Paste your CSV data (with headers in the first row) into the input area"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "The XML output appears automatically on the right",
+          "text": "The XML output appears automatically on the right"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Customize root and row element names if needed",
+          "text": "Customize root and row element names if needed"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Click \"Copy\" or \"Download XML\" to use the result",
+          "text": "Click \"Copy\" or \"Download XML\" to use the result"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

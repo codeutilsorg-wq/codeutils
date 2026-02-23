@@ -87,6 +87,82 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What Unicode formats does this tool support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The converter supports JavaScript/Java/C Unicode escapes (\\uXXXX), Python-style long escapes (\\UXXXXXXXX for code points above U+FFFF), HTML numeric entities (&#xXXXX;), and CSS escapes. Input and output formats can be mixed."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I convert emoji and non-Latin characters?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The tool handles the full Unicode range including emoji, Chinese, Arabic, Devanagari, and other scripts. Emoji and characters above U+FFFF use surrogate pairs in 16-bit escape formats."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my text private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All conversion happens in your browser. No data is uploaded to any server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an account?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Completely free with no sign-up."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Unicode Converter Online",
+      "description": "Step-by-step guide to the free online Unicode Converter tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Type or paste your text in the input area",
+          "text": "Type or paste your text in the input area"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "The tool shows Unicode code points (U+XXXX format) for ea...",
+          "text": "The tool shows Unicode code points (U+XXXX format) for each character"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Switch between Unicode escape formats: \\uXXXX, \\UXXXXXXXX...",
+          "text": "Switch between Unicode escape formats: \\uXXXX, \\UXXXXXXXX, or HTML entities"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Copy the converted output with one click",
+          "text": "Copy the converted output with one click"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

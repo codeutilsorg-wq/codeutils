@@ -87,6 +87,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my regex and test data safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All regex processing happens entirely in your browser using JavaScript's built-in RegExp engine. Your patterns and test data never leave your computer and are never uploaded to any server. This makes our tool safe for testing patterns against sensitive log data, user information, and proprietary content."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this tool use JavaScript regex syntax?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, this tool uses JavaScript's built-in regular expression engine. JavaScript regex syntax is compatible with many other environments but has some differences from PCRE (used in PHP, Python) and POSIX regex (used in grep). Key differences include: JavaScript does not support lookbehind in older browsers, uses different syntax for named groups, and has a different set of supported flags."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my pattern work here but not in my code?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This is usually a flag issue—check that you are using the same flags in both places. It can also be a string escaping issue—when writing regex as a string literal in code, backslashes need to be doubled (\\\\d instead of \\d). If using a regex literal (/pattern/), no extra escaping is needed. This tool uses regex literal syntax, so patterns entered here can be used directly in code as regex literals."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start testing regex immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free Regex Tester | Test Regular Expressions Live Online",
+      "description": "Step-by-step guide to using the free online Free Regex Tester | Test Regular Expressions Live tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Enter your test string in the \"Test String\" text area",
+          "text": "Enter your test string in the \"Test String\" text area"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Type your regular expression pattern in the \"Pattern\" inp...",
+          "text": "Type your regular expression pattern in the \"Pattern\" input field"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Toggle flags (g, i, m, s) as needed using the flag buttons",
+          "text": "Toggle flags (g, i, m, s) as needed using the flag buttons"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Matches will highlight in real time in the test string area",
+          "text": "Matches will highlight in real time in the test string area"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Review the match details panel to see captured groups and...",
+          "text": "Review the match details panel to see captured groups and match positions"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

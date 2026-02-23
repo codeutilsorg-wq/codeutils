@@ -87,6 +87,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my TypeScript code safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All TypeScript formatting happens entirely in your browser using JavaScript. Your code—including proprietary business logic, API client configurations, and type definitions—never leaves your computer and is never uploaded to any server. You can safely format sensitive TypeScript code without any privacy concerns."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this tool support TSX (TypeScript + JSX) files?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! This formatter correctly handles TSX files that combine TypeScript with JSX syntax for React components. Both the TypeScript type annotations and the JSX markup will be properly formatted and indented."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does this differ from running Prettier or ESLint?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Prettier and ESLint are command-line tools you install and configure per project. This tool requires zero installation or configuration—paste your TypeScript and format instantly in the browser. It is ideal for quick formatting tasks, formatting snippets from other sources, and situations where you do not have your local toolchain available."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start using the TypeScript formatter immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free TypeScript Formatter | Format TS Code Online Online",
+      "description": "Step-by-step guide to using the free online Free TypeScript Formatter | Format TS Code Online tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Copy your TypeScript code from your editor, generated typ...",
+          "text": "Copy your TypeScript code from your editor, generated type definitions, or API client"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Paste it into the input text area on the left side",
+          "text": "Paste it into the input text area on the left side"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click \"Format\" to beautify or \"Minify\" to compact the code",
+          "text": "Click \"Format\" to beautify or \"Minify\" to compact the code"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "The formatted output appears instantly in the output area...",
+          "text": "The formatted output appears instantly in the output area on the right"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Copy or download the result as needed",
+          "text": "Copy or download the result as needed"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

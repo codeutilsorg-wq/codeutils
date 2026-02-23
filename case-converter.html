@@ -89,6 +89,82 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can the converter handle text that is already in a specific case format?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The converter first splits the input text into individual words by detecting boundaries at spaces, underscores, hyphens, and dots—regardless of the current casing. It then reassembles the words in the target format. So \"myVariableName\", \"my-variable-name\", and \"my_variable_name\" all split into the same words before conversion."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Title Case capitalize every word including articles?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, the Title Case conversion capitalizes the first letter of every word, including small words like \"a\", \"an\", \"the\", \"and\", \"or\". For strict AP Style or Chicago Style title case (which lowercases certain prepositions and conjunctions), you would need to manually adjust a few words after conversion."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my text private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All conversion happens in your browser using JavaScript. Your text is never sent to any server, stored, or transmitted anywhere."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account to use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration required."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Case Converter | Upper, Lower, Camel, Snake Case Online",
+      "description": "Step-by-step guide to using the free online Case Converter | Upper, Lower, Camel, Snake Case tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Type or paste your text into the input area",
+          "text": "Type or paste your text into the input area"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Click any of the case conversion buttons (e.g., \"camelCas...",
+          "text": "Click any of the case conversion buttons (e.g., \"camelCase\", \"snake_case\", \"Title Case\")"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "The converted text appears in the output area instantly",
+          "text": "The converted text appears in the output area instantly"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Click \"Copy\" to copy the result to your clipboard",
+          "text": "Click \"Copy\" to copy the result to your clipboard"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

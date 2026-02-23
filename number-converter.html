@@ -87,6 +87,76 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Which number bases does this tool support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The tool converts between Binary (base 2), Octal (base 8), Decimal (base 10), and Hexadecimal (base 16). These are the four bases most commonly used in computing and digital electronics."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I enter negative numbers?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The converter handles non-negative integers. Negative numbers and floating-point values are not supported in this version."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All conversions happen in your browser using JavaScript. Nothing is sent to any server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an account?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Completely free with no registration."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Number Base Converter Online",
+      "description": "Step-by-step guide to the free online Number Base Converter tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Enter a number in any base field (Binary, Octal, Decimal,...",
+          "text": "Enter a number in any base field (Binary, Octal, Decimal, or Hexadecimal)"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "The tool instantly converts and displays the equivalent v...",
+          "text": "The tool instantly converts and displays the equivalent value in all other bases"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Copy any converted value by clicking next to the field",
+          "text": "Copy any converted value by clicking next to the field"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

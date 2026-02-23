@@ -89,6 +89,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What JSON structure does this converter accept?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The converter expects a JSON array of objects—for example [{...}, {...}, {...}]. Each object in the array becomes one row in the CSV. If your JSON is a single object, wrap it in an array first: [{your object}]."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens with nested objects and arrays?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "By default, nested objects are serialized as JSON strings in a single cell. Enable the \"Flatten nested\" option to convert nested objects to dot-notation columns (e.g., user.name, user.address.city). Nested arrays are always serialized as JSON strings since CSV does not support array values natively."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my JSON data private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All conversion happens in your browser using JavaScript. Your JSON data is never uploaded to any server, stored, or transmitted anywhere."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to sign up to use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration required."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use JSON to CSV Converter | Convert JSON to Excel Online",
+      "description": "Step-by-step guide to using the free online JSON to CSV Converter | Convert JSON to Excel tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste your JSON array of objects into the input area (eac...",
+          "text": "Paste your JSON array of objects into the input area (each object becomes one CSV row)"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Select your preferred delimiter (comma is standard; use s...",
+          "text": "Select your preferred delimiter (comma is standard; use semicolon for European locales)"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Choose whether to include a header row and whether to fla...",
+          "text": "Choose whether to include a header row and whether to flatten nested objects"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Click \"Convert\" to generate the CSV output",
+          "text": "Click \"Convert\" to generate the CSV output"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Click \"Copy\" or \"Download CSV\" to use the result",
+          "text": "Click \"Copy\" or \"Download CSV\" to use the result"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

@@ -87,6 +87,82 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the difference between \"Trim lines\" and \"Trim document\"?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "\"Trim lines\" removes spaces and tabs from the start and end of every individual line in the text. \"Trim document\" removes whitespace from the very beginning and very end of the entire text block. Both options can be enabled together to trim both individual lines and the document as a whole."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will \"Collapse multiple newlines\" remove all blank lines?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. \"Collapse multiple newlines\" reduces three or more consecutive newlines to two (one blank line), preserving paragraph breaks. To remove all blank lines completely, use the \"Remove empty lines\" option instead, which deletes any line that is blank or contains only whitespace."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my text safe to paste here?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All whitespace cleaning happens entirely in your browser using JavaScript. Your text is never uploaded to any server, stored, or transmitted anywhere. The tool is safe to use with confidential documents, source code, and sensitive data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an account to use this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. This tool is completely free with no registration or sign-up required. Paste your text and start cleaning immediately—no limits on usage."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free Whitespace Remover | Remove Extra Spaces & Tabs Online",
+      "description": "Step-by-step guide to using the free online Free Whitespace Remover | Remove Extra Spaces & Tabs tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste your text into the input area",
+          "text": "Paste your text into the input area"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Select the specific whitespace options you want to apply—...",
+          "text": "Select the specific whitespace options you want to apply—each checkbox controls one type of cleanup"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click \"Clean Whitespace\" to process the text",
+          "text": "Click \"Clean Whitespace\" to process the text"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Review the output, then click \"Copy Output\" to use the cl...",
+          "text": "Review the output, then click \"Copy Output\" to use the cleaned text"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

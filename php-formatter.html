@@ -87,6 +87,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my PHP code safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All PHP formatting happens entirely in your browser using JavaScript. Your code—including any database credentials, API keys, or business logic it contains—never leaves your computer and is never uploaded to any server. This makes our tool completely safe for proprietary applications and code containing sensitive configuration values."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can this tool format PHP mixed with HTML?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! The formatter handles PHP files that mix PHP code blocks with HTML markup, which is common in WordPress themes and older PHP applications. Both the PHP logic sections and the HTML template portions will be properly indented according to their context."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does formatting change the behavior of my PHP code?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No—formatting only adds or removes whitespace and adjusts indentation, never changing the actual code logic, variable names, or functionality. The formatted PHP is syntactically and functionally identical to the original. However, always test your application after formatting to verify everything works as expected, especially for complex heredoc strings and formatted output strings."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start using the PHP formatter immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free PHP Formatter & Beautifier | Format PHP Code Online Online",
+      "description": "Step-by-step guide to using the free online Free PHP Formatter & Beautifier | Format PHP Code Online tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Copy your PHP code from your editor, FTP client, or serve...",
+          "text": "Copy your PHP code from your editor, FTP client, or server file"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Paste it into the input text area on the left side",
+          "text": "Paste it into the input text area on the left side"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click \"Format\" to beautify or \"Minify\" to compact the code",
+          "text": "Click \"Format\" to beautify or \"Minify\" to compact the code"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "The formatted output appears instantly in the output area...",
+          "text": "The formatted output appears instantly in the output area on the right"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Copy or download the result as needed",
+          "text": "Copy or download the result as needed"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

@@ -87,6 +87,76 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why do so many user agents start with \"Mozilla/5.0\"?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This is a historical artifact. In the early web, websites served different content to different browsers. To receive the best content, browsers pretended to be compatible with Mozilla (Netscape) by including \"Mozilla/5.0\" in their user agent. This convention stuck—even modern Chrome, Edge, and Safari include \"Mozilla/5.0\" at the start of their user agent strings for compatibility."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use this to identify mobile vs desktop visitors?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The parser identifies device type (Desktop, Mobile, Tablet) from the user agent string. Mobile browsers include tokens like \"Mobile\" and device identifiers, while desktop browsers do not. This is the most common use case for server-side user agent parsing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my user agent string private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Your user agent string is parsed entirely in your browser with no data sent to any server. However, note that your browser automatically sends your user agent to every website you visit as part of the HTTP request—it is public information, not a privacy concern."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an account to use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration required."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free User Agent Parser | Detect Browser, OS & Device Online",
+      "description": "Step-by-step guide to using the free online Free User Agent Parser | Detect Browser, OS & Device tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Click \"Use My User Agent\" to automatically load your brow...",
+          "text": "Click \"Use My User Agent\" to automatically load your browser's current user agent string"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "The tool immediately parses and displays all detected com...",
+          "text": "The tool immediately parses and displays all detected components"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Use this to verify what information your browser is sendi...",
+          "text": "Use this to verify what information your browser is sending to websites"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

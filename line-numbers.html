@@ -87,6 +87,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What line number formats does \"Remove Line Numbers\" recognize?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The tool recognizes common patterns including \"1: text\", \"01. text\", \"1) text\", \"1> text\", \"1| text\", and \"1 text\" (number followed by a space). It removes the numeric prefix and separator from the start of each line, leaving the original content intact."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I add line numbers starting from a number other than 1?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Set the \"Start at\" field to any number. This is useful when numbering a continuation of a document, or when your content is an excerpt from a larger file and you want the numbers to reflect the original positions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my text safe to paste here?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All processing is done entirely in your browser using JavaScript. Your text is never uploaded to any server, stored, or transmitted. This makes the tool safe for confidential documents, source code, and sensitive data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to sign up or pay to use this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration or account required. Just paste your text and add or remove line numbers immediately."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free Line Number Adder | Add & Remove Line Numbers Online Online",
+      "description": "Step-by-step guide to using the free online Free Line Number Adder | Add & Remove Line Numbers Online tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste or type your text into the input area",
+          "text": "Paste or type your text into the input area"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Set the Start at number (default is 1—change this if your...",
+          "text": "Set the Start at number (default is 1—change this if your text continues from a previous page)"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Set the Separator character(s) that will appear between t...",
+          "text": "Set the Separator character(s) that will appear between the number and the text (default is \": \")"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Check \"Pad numbers\" if you want zero-padded alignment (e....",
+          "text": "Check \"Pad numbers\" if you want zero-padded alignment (e.g., 01, 02, ...10)"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Check \"Skip empty lines\" if you want blank lines to remai...",
+          "text": "Check \"Skip empty lines\" if you want blank lines to remain unnumbered"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

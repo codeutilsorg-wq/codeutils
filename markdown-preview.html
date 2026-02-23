@@ -87,6 +87,82 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my content safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All Markdown rendering happens entirely in your browser using JavaScript. Your content—including drafts, documentation, and any sensitive information in your notes—never leaves your computer and is never uploaded to any server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which Markdown flavor does this tool support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This tool uses GitHub-Flavored Markdown (GFM), which is the most widely used Markdown specification. GFM extends the original Markdown spec with tables, task lists, strikethrough, auto-linking of URLs, and fenced code blocks. This makes it compatible with GitHub, GitLab, many documentation platforms, and most modern Markdown processors."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use this to convert Markdown to HTML for my website?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! The \"Copy HTML\" button exports the complete rendered HTML from your Markdown, which you can embed directly in web pages. This is useful for converting Markdown content to HTML for static websites, email newsletters, and any platform that accepts HTML input. For our dedicated Markdown to HTML converter with more export options, see the Markdown to HTML tool."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start previewing Markdown immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free Markdown Preview Editor | Live HTML Preview Online",
+      "description": "Step-by-step guide to using the free online Free Markdown Preview Editor | Live HTML Preview tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Type or paste your Markdown content into the editor on th...",
+          "text": "Type or paste your Markdown content into the editor on the left"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "The rendered preview updates in real time in the panel on...",
+          "text": "The rendered preview updates in real time in the panel on the right"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Use the split-screen view to write and preview simultaneo...",
+          "text": "Use the split-screen view to write and preview simultaneously"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Toggle to full-screen preview to see the final result wit...",
+          "text": "Toggle to full-screen preview to see the final result without distractions"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

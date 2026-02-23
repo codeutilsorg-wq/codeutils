@@ -58,6 +58,109 @@
         }
     </script>
 
+    
+    <!-- Structured Data: WebApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "CSS Gradient Generator - Code Utils",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Free CSS gradient generator. Create linear and radial gradients visually. Get CSS code instantly.",
+      "url": "https://codeutils.org/gradient-generator",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "softwareVersion": "1.0"
+    }
+    </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What CSS gradient types does this tool support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The tool generates linear-gradient() (directional), radial-gradient() (circular/elliptical), and conic-gradient() (sweep around a center point) CSS gradients. All are supported in modern browsers including Chrome, Firefox, Safari, and Edge."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I add more than two colors to my gradient?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Click anywhere on the gradient bar to add a new color stop at that position. You can add as many stops as you want—each stop can have its own color and position. There is no limit to the number of color stops."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my gradient data saved?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The gradient editor state is maintained while you are on the page but is not saved between sessions. To preserve a gradient, copy the CSS and save it in your project. The tool does not send any data to a server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account to use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration or account required. Open the page and start creating gradients immediately."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use CSS Gradient Generator Online",
+      "description": "Step-by-step guide to the free online CSS Gradient Generator tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Select a gradient type: Linear, Radial, or Conic",
+          "text": "Select a gradient type: Linear, Radial, or Conic"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "For linear gradients, choose a direction preset or enter ...",
+          "text": "For linear gradients, choose a direction preset or enter a custom angle"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click a color stop marker on the gradient bar to select i...",
+          "text": "Click a color stop marker on the gradient bar to select it, then use the color picker to set its color"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Click anywhere on the gradient bar to add a new color sto...",
+          "text": "Click anywhere on the gradient bar to add a new color stop at that position"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Drag stops left or right to reposition them",
+          "text": "Drag stops left or right to reposition them"
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="css/common.css">
     <style>
         .gradient-preview {

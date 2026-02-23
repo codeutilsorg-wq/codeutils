@@ -89,6 +89,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my configuration data safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All YAML formatting and validation happens entirely in your browser using JavaScript. Your configuration files—including any secrets, API keys, database credentials, or infrastructure details they may contain—never leave your computer and are never uploaded to any server. This tool is completely safe to use with sensitive DevOps configurations."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between .yaml and .yml files?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Both .yaml and .yml are identical file formats—they use the same syntax and are processed identically. The difference is purely conventional. .yml is older and common in tools like Docker Compose and Ruby on Rails. .yaml is the official file extension recommended by the YAML specification. Either works fine, and this tool handles both equally well."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does YAML validation fail when my file looks correct?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The most common YAML errors are: (1) mixed tabs and spaces for indentation, (2) unquoted strings containing special characters like colons or hash signs, (3) incorrect list item formatting, and (4) duplicate keys at the same level. Paste your YAML into this tool to see the exact error and location, making it easier to fix."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start formatting YAML immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free YAML Formatter & Validator | Fix YAML Indentation Online",
+      "description": "Step-by-step guide to using the free online Free YAML Formatter & Validator | Fix YAML Indentation tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Copy your YAML from your text editor, CI/CD configuration...",
+          "text": "Copy your YAML from your text editor, CI/CD configuration, or infrastructure file"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Paste it into the input text area on the left side",
+          "text": "Paste it into the input text area on the left side"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click \"Format\" to beautify and validate the YAML",
+          "text": "Click \"Format\" to beautify and validate the YAML"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "The formatted output appears on the right, or an error me...",
+          "text": "The formatted output appears on the right, or an error message shows if the YAML is invalid"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Copy or download the formatted result",
+          "text": "Copy or download the formatted result"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

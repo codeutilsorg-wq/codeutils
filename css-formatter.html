@@ -87,6 +87,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my CSS code safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All CSS formatting happens entirely in your browser using JavaScript. Your stylesheets never leave your computer and are never uploaded to any server. This makes our tool completely safe for proprietary CSS, internal design systems, and stylesheets containing business-sensitive class names. You can even use this tool offline after the initial page load."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I format SCSS or LESS files with this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This tool is optimized for standard CSS. Basic SCSS syntax may partially format, but SCSS-specific features like nesting and variables are not fully supported. For standard CSS output compiled from SCSS/LESS, this tool works perfectly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much can minifying CSS reduce file size?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CSS minification typically reduces file size by 20-50%, depending on how many comments and whitespace characters are in the original. Stylesheets with extensive comments can see reductions of 60% or more. When combined with gzip compression on your server, the savings are even greater."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start using the CSS formatter immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use CSS Formatter | Beautify & Minify CSS Online Online",
+      "description": "Step-by-step guide to using the free online CSS Formatter | Beautify & Minify CSS Online tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Copy your CSS from your text editor, browser DevTools, or...",
+          "text": "Copy your CSS from your text editor, browser DevTools, or CDN source"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Paste it into the input text area on the left side",
+          "text": "Paste it into the input text area on the left side"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click the \"Format\" button to beautify or \"Minify\" to comp...",
+          "text": "Click the \"Format\" button to beautify or \"Minify\" to compact the CSS"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "The formatted output appears instantly in the output area...",
+          "text": "The formatted output appears instantly in the output area on the right"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Use the \"Copy\" button to copy the result or \"Download\" to...",
+          "text": "Use the \"Copy\" button to copy the result or \"Download\" to save it"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

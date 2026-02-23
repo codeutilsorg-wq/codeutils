@@ -87,6 +87,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the difference between TSV and CSV?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Both are plain-text tabular data formats. CSV uses commas to separate columns; TSV uses tab characters. TSV is simpler to parse (tabs are almost never used in data values) but less common in file exports. The most practical advantage of TSV is that it handles data containing commas without needing to quote the values."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does copying from Excel produce TSV instead of CSV?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Excel uses tab as the clipboard delimiter when you copy cells because it avoids ambiguity—data values often contain commas, but almost never contain tab characters. When you paste copied Excel cells into a text editor, you see tab characters between columns. This tool accepts that clipboard format directly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my TSV data private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All conversion happens in your browser using JavaScript. Your data is never uploaded to any server or stored anywhere."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an account to use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration required."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free TSV to JSON Converter | Tab-Separated to JSON Online",
+      "description": "Step-by-step guide to using the free online Free TSV to JSON Converter | Tab-Separated to JSON tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Select the cells in Excel or Google Sheets that you want ...",
+          "text": "Select the cells in Excel or Google Sheets that you want to convert"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Copy them with Ctrl+C (the data is automatically tab-sepa...",
+          "text": "Copy them with Ctrl+C (the data is automatically tab-separated)"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Paste into the input area of this tool",
+          "text": "Paste into the input area of this tool"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "The JSON output appears automatically",
+          "text": "The JSON output appears automatically"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Copy or download the JSON result",
+          "text": "Copy or download the JSON result"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

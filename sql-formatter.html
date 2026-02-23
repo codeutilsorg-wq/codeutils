@@ -87,6 +87,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my SQL and database data safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All SQL formatting happens entirely in your browser using JavaScript. Your queries—and any data or credentials they may contain—never leave your computer and are never uploaded to any server. This is particularly important when working with queries containing sensitive table names, column names, or example data from production databases."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What SQL dialects does this tool support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Our SQL formatter supports standard SQL syntax and handles common conventions from major database systems including MySQL, PostgreSQL, SQLite, and T-SQL (SQL Server). It correctly formats SELECT, INSERT, UPDATE, DELETE, CREATE TABLE, ALTER TABLE, JOINs, CTEs, window functions, and subqueries. Some database-specific functions may format as generic SQL."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will formatting change my SQL logic or results?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! SQL formatting only adds whitespace, line breaks, and changes keyword capitalization—it never modifies the actual query logic, table/column names, or values. The formatted SQL is semantically identical to the original and will produce exactly the same results when executed. SQL is not whitespace-sensitive, so formatting is always safe."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start formatting SQL immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free SQL Formatter & Beautifier | Format SQL Queries Online",
+      "description": "Step-by-step guide to using the free online Free SQL Formatter & Beautifier | Format SQL Queries tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Copy your SQL query from your database client, ORM output...",
+          "text": "Copy your SQL query from your database client, ORM output, or code editor"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Paste it into the input text area on the left side",
+          "text": "Paste it into the input text area on the left side"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click \"Format\" to beautify the SQL",
+          "text": "Click \"Format\" to beautify the SQL"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "The formatted query appears instantly in the output area ...",
+          "text": "The formatted query appears instantly in the output area on the right"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Copy the result to use in your database client, documenta...",
+          "text": "Copy the result to use in your database client, documentation, or code review"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

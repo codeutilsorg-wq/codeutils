@@ -98,6 +98,29 @@
       "softwareVersion": "2.0"
     }
     </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use QR Code Generator | Create Custom QR Codes with Logo & Gradients Online",
+      "description": "Step-by-step guide to using the free online QR Code Generator | Create Custom QR Codes with Logo & Gradients tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste or type the content you want to encode (URL, text, ...",
+          "text": "Paste or type the content you want to encode (URL, text, contact info, etc.)"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Content can be up to 4,296 characters",
+          "text": "Content can be up to 4,296 characters"
+        }
+      ]
+    }
+    </script>
 
     <!-- Structured Data: FAQ Schema -->
     <script type="application/ld+json">
@@ -2370,8 +2393,8 @@
                 const bgColor = document.getElementById('bgColor').value;
 
             try {
-                // Determine QR code type/version based on content length
-                const typeNumber = content.length > 100 ? 0 : 4; // 0 = auto
+                // Always use 0 (auto) to let the library pick the right QR version
+                const typeNumber = 0;
 
                 const qr = qrcode(typeNumber, errorCorrectionLevel);
                 qr.addData(content);

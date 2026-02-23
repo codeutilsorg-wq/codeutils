@@ -87,6 +87,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How does the Numeric sort work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Numeric sort extracts the first number it finds in each line (including negative numbers and decimals) and sorts by that value. If no number is found in a line, it defaults to 0. This means \"Item 10\" and \"Item 9\" will sort correctly as 9 then 10, rather than the alphabetical \"Item 10\" before \"Item 9\"."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I sort very large lists?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The tool runs entirely in your browser using JavaScript's built-in sort algorithms, which are highly optimized. Lists with thousands of lines sort in milliseconds. For very large inputs (tens of thousands of lines), there may be a brief delay, but there is no hard limit imposed by the tool."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data safe to paste here?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, completely. All sorting happens entirely in your browser. Your text is never uploaded to any server, stored in a database, or transmitted anywhere. This makes the tool safe to use with confidential lists, customer data, or any sensitive information."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account to use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration, sign-up, or account required. Paste your list and sort immediately—no limits on usage."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free Text Sorter | Sort Lines Alphabetically & Numerically Online",
+      "description": "Step-by-step guide to using the free online Free Text Sorter | Sort Lines Alphabetically & Numerically tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Type or paste your list into the input area—one item per ...",
+          "text": "Type or paste your list into the input area—one item per line"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Choose your Sort by option: Alphabetical, Numeric, Length...",
+          "text": "Choose your Sort by option: Alphabetical, Numeric, Length, or Random"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Choose the Order: Ascending (A-Z, 1-9, shortest first) or...",
+          "text": "Choose the Order: Ascending (A-Z, 1-9, shortest first) or Descending (Z-A, 9-1, longest first)"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Enable optional settings like Case insensitive, Remove du...",
+          "text": "Enable optional settings like Case insensitive, Remove duplicates, or Trim whitespace as needed"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Click Sort to see the sorted result in the output panel",
+          "text": "Click Sort to see the sorted result in the output panel"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

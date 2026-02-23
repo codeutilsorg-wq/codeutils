@@ -87,6 +87,82 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does this tool work with HTML as well as XML?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The tool parses HTML input using the browser's built-in DOMParser and evaluates XPath against it. This makes it useful for testing Selenium/Playwright locators and web scraping expressions directly against page HTML."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between XPath and CSS selectors?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Both select elements in an HTML/XML document. CSS selectors are simpler and widely supported in browsers and scraping tools, but XPath is more powerful—it can select by text content, navigate up to parent elements, and work with any XML document, not just HTML. Use XPath when CSS selectors cannot express the selection you need."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my XML/HTML data safe to paste here?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All XPath evaluation happens entirely in your browser. Your document is never uploaded to any server, stored, or transmitted. This makes the tool safe to use with proprietary data, internal HTML, and sensitive XML documents."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an account to use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration required."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free XPath Tester | Test XPath Expressions Online Online",
+      "description": "Step-by-step guide to using the free online Free XPath Tester | Test XPath Expressions Online tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste your XML or HTML document into the input area",
+          "text": "Paste your XML or HTML document into the input area"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Enter your XPath expression in the expression field",
+          "text": "Enter your XPath expression in the expression field"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click \"Test XPath\" to evaluate the expression",
+          "text": "Click \"Test XPath\" to evaluate the expression"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Matching nodes or values appear in the Results panel",
+          "text": "Matching nodes or values appear in the Results panel"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

@@ -89,6 +89,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does the converter handle CSV files with quoted fields containing commas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The converter correctly parses RFC 4180-compliant CSV where fields containing commas, newlines, or double quotes are enclosed in double quotes. For example, \"Smith, John\" is treated as a single field, not split at the comma."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if my CSV has no header row?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Uncheck the \"First row is headers\" option. The converter will generate numeric keys (0, 1, 2...) for each column instead of using the first row as keys."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my CSV data private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All conversion happens in your browser using JavaScript. Your data is never uploaded to any server, stored, or transmitted anywhere."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to sign up to use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration required."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use CSV to JSON Converter | Convert Spreadsheets Online",
+      "description": "Step-by-step guide to using the free online CSV to JSON Converter | Convert Spreadsheets tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Copy your CSV data from Excel, Google Sheets, or any text...",
+          "text": "Copy your CSV data from Excel, Google Sheets, or any text editor"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Paste it into the input area",
+          "text": "Paste it into the input area"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "The delimiter is auto-detected, or you can select it manu...",
+          "text": "The delimiter is auto-detected, or you can select it manually"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Enable \"Parse numbers\" and \"Parse booleans\" if you want p...",
+          "text": "Enable \"Parse numbers\" and \"Parse booleans\" if you want proper JSON types"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Click \"Convert\" to generate JSON output",
+          "text": "Click \"Convert\" to generate JSON output"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

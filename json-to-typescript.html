@@ -82,6 +82,82 @@
       "url": "https://codeutils.org/json-to-typescript"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my JSON data safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All JSON to TypeScript conversion happens entirely in your browser using JavaScript. Your JSON data—including API response samples, database records, and configuration objects—never leaves your computer and is never uploaded to any server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the tool handle arrays with different object shapes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "When an array contains objects with different shapes (union types), the generator creates a union interface that includes all fields found across all array items, marking fields that do not appear in all items as optional. For cleaner handling of true union types, review the generated output and manually refine the interface to explicitly define the union type with separate interfaces for each variant."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can this tool generate Zod schemas or other validation schemas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This tool generates TypeScript interface declarations (static type checking only). For runtime validation schemas like Zod, io-ts, or Yup, you would need to manually convert the generated TypeScript interfaces or use a dedicated schema generation tool."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start generating TypeScript interfaces immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free JSON to TypeScript Converter | Generate TS Interfaces Online",
+      "description": "Step-by-step guide to using the free online Free JSON to TypeScript Converter | Generate TS Interfaces tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste your JSON object into the input area on the left",
+          "text": "Paste your JSON object into the input area on the left"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Enter a name for the root interface in the interface name...",
+          "text": "Enter a name for the root interface in the interface name field (e.g., \"ApiResponse\", \"User\", \"Product\")"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "The TypeScript interface generates automatically in the o...",
+          "text": "The TypeScript interface generates automatically in the output panel"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Copy the generated interfaces to paste into your TypeScri...",
+          "text": "Copy the generated interfaces to paste into your TypeScript project"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

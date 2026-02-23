@@ -87,6 +87,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my Python code safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All Python formatting happens entirely in your browser using JavaScript. Your code—including any API keys, database connection strings, or proprietary algorithms—never leaves your computer and is never uploaded to any server. This makes our tool safe for formatting sensitive scripts and internal applications."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this tool format Python 2 and Python 3 code?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, this formatter handles both Python 2 and Python 3 syntax. The formatting rules applied follow PEP 8, which applies to both versions. However, this tool focuses on indentation and spacing rather than converting between Python 2 and 3 syntax—it will not automatically update print statements, division operators, or other Python 2/3 incompatibilities."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is this different from Black or autopep8?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Black and autopep8 are command-line tools that you install and run locally on your machine. This tool requires no installation—just paste your code in the browser and format instantly. It is ideal for quick formatting tasks, sharing code snippets, and situations where you do not have access to your local development environment."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start using the Python formatter immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free Python Formatter & Beautifier | PEP8 Formatter Online",
+      "description": "Step-by-step guide to using the free online Free Python Formatter & Beautifier | PEP8 Formatter tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Copy your Python code from your editor, Jupyter notebook,...",
+          "text": "Copy your Python code from your editor, Jupyter notebook, or script file"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Paste it into the input text area on the left side",
+          "text": "Paste it into the input text area on the left side"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click \"Format\" to apply PEP 8 formatting",
+          "text": "Click \"Format\" to apply PEP 8 formatting"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "The formatted output appears instantly in the output area...",
+          "text": "The formatted output appears instantly in the output area on the right"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Copy or download the result as needed",
+          "text": "Copy or download the result as needed"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

@@ -73,6 +73,111 @@
     <!-- Terser Library for JS Minification -->
     <script defer src="https://cdn.jsdelivr.net/npm/terser@5.26.0/dist/bundle.min.js"></script>
 
+    
+    <!-- Structured Data: WebApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Optimize JavaScript Code Online - Free JS Code Optimizer & Minifier - Code Utils",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Optimize and compress JavaScript code to reduce file size and improve performance. Free online JS optimizer with minification, dead code removal, and variable mangling. No signup required, 100% client-side processing.",
+      "url": "https://codeutils.org/javascript-optimizer",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "softwareVersion": "1.0"
+    }
+    </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my code safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A: Yes! All JavaScript optimization happens entirely in your browser using the Terser library. Your code never leaves your computer and is never uploaded to any server. We don't store, log, or transmit your code in any way. This makes our tool completely safe for proprietary code, client projects, or sensitive scripts."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will optimization break my code?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A: Terser is battle-tested and used by millions of developers in production. It's the same minifier used by webpack, Next.js, and other major tools. However, always test optimized code before deploying. Some edge cases (like code relying on specific function names) may need adjustments."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between minification and optimization?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A: Minification removes whitespace and shortens code. Optimization goes further by removing dead code, simplifying expressions, and making the code more efficient. This tool does both - minifying for size and optimizing for performance."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I reverse the optimization?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A: No, minification is one-way. Variable names are lost during mangling. Always keep your original source code. Use this tool only on copies destined for production, never on your only copy of the code."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much smaller will my code be?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A: Typical reduction is 40-60% for well-formatted code with comments. Code that's already compact may see less reduction. Code with extensive comments and whitespace may see 70%+ reduction."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Optimize JavaScript Code Online - Free JS Code Optimizer & Minifier Online",
+      "description": "Step-by-step guide to optimizing and minifying JavaScript code",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste your code: Copy JavaScript code from your project a...",
+          "text": "Paste your code: Copy JavaScript code from your project and paste it into the input area"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Choose options: Select optimization options like removing...",
+          "text": "Choose options: Select optimization options like removing console.log(), mangling variables, or removing dead code"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click Optimize: Click the \"Optimize Code\" button or press...",
+          "text": "Click Optimize: Click the \"Optimize Code\" button or press Ctrl+Enter"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Copy result: Copy the optimized code using the Copy butto...",
+          "text": "Copy result: Copy the optimized code using the Copy button or download it as a .js file"
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="css/common.css">
 </head>
 

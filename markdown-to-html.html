@@ -87,6 +87,82 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my content safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All Markdown to HTML conversion happens entirely in your browser using JavaScript. Your content—drafts, documentation, and any sensitive information—never leaves your computer and is never uploaded to any server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the HTML output safe from XSS attacks?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The converter sanitizes the HTML output to prevent cross-site scripting (XSS) vulnerabilities. Raw HTML embedded in Markdown is handled safely. However, if you are displaying user-provided Markdown in a web application, always apply server-side sanitization as well—never trust client-side sanitization alone for security-critical applications."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I convert HTML back to Markdown?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! For the reverse conversion, use our HTML to Markdown tool which converts HTML documents back to clean Markdown syntax. This is useful for migrating content from HTML-based CMSes to Markdown-based documentation systems."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start converting Markdown immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free Markdown to HTML Converter | MD to HTML Online",
+      "description": "Step-by-step guide to using the free online Free Markdown to HTML Converter | MD to HTML tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste your Markdown content into the input area on the left",
+          "text": "Paste your Markdown content into the input area on the left"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "The HTML output appears instantly in the output area on t...",
+          "text": "The HTML output appears instantly in the output area on the right"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Switch between \"HTML Code\" and \"Rendered Preview\" tabs to...",
+          "text": "Switch between \"HTML Code\" and \"Rendered Preview\" tabs to review the output"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Click \"Copy HTML\" to copy the output, or \"Download\" to sa...",
+          "text": "Click \"Copy HTML\" to copy the output, or \"Download\" to save as a file"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
 </head>

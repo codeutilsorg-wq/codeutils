@@ -58,6 +58,109 @@
         }
     </script>
 
+    
+    <!-- Structured Data: WebApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Color Palette Generator - Code Utils",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Free color palette generator. Generate harmonious color schemes including complementary, triadic, and analogous palettes.",
+      "url": "https://codeutils.org/color-palette",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "softwareVersion": "1.0"
+    }
+    </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the difference between complementary and split complementary schemes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A complementary scheme uses two colors directly opposite each other on the color wheel—maximum contrast, high visual energy. A split complementary scheme uses your base color plus the two colors adjacent to its complement, creating a three-color palette that has strong contrast but is more nuanced and easier to work with for complex designs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How are the shades and tints generated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Shades are created by progressively decreasing the lightness in HSL while keeping hue and saturation constant. Tints are created by progressively increasing the lightness. This produces a perceptually even scale from very dark to very light, all based on your original base color."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my color data private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All palette generation happens entirely in your browser using JavaScript. No color values or usage data are sent to any server. The tool works completely offline once the page loads."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an account to use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration or account required. Enter a color and get your palette immediately."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Color Palette Generator Online",
+      "description": "Step-by-step guide to the free online Color Palette Generator tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Enter your base color as a HEX code in the input field, o...",
+          "text": "Enter your base color as a HEX code in the input field, or use the color picker to select one visually"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Select a color scheme from the options (Complementary, An...",
+          "text": "Select a color scheme from the options (Complementary, Analogous, Triadic, etc.)"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "The palette generates instantly and displays as color swa...",
+          "text": "The palette generates instantly and displays as color swatches"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Click any swatch to copy its HEX value, or use \"Copy All ...",
+          "text": "Click any swatch to copy its HEX value, or use \"Copy All Colors\" to get the full palette"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Scroll down to see the Shades & Tints section for lighter...",
+          "text": "Scroll down to see the Shades & Tints section for lighter and darker variations"
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="css/common.css">
     <style>
         .base-color {

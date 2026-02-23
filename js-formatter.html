@@ -87,6 +87,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my code safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All JavaScript formatting happens entirely in your browser using JavaScript. Your code never leaves your computer and is never uploaded to any server. We don't store, log, or transmit your code in any way. This makes our tool completely safe for proprietary code, API keys, and sensitive business logic. You can even use this tool offline after the initial page load."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can this tool format TypeScript or JSX code?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This formatter is optimized for standard JavaScript (ES5/ES6+). While basic TypeScript and JSX may format correctly, some TypeScript-specific syntax like type annotations and decorators may not format perfectly. For TypeScript files, use our dedicated TypeScript Formatter tool."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between formatting and minifying?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Formatting (beautifying) adds proper indentation, line breaks, and spacing to make code human-readable. Minifying does the opposite—it removes all unnecessary whitespace and comments to reduce file size for production. Both operations preserve the functional behavior of your JavaScript; only the visual structure changes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start using the JavaScript formatter immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use JavaScript Formatter | Beautify & Minify JS Online",
+      "description": "Step-by-step guide to using the free online JavaScript Formatter | Beautify & Minify JS tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Copy your JavaScript code from your editor, browser DevTo...",
+          "text": "Copy your JavaScript code from your editor, browser DevTools, or API response"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Paste it into the input text area on the left side",
+          "text": "Paste it into the input text area on the left side"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click the \"Format\" button to beautify or \"Minify\" to comp...",
+          "text": "Click the \"Format\" button to beautify or \"Minify\" to compact the code"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "The formatted output appears instantly in the output area...",
+          "text": "The formatted output appears instantly in the output area on the right"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Use the \"Copy\" button to copy the result to your clipboard",
+          "text": "Use the \"Copy\" button to copy the result to your clipboard"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

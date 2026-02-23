@@ -94,6 +94,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much will my PDF be compressed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Compression results vary based on PDF content. Image-heavy and scanned PDFs typically see 20-60% size reduction. PDFs that are mostly text with minimal images may see 5-15% reduction. The tool shows you the exact before and after sizes and percentage saved after compression."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will compression reduce the quality of my PDF?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This tool focuses on structural compression—removing redundant objects, unused fonts, and compressing data streams—rather than re-encoding or downsampling images. Text sharpness is preserved. If your PDF contains high-resolution images, those are compressed with minimal quality impact in most cases."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my PDF safe to upload here?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Your PDF is not uploaded anywhere. All processing happens entirely in your browser using JavaScript. The file never leaves your device and is never sent to any server. This makes the tool completely safe for confidential contracts, financial documents, medical records, and any sensitive content."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an account or subscription?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration, sign-up, or account required. There are no file size limits or usage caps for free users."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free PDF Compressor | Reduce PDF File Size Online Online",
+      "description": "Step-by-step guide to using the free online Free PDF Compressor | Reduce PDF File Size Online tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Click \"Choose PDF File\" and select the PDF you want to co...",
+          "text": "Click \"Choose PDF File\" and select the PDF you want to compress"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "The tool displays the original file size and page count",
+          "text": "The tool displays the original file size and page count"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click \"Compress PDF\" to start the optimization process",
+          "text": "Click \"Compress PDF\" to start the optimization process"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "When complete, the tool shows the new file size and the s...",
+          "text": "When complete, the tool shows the new file size and the size reduction percentage"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "The compressed PDF downloads automatically to your device",
+          "text": "The compressed PDF downloads automatically to your device"
+        }
+      ]
+    }
+    </script>
 
     <!-- pdf-lib Library -->
     <script defer src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>

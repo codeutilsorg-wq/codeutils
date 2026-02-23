@@ -58,6 +58,103 @@
         }
     </script>
 
+    
+    <!-- Structured Data: WebApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Color Converter - Code Utils",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Free color converter. Convert colors between HEX, RGB, HSL, and CMYK formats. Live color preview.",
+      "url": "https://codeutils.org/color-converter",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "softwareVersion": "1.0"
+    }
+    </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What color formats does this tool support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The tool supports HEX (#RRGGBB), RGB (0-255 per channel), HSL (Hue 0-360, Saturation 0-100%, Lightness 0-100%), and CMYK (0-100% per channel). Entering a value in any format instantly converts to all others."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are the CMYK values accurate for print production?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The CMYK values are mathematically converted from RGB. They provide a good approximation, but professional print production requires ICC profile-based color management for precise results. Use these values as a starting point, then work with your printer to match the final output."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my color data private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All color conversions happen entirely in your browser using JavaScript. No color values or usage data are sent to any server. This tool works completely offline once the page is loaded."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to sign up to use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. This tool is completely free with no registration or account required. Visit the page and start converting colors immediately."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Color Converter Online",
+      "description": "Step-by-step guide to the free online Color Converter tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Click on any input field (HEX, RGB, HSL, or CMYK)",
+          "text": "Click on any input field (HEX, RGB, HSL, or CMYK)"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Type your color value in that format",
+          "text": "Type your color value in that format"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "All other format fields update automatically with the equ...",
+          "text": "All other format fields update automatically with the equivalent values"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Click the \"Copy\" button next to any field to copy that va...",
+          "text": "Click the \"Copy\" button next to any field to copy that value to your clipboard"
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="css/common.css">
     <style>
         .picker-section {

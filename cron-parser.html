@@ -89,6 +89,82 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the difference between a 5-field and 6-field cron expression?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Traditional Unix cron uses 5 fields (minute, hour, day-of-month, month, day-of-week). Some systems (AWS EventBridge, Spring Scheduler) use a 6-field format that adds a seconds field at the start. This tool parses the standard 5-field format used by most Linux/Unix cron implementations."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use both day-of-month and day-of-week?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In standard cron, if both day-of-month and day-of-week are specified (not *), the job runs when either condition is satisfied, not when both are. For example, \"0 0 1 * 1\" runs on the 1st of every month AND on every Monday—not just on Mondays that fall on the 1st."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my cron expression data private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All parsing happens in your browser. No expressions or data are sent to any server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an account to use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration required."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Cron Expression Parser | Understand Cron Schedules Online",
+      "description": "Step-by-step guide to using the free online Cron Expression Parser | Understand Cron Schedules tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Enter your cron expression in the input field (five space...",
+          "text": "Enter your cron expression in the input field (five space-separated fields: minute, hour, day-of-month, month, day-of-week)"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Click \"Parse\" to translate the expression into plain English",
+          "text": "Click \"Parse\" to translate the expression into plain English"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Review the field breakdown and next run times to verify t...",
+          "text": "Review the field breakdown and next run times to verify the schedule is what you intended"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Use the common preset buttons to quickly load standard sc...",
+          "text": "Use the common preset buttons to quickly load standard schedules"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

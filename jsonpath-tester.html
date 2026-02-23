@@ -87,6 +87,82 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What JSONPath specification does this tool implement?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This tool implements a widely-used subset of JSONPath including dot notation, bracket notation, recursive descent, array slicing, and basic filter expressions. This covers the vast majority of practical use cases."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I test multiple expressions at once?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The tool evaluates one expression at a time. To test multiple expressions, update the expression field between tests—the JSON input stays in place so you do not need to re-paste it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my JSON data safe to paste here?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All processing happens entirely in your browser using JavaScript. Your JSON data is never uploaded to any server, stored, or transmitted anywhere. This makes the tool safe for API responses containing sensitive or proprietary data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to sign up to use this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The tool is completely free with no registration or account required."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Free JSONPath Tester & Query Tool | Test JSON Paths Online",
+      "description": "Step-by-step guide to using the free online Free JSONPath Tester & Query Tool | Test JSON Paths tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste your JSON document into the JSON input area on the ...",
+          "text": "Paste your JSON document into the JSON input area on the left"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Enter a JSONPath expression in the expression field (e.g....",
+          "text": "Enter a JSONPath expression in the expression field (e.g., $.store.book[*].author)"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click \"Test\" or press the shortcut to evaluate the expres...",
+          "text": "Click \"Test\" or press the shortcut to evaluate the expression"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "The matching values appear in the Results panel on the right",
+          "text": "The matching values appear in the Results panel on the right"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

@@ -89,6 +89,88 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my text safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All find and replace operations happen entirely in your browser using JavaScript. Your text—including code, documents, and configuration content—never leaves your computer and is never uploaded to any server. This makes our tool completely safe for sensitive content like API configurations, internal documents, and proprietary code snippets."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use regular expressions in the find field?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! Enable regex mode to use full JavaScript regular expressions in the find field. You can use capture groups in your pattern and reference them in the replace field using $1, $2, etc. For example, finding (\\w+)@example.com and replacing with $1@newdomain.com will update all email addresses while preserving the username part."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between Replace All and Replace Next?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Replace All instantly replaces every occurrence of the search text throughout the entire document. Replace Next highlights the first match, lets you preview it, then replaces it and moves to the next match—giving you control to skip specific occurrences. Use Replace Next when some matches should be replaced and others should not."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start using find and replace immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Find and Replace | Bulk Text Replace with Regex Online",
+      "description": "Step-by-step guide to using the free online Find and Replace | Bulk Text Replace with Regex tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste your text into the main text area",
+          "text": "Paste your text into the main text area"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Enter the text you want to find in the \"Find\" field",
+          "text": "Enter the text you want to find in the \"Find\" field"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Enter the replacement text in the \"Replace with\" field",
+          "text": "Enter the replacement text in the \"Replace with\" field"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Click \"Replace All\" to replace every occurrence, or \"Repl...",
+          "text": "Click \"Replace All\" to replace every occurrence, or \"Replace Next\" to step through one at a time"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Copy the modified text from the output area",
+          "text": "Copy the modified text from the output area"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

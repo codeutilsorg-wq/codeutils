@@ -87,6 +87,82 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What characters get encoded?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The encoder converts characters that have special meaning in HTML: ampersand (&amp;), less-than (&lt;), greater-than (&gt;), double quote (&quot;), and single quote (&#39;). This prevents XSS vulnerabilities and rendering errors when displaying user-generated content."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When should I use HTML encoding?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use HTML encoding whenever you display user-generated content in a web page to prevent cross-site scripting (XSS) attacks. Also use it when embedding special characters in HTML attributes or when you need to show HTML source code as text."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All encoding and decoding happens in your browser. Nothing is sent to any server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an account?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. This tool is completely free and requires no sign-up."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use HTML Entity Encoder Online",
+      "description": "Step-by-step guide to the free online HTML Entity Encoder tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste or type your HTML or plain text in the input area",
+          "text": "Paste or type your HTML or plain text in the input area"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Click \"Encode\" to convert special characters to HTML enti...",
+          "text": "Click \"Encode\" to convert special characters to HTML entities"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click \"Decode\" to convert HTML entities back to plain cha...",
+          "text": "Click \"Decode\" to convert HTML entities back to plain characters"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Copy the result using the Copy button",
+          "text": "Copy the result using the Copy button"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
 </head>

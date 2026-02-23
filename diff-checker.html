@@ -89,6 +89,82 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my content safe when using this tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, absolutely! All text comparison happens entirely in your browser using JavaScript. Your content—including code, confidential documents, and configuration files with credentials—never leaves your computer and is never uploaded to any server. This makes our tool safe for comparing sensitive files that should not be shared with third-party services."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What algorithm does this tool use for diffing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This tool uses a line-based diff algorithm similar to the Unix diff command and Git's diff output. It identifies the longest common subsequence between the two texts and highlights the minimal set of additions and deletions needed to transform the original into the modified version."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I compare binary files or images?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This tool is designed for text comparison—it compares plain text, code, JSON, XML, CSV, and any other text-based format. Binary files like images, PDFs, and executables cannot be meaningfully compared as text. For image comparison, consider using dedicated image diff tools."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to create an account or sign up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No! All our tools are completely free and don't require any registration, sign-up, or account creation. Just visit the page and start comparing text immediately. There are no limits on usage, no premium tiers, and no hidden fees."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Text Diff Checker | Compare Text & Find Differences Online",
+      "description": "Step-by-step guide to using the free online Text Diff Checker | Compare Text & Find Differences tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste your original (old) text into the left text area la...",
+          "text": "Paste your original (old) text into the left text area labeled \"Original\""
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Paste your modified (new) text into the right text area l...",
+          "text": "Paste your modified (new) text into the right text area labeled \"Modified\""
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click the \"Compare\" button to generate the diff",
+          "text": "Click the \"Compare\" button to generate the diff"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Review the highlighted differences—green for additions, r...",
+          "text": "Review the highlighted differences—green for additions, red for deletions"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>

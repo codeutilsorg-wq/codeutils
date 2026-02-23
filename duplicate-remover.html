@@ -89,6 +89,82 @@
       "softwareVersion": "1.0"
     }
     </script>
+    <!-- Structured Data: FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is there a limit on how many lines I can process?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There is no hard limit—the tool runs entirely in your browser using JavaScript and can handle thousands of lines. Very large inputs (hundreds of thousands of lines) may take a second or two depending on your device, but there is no server-side restriction or file size cap."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What counts as a duplicate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "By default, two lines are duplicates if they are exactly the same character-for-character, including capitalization and spaces. Enable \"Case insensitive\" to ignore capitalization differences, and \"Trim whitespace\" to ignore leading/trailing spaces when comparing. The actual output preserves the original formatting of the first occurrence of each unique line."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data safe to paste here?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All processing happens entirely in your browser using JavaScript. Your text is never uploaded to any server, stored, or transmitted anywhere. This makes the tool safe to use with confidential data, customer information, or proprietary lists."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to sign up or create an account?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No account or registration is required. The tool is completely free and available to anyone without any sign-up. Just paste your text and click Remove Duplicates."
+          }
+        }
+      ]
+    }
+    </script>
+    <!-- Structured Data: HowTo Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Use Duplicate Line Remover | Remove Duplicate Text Online",
+      "description": "Step-by-step guide to using the free online Duplicate Line Remover | Remove Duplicate Text tool at codeutils.org",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Paste or type your text into the input box—each item shou...",
+          "text": "Paste or type your text into the input box—each item should be on its own line"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Select your preferred options (case insensitive, trim whi...",
+          "text": "Select your preferred options (case insensitive, trim whitespace, remove empty lines, sort output)"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Click \"Remove Duplicates\" to get only unique lines in the...",
+          "text": "Click \"Remove Duplicates\" to get only unique lines in the output"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Click \"Copy Output\" to copy the result to your clipboard",
+          "text": "Click \"Copy Output\" to copy the result to your clipboard"
+        }
+      ]
+    }
+    </script>
 
     <link rel="stylesheet" href="css/common.css">
     <style>
